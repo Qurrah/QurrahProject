@@ -1,6 +1,7 @@
 package com.example.qurrahtest;
 
 import android.os.Bundle;
+//import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,17 +33,28 @@ public class ProfileActivity extends AppCompatActivity {
 
         profilePic = findViewById(R.id.ivProfilePic);
         profileName = findViewById(R.id.tvProfileName);
+//        profileAge = findViewById(R.id.tvProfileAge);
         profileEmail = findViewById(R.id.tvProfileEmail);
         profilePhone = findViewById(R.id.tvProfilePhone);
-
+//        profileUpdate = findViewById(R.id.btnProfileUpdate);
+//        changePassword = findViewById(R.id.btnChangePassword);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+//        firebaseStorage = FirebaseStorage.getInstance();
         String userId=firebaseAuth.getCurrentUser().getUid();
 
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
+
+//        StorageReference storageReference = firebaseStorage.getReference();
+//        storageReference.child(firebaseAuth.getUid()).child("Images/Profile Pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.get().load(uri).fit().centerCrop().into(profilePic);
+//            }
+//        });
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -59,20 +71,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-}
-
 //        profileUpdate.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -86,3 +84,15 @@ public class ProfileActivity extends AppCompatActivity {
 //                startActivity(new Intent(ProfileActivity.this, UpdatePassword.class));
 //            }
 //        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}

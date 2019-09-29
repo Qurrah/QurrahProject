@@ -33,8 +33,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginBottom="6dp"
+            android:layout_marginTop="30dp"
             android:padding="0dp"
             app:errorEnabled="true"
 
@@ -56,7 +58,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginBottom="16dp"
             app:counterEnabled="true"
             app:counterMaxLength="150"
@@ -80,7 +83,7 @@
             android:id="@+id/CategoryGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_marginLeft="300dp"
             android:layout_marginBottom="16dp"
             android:checkedButton="@+id/first"
             android:layoutDirection="rtl"
@@ -238,7 +241,7 @@
             android:layout_marginBottom="16dp"
             android:onClick="upload_img"
             android:text="@string/changeImg"
-            android:textColor="#0000FF"
+            android:textColor="#000000"
             android:textSize="14dp"
             android:visibility="gone" />
 
@@ -280,16 +283,19 @@
                 android:background="@drawable/secondaryroundedbutton"
                 android:onClick="backToSenderInfo"
                 android:text="@string/back"
+                android:layout_gravity="center"
+                android:textColor="#000000"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/LocationPhotoSubmit"
-                android:layout_width="150dp"
+                android:layout_width="217dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/roundedbutton"
                 android:onClick="sendAllInfo"
                 android:text="@string/send"
+                android:layout_gravity="center"
                 android:visibility="gone"
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle" />
