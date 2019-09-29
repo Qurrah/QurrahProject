@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/logoutMenu"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="Logout">
+    </item>
+
+    <item
+        android:id="@+id/profileMenu"
+        android:orderInCategory="200"
+        app:showAsAction="never"
+        android:title="الملف الشخصي">
+    </item>
+
+    <item
+        android:id="@+id/UpdatePasswordMenu"
+        android:orderInCategory="300"
+        app:showAsAction="never"
+        android:title="تغيير كلمة المرور">
+    </item>
+
+    <item
+        android:id="@+id/ReportViewMenu"
+        android:orderInCategory="400"
+        app:showAsAction="never"
+        android:title="بلاغاتي">
+    </item>
+    <!--    <item-->
+    <!--        android:id="@+id/refreshMenu"-->
+    <!--        android:orderInCategory="300"-->
+    <!--        app:showAsAction="never"-->
+    <!--        android:title="Refresh">-->
+    <!--    </item>-->
+
+</menu>
