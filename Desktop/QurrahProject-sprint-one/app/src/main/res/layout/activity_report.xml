@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.qurrah.ReportActivity">
+
+    <LinearLayout
+        android:id="@+id/dummyFocus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F4F5"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+        <!--        معلومات المفقود -->
+
+        <com.kofigyan.stateprogressbar.StateProgressBar
+            android:id="@+id/StateProgressBarID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:spb_checkStateCompleted="true"
+            app:spb_currentStateNumber="one"
+            app:spb_maxStateNumber="three"
+            app:spb_stateNumberIsDescending="true" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/LostTitle"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginBottom="6dp"
+            android:padding="0dp"
+            app:errorEnabled="true"
+            android:layout_marginRight="5dp"
+            app:errorTextAppearance="@style/error_appearance"
+            android:visibility="gone"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:hint="@string/lost_title"
+                android:inputType="text"
+                android:importantForAutofill="noExcludeDescendants"
+
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/LostDescription"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginBottom="16dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="150"
+            app:errorTextAppearance="@style/error_appearance"
+            android:layout_marginRight="5dp"
+            app:errorEnabled="true"
+            android:visibility="gone">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="@string/lost_description"
+                android:inputType="textMultiLine"
+                android:maxLength="150"
+                android:maxLines="5"
+                android:paddingBottom="50dp"
+                android:scrollbars="vertical"
+                android:importantForAutofill="noExcludeDescendants" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <RadioGroup
+            android:id="@+id/CategoryGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="16dp"
+            android:layoutDirection="rtl"
+            android:orientation="vertical"
+            android:layout_marginRight="5dp">
+            <!--            android:checkedButton="@+id/first"-->
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="@string/Category" />
+
+            <RadioButton
+                android:id="@+id/HumanRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/human" />
+
+            <RadioButton
+                android:id="@+id/AnimalRadio"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/animal" />
+
+            <RadioButton
+                android:id="@+id/DevicesRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/devices" />
+
+            <RadioButton
+                android:id="@+id/OtherRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/other" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/ReportType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:checkedButton="@+id/first"
+            android:layout_marginBottom="16dp"
+            android:layoutDirection="rtl"
+            android:orientation="vertical"
+            android:layout_marginRight="5dp">
+            <!--            android:checkedButton="@+id/second"-->
+
+
+            <TextView
+                android:id="@+id/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="نوع البلاغ" />
+
+            <RadioButton
+                android:id="@+id/FoundRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="فاقد" />
+
+            <RadioButton
+                android:id="@+id/LostRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="معثور عليه" />
+
+
+        </RadioGroup>
+
+
+
+        <Button
+            android:id="@+id/classificationNext"
+            android:layout_width="217dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/roundedbutton"
+            android:onClick="classificationNext"
+            android:textColor="@color/white"
+            android:text="@string/next"
+            tools:ignore="ButtonStyle"/>
+
+        <TextView
+            android:id="@+id/TextViewImage"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/dotted"
+            android:onClick="upload_img"
+            android:padding="15dp"
+            android:text="@string/upload_photo"
+            android:textSize="16dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="fill_parent"
+            android:layout_margin="5dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+
+            />
+
+        <TextView
+            android:id="@+id/TextViewImageChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="upload_img"
+            android:text="@string/changeImg"
+            android:textColor="#0000FF"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Location"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="6dp"
+            android:layoutDirection="rtl"
+            android:visibility="gone"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pick_location"
+                android:inputType="text"
+                android:importantForAutofill="noExcludeDescendants"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:id="@+id/BackToLostInfo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="right"
+                android:backgroundTint="#CCC4C4"
+                android:textColor="#ffffff"
+                android:visibility="gone"
+                tools:ignore="ButtonStyle"
+                android:onClick="backToLostInfo"
+                android:text="@string/back"/>
+            <Button
+                android:id="@+id/BackToClassification"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#CCC4C4"
+                android:textColor="#ffffff"
+                android:visibility="gone"
+                tools:ignore="ButtonStyle"
+                android:onClick="backToClassification"
+                android:text="@string/back"/>
+            <Button
+                android:id="@+id/LostInfoNext"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/roundedbutton"
+                android:visibility="gone"
+                tools:ignore="ButtonStyle"
+                android:onClick="LostInfoNextValidate"
+                android:textColor="@color/white"
+                android:text="@string/next" />
+
+            <Button
+                android:id="@+id/LocationPhotoSubmit"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/roundedbutton"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle"
+                android:onClick="sendAllInfo"
+                android:text="@string/send"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

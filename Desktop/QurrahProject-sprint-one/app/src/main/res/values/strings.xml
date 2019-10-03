@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">QurrahTest</string>
+    <string name="classification">التصنيف</string>
+    <string name="sender_info">معلومات البلاغ</string>
+    <string name="location_photo">الموقع والصورة</string>
+    <string name="lost_title">العنوان</string>
+    <string name="lost_description">الوصف</string>
+    <string name="human">انسان</string>
+    <string name="animal">حيوان</string>
+    <string name="devices">اجهزة</string>
+    <string name="other">اخرى</string>
+    <string name="Category">اختر نوع الفئة:</string>
+    <string name="next">التالي</string>
+    <string name="back">السابق</string>
+    <string name="sender_name">الاسم</string>
+    <string name="sender_phone">رقم الهاتف</string>
+    <string name="send">إرسال</string>
+    <string name="upload_photo"> ارفع صورة 🌠 (اختياري) </string>
+    <string name="pick_location"> الموقع📍(اختياري)</string>
+    <string name="phoneExample">مثال 05********</string>
+    <string name="changeImg">تغيير الصورة</string>
+    <string name="edit">تعديل</string>
+    <string name="delete">حذف</string>
+    <string-array name="LostCategory">
+        <item>@string/human</item>
+        <item>@string/animal</item>
+        <item>@string/devices</item>
+        <item>@string/other</item>
+    </string-array>
+</resources>
