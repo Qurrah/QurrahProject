@@ -26,6 +26,7 @@ import java.util.UUID;
 public class EditReportActivity extends ReportActivity {
     DatabaseReference databaseReferenceUserReportEdit;
     String date,photoUrl;
+    String nothing;
 
 
 
