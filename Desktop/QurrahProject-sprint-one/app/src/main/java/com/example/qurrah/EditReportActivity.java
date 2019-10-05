@@ -176,6 +176,7 @@ public class EditReportActivity extends ReportActivity {
         report.setCategoryOption(radioValue);
         report.setReportTypeOption(ReportType);
         report.setDate(date);
+        report.setReportStatus("نشط");
         if (link == null) {
             link = photoUrl;
         }

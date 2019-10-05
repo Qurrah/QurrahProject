@@ -164,7 +164,6 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
         TextView lostTitle, lostDate;
         ProgressBar progressBar;
         LinearLayout linear;
-        Button whatsApp ;
 
 
 

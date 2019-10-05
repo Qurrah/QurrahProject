@@ -78,7 +78,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
                         }
 
                         Report report = ds.getValue(Report.class);
-                        if (report.getCategoryOption().equals(getString(R.string.other))){
+                        if (report.getCategoryOption().equals("اخرى") && report.getReportStatus().equals("نشط")){
                             list.add(report);
                             userList.add(userName);
                             phones.add(No);

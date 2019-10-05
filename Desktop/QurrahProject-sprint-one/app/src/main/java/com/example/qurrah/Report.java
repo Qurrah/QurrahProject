@@ -25,7 +25,7 @@ public class Report {
         this.photo = photo;
         this.location = location;
         this.date = date;
-        ReportStatus = "active";
+        this.ReportStatus = "نشط";
 
     }
 

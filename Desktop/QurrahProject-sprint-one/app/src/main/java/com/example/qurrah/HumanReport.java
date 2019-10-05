@@ -77,7 +77,7 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
                         }
 
                         Report report = ds.getValue(Report.class);
-                        if (report.getCategoryOption().equals(getString(R.string.human))) {
+                        if (report.getCategoryOption().equals(getString(R.string.human)) && report.getReportStatus().equals("نشط")) {
                             list.add(report);
                             userList.add(userName);
                             phones.add(No);

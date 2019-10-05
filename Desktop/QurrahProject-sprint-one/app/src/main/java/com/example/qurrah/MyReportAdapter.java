@@ -59,7 +59,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         holder.lostDate.setText(reports.get(position).getDate());
         String status = reports.get(position).getReportStatus();
-        if (status.equals("closed")) {
+        if (status.equals("مغلق")) {
             holder.status.setText("مغلق");
             holder.status.setChecked(false);
             holder.status.setEnabled(false);
@@ -165,7 +165,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
                                             Report rep = snapshot.getValue(Report.class);
                                             if (report.getDate() == rep.getDate()) {
 
-                                                databaseReferenceUserReport.child(snapshot.getKey()).child("ReportStatus").setValue("closed");
+                                                databaseReferenceUserReport.child(snapshot.getKey()).child("ReportStatus").setValue("مغلق");
                                                 notifyDataSetChanged();
                                                 holder.status.setText("مغلق");
                                                 holder.status.setChecked(false);

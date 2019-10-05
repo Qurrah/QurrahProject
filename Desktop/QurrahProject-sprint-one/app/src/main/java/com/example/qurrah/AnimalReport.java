@@ -81,7 +81,7 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
                         }
 
                         Report report = ds.getValue(Report.class);
-                        if (report.getCategoryOption().equals(getString(R.string.animal))){
+                        if (report.getCategoryOption().equals(getString(R.string.animal)) && report.getReportStatus().equals("نشط")){
                             list.add(report);
                             userList.add(userName);
                             phones.add(No);
