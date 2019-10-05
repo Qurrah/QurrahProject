@@ -10,7 +10,7 @@ public class Report {
     private String ReportStatus;
     private String photo;
     private String location;
-    private String date;
+    private String date;//
     private static final AtomicInteger count = new AtomicInteger(0);
 
     public Report() {
