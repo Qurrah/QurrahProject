@@ -61,6 +61,7 @@
             android:theme="@style/AppTheme1"
             />
         <activity android:name=".UpdatePassword" />
+        <activity android:name=".ViewReport" />
     </application>
 
 </manifest>

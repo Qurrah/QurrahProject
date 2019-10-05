@@ -32,6 +32,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
     String userID;
     RecyclerView recyclerView;
     ArrayList<Report> list;
+    ArrayList<String> userList, phones;
     ReportCategoriesAdapter adapter;
     TextView noReports;
 
@@ -58,23 +59,33 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
         recyclerView.setLayoutManager(layoutManager);
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
         list = new ArrayList<>();
+        userList = new ArrayList<>();
+        phones= new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
+                userList.clear();
+                phones.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    UserProfile userProfile = snapshot.getValue(UserProfile.class);
+                    String userName = userProfile.getUserName();
+                    String No = userProfile.getPhone();
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
                         if(ds.getChildrenCount() > 0) {
                             findViewById(R.id.progressbar).setVisibility(View.GONE);
                         }
 
                         Report report = ds.getValue(Report.class);
-                        if (report.getCategoryOption().equals(getString(R.string.other)))
+                        if (report.getCategoryOption().equals(getString(R.string.other))){
                             list.add(report);
+                            userList.add(userName);
+                            phones.add(No);
+                        }
                     }
                 }
-                adapter = new ReportCategoriesAdapter(OtherReport.this, list);
+                adapter = new ReportCategoriesAdapter(OtherReport.this, list , userList, phones);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
                 if(list.isEmpty()){

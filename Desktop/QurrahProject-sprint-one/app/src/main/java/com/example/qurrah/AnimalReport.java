@@ -1,7 +1,9 @@
 package com.example.qurrah;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
@@ -32,6 +34,8 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
     String userID;
     RecyclerView recyclerView;
     ArrayList<Report> list;
+    ArrayList<String> userList;
+    ArrayList<String> phones;
     ReportCategoriesAdapter adapter;
     TextView noReports;
 
@@ -58,23 +62,33 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
         recyclerView.setLayoutManager(layoutManager);
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
         list = new ArrayList<>();
+        userList = new ArrayList<>();
+        phones = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
+                userList.clear();
+                phones.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    UserProfile userProfile = snapshot.getValue(UserProfile.class);
+                    String userName = userProfile.getUserName();
+                    String No = userProfile.getPhone();
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
                         if(ds.getChildrenCount() > 0) {
                             findViewById(R.id.progressbar).setVisibility(View.GONE);
                         }
 
                         Report report = ds.getValue(Report.class);
-                        if (report.getCategoryOption().equals(getString(R.string.animal)))
+                        if (report.getCategoryOption().equals(getString(R.string.animal))){
                             list.add(report);
+                            userList.add(userName);
+                            phones.add(No);
+                        }
                     }
                 }
-                adapter = new ReportCategoriesAdapter(AnimalReport.this, list);
+                adapter = new ReportCategoriesAdapter(AnimalReport.this, list , userList , phones);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
                 if(list.isEmpty()){
@@ -84,12 +98,18 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
 
             }
 
+
+
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getApplicationContext(), "Whoops!", Toast.LENGTH_SHORT).show();
 
             }
         });
+
+
+
 
 
     }
@@ -125,6 +145,8 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
         return false;
     }
 //----------------------------------------------------------
+
+
 
 }
 

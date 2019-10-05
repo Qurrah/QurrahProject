@@ -12,6 +12,7 @@
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
@@ -35,7 +36,8 @@
                 android:text="العنوان "
                 android:textAlignment="textStart"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RtlCompat" />
 
             <TextView
                 android:id="@+id/date"
@@ -46,6 +48,8 @@
                 android:gravity="end"
                 android:text="التاريخ"
                 android:textAlignment="textEnd" />
+
+
 
         </LinearLayout>
 
@@ -71,5 +75,14 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+<!--    <Button-->
+<!--        android:id="@+id/whatsApp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="200dp"-->
+<!--        android:hint="@string/app_name"-->
+<!--        android:text="Button" />-->
+
 
 </LinearLayout>

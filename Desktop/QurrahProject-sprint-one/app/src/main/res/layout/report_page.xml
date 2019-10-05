@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewReport"
+
+    >
+
+
+    <ImageView
+        android:id="@+id/reportImg"
+        android:layout_width="415dp"
+        android:layout_height="195dp"
+        app:srcCompat="@color/colorPrimaryDark"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="46dp" />
+
+    <TextView
+        android:id="@+id/reportTitle"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+
+        android:text="\nالعنوان:\n"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/reportDes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportImg"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/reportDes"
+        android:layout_width="252dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+
+        android:text="\nالوصف:\n"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/reportUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/reportUsername"
+        android:layout_width="165dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="72dp"
+
+        android:text="اسم المستخدم"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/whatsapp"
+        android:layout_width="31dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="112dp"
+        android:background="@drawable/ic_call_end_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
+        app:layout_constraintEnd_toStartOf="@+id/reportUsername"
+        app:layout_constraintHorizontal_bias="0.874"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportDes"
+        app:layout_constraintVertical_bias="0.272"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/reportLoc"
+        android:layout_width="373dp"
+        android:layout_height="123dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="\n\nالموقع"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        android:textColor="@color/white"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
