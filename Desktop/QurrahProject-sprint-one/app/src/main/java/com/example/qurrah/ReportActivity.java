@@ -408,6 +408,7 @@ public class ReportActivity extends AppCompatActivity {
         report.setLostDescription(lostDescriptionInput);
         report.setCategoryOption(radioValue);
         report.setReportTypeOption(ReportType);
+        report.setReportStatus("active");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
         String date = dateFormat.format(new Date());
         report.setDate(date);

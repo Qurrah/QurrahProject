@@ -7,6 +7,7 @@ public class Report {
     private String lostDescription;
     private String categoryOption;
     private String ReportTypeOption;
+    private String ReportStatus;
     private String photo;
     private String location;
     private String date;
@@ -24,6 +25,7 @@ public class Report {
         this.photo = photo;
         this.location = location;
         this.date = date;
+        ReportStatus = "active";
 
     }
 
@@ -57,6 +59,13 @@ public class Report {
 
     public void setReportTypeOption(String ReportTypeOption) {
         this.ReportTypeOption = ReportTypeOption;
+    }
+    public String getReportStatus() {
+        return ReportStatus;
+    }
+
+    public void setReportStatus(String status) {
+        this.ReportStatus = status;
     }
 
     public String getPhoto() {

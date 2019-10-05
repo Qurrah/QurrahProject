@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,13 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         final Report report = reports.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         holder.lostDate.setText(reports.get(position).getDate());
+        String status = reports.get(position).getReportStatus();
+        if (status.equals("closed")) {
+            holder.status.setText("مغلق");
+            holder.status.setChecked(false);
+            holder.status.setEnabled(false);
+            holder.updateButton.setVisibility(View.INVISIBLE);
+        }
 
         Picasso.get().load(reports.get(position).getPhoto()).into(holder.img, new Callback() {
             @Override
@@ -122,6 +130,68 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
                         "إلغاء الامر",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+
+                alert11.show();
+
+            }
+        });
+
+        holder.status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
+                builder1.setMessage("هل أنت متأكد أنه تم ايجاد المفقود وتريد إغلاق طلبك ؟");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "نعم",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                // dialog.cancel();
+
+                                databaseReferenceUserReport.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            Report rep = snapshot.getValue(Report.class);
+                                            if (report.getDate() == rep.getDate()) {
+
+                                                databaseReferenceUserReport.child(snapshot.getKey()).child("ReportStatus").setValue("closed");
+                                                notifyDataSetChanged();
+                                                holder.status.setText("مغلق");
+                                                holder.status.setChecked(false);
+                                                holder.status.setEnabled(false);
+                                            }
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                                Toast.makeText(context, "تم إغلاق بلاغك", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        });
+
+                builder1.setNegativeButton(
+                        "إلغاء الامر",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                holder.status.setChecked(true);
                                 dialog.cancel();
                             }
                         });
@@ -219,6 +289,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         ImageView img;
         TextView lostTitle, lostDate;
         ProgressBar progressBar;
+        Switch status;
 
 
         public ViewHolder(View itemView) {
@@ -227,6 +298,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             progressBar  = itemView.findViewById(R.id.progressbarImg);
             lostTitle = itemView.findViewById(R.id.textView1);
             lostDate = itemView.findViewById(R.id.textView2);
+            status = itemView.findViewById(R.id.status);
             deleteButton = itemView.findViewById(R.id.delete);
             updateButton = itemView.findViewById(R.id.update);
         }
