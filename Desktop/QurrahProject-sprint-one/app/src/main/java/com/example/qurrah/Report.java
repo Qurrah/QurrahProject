@@ -14,7 +14,7 @@ public class Report {
     private static final AtomicInteger count = new AtomicInteger(0);
 
     public Report() {
-
+        this.ReportStatus = "نشط";
     }
 
     public Report(String lostTitle, String lostDescription, String categoryOption,String ReportTypeOption, String photo, String location, String date) {
