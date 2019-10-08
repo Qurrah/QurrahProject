@@ -331,6 +331,13 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             linear = itemView.findViewById(R.id.linearLayout);
         }
     }
+    public void updateList(ArrayList<Report> newList) {
+        reports = new ArrayList<>();
+        reports.addAll(newList);
+        notifyDataSetChanged();
+
+
+    }
 
 
 }
