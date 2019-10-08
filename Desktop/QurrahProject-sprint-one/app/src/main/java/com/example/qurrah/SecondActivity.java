@@ -62,7 +62,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
                 // If navigation drawer is not open yet, open it else close it.
                 if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
                 else navDrawer.closeDrawer(GravityCompat.END);
@@ -101,7 +101,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                 int id = item.getItemId();
                 switch(id){
                     case R.id.map:
-                        Toast.makeText(getApplicationContext(),"Map clicked",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(),"Map clicked",Toast.LENGTH_SHORT).show();
 
                         break;
                 }
