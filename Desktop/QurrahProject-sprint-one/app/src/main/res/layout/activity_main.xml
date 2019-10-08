@@ -153,4 +153,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499" />
 
+
+
+    <Button
+        android:id="@+id/guest"
+        android:layout_width="153dp"
+        android:layout_height="44dp"
+
+        android:layout_marginLeft="164dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="128dp"
+        android:background="@color/transparent"
+        android:text="أكمل كضيف"
+        android:textColor="@color/darkPurple"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

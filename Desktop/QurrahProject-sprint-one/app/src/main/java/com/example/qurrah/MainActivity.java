@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText userِEmail;
     private EditText Password;
     private TextView Info;
-    private Button Login;
+    private Button Login , guest;
     private int counter = 5;
     private TextView userRegistration;
     private FirebaseAuth firebaseAuth;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Login = (Button)findViewById(R.id.btnLogin);
         userRegistration = (TextView)findViewById(R.id.tvRegister);
         forgotPassword = (TextView)findViewById(R.id.tvForgotPassword);
-
+        guest = (Button)findViewById(R.id.guest);
 
         //Info.setText("عدد المحاولات المتبقية : 5");
 
@@ -58,6 +58,20 @@ public class MainActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(MainActivity.this, SecondActivity.class));
         }
+
+
+
+
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this , UserSecondActivity.class));
+            }
+        });
+
+
+
+
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override

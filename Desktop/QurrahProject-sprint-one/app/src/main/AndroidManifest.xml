@@ -63,6 +63,8 @@
         <activity android:name=".UpdatePassword" android:parentActivityName=".SecondActivity"/>
         <activity android:name=".ViewReport" />
         <activity android:name=".RegisteredUserReportView" />
+        <activity android:name=".SecondPage" />
+        <activity android:name=".UserSecondActivity" />
     </application>
 
 </manifest>
