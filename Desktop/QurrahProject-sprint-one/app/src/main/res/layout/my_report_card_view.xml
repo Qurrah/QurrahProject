@@ -12,6 +12,7 @@
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:orientation="horizontal"
@@ -58,7 +59,8 @@
                     android:layout_gravity="left"
                     android:backgroundTint="#776A77"
                     android:text="@string/edit"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    />
 
                 <Button
                     android:id="@+id/delete"

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context = ".RegisteredUserReportView"
+    android:padding="50dp">
+
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="العنوان:" />
+
+    <EditText
+        android:id="@+id/title_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="العنوان"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"/>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="الوصف:" />
+
+    <EditText
+        android:id="@+id/description_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="الوصف"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"/>
+
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="88dp"
+        android:layout_height="73dp"
+        app:srcCompat="@color/background_text_color"
+        android:layout_marginLeft="100dp"/>
+
+    <TextView
+        android:id="@+id/TextViewImageChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="upload_img"
+        android:text="@string/changeImg"
+        android:textColor="@color/darkPurple"
+        android:textSize="14dp"
+         />
+
+
+    <Button
+        android:id="@+id/confirm_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="تعديل" />
+
+    <Button
+        android:id="@+id/cancel_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="الغاء الأمر" />
+
+
+</LinearLayout>

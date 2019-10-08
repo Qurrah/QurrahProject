@@ -62,6 +62,7 @@
             />
         <activity android:name=".UpdatePassword" />
         <activity android:name=".ViewReport" />
+        <activity android:name=".RegisteredUserReportView" />
     </application>
 
 </manifest>
