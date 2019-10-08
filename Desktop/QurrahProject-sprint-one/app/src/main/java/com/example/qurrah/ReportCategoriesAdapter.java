@@ -188,6 +188,13 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
 
 
     }
+    public void updateList(ArrayList<Report> newList) {
+        reports = new ArrayList<>();
+        reports.addAll(newList);
+        notifyDataSetChanged();
+
+
+    }
 
 
 }
