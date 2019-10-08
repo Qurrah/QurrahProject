@@ -51,16 +51,16 @@
         <activity
             android:name=".VerifyPhoneActivity"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity" android:parentActivityName=".SecondActivity" />
         <activity android:name=".UpdateProfile" android:parentActivityName=".SecondActivity" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".ReportActivity"
-            android:theme="@style/AppTheme1"
+
             />
-        <activity android:name=".UpdatePassword" />
+        <activity android:name=".UpdatePassword" android:parentActivityName=".SecondActivity"/>
         <activity android:name=".ViewReport" />
     </application>
 
