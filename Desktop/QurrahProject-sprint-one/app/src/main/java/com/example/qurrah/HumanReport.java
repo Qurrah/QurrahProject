@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
     ArrayList<Report> list;
     ArrayList<String> userList , phones;
     ReportCategoriesAdapter adapter;
+    Button allbtn,missingbtn, findingbtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,26 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
         userID = mAuth.getUid();
         noReports = findViewById(R.id.noReports);
         noReports.setText("لا يوجد بلاغات منشورة");
-
+        // second filter
+        allbtn=(Button) findViewById(R.id.all);
+        allbtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SecondFilter("all");
+            }
+        });
+        missingbtn=(Button) findViewById(R.id.missing);
+        missingbtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SecondFilter("missing");
+            }
+        });
+        findingbtn=(Button) findViewById(R.id.finding);
+        findingbtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                SecondFilter("finding");
+            }
+        });
+        //
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -137,6 +159,35 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
         adapter.updateList(newList,userInput);
         return false;
     }
+//----------------------------------------------------------
+public void SecondFilter(String flag){
+    ArrayList<Report> newList = new ArrayList<>();
+
+    switch(flag){
+        case "all":
+            for(Report rep: list)
+                newList.add(rep);
+            break;
+        case"missing":
+            for(Report rep: list){
+                if(rep.getReportTypeOption().equals("فاقد")){
+                    newList.add(rep);
+
+                }
+            }
+            break;
+        case"finding":
+            for(Report rep: list){
+                if(rep.getReportTypeOption().equals("معثور عليه")){
+                    newList.add(rep);
+
+                }
+            }
+            break;
+    }
+    adapter.updateList(newList);
+
+}
 //----------------------------------------------------------
 
 }

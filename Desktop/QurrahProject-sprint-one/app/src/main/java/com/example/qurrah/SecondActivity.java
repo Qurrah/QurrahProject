@@ -10,14 +10,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,18 +32,46 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
 
-public class SecondActivity extends AppCompatActivity implements View.OnClickListener{
+public class SecondActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
     private Button logout;
     private FloatingActionButton fab;
     CardView people_card,animal_card,device_card,other_card;
+    BottomAppBar bottomAppBar;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_nav);
+        final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
+//---------------------------------------------------
+
+        NavigationView mNavigationView =findViewById(R.id.nav_view);
+
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
+//---------------------------------------------------
+        bottomAppBar = findViewById(R.id.bottomAppBar);
+        //setSupportActionBar(bottomAppBar);
+        bottomAppBar.replaceMenu(R.menu.map_menu);
+//---------------------------------------------------
+        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
+                // If navigation drawer is not open yet, open it else close it.
+                if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
+                else navDrawer.closeDrawer(GravityCompat.END);
+
+            }
+        });
+//---------------------------------------------------
+
+        // firebase
         firebaseAuth = FirebaseAuth.getInstance();
 
         // cardView inputs
@@ -59,6 +93,19 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(SecondActivity.this, ReportActivity.class));
+            }
+        });
+        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                switch(id){
+                    case R.id.map:
+                      //  Toast.makeText(getApplicationContext(),"Map clicked",Toast.LENGTH_SHORT).show();
+
+                        break;
+                }
+                return false;
             }
         });
     }
@@ -119,31 +166,24 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.logoutMenu: {
-                Logout();
-                break;
-            }
-            case R.id.profileMenu: {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        switch (id) {
+            case R.id.nav_profile:
                 startActivity(new Intent(SecondActivity.this, ProfileActivity.class));
                 break;
-            }
-            case R.id.UpdatePasswordMenu: {
+            case R.id.nav_changePassword:
                 startActivity(new Intent(SecondActivity.this, UpdatePassword.class));
                 break;
-            }
-            case R.id.ReportViewMenu: {
+            case R.id.nav_my_report:
                 startActivity(new Intent(SecondActivity.this, MyReport.class));
                 break;
-            }}
-        return super.onOptionsItemSelected(item);
+            case R.id.nav_logout:
+                Logout();
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }

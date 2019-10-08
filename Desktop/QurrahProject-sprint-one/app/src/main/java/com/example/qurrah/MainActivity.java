@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             userِEmail.requestFocus();
         }
 
-        else if (!Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
+        else if (!Patterns.EMAIL_ADDRESS.matcher(Email.trim()).matches()) {
             userِEmail.setError("صيغة البريد الالكتروني غير صحيحة");
             userِEmail.requestFocus();
         }

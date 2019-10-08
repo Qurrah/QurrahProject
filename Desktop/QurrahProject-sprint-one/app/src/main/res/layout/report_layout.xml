@@ -23,6 +23,34 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/all"
+            android:layout_width="142dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="الكل"
+            android:layout_alignParentBottom="true"
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/missing"
+            android:layout_width="142dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentBottom="true"
+            android:text="المفقودات"
+            tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/finding"
+            android:layout_width="142dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentBottom="true"
+            android:text="المعثورات"
+            tools:ignore="MissingConstraints" />
+
         <ProgressBar
             android:id="@+id/progressbar"
             android:layout_width="wrap_content"
