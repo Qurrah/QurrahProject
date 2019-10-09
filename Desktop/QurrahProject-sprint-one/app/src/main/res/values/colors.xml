@@ -11,6 +11,7 @@
     <color name="white">#FBFBFB</color>
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
+    <color name="lightGrey1">#D3D3D3</color>
     <color name ="red">#f00000</color>
     <color name="yellow">#f2f20d</color>
 

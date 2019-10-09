@@ -53,25 +53,35 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
         noReports.setText("لا يوجد بلاغات منشورة");
         // second filter
         allbtn=(Button) findViewById(R.id.all);
+        allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
         allbtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+                missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+                findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
                 SecondFilter("all");
             }
         });
         missingbtn=(Button) findViewById(R.id.missing);
         missingbtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                missingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+                allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+                findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
                 SecondFilter("missing");
+
             }
         });
         findingbtn=(Button) findViewById(R.id.finding);
         findingbtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                findingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+                missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+                allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
                 SecondFilter("finding");
+
             }
         });
-        //
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(HumanReport.this);
