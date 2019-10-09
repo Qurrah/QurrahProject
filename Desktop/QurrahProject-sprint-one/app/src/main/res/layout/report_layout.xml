@@ -23,15 +23,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:visibility="gone"
-            android:scrollbarSize="10dp"
-            android:layout_gravity="center"/>
         <TextView
             android:id="@+id/noReports"
             android:layout_width="fill_parent"
@@ -74,6 +65,16 @@
                 android:layout_gravity="center_horizontal"
                 android:text="الكل"
                 tools:ignore="MissingConstraints" />
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:scrollbarSize="10dp"
+                android:layout_gravity="end"/>
 
 
         </LinearLayout>

@@ -64,7 +64,7 @@
         android:layout_height="43dp"
         android:layout_marginTop="42dp"
         android:layout_marginBottom="112dp"
-        android:background="@drawable/WhatsApp"
+        android:background="@drawable/whatsapp"
         app:layout_constraintBottom_toTopOf="@+id/reportLoc"
         app:layout_constraintEnd_toStartOf="@+id/reportUsername"
         app:layout_constraintHorizontal_bias="0.874"
