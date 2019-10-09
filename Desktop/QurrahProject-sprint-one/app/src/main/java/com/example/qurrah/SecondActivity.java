@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
 
@@ -35,10 +39,12 @@ import java.util.UUID;
 public class SecondActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
-    private Button logout;
     private FloatingActionButton fab;
     CardView people_card,animal_card,device_card,other_card;
     BottomAppBar bottomAppBar;
+    TextView username;
+    private FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
 
 
@@ -47,6 +53,10 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        username = (TextView) header.findViewById(R.id.Username);
 //---------------------------------------------------
 
         NavigationView mNavigationView =findViewById(R.id.nav_view);
@@ -73,7 +83,22 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         // firebase
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId=firebaseAuth.getCurrentUser().getUid();
+        databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
 
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                username.setText(userProfile.getUserName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+//---------------------------------------------------
         // cardView inputs
         people_card = findViewById(R.id.people_card);
         animal_card = findViewById(R.id.animal_card);
@@ -186,4 +211,5 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         }
         return false;
     }
+
 }
