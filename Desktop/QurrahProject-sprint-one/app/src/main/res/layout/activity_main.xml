@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parent"
     android:background="#F5F4F5"
     tools:context="com.example.qurrah.MainActivity">
-
+    <LinearLayout
+        android:id="@+id/dummyFocus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F5F4F5"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"></LinearLayout>
 
     <ImageView
         android:id="@+id/ivProfile"

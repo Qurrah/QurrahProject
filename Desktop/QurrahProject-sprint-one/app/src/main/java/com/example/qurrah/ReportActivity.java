@@ -66,13 +66,13 @@ public class ReportActivity extends AppCompatActivity {
     RadioButton radioButton,typeButton;
     protected FirebaseAuth mAuth;
 
-//    public static void hideSoftKeyboard(Activity activity) {
-//        InputMethodManager inputMethodManager =
-//                (InputMethodManager) activity.getSystemService(
-//                        Activity.INPUT_METHOD_SERVICE);
-//        inputMethodManager.hideSoftInputFromWindow(
-//                activity.getCurrentFocus().getWindowToken(), 0);
-//    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
 
 
     @Override
@@ -143,7 +143,7 @@ public class ReportActivity extends AppCompatActivity {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
-//                    hideSoftKeyboard(ReportActivity.this);
+                    hideSoftKeyboard(ReportActivity.this);
                     findViewById(R.id.dummyFocus).requestFocus();
                     return false;
                 }
