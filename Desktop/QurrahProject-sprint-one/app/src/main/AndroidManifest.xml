@@ -34,7 +34,7 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".PasswordActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
         <activity
             android:name=".FirstPage"
             android:theme="@style/AppTheme1">
