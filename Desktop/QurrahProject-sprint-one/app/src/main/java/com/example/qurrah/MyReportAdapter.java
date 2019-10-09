@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -58,12 +59,14 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         final Report report = reports.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         holder.lostDate.setText(reports.get(position).getDate());
+        holder.updateButton.setVisibility(View.GONE);
         String status = reports.get(position).getReportStatus();
+
         if (status.equals("مغلق")) {
             holder.status.setText("مغلق");
             holder.status.setChecked(false);
             holder.status.setEnabled(false);
-            holder.updateButton.setVisibility(View.INVISIBLE);
+            holder.updateButton.setVisibility(View.GONE);
         }
 
         Picasso.get().load(reports.get(position).getPhoto()).into(holder.img, new Callback() {
@@ -203,78 +206,101 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             }
         });
 
-        holder.updateButton.setOnClickListener(new View.OnClickListener() {
+
+
+
+        holder.linear.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
+            public void onClick(View view) {
 
-                databaseReferenceUserReport.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                Intent intent = new Intent(context,RegisteredUserReportView.class);
+//                    intent.putExtra("Report", (Parcelable) reports.get(position));
+                intent.putExtra("Image", report.getPhoto());
+                intent.putExtra("Title", report.getLostTitle());
+                intent.putExtra("Description", report.getLostDescription());
+                intent.putExtra("report", report);
 
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Report rep = snapshot.getValue(Report.class);
-                            if (report.getDate().equals(rep.getDate())) {
-                                reference = databaseReferenceUserReport.child(snapshot.getKey()).getRef();
-                                Intent intent = new Intent(context, EditReportActivity.class);
-                                intent.putExtra("lostTitle", report.getLostTitle());
-                                intent.putExtra("lostDescription", report.getLostDescription());
-                                intent.putExtra("categoryOption", report.getCategoryOption());
-                                intent.putExtra("ReportTypeOption", report.getReportTypeOption());
-                                intent.putExtra("photo", report.getPhoto());
-                                intent.putExtra("location", report.getLocation());
-                                intent.putExtra("key", snapshot.getKey());
-                                intent.putExtra("date", report.getDate());
-                                context.startActivity(intent);
-
-
-//                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                                builder.setMessage("وصف البلاغ");
-//
-//// Set up the input
-//                                final EditText input = new EditText(context);
-//                                input.setSingleLine(false);  //add this
-//                                input.setLines(4);
-//                                input.setMaxLines(5);
-//                                input.setGravity(Gravity.RIGHT | Gravity.TOP);
-//                                input.setHorizontalScrollBarEnabled(false); //this
-//                                input.setText(reports.get(position).getLostDescription());
-//                                builder.setView(input);
-//
-//                                builder.setPositiveButton("تعديل", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        m_Text =  input.getText().toString();
-//                                        //Toast.makeText(context, m_Text, Toast.LENGTH_SHORT).show();
-//                                        reference.child("lostDescription").setValue("yes");
-//
-//
-//                                    }
-//                                });
-//                                builder.setNegativeButton("الغاء الامر", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.cancel();
-//                                    }
-//                                });
-//
-//                                builder.show();
-
-                            }
-
-                        }
-
-                    }
-
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-
+                context.startActivity(intent);
             }
         });
+
+
+
+
+
+
+//        holder.updateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//
+//                databaseReferenceUserReport.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+//
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            Report rep = snapshot.getValue(Report.class);
+//                            if (report.getDate().equals(rep.getDate())) {
+//                                reference = databaseReferenceUserReport.child(snapshot.getKey()).getRef();
+//                                Intent intent = new Intent(context, EditReportActivity.class);
+//                                intent.putExtra("lostTitle", report.getLostTitle());
+//                                intent.putExtra("lostDescription", report.getLostDescription());
+//                                intent.putExtra("categoryOption", report.getCategoryOption());
+//                                intent.putExtra("ReportTypeOption", report.getReportTypeOption());
+//                                intent.putExtra("photo", report.getPhoto());
+//                                intent.putExtra("location", report.getLocation());
+//                                intent.putExtra("key", snapshot.getKey());
+//                                intent.putExtra("date", report.getDate());
+//                                context.startActivity(intent);
+//
+//
+////                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+////                                builder.setMessage("وصف البلاغ");
+////
+////// Set up the input
+////                                final EditText input = new EditText(context);
+////                                input.setSingleLine(false);  //add this
+////                                input.setLines(4);
+////                                input.setMaxLines(5);
+////                                input.setGravity(Gravity.RIGHT | Gravity.TOP);
+////                                input.setHorizontalScrollBarEnabled(false); //this
+////                                input.setText(reports.get(position).getLostDescription());
+////                                builder.setView(input);
+////
+////                                builder.setPositiveButton("تعديل", new DialogInterface.OnClickListener() {
+////                                    @Override
+////                                    public void onClick(DialogInterface dialog, int which) {
+////                                        m_Text =  input.getText().toString();
+////                                        //Toast.makeText(context, m_Text, Toast.LENGTH_SHORT).show();
+////                                        reference.child("lostDescription").setValue("yes");
+////
+////
+////                                    }
+////                                });
+////                                builder.setNegativeButton("الغاء الامر", new DialogInterface.OnClickListener() {
+////                                    @Override
+////                                    public void onClick(DialogInterface dialog, int which) {
+////                                        dialog.cancel();
+////                                    }
+////                                });
+////
+////                                builder.show();
+//
+//                            }
+//
+//                        }
+//
+//                    }
+//
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+//
+//
+//            }
+//        });
     }
 
 
@@ -290,6 +316,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         TextView lostTitle, lostDate;
         ProgressBar progressBar;
         Switch status;
+        LinearLayout linear;
 
 
         public ViewHolder(View itemView) {
@@ -301,7 +328,15 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             status = itemView.findViewById(R.id.status);
             deleteButton = itemView.findViewById(R.id.delete);
             updateButton = itemView.findViewById(R.id.update);
+            linear = itemView.findViewById(R.id.linearLayout);
         }
+    }
+    public void updateList(ArrayList<Report> newList) {
+        reports = new ArrayList<>();
+        reports.addAll(newList);
+        notifyDataSetChanged();
+
+
     }
 
 

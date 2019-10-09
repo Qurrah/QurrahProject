@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisteredUserReportView"
+
+    >
+
+
+    <ImageView
+        android:id="@+id/reportImg"
+        android:layout_width="match_parent"
+        android:layout_height="153dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="1dp" />
+
+    <TextView
+        android:id="@+id/reportTitle"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="60dp"
+        android:hint="\nالعنوان:\n"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportImg"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/reportDes"
+        android:layout_width="252dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="48dp"
+        android:hint="\nالوصف:\n"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportTitle"
+        tools:ignore="MissingConstraints" />
+
+
+    <Button
+        android:id="@+id/update"
+        android:layout_width="115dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:layout_marginBottom="104dp"
+        android:backgroundTint="#776A77"
+        android:text="@string/edit"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportDes"
+        app:layout_constraintVertical_bias="0.803"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/saveChanges"
+        android:layout_width="71dp"
+        android:layout_height="44dp"
+        android:layout_gravity="left"
+        android:layout_marginTop="332dp"
+        android:layout_marginBottom="41dp"
+        android:backgroundTint="@color/darkGrey"
+        android:text="حفظ"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/reportDes"
+        app:layout_constraintVertical_bias="0.737"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/reportLoc"
+        android:layout_width="406dp"
+        android:layout_height="102dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="\n\nالموقع"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="العنوان:"
+        app:layout_constraintBottom_toTopOf="@+id/reportTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportImg"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="53dp"
+        android:text="الوصف:"
+        app:layout_constraintBottom_toBottomOf="@+id/reportDes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportTitle" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,7 @@
 package com.example.qurrah;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-//import android.support.annotation.NonNull;
-//import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText userِEmail;
     private EditText Password;
-    private Button Login;
+    private Button Login, guest;
     private TextView userRegistration;
     private FirebaseAuth firebaseAuth;
     private TextView forgotPassword;
@@ -47,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         userRegistration = findViewById(R.id.tvRegister);
         forgotPassword = findViewById(R.id.tvForgotPassword);
         progressBar = findViewById(R.id.progressBar);
+        guest = findViewById(R.id.guest);
 //-------------------------------------------------------------
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -108,6 +106,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this , UserSecondActivity.class));
+            }
+        });
+
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,34 +123,34 @@ public class MainActivity extends AppCompatActivity {
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-            if( validate(Email, password)) {
+                if( validate(Email, password)) {
 
-                firebaseAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                    firebaseAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-                            Toast.makeText(MainActivity.this, "تم تسجيل الدخول", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, SecondActivity.class));
+                                Toast.makeText(MainActivity.this, "تم تسجيل الدخول", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(MainActivity.this, SecondActivity.class));
 
-                        } else {
-                            Login.setEnabled(true);
-                            Toast.makeText(MainActivity.this, "فشل تسجيل الدخول, الرجاء ادخال بيانات صحيحة", Toast.LENGTH_SHORT).show();
-                            Login.setText("تسجيل الدخول");
-                            progressBar.setVisibility(View.INVISIBLE);
+                            } else {
+                                Login.setEnabled(true);
+                                Toast.makeText(MainActivity.this, "فشل تسجيل الدخول, الرجاء ادخال بيانات صحيحة", Toast.LENGTH_SHORT).show();
+                                Login.setText("تسجيل الدخول");
+                                progressBar.setVisibility(View.INVISIBLE);
 
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
+                            }
                         }
-                    }
 
-                });
-            }else {
-                Login.setEnabled(true);
-                Login.setText("تسجيل الدخول");
-                progressBar.setVisibility(View.INVISIBLE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
+                    });
+                }else {
+                    Login.setEnabled(true);
+                    Login.setText("تسجيل الدخول");
+                    progressBar.setVisibility(View.INVISIBLE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                }
 
             }
 
@@ -160,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               startActivity(new Intent(MainActivity.this, PasswordActivity.class));
+                startActivity(new Intent(MainActivity.this, PasswordActivity.class));
             }
         });
 
@@ -174,34 +180,36 @@ public class MainActivity extends AppCompatActivity {
         result = validateEmail(Email);
         if (result) {
 
-           result = validatePassword(userPassword);
+            result = validatePassword(userPassword);
 
             return result;
         }
         return result;
     }
 
-private boolean validateEmail (String email){
-    if (email.isEmpty()) {
-        userِEmail.setError("الرجاء ادخال البريد الالكتروني");
-        userِEmail.requestFocus();
-        return false;
+    private boolean validateEmail (String email){
+        if (email.isEmpty()) {
+            userِEmail.setError("الرجاء ادخال البريد الالكتروني");
+            userِEmail.requestFocus();
+            return false;
+        }
+
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            userِEmail.setError("صيغة البريد الالكتروني غير صحيحة");
+            userِEmail.requestFocus();
+            return false;
+        }
+        return true;
+    }
+    private boolean validatePassword(String password){
+        if (password.isEmpty()) {
+            Password.setError("الرجاء ادخال كلمة المرور");
+            Password.requestFocus();
+            return false;
+        }
+        return true;
     }
 
-    else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-        userِEmail.setError("صيغة البريد الالكتروني غير صحيحة");
-        userِEmail.requestFocus();
-        return false;
-    }
-    return true;
-}
-private boolean validatePassword(String password){
-    if (password.isEmpty()) {
-        Password.setError("الرجاء ادخال كلمة المرور");
-        Password.requestFocus();
-        return false;
-    }
-    return true;
 }
 
-}
+

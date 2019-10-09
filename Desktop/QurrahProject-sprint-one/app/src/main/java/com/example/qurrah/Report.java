@@ -1,8 +1,9 @@
 package com.example.qurrah;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Report {
+public class Report implements Serializable {
     private String lostTitle;
     private String lostDescription;
     private String categoryOption;
