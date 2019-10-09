@@ -42,7 +42,8 @@ public class PasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String userEmail = email.getText().toString();
+                String userEmail = email.getText().toString().trim();
+
 
                 if (userEmail.isEmpty()) {
                     email.setError("الرجاء ادخال البريد الالكتروني");

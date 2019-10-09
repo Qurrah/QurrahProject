@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 //import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,32 +29,26 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText userِEmail;
     private EditText Password;
-    private TextView Info;
     private Button Login;
-    private int counter = 5;
     private TextView userRegistration;
     private FirebaseAuth firebaseAuth;
-    private ProgressDialog progressDialog;
     private TextView forgotPassword;
+    private ProgressBar progressBar;
     String Email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        userِEmail = (EditText)findViewById(R.id.etName);
-        Password = (EditText)findViewById(R.id.etPassword);
-        //Info = (TextView)findViewById(R.id.tvInfo);
-        Login = (Button)findViewById(R.id.btnLogin);
-        userRegistration = (TextView)findViewById(R.id.tvRegister);
-        forgotPassword = (TextView)findViewById(R.id.tvForgotPassword);
-
-
-        //Info.setText("عدد المحاولات المتبقية : 5");
-
+//-------------------------------------------------------------
+        userِEmail = findViewById(R.id.etName);
+        Password = findViewById(R.id.etPassword);
+        Login = findViewById(R.id.btnLogin);
+        userRegistration = findViewById(R.id.tvRegister);
+        forgotPassword = findViewById(R.id.tvForgotPassword);
+        progressBar = findViewById(R.id.progressBar);
+//-------------------------------------------------------------
         firebaseAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(this);
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -58,37 +56,98 @@ public class MainActivity extends AppCompatActivity {
             finish();
             startActivity(new Intent(MainActivity.this, SecondActivity.class));
         }
+//--------------------------------------------------------------
 
+        userِEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Email = userِEmail.getText().toString().trim();
+                if (validateEmail(Email) && !Password.getText().toString().isEmpty()){
+                    Login.setEnabled(true);
+                    Login.setAlpha(1f);
+                }else {
+                    Login.setEnabled(false);
+                    Login.setAlpha(0.6f);
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        Password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                password = Password.getText().toString().trim();
+                if (validatePassword(password) && !userِEmail.getText().toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(userِEmail.getText().toString().trim()).matches()){
+                    Login.setEnabled(true);
+                    Login.setAlpha(1f);
+                }else {
+                    Login.setEnabled(false);
+                    Login.setAlpha(0.6f);
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Email = userِEmail.getText().toString();
-                password = Password.getText().toString();
-
+                Login.setEnabled(false);
+                Login.setText("");
+                progressBar.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             if( validate(Email, password)) {
+
                 firebaseAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            progressDialog.dismiss();
+
                             Toast.makeText(MainActivity.this, "تم تسجيل الدخول", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(MainActivity.this, SecondActivity.class));
 
                         } else {
+                            Login.setEnabled(true);
                             Toast.makeText(MainActivity.this, "فشل تسجيل الدخول, الرجاء ادخال بيانات صحيحة", Toast.LENGTH_SHORT).show();
-//                    counter--;
-//                    Info.setText("عدد المحاولات المتبقية : "+ counter);
-//                    progressDialog.dismiss();
-//                    if(counter == 0){
-//                        Login.setEnabled(false);
+                            Login.setText("تسجيل الدخول");
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                         }
                     }
 
                 });
+            }else {
+                Login.setEnabled(true);
+                Login.setText("تسجيل الدخول");
+                progressBar.setVisibility(View.INVISIBLE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
 
             }
+
         });
 
         userRegistration.setOnClickListener(new View.OnClickListener() {
@@ -108,48 +167,41 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private Boolean validate(String Email, String userPassword) {
+    private boolean validate(String Email, String userPassword) {
 
-        Boolean result = false;
-//        progressDialog.setMessage("You can subscribe to my channel until you are verified!");
-//        progressDialog.show();
+        boolean result;
 
-        if (Email.isEmpty()) {
-            userِEmail.setError("الرجاء ادخال البريد الالكتروني");
-            userِEmail.requestFocus();
+        result = validateEmail(Email);
+        if (result) {
+
+           result = validatePassword(userPassword);
+
+            return result;
         }
-
-        else if (!Patterns.EMAIL_ADDRESS.matcher(Email.trim()).matches()) {
-            userِEmail.setError("صيغة البريد الالكتروني غير صحيحة");
-            userِEmail.requestFocus();
-        }
-
-        else if (password.isEmpty()) {
-            Password.setError("الرجاء ادخال كلمة المرور");
-            Password.requestFocus();
-        }
-        else{
-            result = true;
-        }
-
         return result;
-
-
-
-
     }
 
-    private void checkEmailVerification(){
-        FirebaseUser firebaseUser = firebaseAuth.getInstance().getCurrentUser();
-        Boolean emailflag = firebaseUser.isEmailVerified();
-
-        if(emailflag){
-            finish();
-            startActivity(new Intent(MainActivity.this, SecondActivity.class));
-        }else{
-            Toast.makeText(this, "Verify your email", Toast.LENGTH_SHORT).show();
-            firebaseAuth.signOut();
-        }
+private boolean validateEmail (String email){
+    if (email.isEmpty()) {
+        userِEmail.setError("الرجاء ادخال البريد الالكتروني");
+        userِEmail.requestFocus();
+        return false;
     }
+
+    else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        userِEmail.setError("صيغة البريد الالكتروني غير صحيحة");
+        userِEmail.requestFocus();
+        return false;
+    }
+    return true;
+}
+private boolean validatePassword(String password){
+    if (password.isEmpty()) {
+        Password.setError("الرجاء ادخال كلمة المرور");
+        Password.requestFocus();
+        return false;
+    }
+    return true;
+}
 
 }
