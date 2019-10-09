@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -64,6 +66,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Report report = reports.get(position);
@@ -84,7 +87,10 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             int diff = Integer.parseInt(date.substring(8,10))-Integer.parseInt(reports.get(position).getDate().substring(8,10));
             if (diff>=1 && diff <=7){
                 // Toast.makeText(context,String.valueOf(diff),Toast.LENGTH_SHORT).show();
-                DateFormat format2=new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
+                DateFormat format2= null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    format2 = new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
+                }
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(new Date());
                 cal.add(Calendar.DATE, -diff);
