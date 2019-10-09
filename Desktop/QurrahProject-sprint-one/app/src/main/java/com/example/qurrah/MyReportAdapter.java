@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 
 import android.widget.Button;
@@ -50,6 +52,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_report_card_view, parent, false);
         ViewHolder holder = new ViewHolder(view);
+
         return holder;
     }
 
@@ -83,6 +86,8 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
 
             }
         });
+
+
 
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +152,6 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         holder.status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
                 builder1.setMessage("هل أنت متأكد أنه تم ايجاد المفقود وتريد إغلاق طلبك ؟");
                 builder1.setCancelable(true);
@@ -202,6 +206,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
                 AlertDialog alert11 = builder1.create();
 
                 alert11.show();
+                alert11.setCanceledOnTouchOutside(false);
 
             }
         });

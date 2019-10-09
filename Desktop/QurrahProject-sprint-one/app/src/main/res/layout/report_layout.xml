@@ -34,15 +34,16 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"/>
+
         <LinearLayout
-            android:layout_width="283dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@android:dimen/app_icon_size">
 
             <Button
                 android:id="@+id/missing"
-                android:layout_width="wrap_content"
+                android:layout_width="103dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_horizontal"
@@ -51,7 +52,7 @@
 
             <Button
                 android:id="@+id/finding"
-                android:layout_width="wrap_content"
+                android:layout_width="103dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="المعثورات"
@@ -59,25 +60,25 @@
 
             <Button
                 android:id="@+id/all"
-                android:layout_width="wrap_content"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_horizontal"
                 android:text="الكل"
                 tools:ignore="MissingConstraints" />
 
-            <ProgressBar
-                android:id="@+id/progressbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:visibility="gone"
-                android:scrollbarSize="10dp"
-                android:layout_gravity="end"/>
-
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:scrollbarSize="10dp"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
