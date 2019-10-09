@@ -1,35 +1,24 @@
 package com.example.qurrah;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.UploadTask;
 
-import java.util.UUID;
-
-public class UserSecondActivity extends AppCompatActivity implements View.OnClickListener{
+public class UnregisteredUserSecondActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth firebaseAuth;
-    private Button logout;
     private FloatingActionButton fab;
     CardView people_card,animal_card,device_card,other_card;
 
@@ -37,7 +26,7 @@ public class UserSecondActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.unregistered_user_second_page);
         firebaseAuth = FirebaseAuth.getInstance();
 
         // cardView inputs
@@ -52,8 +41,12 @@ public class UserSecondActivity extends AppCompatActivity implements View.OnClic
         device_card.setOnClickListener(this);
         other_card.setOnClickListener(this);
 
+        // bottom app bar input
+        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
+        //setSupportActionBar(bottomAppBar);
+        bottomAppBar.replaceMenu(R.menu.map_menu);
 
-        fab = (FloatingActionButton) findViewById(R.id.addReport);
+        fab =  findViewById(R.id.addReport);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +82,7 @@ public class UserSecondActivity extends AppCompatActivity implements View.OnClic
 
     private void SignUpRequest() {
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(UserSecondActivity.this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(UnregisteredUserSecondActivity.this);
         builder1.setMessage("يلزمك التسجيل لإضافة بلاغ، هل تود التسجيل الآن؟");
         builder1.setCancelable(true);
 
@@ -99,7 +92,7 @@ public class UserSecondActivity extends AppCompatActivity implements View.OnClic
                     public void onClick(DialogInterface dialog, int id) {
                         firebaseAuth.signOut();
                         finish();
-                        startActivity(new Intent(UserSecondActivity.this, MainActivity.class));
+                        startActivity(new Intent(UnregisteredUserSecondActivity.this, MainActivity.class));
                     }
 
                 });
@@ -132,7 +125,7 @@ public class UserSecondActivity extends AppCompatActivity implements View.OnClic
             case R.id.signUp_menu: {
                 firebaseAuth.signOut();
                 finish();
-                startActivity(new Intent(UserSecondActivity.this, MainActivity.class));
+                startActivity(new Intent(UnregisteredUserSecondActivity.this, MainActivity.class));
                 break;
             }}
         return super.onOptionsItemSelected(item);

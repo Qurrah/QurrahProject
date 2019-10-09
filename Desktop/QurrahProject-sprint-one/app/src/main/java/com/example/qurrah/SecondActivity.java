@@ -87,7 +87,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         other_card.setOnClickListener(this);
 
 
-        fab = (FloatingActionButton) findViewById(R.id.addReport);
+        fab =  findViewById(R.id.addReport);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

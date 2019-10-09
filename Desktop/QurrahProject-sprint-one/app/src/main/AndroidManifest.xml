@@ -64,7 +64,7 @@
         <activity android:name=".ViewReport" />
         <activity android:name=".RegisteredUserReportView" />
         <activity android:name=".SecondPage" />
-        <activity android:name=".UserSecondActivity" />
+        <activity android:name=".UnregisteredUserSecondActivity" />
     </application>
 
 </manifest>

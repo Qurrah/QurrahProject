@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this , UserSecondActivity.class));
+                startActivity(new Intent(MainActivity.this , UnregisteredUserSecondActivity.class));
             }
         });
 

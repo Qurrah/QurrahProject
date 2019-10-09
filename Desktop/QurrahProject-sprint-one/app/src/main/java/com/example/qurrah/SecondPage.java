@@ -42,7 +42,7 @@ public class SecondPage extends AppCompatActivity {
         guest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondPage.this , UserSecondActivity.class));
+                startActivity(new Intent(SecondPage.this , UnregisteredUserSecondActivity.class));
             }
         });
 
