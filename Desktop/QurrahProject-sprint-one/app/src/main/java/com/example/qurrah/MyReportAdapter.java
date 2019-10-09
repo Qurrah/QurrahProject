@@ -101,6 +101,9 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
 //---------------------------------------------------------------------------------
         holder.updateButton.setVisibility(View.GONE);
         String status = reports.get(position).getReportStatus();
+        holder.status.setText("نشط");
+        holder.status.setChecked(true);
+        holder.status.setEnabled(true);
 
         if (status.equals("مغلق")) {
             holder.status.setText("مغلق");
