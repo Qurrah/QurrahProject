@@ -31,7 +31,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHolder> {
 
@@ -40,6 +46,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
     Context context;
     ArrayList<Report> reports;
     String userID = mAuth.getUid();
+    String date1,date2;
     DatabaseReference databaseReferenceUserReport = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
 
     public MyReportAdapter(Context context, ArrayList<Report> reports) {
@@ -61,7 +68,37 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Report report = reports.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
-        holder.lostDate.setText(reports.get(position).getDate());
+        //holder.lostDate.setText(reports.get(position).getDate());
+//--------------------------------------handling date ------------------------------
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+        String date = dateFormat.format(new Date());
+        if (reports.get(position).getDate().substring(0,10).equals(date.substring(0,10))){
+            if (reports.get(position).getDate().substring(reports.get(position).getDate().length()-2).equalsIgnoreCase("pm"))
+                date2 ="م";
+            else
+                date2 = "ص";
+            date1 = reports.get(position).getDate().substring(11,16)+" "+date2;
+
+            holder.lostDate.setText(date1);
+        }else if (reports.get(position).getDate().substring(0,7).equals(date.substring(0,7))){
+            int diff = Integer.parseInt(date.substring(8,10))-Integer.parseInt(reports.get(position).getDate().substring(8,10));
+            if (diff>=1 && diff <=7){
+                // Toast.makeText(context,String.valueOf(diff),Toast.LENGTH_SHORT).show();
+                DateFormat format2=new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                cal.add(Calendar.DATE, -diff);
+                holder.lostDate.setText(format2.format(cal.getTime()));
+            }
+            else {
+                holder.lostDate.setText(reports.get(position).getDate().substring(0,10));
+            }
+        }
+
+
+
+
+//---------------------------------------------------------------------------------
         holder.updateButton.setVisibility(View.GONE);
         String status = reports.get(position).getReportStatus();
 
@@ -346,6 +383,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
 
 
 }
+
 
 
 

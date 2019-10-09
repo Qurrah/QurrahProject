@@ -29,8 +29,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="left"
                 android:checked="true"
-                android:text="نشط"
-                tools:checked="true" />
+                android:text="نشط" />
 
             <TextView
                 android:id="@+id/textView1"
