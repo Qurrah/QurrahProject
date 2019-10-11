@@ -36,6 +36,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:15.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
+
 
 }
 apply plugin: 'com.google.gms.google-services'
+
