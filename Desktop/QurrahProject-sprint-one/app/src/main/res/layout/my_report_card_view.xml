@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="10dp"
-    android:background="@drawable/border"
+    android:layout_margin="1dp"
     android:padding="10dp"
-    android:layout_marginBottom="20dp"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
@@ -16,40 +14,62 @@
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:orientation="horizontal"
+        android:padding="3dp"
         android:gravity="right">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imgArrow"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:paddingTop="40dp"
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:text="TextView" />
+
+        <LinearLayout
+            android:layout_width="185dp"
             android:layout_height="match_parent"
+            android:layout_gravity="right"
             android:orientation="vertical">
 
-            <Switch
-                android:id="@+id/status"
-                android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_gravity="left"
-                android:checked="true"
-                android:text="نشط" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:text="التاريخ"
+                    android:textAlignment="viewEnd" />
+
+                <Switch
+                    android:id="@+id/status"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="نشط"
+                    android:textAlignment="viewEnd" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="right"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="right" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:layout_gravity="right"
                 android:orientation="horizontal">
 
                 <Button
@@ -60,7 +80,7 @@
                     android:backgroundTint="#776A77"
                     android:text="@string/edit"
                     android:textColor="#ffffff"
-                    />
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/delete"
@@ -69,11 +89,13 @@
                     android:layout_gravity="right"
                     android:backgroundTint="#CCC4C4"
                     android:text="@string/delete"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
@@ -101,4 +123,5 @@
 
 
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>
+

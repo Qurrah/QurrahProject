@@ -5,7 +5,7 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
+    android:layout_margin="1dp"
     android:clickable="true"
     android:orientation="vertical"
     android:padding="10dp"
@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:gravity="right"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="3dp">
 
         <ImageView
             android:id="@+id/imgArrow"
@@ -68,8 +69,6 @@
                 android:id="@+id/img"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:padding="10dp"
                 android:scaleType="fitXY" />
 
             <ProgressBar
