@@ -166,6 +166,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
             }
         }
         adapter.updateList(newList,userInput);
+
         return false;
     }
 //----------------------------------------------------------
@@ -195,7 +196,7 @@ public void SecondFilter(String flag){
             break;
     }
     adapter.updateList(newList);
-
+    recyclerView.scrollToPosition(adapter.getItemCount()-1);
 }
 //----------------------------------------------------------
 

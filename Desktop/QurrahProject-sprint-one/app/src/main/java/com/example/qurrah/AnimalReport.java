@@ -169,6 +169,7 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
             }
         }
         adapter.updateList(newList,userInput);
+
         return false;
     }
 //-------------------------Second Filter Method---------------------------------
@@ -198,6 +199,7 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
              break;
         }
      adapter.updateList(newList);
+     recyclerView.scrollToPosition(adapter.getItemCount()-1);
 
  }
 //

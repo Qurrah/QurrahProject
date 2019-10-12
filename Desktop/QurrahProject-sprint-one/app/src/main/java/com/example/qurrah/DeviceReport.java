@@ -192,6 +192,7 @@ public void SecondFilter(String flag){
             break;
     }
     adapter.updateList(newList);
+    recyclerView.scrollToPosition(adapter.getItemCount()-1);
 
 }
 //----------------------------------------------------------
