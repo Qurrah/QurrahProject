@@ -96,6 +96,7 @@ public class MyReport extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
+                newList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
                     if(ds.getChildrenCount() > 0) {
