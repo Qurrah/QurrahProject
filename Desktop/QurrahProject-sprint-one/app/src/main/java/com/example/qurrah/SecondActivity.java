@@ -85,7 +85,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         String userId=firebaseAuth.getCurrentUser().getUid();
-        databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
+        databaseReference = firebaseDatabase.getReference().child("users").child(userId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -125,10 +125,14 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 switch(id){
-                    case R.id.map:
+                    case R.id.map:{break;}
                       //  Toast.makeText(getApplicationContext(),"Map clicked",Toast.LENGTH_SHORT).show();
+                    case R.id.chats:{
+                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        break;}
 
-                        break;
                 }
                 return false;
             }

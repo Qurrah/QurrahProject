@@ -23,10 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-//import android.support.annotation.NonNull;
-//import android.support.v7.app.AppCompatActivity;
-import com.google.firebase.auth.ProviderQueryResult;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 public class RegistrationActivity extends AppCompatActivity {
 

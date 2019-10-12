@@ -8,4 +8,10 @@
         android:title="Item"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/chats"
+        android:icon="@drawable/conversation"
+        android:title="Item"
+        app:showAsAction="always" />
+
 </menu>
