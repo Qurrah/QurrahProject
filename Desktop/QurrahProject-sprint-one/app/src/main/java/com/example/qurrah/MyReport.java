@@ -86,6 +86,9 @@ public class MyReport extends AppCompatActivity {
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
+        allbtn.setVisibility(View.GONE);
+        findingbtn.setVisibility(View.GONE);
+        missingbtn.setVisibility(View.GONE);
         list = new ArrayList<Report>();
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
         // Query query = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
@@ -97,6 +100,11 @@ public class MyReport extends AppCompatActivity {
 
                     if(ds.getChildrenCount() > 0) {
                         findViewById(R.id.progressbar).setVisibility(View.GONE);
+
+                        allbtn.setVisibility(View.VISIBLE);
+                        findingbtn.setVisibility(View.VISIBLE);
+                        missingbtn.setVisibility(View.VISIBLE);
+
                     }
 
                     report = ds.getValue(Report.class);
@@ -108,8 +116,15 @@ public class MyReport extends AppCompatActivity {
                 new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
+                allbtn.setVisibility(View.VISIBLE);
+                findingbtn.setVisibility(View.VISIBLE);
+                missingbtn.setVisibility(View.VISIBLE);
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
+                    allbtn.setVisibility(View.GONE);
+                    findingbtn.setVisibility(View.GONE);
+                    missingbtn.setVisibility(View.GONE);
+
                 }
 
 
@@ -149,7 +164,12 @@ public class MyReport extends AppCompatActivity {
                 }
                 break;
         }
+        if(newList.isEmpty()){
+            findViewById(R.id.noReports).setVisibility(View.VISIBLE);
 
+        }else{
+            findViewById(R.id.noReports).setVisibility(View.GONE);
+        }
         adapter.updateList(newList);
         recyclerView.scrollToPosition(adapter.getItemCount()-1);
 

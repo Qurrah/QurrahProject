@@ -88,6 +88,11 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
+
+        allbtn.setVisibility(View.GONE);
+        findingbtn.setVisibility(View.GONE);
+        missingbtn.setVisibility(View.GONE);
+
         list = new ArrayList<>();
         userList = new ArrayList<>();
         phones = new ArrayList<>();
@@ -105,6 +110,10 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
                         if(ds.getChildrenCount() > 0) {
                             findViewById(R.id.progressbar).setVisibility(View.GONE);
+
+                            allbtn.setVisibility(View.VISIBLE);
+                            findingbtn.setVisibility(View.VISIBLE);
+                            missingbtn.setVisibility(View.VISIBLE);
                         }
 
                         Report report = ds.getValue(Report.class);
@@ -118,8 +127,16 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
                 adapter = new ReportCategoriesAdapter(AnimalReport.this, list , userList , phones);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
+
+                allbtn.setVisibility(View.VISIBLE);
+                findingbtn.setVisibility(View.VISIBLE);
+                missingbtn.setVisibility(View.VISIBLE);
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
+
+                    allbtn.setVisibility(View.GONE);
+                    findingbtn.setVisibility(View.GONE);
+                    missingbtn.setVisibility(View.GONE);
                 }
 
 
@@ -198,6 +215,12 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
              }
              break;
         }
+     if(newList.isEmpty()){
+         findViewById(R.id.noReports).setVisibility(View.VISIBLE);
+
+     }else{
+         findViewById(R.id.noReports).setVisibility(View.GONE);
+     }
      adapter.updateList(newList);
      recyclerView.scrollToPosition(adapter.getItemCount()-1);
 
