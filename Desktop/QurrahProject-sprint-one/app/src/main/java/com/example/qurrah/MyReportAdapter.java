@@ -72,8 +72,8 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         final Report report = reports.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         //holder.lostDate.setText(reports.get(position).getDate());
-//--------------------------------------handling date ------------------------------
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+        //--------------------------------------handling date ------------------------------
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
         if (reports.get(position).getDate().substring(0,10).equals(date.substring(0,10))){
             if (reports.get(position).getDate().substring(reports.get(position).getDate().length()-2).equalsIgnoreCase("pm"))
@@ -87,10 +87,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             int diff = Integer.parseInt(date.substring(8,10))-Integer.parseInt(reports.get(position).getDate().substring(8,10));
             if (diff>=1 && diff <=7){
                 // Toast.makeText(context,String.valueOf(diff),Toast.LENGTH_SHORT).show();
-                DateFormat format2= null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    format2 = new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
-                }
+                DateFormat format2=new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(new Date());
                 cal.add(Calendar.DATE, -diff);
@@ -136,64 +133,64 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
 
 
 
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
-                builder1.setMessage("سوف يتم حذف بلاغك، هل انت متأكد؟");
-                builder1.setCancelable(true);
-
-                builder1.setPositiveButton(
-                        "نعم",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                // dialog.cancel();
-
-                                databaseReferenceUserReport.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                            Report rep = snapshot.getValue(Report.class);
-                                            if (report.getDate() == rep.getDate()) {
-
-                                                databaseReferenceUserReport.child(snapshot.getKey()).removeValue();
-                                                reports.remove(position);
-                                                notifyDataSetChanged();
-                                            }
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                                Toast.makeText(context, "تم حذف بلاغك", Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        });
-
-                builder1.setNegativeButton(
-                        "إلغاء الامر",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert11 = builder1.create();
-
-                alert11.show();
-
-            }
-        });
+//        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//
+//                AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
+//                builder1.setMessage("سوف يتم حذف بلاغك، هل انت متأكد؟");
+//                builder1.setCancelable(true);
+//
+//                builder1.setPositiveButton(
+//                        "نعم",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//
+//                                // dialog.cancel();
+//
+//                                databaseReferenceUserReport.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//
+//                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                            Report rep = snapshot.getValue(Report.class);
+//                                            if (report.getDate() == rep.getDate()) {
+//
+//                                                databaseReferenceUserReport.child(snapshot.getKey()).removeValue();
+//                                                reports.remove(position);
+//                                                notifyDataSetChanged();
+//                                            }
+//
+//                                        }
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                    }
+//                                });
+//                                Toast.makeText(context, "تم حذف بلاغك", Toast.LENGTH_SHORT).show();
+//
+//                            }
+//
+//                        });
+//
+//                builder1.setNegativeButton(
+//                        "إلغاء الامر",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//
+//                AlertDialog alert11 = builder1.create();
+//
+//                alert11.show();
+//
+//            }
+//        });
 
         holder.status.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -390,8 +387,8 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
 
     }
 
-
 }
+
 
 
 

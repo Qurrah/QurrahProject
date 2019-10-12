@@ -92,6 +92,11 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
+
+        allbtn.setVisibility(View.GONE);
+        findingbtn.setVisibility(View.GONE);
+        missingbtn.setVisibility(View.GONE);
+
         list = new ArrayList<>();
         userList = new ArrayList<>();
         phones= new ArrayList<>();
@@ -109,6 +114,10 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
                         if(ds.getChildrenCount() > 0) {
                             findViewById(R.id.progressbar).setVisibility(View.GONE);
+
+                            allbtn.setVisibility(View.VISIBLE);
+                            findingbtn.setVisibility(View.VISIBLE);
+                            missingbtn.setVisibility(View.VISIBLE);
                         }
 
                         Report report = ds.getValue(Report.class);
@@ -122,8 +131,15 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
                 adapter = new ReportCategoriesAdapter(OtherReport.this, list , userList, phones);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
+                allbtn.setVisibility(View.VISIBLE);
+                findingbtn.setVisibility(View.VISIBLE);
+                missingbtn.setVisibility(View.VISIBLE);
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
+
+                    allbtn.setVisibility(View.GONE);
+                    findingbtn.setVisibility(View.GONE);
+                    missingbtn.setVisibility(View.GONE);
                 }
 
 
@@ -166,6 +182,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
             }
         }
         adapter.updateList(newList,userInput);
+
         return false;
     }
 //----------------------------------------------------------
@@ -194,8 +211,14 @@ public void SecondFilter(String flag){
             }
             break;
     }
-    adapter.updateList(newList);
+    if(newList.isEmpty()){
+        findViewById(R.id.noReports).setVisibility(View.VISIBLE);
 
+    }else{
+        findViewById(R.id.noReports).setVisibility(View.GONE);
+    }
+    adapter.updateList(newList);
+    recyclerView.scrollToPosition(adapter.getItemCount()-1);
 }
 //----------------------------------------------------------
 

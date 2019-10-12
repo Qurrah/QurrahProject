@@ -193,7 +193,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/lightGrey1"
+        app:backgroundTint="@color/lightGrey"
         app:fabAlignmentMode="center"
         app:fabCradleRoundedCornerRadius="40dp"
         app:fabCradleMargin="5dp"
