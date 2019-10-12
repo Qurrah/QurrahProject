@@ -19,13 +19,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
-        <activity android:name=".HumanReport" android:parentActivityName=".SecondActivity"></activity>
-        <activity android:name=".AnimalReport" android:parentActivityName=".SecondActivity"></activity>
-        <activity android:name=".DeviceReport" android:parentActivityName=".SecondActivity"></activity>
-        <activity android:name=".OtherReport" android:parentActivityName=".SecondActivity"></activity>
-        <activity android:name=".EditReportActivity" android:parentActivityName=".MyReport"/>
-        <activity android:name=".MyReportAdapter" />
-        <activity android:name=".MyReport" android:parentActivityName=".SecondActivity"/>
+        <activity android:name=".HumanReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".AnimalReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".DeviceReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".OtherReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".EditReportActivity" android:parentActivityName=".MyReport" android:screenOrientation="portrait"/>
+        <activity android:name=".MyReportAdapter" android:screenOrientation="portrait"/>
+        <activity android:name=".MyReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,37 +34,38 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".ForgotPasswordActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".FirstPage"
-            android:theme="@style/AppTheme1">
+            android:theme="@style/AppTheme1" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity" />
+        <activity android:name=".SecondActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".RegistrationActivity"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1"  android:screenOrientation="portrait"/>
         <activity
             android:name=".VerifyPhoneActivity"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1" android:screenOrientation="portrait"/>
         <activity android:name=".ProfileActivity" android:parentActivityName=".SecondActivity" />
         <activity android:name=".UpdateProfile" android:parentActivityName=".SecondActivity" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1" android:screenOrientation="portrait"/>
         <activity
             android:name=".ReportActivity"
             android:parentActivityName=".SecondActivity"
+            android:screenOrientation="portrait"
             />
-        <activity android:name=".UpdatePassword" android:parentActivityName=".SecondActivity"/>
+        <activity android:name=".UpdatePassword" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ViewReport"  />
-        <activity android:name=".RegisteredUserReportView" android:parentActivityName=".MyReport"/>
-        <activity android:name=".SecondPage" />
-        <activity android:name=".UnregisteredUserSecondActivity"  />
+        <activity android:name=".RegisteredUserReportView" android:parentActivityName=".MyReport" android:screenOrientation="portrait"/>
+        <activity android:name=".SecondPage" android:screenOrientation="portrait" />
+        <activity android:name=".UnregisteredUserSecondActivity"  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
