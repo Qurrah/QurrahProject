@@ -76,7 +76,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
         final String userName = users.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         //--------------------------------------handling date ------------------------------
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
         if (reports.get(position).getDate().substring(0,10).equals(date.substring(0,10))){
             if (reports.get(position).getDate().substring(reports.get(position).getDate().length()-2).equalsIgnoreCase("pm"))

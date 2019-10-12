@@ -73,7 +73,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         //holder.lostDate.setText(reports.get(position).getDate());
         //--------------------------------------handling date ------------------------------
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
         if (reports.get(position).getDate().substring(0,10).equals(date.substring(0,10))){
             if (reports.get(position).getDate().substring(reports.get(position).getDate().length()-2).equalsIgnoreCase("pm"))

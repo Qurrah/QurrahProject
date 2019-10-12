@@ -45,6 +45,7 @@ import static android.text.TextUtils.isEmpty;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -409,7 +410,7 @@ public class ReportActivity extends AppCompatActivity {
         report.setCategoryOption(radioValue);
         report.setReportTypeOption(ReportType);
         report.setReportStatus("نشط");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
         report.setDate(date);
         if (link == null) {
