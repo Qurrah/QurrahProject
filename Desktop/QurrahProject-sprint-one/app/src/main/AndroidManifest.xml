@@ -61,10 +61,10 @@
             android:parentActivityName=".SecondActivity"
             />
         <activity android:name=".UpdatePassword" android:parentActivityName=".SecondActivity"/>
-        <activity android:name=".ViewReport" />
-        <activity android:name=".RegisteredUserReportView" />
+        <activity android:name=".ViewReport"  />
+        <activity android:name=".RegisteredUserReportView" android:parentActivityName=".MyReport"/>
         <activity android:name=".SecondPage" />
-        <activity android:name=".UnregisteredUserSecondActivity" />
+        <activity android:name=".UnregisteredUserSecondActivity"  />
     </application>
 
 </manifest>
