@@ -49,9 +49,9 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
         userID = mAuth.getUid();
         noReports = findViewById(R.id.noReports);
         noReports.setText("لا يوجد بلاغات منشورة");
+
         // second filter
         allbtn=(Button) findViewById(R.id.all);
-        allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
         allbtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));

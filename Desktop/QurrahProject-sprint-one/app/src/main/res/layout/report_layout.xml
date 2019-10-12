@@ -29,31 +29,48 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@android:dimen/app_icon_size">
 
-            <Button
-                android:id="@+id/missing"
-                android:layout_width="103dp"
+            <TableRow
+                android:id="@+id/toolbar"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal"
-                android:text="المفقودات"
-                tools:ignore="MissingConstraints" />
+                android:layout_margin="0dp"
+                android:padding="0dp">
 
-            <Button
-                android:id="@+id/finding"
-                android:layout_width="103dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="المعثورات"
-                tools:ignore="MissingConstraints" />
+                <Button
+                    android:id="@+id/missing"
+                    android:layout_width="103dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center_horizontal"
+                    android:text="المفقودات"
+                    android:layout_weight="0.2"
+                    android:background="@color/lightGrey1"
+                    android:layout_marginRight="-4.5dp"
+                    android:layout_marginLeft="-4.5dp"/>
 
-            <Button
-                android:id="@+id/all"
-                android:layout_width="105dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal"
-                android:text="الكل"
-                tools:ignore="MissingConstraints" />
+                <Button
+                    android:id="@+id/finding"
+                    android:layout_width="103dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="المعثورات"
+                    android:background="@color/lightGrey1"
+                    android:layout_weight="0.2"
+                    android:layout_marginRight="-4.5dp"
+                    android:layout_marginLeft="-4.5dp"/>
+
+                <Button
+                    android:id="@+id/all"
+                    android:layout_width="105dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center_horizontal"
+                    android:text="الكل"
+                    android:background="@color/darkGrey"
+                    android:layout_weight="0.2"
+                    android:layout_marginRight="-4.5dp"
+                    android:layout_marginLeft="-4.5dp"/>
+            </TableRow>
 
 
         </LinearLayout>
