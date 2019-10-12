@@ -203,6 +203,7 @@ public class MyReport extends AppCompatActivity {
                             adapter.updateList(newList);
 
                             final Snackbar snackBar = Snackbar.make(recyclerView, deletedReport.getLostTitle(), Snackbar.LENGTH_LONG);
+                            snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
                             snackBar.setAction("تراجع", new View.OnClickListener() {
 
                                 @Override
