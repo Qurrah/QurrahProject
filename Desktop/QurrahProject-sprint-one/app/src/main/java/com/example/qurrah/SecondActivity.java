@@ -85,7 +85,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         String userId=firebaseAuth.getCurrentUser().getUid();
-        databaseReference = firebaseDatabase.getReference().child("users").child(userId);
+        databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

@@ -161,7 +161,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         String userID = mAuth.getCurrentUser().getUid();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 //        DatabaseReference myRef = firebaseDatabase.getReference(mAuth.getUid());
-        DatabaseReference myRef = firebaseDatabase.getReference().child("users").child(userID);
+        DatabaseReference myRef = firebaseDatabase.getReference().child("Users").child(userID);
         UserProfile userProfile = new UserProfile( userID, email, name, phoneNumberWithCode);
         myRef.setValue(userProfile);}
         catch (Exception e){}
