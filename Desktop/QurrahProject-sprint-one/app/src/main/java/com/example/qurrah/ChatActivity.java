@@ -52,7 +52,7 @@ import java.util.concurrent.Executor;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity {
-
+String raghad;
     CircleImageView profile_image;
     TextView username;
 
