@@ -35,7 +35,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
     ArrayList<Report> list;
     ArrayList<String> userList, phones , id;
     ReportCategoriesAdapter adapter;
-    TextView noReports;
+    TextView noReports,noMatchReports;
     Button allbtn,missingbtn, findingbtn;
 
 
@@ -51,6 +51,8 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
         userID = mAuth.getUid();
         noReports = findViewById(R.id.noReports);
         noReports.setText("لا يوجد بلاغات منشورة");
+        noMatchReports = findViewById(R.id.noMatchReports);
+        noMatchReports.setText("لا يوجد نتائج ");
         // second filter
         allbtn=(Button) findViewById(R.id.all);
         allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
@@ -186,9 +188,16 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
         for(Report rep: list){
             if(rep.getLostTitle().toLowerCase().contains(userInput)){
                 newList.add(rep);
+                findViewById(R.id.noMatchReports).setVisibility(View.GONE);
+
+
+            }
+            else{
+                findViewById(R.id.noMatchReports).setVisibility(View.VISIBLE);
             }
         }
         adapter.updateList(newList,userInput);
+
         return false;
     }
 //----------------------------------------------------------

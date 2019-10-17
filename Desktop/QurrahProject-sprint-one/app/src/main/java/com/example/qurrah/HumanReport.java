@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class HumanReport extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     DatabaseReference reference;
-    TextView noReports;
+    TextView noReports,noMatchReports;
     FirebaseAuth mAuth;
     String userID;
     RecyclerView recyclerView;
@@ -51,6 +51,8 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
         userID = mAuth.getUid();
         noReports = findViewById(R.id.noReports);
         noReports.setText("لا يوجد بلاغات منشورة");
+        noMatchReports = findViewById(R.id.noMatchReports);
+        noMatchReports.setText("لا يوجد نتائج ");
         // second filter
         allbtn=(Button) findViewById(R.id.all);
         allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
@@ -192,6 +194,10 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
         for(Report rep: list){
             if(rep.getLostTitle().toLowerCase().contains(userInput)){
                 newList.add(rep);
+                findViewById(R.id.noMatchReports).setVisibility(View.GONE);
+            }
+            else{
+                findViewById(R.id.noMatchReports).setVisibility(View.VISIBLE);
             }
         }
         adapter.updateList(newList,userInput);
