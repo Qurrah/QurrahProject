@@ -22,6 +22,8 @@ public class UpdatePassword extends AppCompatActivity {
     private EditText newPassword;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
+    String userPasswordNew;
+    Boolean result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,8 @@ public class UpdatePassword extends AppCompatActivity {
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 //------------------------------------------------
         Button update = findViewById(R.id.UpdatePassword);
-        newPassword = findViewById(R.id.NewPassword);
+        newPassword = (EditText)findViewById(R.id.NewPassword);
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -42,8 +45,7 @@ public class UpdatePassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String userPasswordNew = newPassword.getText().toString();
-
+            if(validate()){
                 firebaseUser.updatePassword(userPasswordNew).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -55,7 +57,8 @@ public class UpdatePassword extends AppCompatActivity {
                         }
                     }
                 });
-            }
+            }}
+
         });
 
 
@@ -69,5 +72,23 @@ public class UpdatePassword extends AppCompatActivity {
                 onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+    private Boolean validate(){
+
+        userPasswordNew = newPassword.getText().toString();
+        result = false;
+        if (userPasswordNew.isEmpty()) {
+            newPassword.setError("الرجاء ادخال كلمة المرور");
+            newPassword.requestFocus();
+        }
+
+        else if (userPasswordNew.length() < 6) {
+            newPassword.setError("أدخل كلمة مرور من 6 خانات أو اكثر");
+            newPassword.requestFocus();
+        }
+        else{
+            result=true;
+        }
+        return result;
     }
 }
