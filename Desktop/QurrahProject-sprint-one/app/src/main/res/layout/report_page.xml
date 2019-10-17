@@ -47,8 +47,8 @@
 
     <TextView
         android:id="@+id/reportUsername"
-        android:layout_width="165dp"
-        android:layout_height="37dp"
+        android:layout_width="167dp"
+        android:layout_height="46dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="72dp"
 
@@ -67,10 +67,10 @@
         android:background="@drawable/whatsapp"
         app:layout_constraintBottom_toTopOf="@+id/reportLoc"
         app:layout_constraintEnd_toStartOf="@+id/reportUsername"
-        app:layout_constraintHorizontal_bias="0.874"
+        app:layout_constraintHorizontal_bias="0.923"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reportDes"
-        app:layout_constraintVertical_bias="0.272"
+        app:layout_constraintVertical_bias="0.075"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -81,11 +81,25 @@
         android:background="@color/colorPrimaryDark"
         android:text="\n\nالموقع"
         android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        android:textColor="@color/white"/>
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/chatting"
+        android:layout_width="62dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="223dp"
+        android:layout_marginBottom="77dp"
+        android:text="محادثة"
+        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
+        app:layout_constraintEnd_toStartOf="@+id/whatsapp"
+        app:layout_constraintHorizontal_bias="0.808"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reportImg"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

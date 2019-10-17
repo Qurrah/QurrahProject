@@ -3,6 +3,7 @@ package com.example.qurrah;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,13 +47,15 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
     ArrayList<Report> reports;
     ArrayList<String> users;
     ArrayList<String> phones;
+    ArrayList<String> Id;
     String searchString = "";
     String date1, date2;
 
 
 
-    public ReportCategoriesAdapter(Context context, ArrayList<Report> reports , ArrayList<String> users , ArrayList<String> phones) {
+    public ReportCategoriesAdapter(Context context, ArrayList<Report> reports , ArrayList<String> users , ArrayList<String> phones, ArrayList<String> Id) {
 
+        this.Id=Id;
         this.users = users;
         this.context = context;
         this.reports = reports;
@@ -70,10 +74,12 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Report report = reports.get(position);
         final String userName = users.get(position);
+        final String id = Id.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         //--------------------------------------handling date ------------------------------
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
@@ -119,6 +125,8 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
                 intent.putExtra("Description", report.getLostDescription());
                 intent.putExtra("UserName", userName);
                 intent.putExtra("WhatsApp" , No);
+                intent.putExtra("chatting" , id);
+
 
                 context.startActivity(intent);
             }

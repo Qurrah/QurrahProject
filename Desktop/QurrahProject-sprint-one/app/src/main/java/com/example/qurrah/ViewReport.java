@@ -31,7 +31,7 @@ private TextView title , description , name ;
 private ImageView photo;
 private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
 private String reportImg;
-private Button whatsapp ;
+private Button whatsapp , chatting;
 private FirebaseAuth firebaseAuth ;
 private FirebaseDatabase firebaseDatabase;
 private DatabaseReference reference;
@@ -50,6 +50,7 @@ private String uid , userID;
 
         uid ="First";
         firebaseAuth = FirebaseAuth.getInstance();
+        userID = firebaseAuth.getCurrentUser().getUid();
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference().child("Users");
 
@@ -58,6 +59,8 @@ private String uid , userID;
         photo = findViewById(R.id.reportImg);
         name = findViewById(R.id.reportUsername);
         whatsapp = findViewById(R.id.whatsapp);
+        chatting = findViewById(R.id.chatting);
+
 
 
         reporTitle =getIntent().getStringExtra("Title");
@@ -94,6 +97,15 @@ private String uid , userID;
                     Toast.makeText(ViewReport.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                             .show();
                 }
+            }
+        });
+
+        chatting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewReport.this, MessageActivity.class);
+                intent.putExtra("userid", userID);
+                startActivity(intent);
             }
         });
 

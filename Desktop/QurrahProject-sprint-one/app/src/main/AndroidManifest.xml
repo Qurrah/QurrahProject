@@ -76,5 +76,6 @@ package="com.example.qurrah">
         </intent-filter>
     </service>
 </application>
+    
 
 </manifest>

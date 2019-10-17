@@ -23,13 +23,9 @@ class MyFirebaseIdService extends FirebaseMessagingService {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (firebaseUser != null){
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener((Executor) this,new OnSuccessListener<InstanceIdResult>() {
-                @Override
-                public void onSuccess(InstanceIdResult instanceIdResult) {
-                    String newToken = instanceIdResult.getToken();
+            String newToken =FirebaseInstanceId.getInstance().getToken();
+
                     updateToken(newToken);
-                }
-            });
         }
     }
 

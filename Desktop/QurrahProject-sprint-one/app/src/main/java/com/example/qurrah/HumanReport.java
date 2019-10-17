@@ -34,7 +34,7 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
     String userID;
     RecyclerView recyclerView;
     ArrayList<Report> list;
-    ArrayList<String> userList , phones;
+    ArrayList<String> userList, phones , id;
     ReportCategoriesAdapter adapter;
     Button allbtn,missingbtn, findingbtn;
 
@@ -98,6 +98,8 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
         list = new ArrayList<>();
         userList = new ArrayList<>();
         phones = new ArrayList<>();
+        id= new ArrayList<>();
+
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -105,10 +107,14 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
                 list.clear();
                 userList.clear();
                 phones.clear();
+                id.clear();
+
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     UserProfile userProfile = snapshot.getValue(UserProfile.class);
                     String userName = userProfile.getUserName();
                     String No = userProfile.getPhone();
+                    String Id = userProfile.getId();
+
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
                         if(ds.getChildrenCount() > 0) {
                             findViewById(R.id.progressbar).setVisibility(View.GONE);
@@ -124,6 +130,8 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
                             list.add(report);
                             userList.add(userName);
                             phones.add(No);
+                            id.add(Id);
+
                         }
                     }
                 }
@@ -132,7 +140,7 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
 
 
 
-                adapter = new ReportCategoriesAdapter(HumanReport.this, list, userList, phones);
+                adapter = new ReportCategoriesAdapter(HumanReport.this, list, userList, phones,id);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
 

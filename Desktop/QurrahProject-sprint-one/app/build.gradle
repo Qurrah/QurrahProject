@@ -60,6 +60,8 @@ dependencies {
 
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+
 
 
 }

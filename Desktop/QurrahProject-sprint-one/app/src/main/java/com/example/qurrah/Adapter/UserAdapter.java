@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.example.qurrah.MessageActivity;
 import com.example.qurrah.Model.Chat;
 import com.example.qurrah.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         if (user.getImageURL().equals("default")){
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
         } else {
-            Glide.with(mContext).load(user.getImageURL()).into(holder.profile_image);
+            Picasso.get().load(user.getImageURL()).into(holder.profile_image);
+            //Glide.with(mContext).load(user.getImageURL()).into(holder.profile_image);
         }
 
         if (ischat){
