@@ -125,7 +125,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
                 intent.putExtra("Description", report.getLostDescription());
                 intent.putExtra("UserName", userName);
                 intent.putExtra("WhatsApp" , No);
-                intent.putExtra("chatting" , id);
+                intent.putExtra("userid" , id);
 
 
                 context.startActivity(intent);

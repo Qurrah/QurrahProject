@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "79594864305-3v54jcu7tik7vklkg6qhmu15s9r42itd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qurrah",
+            "certificate_hash": "79054dceef638590c6ab025315ddfa78ccb45843"
+          }
+        },
+        {
+          "client_id": "79594864305-r6krejadn398k74fqso76b7g47id2k5c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qurrah",
+            "certificate_hash": "08c86a0759228c0953b9e4e09ce710fff86b0f4a"
+          }
+        },
+        {
           "client_id": "79594864305-d1sh4rpo3hpg3n5quiuvu156fcfnn5ni.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -40,6 +56,35 @@
         "mobilesdk_app_id": "1:79594864305:android:44f5f9112726eaf52e6c90",
         "android_client_info": {
           "package_name": "com.example.qurrahtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "79594864305-d1sh4rpo3hpg3n5quiuvu156fcfnn5ni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPfz7pDa2O7prU1VqKvBrAhug1JOPu_5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "79594864305-d1sh4rpo3hpg3n5quiuvu156fcfnn5ni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79594864305:android:88e91c01833622d42e6c90",
+        "android_client_info": {
+          "package_name": "com.koddev.chatapp"
         }
       },
       "oauth_client": [
