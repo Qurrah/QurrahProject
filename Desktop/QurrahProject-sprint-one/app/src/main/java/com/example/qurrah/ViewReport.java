@@ -50,9 +50,7 @@ private String uid , userID;
 
         uid ="First";
         firebaseAuth = FirebaseAuth.getInstance();
-       // userID = firebaseAuth.getCurrentUser().getUid();
         userID = getIntent().getStringExtra("userid");
-        Toast.makeText(getApplicationContext(),userID,Toast.LENGTH_SHORT).show();
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference().child("Users");
 
