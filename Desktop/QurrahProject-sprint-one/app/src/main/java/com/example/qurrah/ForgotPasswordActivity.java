@@ -93,7 +93,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 update.setEnabled(true);
                                 update.setText("إعادة تعيين كلمة المرور");
                                 progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(ForgotPasswordActivity.this, "حدث خطأ اثناء محاولة الارسال ، الرجاء ادخال البريد الالكتروني الخاص بحسابك", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ForgotPasswordActivity.this, "حدث خطأ اثناء محاولة الارسال ، الرجاء ادخال البريد الالكتروني الصحيح الخاص بحسابك", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
