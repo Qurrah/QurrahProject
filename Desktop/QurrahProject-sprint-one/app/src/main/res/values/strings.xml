@@ -21,13 +21,16 @@
     <string name="changeImg">تغيير الصورة</string>
     <string name="edit">تعديل</string>
     <string name="delete">حذف</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="LostCategory">
         <item>@string/human</item>
         <item>@string/animal</item>
         <item>@string/devices</item>
         <item>@string/other</item>
     </string-array>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
 </resources>
