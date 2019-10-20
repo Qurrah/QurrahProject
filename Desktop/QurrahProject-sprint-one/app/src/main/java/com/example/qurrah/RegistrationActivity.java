@@ -247,7 +247,7 @@ public class RegistrationActivity extends AppCompatActivity {
             phone.requestFocus();
             return false;
         }
-        else if (phoneN.length() != 9) {
+        else if (phoneN.length() != 9 | phoneN.charAt(0)!= '5') {
             phone.setError("الرقم غير صحيح، الرجاء ادخال الصيغة الصحيحة");
             phone.requestFocus();
             return false;
