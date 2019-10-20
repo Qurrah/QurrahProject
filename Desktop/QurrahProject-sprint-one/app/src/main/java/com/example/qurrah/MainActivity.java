@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Email = userِEmail.getText().toString().trim();
-                if (validateEmail(Email) && !Password.getText().toString().isEmpty()){
+                if (validateE(Email) && !Password.getText().toString().isEmpty()){
                     Login.setEnabled(true);
                     Login.setAlpha(1f);
                 }else {
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 password = Password.getText().toString().trim();
-                if (validatePassword(password) && !userِEmail.getText().toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(userِEmail.getText().toString().trim()).matches()){
+                if (validateP(password) && !userِEmail.getText().toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(userِEmail.getText().toString().trim()).matches()){
                     Login.setEnabled(true);
                     Login.setAlpha(1f);
                 }else {
@@ -214,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
     private boolean validatePassword(String password){
         if (password.isEmpty()) {
             Password.setError("الرجاء ادخال كلمة المرور");
@@ -222,6 +224,32 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
+
+    // Added these to set errors messages only when login button is clicked
+    private boolean validateE(String email){
+        if (email.isEmpty()) {
+            return false;
+        }
+
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return false;
+        }
+        return true;
+    }
+    private boolean validateP(String password){
+        if (password.isEmpty())
+            return false;
+
+        return true;
+    }
+
+
+
+
+
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
