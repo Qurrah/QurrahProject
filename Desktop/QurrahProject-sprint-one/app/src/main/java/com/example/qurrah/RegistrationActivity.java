@@ -126,7 +126,7 @@ public class RegistrationActivity extends AppCompatActivity {
             phone.requestFocus();
         }
 
-        else if (phoneN.length() != 9 ) {
+        else if (phoneN.length() != 9) {
             phone.setError("الرقم غير صحيح، الرجاء ادخال الصيغة الصحيحة");
             phone.requestFocus();
         }
