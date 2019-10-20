@@ -551,7 +551,7 @@ public class RegistrationActivity extends AppCompatActivity {
             Intent intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
 //                intent.putExtra("phonenumber", phoneNumber);
             Bundle extras = new Bundle();
-            extras.putString("phonenumber",phoneNumber);
+            extras.putString("phonenumber",phoneN);
 //                extras.putString("age",age);
             extras.putString("email",email);
             extras.putString("name",name);
