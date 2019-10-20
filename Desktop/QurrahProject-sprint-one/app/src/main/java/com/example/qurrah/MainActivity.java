@@ -233,9 +233,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
-        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            return false;
-        }
+//        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//            return false;
+//        }
         return true;
     }
     private boolean validateP(String password){

@@ -46,15 +46,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
 //        spinner = findViewById(R.id.spinnerCountries);
 //        spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, CountryCode.countryNames));
-//        name = userName.getText().toString();
-//        password = userPassword.getText().toString().trim();
-//        email = userEmail.getText().toString().trim();
-////            age = userAge.getText().toString();
-//        phoneNumber = phone.getText().toString().trim();
-//        phoneN = phone.getText().toString().trim();
+        name = userName.getText().toString().trim();
+        password = userPassword.getText().toString().trim();
+        email = userEmail.getText().toString().trim();
+//            age = userAge.getText().toString();
+        phoneNumber = phone.getText().toString().trim();
+        phoneN = phone.getText().toString().trim();
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
+        regButton.setEnabled(false);
+        regButton.setAlpha(0.6f);
 
         userName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -70,7 +71,14 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 name = userName.getText().toString().trim();
+                if (validateN()){
 
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
 
             }
         });
@@ -91,7 +99,13 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 email = userEmail.getText().toString().trim();
-
+                if (validateN()){
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
 
             }
         });
@@ -111,7 +125,13 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 password = userPassword.getText().toString().trim();
-
+                if (validateN()){
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
 
             }
         });
@@ -131,7 +151,13 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 phoneN = phone.getText().toString().trim();
-
+                if (validateN()){
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
 
             }
         });
@@ -145,7 +171,7 @@ public class RegistrationActivity extends AppCompatActivity {
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+//                regButton.setEnabled(false);
 //                if(validate()){
                     //Upload data to the database
 
@@ -228,7 +254,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         else if (password.length() < 7) {
-            userPassword.setError("أدخل كلمة مرور من 6 خانات أو اكثر");
+            userPassword.setError("أدخل كلمة مرور من 7 خانات أو اكثر");
             userPassword.requestFocus();
             return false;
         }
@@ -266,8 +292,88 @@ public class RegistrationActivity extends AppCompatActivity {
         return false;
     }
             else
+        policyCheck.setError(null);
                 return true;
         }
+
+
+
+
+
+
+
+    private boolean validateN(){
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || phoneN.isEmpty()) {
+            return false;
+//            email.isEmpty() || password.isEmpty() || phoneN.isEmpty() || !(policyCheck.isChecked())
+        }
+//        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//            return false;
+//        }
+        return true;
+    }
+
+
+//
+//    private boolean validateE(){
+//        if (email.isEmpty()) {
+//            return false;
+////            email.isEmpty() || password.isEmpty() || phoneN.isEmpty() || !(policyCheck.isChecked())
+//        }
+//        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//
+//
+//    private boolean validateP(){
+//        if (password.isEmpty()) {
+//            return false;
+////            email.isEmpty() || password.isEmpty() || phoneN.isEmpty() || !(policyCheck.isChecked())
+//        }
+////        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+////            return false;
+////        }
+//        return true;
+//    }
+//
+//    private boolean validatePh(){
+//        if (phoneN.isEmpty()) {
+//            return false;
+////            email.isEmpty() || password.isEmpty() || phoneN.isEmpty() || !(policyCheck.isChecked())
+//        }
+////        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+////            return false;
+////        }
+//        return true;
+//    }
+//
+//    private boolean validatePo(){
+//        if (!(policyCheck.isChecked())) {
+//            return false;
+////            email.isEmpty() || password.isEmpty() || phoneN.isEmpty() || )
+//        }
+////        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+////            return false;
+////        }
+//        return true;
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
