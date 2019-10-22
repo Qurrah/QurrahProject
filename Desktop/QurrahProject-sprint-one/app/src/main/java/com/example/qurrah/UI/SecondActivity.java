@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +22,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.UI.ReportTypes.AnimalReport;
 import com.example.qurrah.UI.ReportTypes.DeviceReport;
@@ -39,7 +40,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Repo;
 
+
+import java.util.ArrayList;
 
 import static com.example.qurrah.Constants.ERROR_DIALOG_REQUEST;
 
@@ -50,11 +54,16 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     private FloatingActionButton fab;
     CardView people_card,animal_card,device_card,other_card;
     BottomAppBar bottomAppBar;
-    TextView username;
+    TextView username , test;
     private FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference , reference;
     private boolean mLocationPermissionGranted = false;
     private static final String TAG = "SecondActivity";
+//    ArrayList<String> LatitudeList;
+//    ArrayList<String> LongitudeList;
+    ArrayList<Report> reportsList;  // array of reports that contain a location
+    String lat ;
+    ArrayList<String> userList, phones;
 
 
     @Override
@@ -67,6 +76,10 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         username = (TextView) header.findViewById(R.id.Username);
+
+        reportsList = new ArrayList<>();
+        userList = new ArrayList<>();
+        phones = new ArrayList<>();
 //---------------------------------------------------
 
         NavigationView mNavigationView =findViewById(R.id.nav_view);
@@ -95,13 +108,39 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         String userId=firebaseAuth.getCurrentUser().getUid();
-        databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
+        databaseReference = firebaseDatabase.getReference().child("Users");   //.child(userId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                 username.setText(userProfile.getUserName());
+
+                reportsList.clear();
+                userList.clear();
+                phones.clear();
+
+
+
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String userName = userInfo.getUserName();
+                    String No = userInfo.getPhone();
+
+
+                    for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
+//                        if(ds.getChildrenCount() > 0) {
+                            Report report = ds.getValue(Report.class);
+                            if(!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")){
+                            reportsList.add(report);
+                                userList.add(userName);
+                                phones.add(No);
+                            }
+//                        }
+                    }
+                }
+
+
             }
 
             @Override
@@ -138,9 +177,21 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                     case R.id.map:{
                         if(isServicesOK()){
                             Intent intent = new Intent(SecondActivity.this, MapActivity.class);
+                            intent.putStringArrayListExtra("userList" , userList);
+                            intent.putStringArrayListExtra("phoneNumbers" , phones);
+                            intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
                             startActivity(intent);
+                            //             intent.putStringArrayListExtra("Lat", LatitudeList);
+//                            intent.putStringArrayListExtra("Long",LongitudeList);
                         }
 
+                    break;
+                }
+
+                    case R.id.chats:{
+                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                         break;
                     }
 //
@@ -184,6 +235,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         switch(v.getId()){
             case R.id.people_card:
+//                test.setText(reportsList.get(0).getLatitude());
                 startActivity(new Intent(this, HumanReport.class));
                 break;
             case R.id.animal_card:

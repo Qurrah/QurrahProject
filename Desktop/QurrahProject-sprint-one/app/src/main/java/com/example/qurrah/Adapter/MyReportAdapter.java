@@ -71,6 +71,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Report report = reports.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
+        holder.address.setText(reports.get(position).getAddress());
         //holder.lostDate.setText(reports.get(position).getDate());
         //--------------------------------------handling date ------------------------------
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
@@ -239,11 +240,9 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
 
                 builder1.setNegativeButton(
                         "إلغاء الامر",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                holder.status.setChecked(true);
-                                dialog.cancel();
-                            }
+                        (dialog, id) -> {
+                            holder.status.setChecked(true);
+                            dialog.cancel();
                         });
 
                 AlertDialog alert11 = builder1.create();
@@ -257,19 +256,19 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
 
 
 
-        holder.linear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.linear.setOnClickListener(view -> {
 
-                Intent intent = new Intent(context, RegisteredUserReportView.class);
+            Intent intent = new Intent(context, RegisteredUserReportView.class);
 //                    intent.putExtra("Report", (Parcelable) reports.get(position));
-                intent.putExtra("Image", report.getPhoto());
-                intent.putExtra("Title", report.getLostTitle());
-                intent.putExtra("Description", report.getLostDescription());
-                intent.putExtra("report", report);
+            intent.putExtra("Image", report.getPhoto());
+            intent.putExtra("Title", report.getLostTitle());
+            intent.putExtra("Description", report.getLostDescription());
+            intent.putExtra("report", report);
+            intent.putExtra("lat", report.getLatitude());
+            intent.putExtra("lon", report.getLongitude());
 
-                context.startActivity(intent);
-            }
+
+            context.startActivity(intent);
         });
 
 
@@ -365,6 +364,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         ProgressBar progressBar;
         Switch status;
         LinearLayout linear;
+        TextView address;
 
 
         public ViewHolder(View itemView) {
@@ -377,6 +377,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             deleteButton = itemView.findViewById(R.id.delete);
             updateButton = itemView.findViewById(R.id.update);
             linear = itemView.findViewById(R.id.linearLayout);
+            address = itemView.findViewById(R.id.address);
         }
     }
     public void updateList(ArrayList<Report> newList) {
