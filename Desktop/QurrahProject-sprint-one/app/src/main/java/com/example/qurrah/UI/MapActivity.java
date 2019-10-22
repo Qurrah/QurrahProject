@@ -118,7 +118,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("Description", reportsList.get(i).getLostDescription());
                 intent.putExtra("UserName", userList.get(i));
                 intent.putExtra("WhatsApp", phones.get(i));
-               startActivity(intent);
+                intent.putExtra("lat",reportsList.get(i).getLatitude());
+                intent.putExtra("lon",reportsList.get(i).getLongitude());
+                startActivity(intent);
             }
 //                intent.putExtra("userid" , id);
 

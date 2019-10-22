@@ -108,12 +108,12 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         String userId=firebaseAuth.getCurrentUser().getUid();
-        databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
+        databaseReference = firebaseDatabase.getReference().child("Users");   //.child(userId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                 username.setText(userProfile.getUserName());
 
                 reportsList.clear();
