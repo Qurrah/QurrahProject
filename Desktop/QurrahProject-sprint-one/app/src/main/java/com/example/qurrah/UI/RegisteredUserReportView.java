@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
+import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
+import com.example.qurrah.Kotlin.PickLocationActivity;
 import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,6 +56,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
+import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
+
 public class RegisteredUserReportView extends AppCompatActivity implements OnMapReadyCallback {
 
     private TextView title, description;
@@ -73,6 +77,11 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     String userID, date, des ,latitude, longitude;
     Report report;
     Editable titleText, desc;
+    LinearLayout placePicker;
+    String address;
+    TextView tvaddress;
+    ImageView imageViewAddress;
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -98,8 +107,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
-
+        placePicker = findViewById(R.id.pickPlace);
         title = findViewById(R.id.reportTitle);
         description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
@@ -136,68 +144,64 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
             builder1.setPositiveButton(
                     "نعم",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
+                    (dialog, id) -> {
 
-                            // dialog.cancel();
-                            date = report.getDate();
-                            des = report.getLostDescription();
-
-
-                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // dialog.cancel();
+                        date = report.getDate();
+                        des = report.getLostDescription();
 
 
-                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                        Report rep = snapshot.getValue(Report.class);
-
-                                        if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
-                                            if (filePath != null) {
-                                                final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
-                                                progressDialog.setTitle("يتم الان تعديل بلاغك...");
-                                                progressDialog.show();
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                                                storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    Report rep = snapshot.getValue(Report.class);
 
-                                                storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                                                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                            @Override
-                                                            public void onSuccess(Uri uri) {
-                                                                saveToDatabase(uri.toString());
+                                    if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
+                                        if (filePath != null) {
+                                            final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
+                                            progressDialog.setTitle("يتم الان تعديل بلاغك...");
+                                            progressDialog.show();
 
-                                                                progressDialog.dismiss();
-                                                            }
-                                                        });
-                                                    }
-                                                });
 
-                                            } else {
-                                                saveToDatabase(null);
-                                            }
-                                            ref.child(snapshot.getKey()).removeValue();
+                                            storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
 
+                                            storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                                                    storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                        @Override
+                                                        public void onSuccess(Uri uri) {
+                                                            saveToDatabase(uri.toString());
+
+                                                            progressDialog.dismiss();
+                                                        }
+                                                    });
+                                                }
+                                            });
+
+                                        } else {
+                                            saveToDatabase(null);
                                         }
+                                        ref.child(snapshot.getKey()).removeValue();
+
+                                    }
 //                                            else
 //                                                Toast.makeText(RegisteredUserReportView.this, "لم يتم حفظ البلاغ بنجاح", Toast.LENGTH_SHORT).show();
 
-                                    }
-
                                 }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
 
-                                }
-                            });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
 //                                Toast.makeText(RegisteredUserReportView.this, "تم حفظ بلاغك", Toast.LENGTH_SHORT).show();
-                            save.setVisibility(View.INVISIBLE);
-
-                        }
-
+                        save.setVisibility(View.INVISIBLE);
 
                     });
 
@@ -230,6 +234,8 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         titleEdit = view.findViewById(R.id.title_edit);
         descriptionEdit = view.findViewById(R.id.description_edit);
         img = view.findViewById(R.id.img);
+        tvaddress = view.findViewById(R.id.address);
+        imageViewAddress = view.findViewById(R.id.imageAddress);
 
 
         if (filePath == null) {
@@ -251,23 +257,21 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
 
 
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                titleText = titleEdit.getText();
-                desc = descriptionEdit.getText();
 
-                title.setText(titleText);
-                description.setText(desc);
+        confirm.setOnClickListener(view12 -> {
+            titleText = titleEdit.getText();
+            desc = descriptionEdit.getText();
 
-                sFlag = true;
-                photo.setImageURI(filePath);
-                previousImg = filePath;
-                dialog.cancel();
-                save.setVisibility(View.VISIBLE);
-                textFlag = false;
+            title.setText(titleText);
+            description.setText(desc);
 
-            }
+            sFlag = true;
+            photo.setImageURI(filePath);
+            previousImg = filePath;
+            dialog.cancel();
+            save.setVisibility(View.VISIBLE);
+            textFlag = false;
+
         });
 
 
@@ -280,6 +284,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         dialog = new AlertDialog.Builder(this).setView(view).create();
         dialog.show();
 
+    }
+    public void pickPlace(View view) {
+        startActivityForResult(new Intent(getApplicationContext(), PickLocationActivity.class), REQUEST_PLACE_PICKER_CODE);
     }
 
 
@@ -304,6 +311,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        findViewById(R.id.TextViewImageChange).setVisibility(View.VISIBLE);
+//        findViewById(R.id.TextViewImage).setVisibility(View.GONE);
+//        findViewById(R.id.img).setVisibility(View.VISIBLE);
         if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             img.setImageURI(filePath);
@@ -311,7 +321,24 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
         } else {
             if (filePath != null || sFlag) {
-                photo.setImageURI(filePath);
+                img.setImageURI(filePath);
+            } else {
+//                findViewById(R.id.TextViewImage).setVisibility(View.VISIBLE);
+//                findViewById(R.id.img).setVisibility(View.GONE);
+//                findViewById(R.id.TextViewImageChange).setVisibility(View.GONE);
+            }
+        }
+        if (requestCode == REQUEST_PLACE_PICKER_CODE) {
+            if (resultCode == RESULT_OK) {
+
+                // Get String data from Intent
+                latitude = data.getStringExtra("Latitude");
+                longitude = data.getStringExtra("Longitude");
+                address = data.getStringExtra("Address");
+                tvaddress.setText(address.trim().replaceAll(" +", " "));
+                imageViewAddress.setBackground(getResources().getDrawable(R.drawable.ic_location));
+
+
             }
         }
     }
@@ -348,11 +375,3 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
 
 }
-
-
-
-
-
-
-
-
