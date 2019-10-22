@@ -26,6 +26,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +46,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
-public class RegisteredUserReportView extends AppCompatActivity {
+public class RegisteredUserReportView extends AppCompatActivity implements OnMapReadyCallback {
 
     private TextView title, description;
     private ImageView photo, img;
@@ -56,11 +62,21 @@ public class RegisteredUserReportView extends AppCompatActivity {
     DatabaseReference ref;
     FirebaseStorage storage;
     StorageReference storageReference, storageRef;
-    String userID, date, des;
+    String userID, date, des ,latitude, longitude;
     Report report;
     Editable titleText, desc;
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        // Add a marker in a location.
+        // and move the map's camera to the same location.
+        LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+        googleMap.addMarker(new MarkerOptions().position(location));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        googleMap.setMinZoomPreference(15);
 
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +103,8 @@ public class RegisteredUserReportView extends AppCompatActivity {
         reportDescription = getIntent().getStringExtra("Description");
         reportImg = getIntent().getStringExtra("Image");
         report = (Report) getIntent().getSerializableExtra("report");
-
+        latitude =  getIntent().getStringExtra("lat");
+        longitude =  getIntent().getStringExtra("lon");
 
         if (report.getReportStatus().equals("مغلق"))
             update.setVisibility(View.INVISIBLE);
@@ -98,102 +115,90 @@ public class RegisteredUserReportView extends AppCompatActivity {
         description.setText(reportDescription);
 
 
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowDialog();
-            }
-        });
+        update.setOnClickListener(view -> ShowDialog());
 
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
+        save.setOnClickListener(v -> {
 
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
-                builder1.setMessage("سوف يتم تعديل البلاغ، هل انت متأكد؟");
-                builder1.setCancelable(true);
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
+            builder1.setMessage("سوف يتم تعديل البلاغ، هل انت متأكد؟");
+            builder1.setCancelable(true);
 
-                builder1.setPositiveButton(
-                        "نعم",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
+            builder1.setPositiveButton(
+                    "نعم",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                                // dialog.cancel();
-                                date = report.getDate();
-                                des = report.getLostDescription();
+                            // dialog.cancel();
+                            date = report.getDate();
+                            des = report.getLostDescription();
 
 
-                                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                            Report rep = snapshot.getValue(Report.class);
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        Report rep = snapshot.getValue(Report.class);
 
-                                            if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
-                                                if (filePath != null) {
-                                                    final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
-                                                    progressDialog.setTitle("يتم الان تعديل بلاغك...");
-                                                    progressDialog.show();
+                                        if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
+                                            if (filePath != null) {
+                                                final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
+                                                progressDialog.setTitle("يتم الان تعديل بلاغك...");
+                                                progressDialog.show();
 
 
-                                                    storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+                                                storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
 
-                                                    storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                        @Override
-                                                        public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                                                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                                @Override
-                                                                public void onSuccess(Uri uri) {
-                                                                    saveToDatabase(uri.toString());
+                                                storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                                                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri uri) {
+                                                                saveToDatabase(uri.toString());
 
-                                                                    progressDialog.dismiss();
-                                                                }
-                                                            });
-                                                        }
-                                                    });
+                                                                progressDialog.dismiss();
+                                                            }
+                                                        });
+                                                    }
+                                                });
 
-                                                } else {
-                                                    saveToDatabase(null);
-                                                }
-                                                ref.child(snapshot.getKey()).removeValue();
-
+                                            } else {
+                                                saveToDatabase(null);
                                             }
+                                            ref.child(snapshot.getKey()).removeValue();
+
+                                        }
 //                                            else
 //                                                Toast.makeText(RegisteredUserReportView.this, "لم يتم حفظ البلاغ بنجاح", Toast.LENGTH_SHORT).show();
 
-                                        }
-
                                     }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
 
-                                    }
-                                });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 //                                Toast.makeText(RegisteredUserReportView.this, "تم حفظ بلاغك", Toast.LENGTH_SHORT).show();
-                                save.setVisibility(View.INVISIBLE);
+                            save.setVisibility(View.INVISIBLE);
 
-                            }
+                        }
 
 
-                        });
+                    });
 
-                builder1.setNegativeButton(
-                        "إلغاء الامر",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+            builder1.setNegativeButton(
+                    "إلغاء الامر",
+                    (dialog, id) -> dialog.cancel());
 
-                AlertDialog alert11 = builder1.create();
+            AlertDialog alert11 = builder1.create();
 
-                alert11.show();
+            alert11.show();
 
-            }
         });
 
     }
@@ -259,12 +264,7 @@ public class RegisteredUserReportView extends AppCompatActivity {
 
 
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
+        cancel.setOnClickListener(view1 -> dialog.cancel());
 
 
         dialog = new AlertDialog.Builder(this).setView(view).create();

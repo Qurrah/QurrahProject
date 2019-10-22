@@ -78,6 +78,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
         final String userName = users.get(position);
         final String id = Id.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
+        holder.address.setText(reports.get(position).getAddress());
         //--------------------------------------handling date ------------------------------
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
@@ -111,22 +112,22 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
 
 //        report OnClick
 
-        holder.linear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String No = phones.get(position);
-                Intent intent = new Intent(context, ViewReport.class);
+        holder.linear.setOnClickListener(view -> {
+            String No = phones.get(position);
+            Intent intent = new Intent(context, ViewReport.class);
 //                    intent.putExtra("Report", (Parcelable) reports.get(position));
-                intent.putExtra("Image", report.getPhoto());
-                intent.putExtra("Title", report.getLostTitle());
-                intent.putExtra("Description", report.getLostDescription());
-                intent.putExtra("UserName", userName);
-                intent.putExtra("WhatsApp" , No);
-                intent.putExtra("userid" , id);
+            intent.putExtra("Image", report.getPhoto());
+            intent.putExtra("Title", report.getLostTitle());
+            intent.putExtra("Description", report.getLostDescription());
+            intent.putExtra("UserName", userName);
+            intent.putExtra("WhatsApp" , No);
+            intent.putExtra("userid" , id);
+            intent.putExtra("lat",report.getLatitude());
+            intent.putExtra("lon",report.getLongitude());
 
 
-                context.startActivity(intent);
-            }
+
+            context.startActivity(intent);
         });
 
 
@@ -204,6 +205,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
         TextView lostTitle, lostDate;
         ProgressBar progressBar;
         LinearLayout linear;
+        TextView address;
 
 
 
@@ -214,6 +216,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             lostTitle = itemView.findViewById(R.id.lostTitle);
             lostDate = itemView.findViewById(R.id.date);
             linear = itemView.findViewById(R.id.linear);
+            address = itemView.findViewById(R.id.address);
 
 
         }
