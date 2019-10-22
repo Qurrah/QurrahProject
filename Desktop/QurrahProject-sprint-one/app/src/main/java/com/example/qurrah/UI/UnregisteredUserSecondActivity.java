@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.qurrah.UI.ReportTypes.AnimalReport;
+import com.example.qurrah.UI.ReportTypes.DeviceReport;
+import com.example.qurrah.UI.ReportTypes.HumanReport;
+import com.example.qurrah.UI.ReportTypes.OtherReport;
+import com.example.qurrah.R;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;

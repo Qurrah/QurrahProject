@@ -24,9 +24,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.example.qurrah.MessageActivity;
-
-import java.util.concurrent.Executor;
+import com.example.qurrah.UI.MessageActivity;
 
 public class MyFirebaseMessaging extends FirebaseMessagingService {
 

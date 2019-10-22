@@ -1,16 +1,16 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
-import android.app.ProgressDialog;
+import android.app.Dialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
-//import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
+
+import android.util.Log;
+
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +22,14 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.qurrah.Model.UserProfile;
+import com.example.qurrah.UI.ReportTypes.AnimalReport;
+import com.example.qurrah.UI.ReportTypes.DeviceReport;
+import com.example.qurrah.UI.ReportTypes.HumanReport;
+import com.example.qurrah.UI.ReportTypes.OtherReport;
+import com.example.qurrah.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -32,9 +39,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.UploadTask;
 
-import java.util.UUID;
+
+import static com.example.qurrah.Constants.ERROR_DIALOG_REQUEST;
+
 
 public class SecondActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,13 +53,15 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     TextView username;
     private FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
-
+    private boolean mLocationPermissionGranted = false;
+    private static final String TAG = "SecondActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
+
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -72,7 +82,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
                 // If navigation drawer is not open yet, open it else close it.
                 if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
                 else navDrawer.closeDrawer(GravityCompat.END);
@@ -125,21 +135,50 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 switch(id){
-                    case R.id.map:{break;}
-                      //  Toast.makeText(getApplicationContext(),"Map clicked",Toast.LENGTH_SHORT).show();
-                    case R.id.chats:{
-                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        break;}
+                    case R.id.map:{
+                        if(isServicesOK()){
+                            Intent intent = new Intent(SecondActivity.this, MapActivity.class);
+                            startActivity(intent);
+                        }
+
+                        break;
+                    }
+//
+//                    case R.id.chats:{
+//                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent);
+//                        break;
+//                    }
 
                 }
                 return false;
             }
         });
     }
+    //------------------------------------------------------------------------------------------------------
+    public boolean isServicesOK(){
+        Log.d(TAG, "isServicesOK: checking google services version");
 
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(SecondActivity.this);
 
+        if(available == ConnectionResult.SUCCESS){
+            //everything is fine and the user can make map requests
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            //an error occurred but we can resolve it
+            Log.d(TAG, "isServicesOK: an error occurred but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(SecondActivity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else{
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    //------------------------------------------------------------------------------------------------------
     @Override
     public void onClick(View v) {
 

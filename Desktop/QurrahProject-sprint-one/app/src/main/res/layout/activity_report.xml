@@ -5,16 +5,22 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.qurrah.ReportActivity">
+    android:background="#F5F4F5"
+    tools:context="com.example.qurrah.UI.ReportActivity">
 
+    <!--    <ScrollView-->
+    <!--        android:id="@+id/scrollbar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
     <LinearLayout
         android:id="@+id/dummyFocus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F5F4F5"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        >
         <!--        معلومات المفقود -->
 
         <com.kofigyan.stateprogressbar.StateProgressBar
@@ -148,7 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:text="نوع البلاغ" />
+                android:text="@string/ReportType" />
 
             <RadioButton
                 android:id="@+id/FoundRadio"
@@ -219,6 +225,39 @@
             android:textSize="14dp"
             android:visibility="gone" />
 
+
+        <LinearLayout
+            android:id="@+id/pickPlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="pickPlace"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:layoutDirection="rtl">
+
+            <ImageView
+                android:id="@+id/imageAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_add_location_black_24dp" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="اختر الموقع"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Location"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -239,7 +278,9 @@
                 android:importantForAutofill="noExcludeDescendants"
                 />
 
+
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -298,8 +339,10 @@
                 tools:ignore="ButtonStyle"
                 android:onClick="sendAllInfo"
                 android:text="@string/send"/>
+
         </LinearLayout>
 
 
     </LinearLayout>
+    <!--    </ScrollView>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

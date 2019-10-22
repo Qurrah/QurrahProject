@@ -1,32 +1,29 @@
-package com.example.qurrah;
+package com.example.qurrah.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qurrah.R;
+import com.example.qurrah.Model.Report;
+import com.example.qurrah.UI.ViewReport;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -118,7 +115,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             @Override
             public void onClick(View view) {
                 String No = phones.get(position);
-                Intent intent = new Intent(context,ViewReport.class);
+                Intent intent = new Intent(context, ViewReport.class);
 //                    intent.putExtra("Report", (Parcelable) reports.get(position));
                 intent.putExtra("Image", report.getPhoto());
                 intent.putExtra("Title", report.getLostTitle());

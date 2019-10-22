@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -6,9 +6,7 @@ import android.content.Intent;
 
 import android.os.Build;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 
 import android.widget.Button;
@@ -24,6 +22,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qurrah.R;
+import com.example.qurrah.Model.Report;
+import com.example.qurrah.UI.RegisteredUserReportView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,7 +36,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -261,7 +261,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(context,RegisteredUserReportView.class);
+                Intent intent = new Intent(context, RegisteredUserReportView.class);
 //                    intent.putExtra("Report", (Parcelable) reports.get(position));
                 intent.putExtra("Image", report.getPhoto());
                 intent.putExtra("Title", report.getLostTitle());

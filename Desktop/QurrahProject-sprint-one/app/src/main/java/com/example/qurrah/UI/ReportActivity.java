@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,14 +21,19 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.DateFormat;
 
+import com.example.qurrah.Kotlin.PickLocationActivity;
+import com.example.qurrah.R;
+import com.example.qurrah.Model.Report;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,10 +46,10 @@ import com.google.firebase.storage.UploadTask;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import static android.text.TextUtils.isEmpty;
+import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.Locale;
 import java.util.UUID;
 
@@ -66,6 +71,12 @@ public class ReportActivity extends AppCompatActivity {
     RadioGroup rg, ReportTypeRadio;
     RadioButton radioButton,typeButton;
     protected FirebaseAuth mAuth;
+    LinearLayout placePicker;
+    String latitude;
+    String longitude;
+    String address;
+    TextView tvaddress;
+    ImageView imageViewAddress;
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
@@ -96,6 +107,7 @@ public class ReportActivity extends AppCompatActivity {
         lostTitle = findViewById(R.id.LostTitle);
         lostDescription = findViewById(R.id.LostDescription);
         location = findViewById(R.id.Location);
+        placePicker = findViewById(R.id.pickPlace);
 
         userID = mAuth.getUid();
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
@@ -163,7 +175,9 @@ public class ReportActivity extends AppCompatActivity {
             }
         }
     }
-
+    public void pickPlace(View view) {
+        startActivityForResult(new Intent(getApplicationContext(), PickLocationActivity.class), REQUEST_PLACE_PICKER_CODE);
+    }
 
     public void upload_img(View view) {
 
@@ -193,8 +207,21 @@ public class ReportActivity extends AppCompatActivity {
                 findViewById(R.id.TextViewImageChange).setVisibility(View.GONE);
             }
         }
+        if (requestCode == REQUEST_PLACE_PICKER_CODE) {
+            if (resultCode == RESULT_OK) {
 
+                // Get String data from Intent
+                latitude = data.getStringExtra("Latitude");
+                longitude = data.getStringExtra("Longitude");
+                address = data.getStringExtra("Address");
 
+                tvaddress = findViewById(R.id.address);
+                tvaddress.setText(address.trim().replaceAll(" +", " "));
+                imageViewAddress = findViewById(R.id.imageAddress);
+                imageViewAddress.setBackground(getResources().getDrawable(R.drawable.ic_location));
+
+            }
+        }
     }
 
 
@@ -265,6 +292,7 @@ public class ReportActivity extends AppCompatActivity {
         findViewById(R.id.LocationPhotoSubmit).setVisibility(View.VISIBLE);
         findViewById(R.id.BackToLostInfo).setVisibility(View.VISIBLE);
         findViewById(R.id.BackToClassification).setVisibility(View.GONE);
+        findViewById(R.id.pickPlace).setVisibility(View.VISIBLE);
 
         if (flag) {
             findViewById(R.id.img).setVisibility(View.VISIBLE);
@@ -283,6 +311,7 @@ public class ReportActivity extends AppCompatActivity {
         findViewById(R.id.Location).setVisibility(View.GONE);
         findViewById(R.id.LocationPhotoSubmit).setVisibility(View.GONE);
         findViewById(R.id.BackToLostInfo).setVisibility(View.GONE);
+        findViewById(R.id.pickPlace).setVisibility(View.GONE);
     }
 
 
@@ -422,6 +451,9 @@ public class ReportActivity extends AppCompatActivity {
         }
         report.setPhoto(link);
         report.setLocation(location.getEditText().getText().toString().trim());
+        report.setAddress(address);
+        report.setLatitude(latitude);
+        report.setLongitude(longitude);
     }
 
     private void saveToDatabase(String link) {
@@ -431,4 +463,6 @@ public class ReportActivity extends AppCompatActivity {
         Intent intent = new Intent(ReportActivity.this, SecondActivity.class);
         startActivity(intent);
     }
+
+
 }

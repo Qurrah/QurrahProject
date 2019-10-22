@@ -8,19 +8,22 @@ package="com.example.qurrah">
      location permissions for the 'MyLocation' functionality.
 -->
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <meta-data
-        android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="YOUR_API_KEY"/>
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" /> <!-- we need it for rendering the map -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
     android:allowBackup="true"
@@ -31,13 +34,13 @@ package="com.example.qurrah">
     android:theme="@style/AppTheme"
     tools:ignore="GoogleAppIndexingWarning"
     tools:replace="android:label">
-    <activity android:name=".HumanReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
-    <activity android:name=".AnimalReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
-    <activity android:name=".DeviceReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
-    <activity android:name=".OtherReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"></activity>
-    <activity android:name=".EditReportActivity" android:parentActivityName=".MyReport" android:screenOrientation="portrait"/>
-    <activity android:name=".MyReportAdapter" android:screenOrientation="portrait"/>
-    <activity android:name=".MyReport" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".UI.ReportTypes.HumanReport" android:parentActivityName=".UI.SecondActivity" android:screenOrientation="portrait"></activity>
+    <activity android:name=".UI.ReportTypes.AnimalReport" android:parentActivityName=".UI.SecondActivity" android:screenOrientation="portrait"></activity>
+    <activity android:name=".UI.ReportTypes.DeviceReport" android:parentActivityName=".UI.SecondActivity" android:screenOrientation="portrait"></activity>
+    <activity android:name=".UI.ReportTypes.OtherReport" android:parentActivityName=".UI.SecondActivity" android:screenOrientation="portrait"></activity>
+    <activity android:name=".UI.EditReportActivity" android:parentActivityName=".UI.MyReport" android:screenOrientation="portrait"/>
+    <activity android:name=".Adapter.MyReportAdapter" android:screenOrientation="portrait"/>
+    <activity android:name=".UI.MyReport" android:parentActivityName=".UI.SecondActivity" android:screenOrientation="portrait"/>
     <!--
          The API key for Google Maps-based APIs is defined as a string resource.
          (See the file "res/values/google_maps_api.xml").
@@ -46,9 +49,9 @@ package="com.example.qurrah">
          sign the APK for publishing.
          You can define the keys for the debug and release targets in src/debug/ and src/release/.
     -->
-    <activity android:name=".ForgotPasswordActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".UI.ForgotPasswordActivity" android:screenOrientation="portrait"/>
     <activity
-        android:name=".FirstPage"
+        android:name=".UI.FirstPage"
         android:theme="@style/AppTheme1" android:screenOrientation="portrait">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -56,30 +59,33 @@ package="com.example.qurrah">
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-    <activity android:name=".SecondActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".UI.SecondActivity" android:screenOrientation="portrait"/>
     <activity
-        android:name=".RegistrationActivity"
+        android:name=".UI.RegistrationActivity"
         android:theme="@style/AppTheme1"  android:screenOrientation="portrait"/>
     <activity
-        android:name=".VerifyPhoneActivity"
+        android:name=".UI.VerifyPhoneActivity"
         android:theme="@style/AppTheme1" android:screenOrientation="portrait"/>
-    <activity android:name=".ProfileActivity" android:parentActivityName=".SecondActivity" />
-    <activity android:name=".UpdateProfile" android:parentActivityName=".SecondActivity" />
+    <activity android:name=".UI.ProfileActivity" android:parentActivityName=".UI.SecondActivity" />
+    <activity android:name=".UI.UpdateProfile" android:parentActivityName=".UI.SecondActivity" />
     <activity
-        android:name=".MainActivity"
+        android:name=".UI.MainActivity"
         android:theme="@style/AppTheme1" android:screenOrientation="portrait"/>
     <activity
-        android:name=".ReportActivity"
-        android:parentActivityName=".SecondActivity"
+        android:name=".UI.ReportActivity"
+        android:parentActivityName=".UI.SecondActivity"
         android:screenOrientation="portrait"
         />
-    <activity android:name=".UpdatePassword" android:parentActivityName=".SecondActivity" android:screenOrientation="portrait"/>
-    <activity android:name=".ViewReport"  />
-    <activity android:name=".RegisteredUserReportView" android:parentActivityName=".MyReport" android:screenOrientation="portrait"/>
-    <activity android:name=".SecondPage" android:screenOrientation="portrait" />
-    <activity android:name=".UnregisteredUserSecondActivity"  android:screenOrientation="portrait"/>
-    <activity android:name=".ChatActivity" />
-    <activity android:name=".MessageActivity" />
+    <activity android:name=".UI.UpdatePassword" android:parentActivityName=".UI.SecondActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".UI.ViewReport"  />
+    <activity android:name=".UI.RegisteredUserReportView" android:parentActivityName=".UI.MyReport" android:screenOrientation="portrait"/>
+    <activity android:name=".UI.SecondPage" android:screenOrientation="portrait" />
+    <activity android:name=".UI.UnregisteredUserSecondActivity"  android:screenOrientation="portrait"/>
+    <activity android:name=".UI.ChatActivity" />
+    <activity android:name=".UI.MessageActivity" />
+    <activity android:name=".Kotlin.PickLocationActivity"/>
+    <activity android:name=".UI.MapActivity"/>
+
     <service
         android:name=".Notifications.MyFirebaseMessaging"
         android:stopWithTask="false">
@@ -87,6 +93,15 @@ package="com.example.qurrah">
             <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>
     </service>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" /> <!-- because we are targeting API 29 and above -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 </application>
     
 

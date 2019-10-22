@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.Model;
 
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,13 +12,15 @@ public class Report implements Serializable {
     private String photo;
     private String location;
     private String date;//
-    private static final AtomicInteger count = new AtomicInteger(0);
+    private String latitude;
+    private String longitude;
+    private String address;
 
     public Report() {
         this.ReportStatus = "نشط";
     }
 
-    public Report(String lostTitle, String lostDescription, String categoryOption,String ReportTypeOption, String photo, String location, String date) {
+    public Report(String lostTitle, String lostDescription, String categoryOption,String ReportTypeOption, String photo, String location, String date, String latitude, String longitude, String address) {
         this.lostTitle = lostTitle;
         this.lostDescription = lostDescription;
         this.categoryOption = categoryOption;
@@ -26,6 +28,9 @@ public class Report implements Serializable {
         this.photo = photo;
         this.location = location;
         this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
         this.ReportStatus = "نشط";
 
     }
@@ -93,5 +98,28 @@ public class Report implements Serializable {
     }
 
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 }
 

@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">QurrahTest</string>
+    <string name="app_name">Qurrah</string>
+    <string name="google_map_api_key">AIzaSyDJ0675s7DM_X7QNAmwuALMK-7qht4V7QI</string>
     <string name="classification">التصنيف</string>
     <string name="sender_info">معلومات البلاغ</string>
     <string name="location_photo">الموقع والصورة</string>
@@ -15,22 +16,20 @@
     <string name="sender_name">الاسم</string>
     <string name="sender_phone">رقم الهاتف</string>
     <string name="send">إرسال</string>
-    <string name="upload_photo"> ارفع صورة 🌠 (اختياري) </string>
-    <string name="pick_location"> الموقع📍(اختياري)</string>
-    <string name="phoneExample">مثال 05********</string>
+    <string name="upload_photo"> ارفع صورة (اختياري) </string>
+    <string name="pick_location"> وصف الموقع (اختياري)</string>
     <string name="changeImg">تغيير الصورة</string>
     <string name="edit">تعديل</string>
     <string name="delete">حذف</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="LostCategory">
         <item>@string/human</item>
         <item>@string/animal</item>
         <item>@string/devices</item>
         <item>@string/other</item>
     </string-array>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="ReportType">اختر نوع البلاغ:</string>
+    <string name="pickLocation">اختر الموقع</string>
 </resources>
