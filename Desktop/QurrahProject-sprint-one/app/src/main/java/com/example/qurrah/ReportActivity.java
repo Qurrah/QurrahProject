@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -72,6 +74,8 @@ public class ReportActivity extends AppCompatActivity {
     String latitude;
     String longitude;
     String address;
+    TextView tvaddress;
+    ImageView imageViewAddress;
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
@@ -210,9 +214,10 @@ public class ReportActivity extends AppCompatActivity {
                 longitude = data.getStringExtra("Longitude");
                 address = data.getStringExtra("Address");
 
-                Toast.makeText(getApplicationContext(),latitude,Toast.LENGTH_LONG).show();
-
-                // Set text view with string
+                tvaddress = findViewById(R.id.address);
+                tvaddress.setText(address.trim().replaceAll(" +", " "));
+                imageViewAddress = findViewById(R.id.imageAddress);
+                imageViewAddress.setBackground(getResources().getDrawable(R.drawable.ic_location));
 
             }
         }

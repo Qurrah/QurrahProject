@@ -83,6 +83,7 @@ package="com.example.qurrah">
     <activity android:name=".UnregisteredUserSecondActivity"  android:screenOrientation="portrait"/>
     <activity android:name=".ChatActivity" />
     <activity android:name=".MessageActivity" />
+     <activity android:name=".Kotlin.PickLocationActivity"/>
     <service
         android:name=".Notifications.MyFirebaseMessaging"
         android:stopWithTask="false">

@@ -71,7 +71,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 //---------------------------------------------------
         bottomAppBar = findViewById(R.id.bottomAppBar);
         //setSupportActionBar(bottomAppBar);
-//        bottomAppBar.replaceMenu(R.menu.map_menu);
+        bottomAppBar.replaceMenu(R.menu.map_menu);
 //---------------------------------------------------
         bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

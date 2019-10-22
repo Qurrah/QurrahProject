@@ -44,5 +44,6 @@ class PickLocationActivity : AppCompatActivity(){
                 }
             }
         }
+        finish()
     }
 }
