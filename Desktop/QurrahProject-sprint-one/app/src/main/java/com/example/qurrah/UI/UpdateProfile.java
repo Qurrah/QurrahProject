@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.qurrah.Model.UserProfile;
+import com.example.qurrah.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

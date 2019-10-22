@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.Model;
 
 
 public class UserProfile {

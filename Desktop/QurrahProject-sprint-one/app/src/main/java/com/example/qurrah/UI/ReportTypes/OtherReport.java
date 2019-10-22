@@ -1,9 +1,6 @@
-package com.example.qurrah;
+package com.example.qurrah.UI.ReportTypes;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qurrah.Adapter.ReportCategoriesAdapter;
+import com.example.qurrah.R;
+import com.example.qurrah.Model.Report;
+import com.example.qurrah.Model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DeviceReport extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class OtherReport extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     DatabaseReference reference;
     FirebaseAuth mAuth;
@@ -35,7 +36,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
     ArrayList<Report> list;
     ArrayList<String> userList, phones , id;
     ReportCategoriesAdapter adapter;
-    TextView noReports,noMatchReports;
+    TextView noReports , noMatchReports;
     Button allbtn,missingbtn, findingbtn;
 
 
@@ -46,6 +47,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
 //------------------------------------------------
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 //------------------------------------------------
+
         // inputs
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getUid();
@@ -53,6 +55,8 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
         noReports.setText("لا يوجد بلاغات منشورة");
         noMatchReports = findViewById(R.id.noMatchReports);
         noMatchReports.setText("لا يوجد نتائج ");
+
+
         // second filter
         allbtn=(Button) findViewById(R.id.all);
         allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
@@ -84,10 +88,11 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
 
             }
         });
+        //
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(DeviceReport.this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(OtherReport.this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -110,7 +115,6 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
                 userList.clear();
                 phones.clear();
                 id.clear();
-
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     UserProfile userProfile = snapshot.getValue(UserProfile.class);
                     String userName = userProfile.getUserName();
@@ -127,7 +131,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
                         }
 
                         Report report = ds.getValue(Report.class);
-                        if (report.getCategoryOption().equals(getString(R.string.devices)) && report.getReportStatus().equals("نشط")) {
+                        if (report.getCategoryOption().equals("اخرى") && report.getReportStatus().equals("نشط")){
                             list.add(report);
                             userList.add(userName);
                             phones.add(No);
@@ -136,10 +140,9 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
                         }
                     }
                 }
-                adapter = new ReportCategoriesAdapter(DeviceReport.this, list, userList, phones,id);
+                adapter = new ReportCategoriesAdapter(OtherReport.this, list , userList, phones,id);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
-
                 allbtn.setVisibility(View.VISIBLE);
                 findingbtn.setVisibility(View.VISIBLE);
                 missingbtn.setVisibility(View.VISIBLE);
@@ -149,7 +152,6 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
                     allbtn.setVisibility(View.GONE);
                     findingbtn.setVisibility(View.GONE);
                     missingbtn.setVisibility(View.GONE);
-
                 }
 
 
@@ -234,7 +236,6 @@ public void SecondFilter(String flag){
     }
     adapter.updateList(newList);
     recyclerView.scrollToPosition(adapter.getItemCount()-1);
-
 }
 //----------------------------------------------------------
 

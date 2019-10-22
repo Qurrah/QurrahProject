@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.UI.ReportTypes;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qurrah.Adapter.ReportCategoriesAdapter;
+import com.example.qurrah.R;
+import com.example.qurrah.Model.Report;
+import com.example.qurrah.Model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

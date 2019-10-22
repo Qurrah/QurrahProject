@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +32,8 @@ import java.util.Date;
 import java.text.DateFormat;
 
 import com.example.qurrah.Kotlin.PickLocationActivity;
+import com.example.qurrah.R;
+import com.example.qurrah.Model.Report;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;

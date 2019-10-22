@@ -10,8 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.example.qurrah.UserProfile;
+import com.example.qurrah.Model.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.example.qurrah.MessageActivity;
+import com.example.qurrah.UI.MessageActivity;
 import com.example.qurrah.Model.Chat;
 import com.example.qurrah.R;
 import com.squareup.picasso.Picasso;

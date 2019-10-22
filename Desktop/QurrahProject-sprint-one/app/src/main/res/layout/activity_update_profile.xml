@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F4F5"
-    tools:context="com.example.qurrah.UpdateProfile">
+    tools:context="com.example.qurrah.UI.UpdateProfile">
 
     <!--    <EditText-->
     <!--        android:id="@+id/etAgeUpdate"-->

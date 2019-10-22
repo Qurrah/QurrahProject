@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.Model;
 
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;

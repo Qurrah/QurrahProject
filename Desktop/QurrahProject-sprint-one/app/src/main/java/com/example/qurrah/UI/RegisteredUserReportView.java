@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
 
 
@@ -24,6 +24,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.qurrah.R;
+import com.example.qurrah.Model.Report;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +39,6 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
-import java.util.zip.Inflater;
 
 public class RegisteredUserReportView extends AppCompatActivity {
 

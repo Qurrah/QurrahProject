@@ -4,102 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewReport"
+    tools:context=".UI.ViewReport"
 
     >
 
 
-    <ImageView
-        android:id="@+id/reportImg"
-        android:layout_width="415dp"
-        android:layout_height="195dp"
-        app:srcCompat="@color/colorPrimaryDark"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="46dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/reportTitle"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/reportImg"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@color/colorPrimaryDark"
+            tools:ignore="MissingConstraints" />
 
-        android:text="\nالعنوان:\n"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/reportDes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportImg"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/reportTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <TextView
-        android:id="@+id/reportDes"
-        android:layout_width="252dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+            android:text="\nالعنوان:\n"
+            android:textAlignment="center"
+            tools:ignore="MissingConstraints" />
 
-        android:text="\nالوصف:\n"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/reportUsername"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/reportDes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
 
-    <TextView
-        android:id="@+id/reportUsername"
-        android:layout_width="167dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginBottom="72dp"
+            android:text="\nالوصف:"
+            android:textAlignment="center"
+            tools:ignore="MissingConstraints" />
 
-        android:text="اسم المستخدم"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/whatsapp"
-        android:layout_width="47dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginBottom="112dp"
-        android:background="@drawable/whatsapp"
-        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
-        app:layout_constraintEnd_toStartOf="@+id/reportUsername"
-        app:layout_constraintHorizontal_bias="0.923"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportDes"
-        app:layout_constraintVertical_bias="0.075"
-        tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/reportUsername"
+                android:layout_width="216dp"
+                android:layout_height="29dp"
 
-    <TextView
-        android:id="@+id/reportLoc"
-        android:layout_width="373dp"
-        android:layout_height="123dp"
-        android:layout_marginBottom="24dp"
-        android:background="@color/colorPrimaryDark"
-        android:text="\n\nالموقع"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+                android:layoutDirection="ltr"
+                android:text="اسم المستخدم"
+                android:textAlignment="center"
+                tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/chatting"
-        android:layout_width="62dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="223dp"
-        android:layout_marginBottom="77dp"
-        android:text="محادثة"
-        app:layout_constraintBottom_toTopOf="@+id/reportLoc"
-        app:layout_constraintEnd_toStartOf="@+id/whatsapp"
-        app:layout_constraintHorizontal_bias="0.808"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reportImg"
-        app:layout_constraintVertical_bias="1.0" />
+            <Button
+                android:id="@+id/whatsapp"
+                android:layout_width="40dp"
+                android:layout_height="33dp"
+                android:background="@drawable/whatsapp"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/chatting"
+                android:layout_width="62dp"
+                android:layout_height="43dp"
+                android:text="محادثة" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/reportLoc"
+            android:layout_width="match_parent"
+            android:layout_height="123dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="\n\nالموقع"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

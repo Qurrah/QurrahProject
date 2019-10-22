@@ -1,35 +1,21 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentPagerAdapter;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.qurrah.Adapter.UserAdapter;
 import com.example.qurrah.Model.Chatlist;
+import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.Notifications.Token;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.tabs.TabLayout;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import com.example.qurrah.R;
 
-import com.bumptech.glide.Glide;
-import com.example.qurrah.Fragments.ChatsFragment;
-import com.example.qurrah.Fragments.ProfileFragment;
-import com.example.qurrah.Fragments.UsersFragment;
-import com.example.qurrah.Model.Chat;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,17 +23,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.Executor;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

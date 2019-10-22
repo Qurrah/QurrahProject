@@ -1,4 +1,4 @@
-package com.example.qurrah;
+package com.example.qurrah.UI;
 
 import android.app.Dialog;
 
@@ -22,6 +22,12 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.qurrah.Model.UserProfile;
+import com.example.qurrah.UI.ReportTypes.AnimalReport;
+import com.example.qurrah.UI.ReportTypes.DeviceReport;
+import com.example.qurrah.UI.ReportTypes.HumanReport;
+import com.example.qurrah.UI.ReportTypes.OtherReport;
+import com.example.qurrah.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.bottomappbar.BottomAppBar;
