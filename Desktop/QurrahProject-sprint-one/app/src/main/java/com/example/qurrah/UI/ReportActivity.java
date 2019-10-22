@@ -72,8 +72,8 @@ public class ReportActivity extends AppCompatActivity {
     RadioButton radioButton,typeButton;
     protected FirebaseAuth mAuth;
     LinearLayout placePicker;
-    String latitude;
-    String longitude;
+    String latitude="";
+    String longitude="";
     String address;
     TextView tvaddress;
     ImageView imageViewAddress;

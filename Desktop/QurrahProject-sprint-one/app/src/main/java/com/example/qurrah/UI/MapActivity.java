@@ -1,6 +1,7 @@
 package com.example.qurrah.UI;
 
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.Parcelable;
+
+import com.example.qurrah.Model.Report;
 import com.example.qurrah.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -21,8 +25,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import static com.example.qurrah.Constants.COURSE_LOCATION;
 import static com.example.qurrah.Constants.DEFAULT_ZOOM;
@@ -30,7 +43,8 @@ import static com.example.qurrah.Constants.FINE_LOCATION;
 import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback ,
+        GoogleMap.OnInfoWindowClickListener {
     private static final String TAG = "MapActivity";
 
 
@@ -38,6 +52,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private DatabaseReference reference;
+    ArrayList<Report> reportsList;
+    Double Dlatitude, Dlongitude;
+    ArrayList<String> userList, phones;
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -61,7 +80,58 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         }
+
+
+//        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
+
+
+
+        for(int i = 0 ; i<reportsList.size() ; i++) {
+            Dlatitude = Double.parseDouble(reportsList.get(i).getLatitude());
+            Dlongitude = Double.parseDouble(reportsList.get(i).getLongitude());
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Dlatitude, Dlongitude))
+                    .title("Title: "+reportsList.get(i).getLostTitle())
+                    .snippet("Category: "+reportsList.get(i).getCategoryOption()+"\nType: "+reportsList.get(i).getReportTypeOption()));
+        }
+
+
+        mMap.setOnInfoWindowClickListener(this);
+
+
     }
+
+
+
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+        for (int i=0; i< reportsList.size(); i++) {
+
+            LatLng latLng = new LatLng(Double.parseDouble(reportsList.get(i).getLatitude()) , Double.parseDouble(reportsList.get(i).getLongitude()));
+           if(latLng.equals(marker.getPosition())){
+                Intent intent = new Intent(MapActivity.this, ViewReport.class);
+//                    intent.putExtra("Report", (Parcelable) reports.get(position));
+                intent.putExtra("Image", reportsList.get(i).getPhoto());
+                intent.putExtra("Title", reportsList.get(i).getLostTitle());
+                intent.putExtra("Description", reportsList.get(i).getLostDescription());
+                intent.putExtra("UserName", userList.get(i));
+                intent.putExtra("WhatsApp", phones.get(i));
+               startActivity(intent);
+            }
+//                intent.putExtra("userid" , id);
+
+
+            }
+
+        }
+
+
+//        Toast.makeText(this, "Info window clicked",
+//                Toast.LENGTH_SHORT).show();
+
+
 
 
     @Override
@@ -69,6 +139,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+
+        reportsList = (ArrayList) getIntent().getParcelableArrayListExtra("reportsLoc");
+        userList = getIntent().getStringArrayListExtra("userList");
+        phones = getIntent().getStringArrayListExtra("phoneNumbers");
+//        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
 
     }

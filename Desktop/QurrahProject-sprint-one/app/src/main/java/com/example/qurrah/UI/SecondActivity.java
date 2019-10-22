@@ -1,19 +1,28 @@
 package com.example.qurrah.UI;
 
 import android.app.Dialog;
+
+import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.os.Bundle;
+
 import android.util.Log;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.UI.ReportTypes.AnimalReport;
 import com.example.qurrah.UI.ReportTypes.DeviceReport;
@@ -31,7 +40,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Repo;
 
+
+import java.util.ArrayList;
 
 import static com.example.qurrah.Constants.ERROR_DIALOG_REQUEST;
 
@@ -42,10 +54,16 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     private FloatingActionButton fab;
     CardView people_card,animal_card,device_card,other_card;
     BottomAppBar bottomAppBar;
-    TextView username;
+    TextView username , test;
     private FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference , reference;
+    private boolean mLocationPermissionGranted = false;
     private static final String TAG = "SecondActivity";
+//    ArrayList<String> LatitudeList;
+//    ArrayList<String> LongitudeList;
+    ArrayList<Report> reportsList;  // array of reports that contain a location
+    String lat ;
+    ArrayList<String> userList, phones;
 
 
     @Override
@@ -55,9 +73,13 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
-        username = header.findViewById(R.id.Username);
+        username = (TextView) header.findViewById(R.id.Username);
+
+        reportsList = new ArrayList<>();
+        userList = new ArrayList<>();
+        phones = new ArrayList<>();
 //---------------------------------------------------
 
         NavigationView mNavigationView =findViewById(R.id.nav_view);
@@ -70,12 +92,15 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         //setSupportActionBar(bottomAppBar);
         bottomAppBar.replaceMenu(R.menu.map_menu);
 //---------------------------------------------------
-        bottomAppBar.setNavigationOnClickListener(v -> {
-            //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
-            // If navigation drawer is not open yet, open it else close it.
-            if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
-            else navDrawer.closeDrawer(GravityCompat.END);
+        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
+                // If navigation drawer is not open yet, open it else close it.
+                if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
+                else navDrawer.closeDrawer(GravityCompat.END);
 
+            }
         });
 //---------------------------------------------------
 
@@ -90,6 +115,32 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
                 username.setText(userProfile.getUserName());
+
+                reportsList.clear();
+                userList.clear();
+                phones.clear();
+
+
+
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String userName = userInfo.getUserName();
+                    String No = userInfo.getPhone();
+
+
+                    for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
+//                        if(ds.getChildrenCount() > 0) {
+                            Report report = ds.getValue(Report.class);
+                            if(!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")){
+                            reportsList.add(report);
+                                userList.add(userName);
+                                phones.add(No);
+                            }
+//                        }
+                    }
+                }
+
+
             }
 
             @Override
@@ -112,15 +163,27 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         fab =  findViewById(R.id.addReport);
 
-        fab.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, ReportActivity.class)));
-        bottomAppBar.setOnMenuItemClickListener(item -> {
-            int id = item.getItemId();
-            switch(id){
-                case R.id.map:{
-                    if(isServicesOK()){
-                        Intent intent = new Intent(SecondActivity.this, MapActivity.class);
-                        startActivity(intent);
-                    }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SecondActivity.this, ReportActivity.class));
+            }
+        });
+        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                switch(id){
+                    case R.id.map:{
+                        if(isServicesOK()){
+                            Intent intent = new Intent(SecondActivity.this, MapActivity.class);
+                            intent.putStringArrayListExtra("userList" , userList);
+                            intent.putStringArrayListExtra("phoneNumbers" , phones);
+                            intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
+                            startActivity(intent);
+                            //             intent.putStringArrayListExtra("Lat", LatitudeList);
+//                            intent.putStringArrayListExtra("Long",LongitudeList);
+                        }
 
                     break;
                 }
@@ -131,9 +194,17 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                         startActivity(intent);
                         break;
                     }
+//
+//                    case R.id.chats:{
+//                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent);
+//                        break;
+//                    }
 
+                }
+                return false;
             }
-            return false;
         });
     }
     //------------------------------------------------------------------------------------------------------
@@ -164,6 +235,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         switch(v.getId()){
             case R.id.people_card:
+//                test.setText(reportsList.get(0).getLatitude());
                 startActivity(new Intent(this, HumanReport.class));
                 break;
             case R.id.animal_card:
@@ -190,15 +262,22 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         builder1.setPositiveButton(
                 "نعم",
-                (dialog, id) -> {
-                    firebaseAuth.signOut();
-                    finish();
-                    startActivity(new Intent(SecondActivity.this, MainActivity.class));
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        firebaseAuth.signOut();
+                        finish();
+                        startActivity(new Intent(SecondActivity.this, MainActivity.class));
+                    }
+
                 });
 
         builder1.setNegativeButton(
                 "إلغاء الامر",
-                (dialog, id) -> dialog.cancel());
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
 
         AlertDialog alert11 = builder1.create();
 
