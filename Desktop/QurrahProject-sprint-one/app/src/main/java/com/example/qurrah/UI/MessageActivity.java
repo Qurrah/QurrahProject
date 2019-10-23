@@ -9,6 +9,10 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -78,6 +82,8 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -145,6 +151,7 @@ public class MessageActivity extends AppCompatActivity {
         });
 
         seenMessage(userid);
+
     }
 
     private void setSupportActionBar(Toolbar toolbar) {
@@ -324,4 +331,15 @@ public class MessageActivity extends AppCompatActivity {
         status("offline");
         currentUser("none");
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

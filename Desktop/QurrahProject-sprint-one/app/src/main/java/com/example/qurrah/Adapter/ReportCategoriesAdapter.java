@@ -23,6 +23,7 @@ import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.UI.ViewReport;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -33,12 +34,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategoriesAdapter.ViewHolder> {
 
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     DatabaseReference reference;
     Context context;
     ArrayList<Report> reports;
@@ -46,7 +47,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
     ArrayList<String> phones;
     ArrayList<String> Id;
     String searchString = "";
-    String date1, date2;
+    String date1, date2, type="none", CU="none";
 
 
 
@@ -74,9 +75,21 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        try {
+            CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        }catch (Exception e){
+            type="guest";
+        }
         final Report report = reports.get(position);
         final String userName = users.get(position);
         final String id = Id.get(position);
+        if(CU.equals(id)) {
+            type = "current";
+        }
+        else if(!CU.equals(id) && type.equals("none")){
+            type = "notCurrent";
+        }
+
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         holder.address.setText(reports.get(position).getAddress());
         //--------------------------------------handling date ------------------------------
@@ -112,6 +125,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
 
 //        report OnClick
 
+        String finalType = type;
         holder.linear.setOnClickListener(view -> {
             String No = phones.get(position);
             Intent intent = new Intent(context, ViewReport.class);
@@ -122,6 +136,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             intent.putExtra("UserName", userName);
             intent.putExtra("WhatsApp" , No);
             intent.putExtra("userid" , id);
+            intent.putExtra("userType" , finalType);
             intent.putExtra("lat",report.getLatitude());
             intent.putExtra("lon",report.getLongitude());
 

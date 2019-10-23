@@ -1,6 +1,7 @@
 package com.example.qurrah.UI;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,12 +9,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -33,7 +36,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
 private TextView title , description , name ;
 private ImageView photo;
 private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
-private String reportImg;
+private String reportImg, UserType;
 private Button whatsapp , chatting;
 private String  userID, latitude, longitude;
 
@@ -76,6 +79,12 @@ private String  userID, latitude, longitude;
         reportWhatsApp = getIntent().getStringExtra("WhatsApp");
         latitude =  getIntent().getStringExtra("lat");
         longitude =  getIntent().getStringExtra("lon");
+        UserType =  getIntent().getStringExtra("userType");
+
+        if (UserType.equals("current")) {
+            whatsapp.setVisibility(View.INVISIBLE);
+            chatting.setVisibility(View.INVISIBLE);
+        }
 
         // set values
         name.setText(reportUser);
@@ -83,33 +92,63 @@ private String  userID, latitude, longitude;
         title.setText(title.getText()+"\n"+reporTitle);
         description.setText(description.getText()+"\n"+reportDescription);
 
+        // try to divide users
 
+            whatsapp.setOnClickListener(view -> {
 
-        whatsapp.setOnClickListener(view -> {
+                    try {
+                        Uri uri = Uri.parse("smsto:" + reportWhatsApp);
+                        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                        i.setPackage("com.whatsapp");
+                        startActivity(Intent.createChooser(i, ""));
+                        Intent waIntent = new Intent(Intent.ACTION_SEND);
+                        waIntent.setType("text/plain");
+                        String text = "YOUR TEXT HERE";
 
-            try {
-
-
-                Uri uri = Uri.parse("smsto:" + reportWhatsApp);
-                Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-                i.setPackage("com.whatsapp");
-                startActivity(Intent.createChooser(i, ""));
-                Intent waIntent = new Intent(Intent.ACTION_SEND);
-                waIntent.setType("text/plain");
-                String text = "YOUR TEXT HERE";
-
-
-            } catch (Exception e) {
-                Toast.makeText(ViewReport.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                    } catch (Exception e) {
+                        Toast.makeText(ViewReport.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                         .show();
-            }
-        });
+                    }
 
-        chatting.setOnClickListener(view -> {
-            Intent intent = new Intent(ViewReport.this, MessageActivity.class);
-            intent.putExtra("userid", userID);
-            startActivity(intent);
-        });
+    });
+
+    chatting.setOnClickListener(view -> {
+
+        if (UserType.equals("notCurrent")) {
+        Intent intent = new Intent(ViewReport.this, MessageActivity.class);
+        intent.putExtra("userid", userID);
+        startActivity(intent);}
+
+        else if (UserType.equals("guest")) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
+            builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "نعم",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                            startActivity(new Intent(ViewReport.this, MainActivity.class));
+                        }
+
+                    });
+
+            builder1.setNegativeButton(
+                    "إلغاء الامر",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+
+            alert11.show();
+        }
+    });
+
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

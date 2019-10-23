@@ -14,4 +14,10 @@
         android:title="Item"
         app:showAsAction="always" />
 
+<!--    <item-->
+<!--        android:id="@+id/Home"-->
+<!--        android:icon="@drawable/home"-->
+<!--        android:title="Item"-->
+<!--        app:showAsAction="always" />-->
+
 </menu>

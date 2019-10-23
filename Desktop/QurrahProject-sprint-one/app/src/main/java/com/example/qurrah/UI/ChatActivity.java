@@ -5,12 +5,15 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.qurrah.Adapter.UserAdapter;
 import com.example.qurrah.Model.Chatlist;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.Notifications.Token;
+
 import com.example.qurrah.R;
 
 import androidx.annotation.NonNull;
@@ -34,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ChatActivity extends AppCompatActivity {
 String raghad;
     CircleImageView profile_image;
-    TextView username;
+    TextView username, noChats;
 
     FirebaseUser firebaseUser;
 
@@ -55,13 +58,18 @@ String raghad;
         setContentView(R.layout.fragment_chats);
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         recyclerView = findViewById(R.id.recycler_view);
+        noChats = findViewById(R.id.noChats);
+
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ChatActivity.this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
+        noChats.setVisibility(View.INVISIBLE);
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -132,6 +140,8 @@ String raghad;
                         }
                     }
                 }
+                if (mUsers.isEmpty())
+                    noChats.setVisibility(View.VISIBLE);
                 userAdapter = new UserAdapter(ChatActivity.this, mUsers, true);
                 recyclerView.setAdapter(userAdapter);
 
@@ -259,6 +269,16 @@ String raghad;
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("status", status);
         reference.updateChildren(hashMap);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 //    @Override
