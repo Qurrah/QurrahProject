@@ -81,17 +81,19 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     String address;
     TextView tvaddress;
     ImageView imageViewAddress;
-
+    GoogleMap mMap;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        mMap = googleMap;
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
+
         // Add a marker in a location.
         // and move the map's camera to the same location.
         LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-        googleMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this,R.drawable.ic_location)));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        googleMap.setMinZoomPreference(15);
+        mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this,R.drawable.ic_location)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        mMap.setMinZoomPreference(15);
 
     }
     @Override
@@ -337,6 +339,22 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                 address = data.getStringExtra("Address");
                 tvaddress.setText(address.trim().replaceAll(" +", " "));
                 imageViewAddress.setBackground(getResources().getDrawable(R.drawable.ic_location));
+                mMap.clear();
+                LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title("d"); //Here Total Address is address which you want to show on marker
+
+
+
+                markerOptions.icon(
+                        BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+                markerOptions.getPosition();
+                mMap.addMarker(markerOptions);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
 
 
             }
@@ -355,9 +373,8 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
         report.setLostTitle(titleText.toString());
         report.setLostDescription(desc.toString());
-        report.setAddress(address);
-        report.setLatitude(latitude);
-        report.setLongitude(longitude);
+
+
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم تعديل بلاغك", Toast.LENGTH_SHORT).show();
 
