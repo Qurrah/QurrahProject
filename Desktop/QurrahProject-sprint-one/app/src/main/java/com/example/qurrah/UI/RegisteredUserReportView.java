@@ -78,7 +78,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     Report report;
     Editable titleText, desc;
     LinearLayout placePicker;
-    String address;
+    String address ="";
     TextView tvaddress;
     ImageView imageViewAddress;
     GoogleMap mMap;
@@ -94,6 +94,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
             mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
             mMap.setMinZoomPreference(15);
+            mMap.setMapType(mMap.MAP_TYPE_HYBRID);
         }else {
             findViewById(R.id.map).setVisibility(View.GONE);
         }
@@ -260,7 +261,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
             title.setText(titleText);
             description.setText(desc);
-            findViewById(R.id.map).setVisibility(View.VISIBLE);
+            if (!address.equals("")){
+                 findViewById(R.id.map).setVisibility(View.VISIBLE);
+            }
 
             sFlag = true;
             photo.setImageURI(filePath);
@@ -338,17 +341,12 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                 LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
-
-
-
-                markerOptions.icon(
-                        BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
+                mMap.setMapType(mMap.MAP_TYPE_HYBRID);
+                markerOptions.icon(bitmapDescriptorFromVector(this, R.drawable.ic_location));
                 markerOptions.getPosition();
                 mMap.addMarker(markerOptions);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
 
             }
@@ -368,7 +366,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         report.setLostTitle(titleText.toString());
         report.setLostDescription(desc.toString());
         report.setAddress(address);
-        if (!address.equals("") && !address.equals("الموقع"))
+        if (!address.equals(""))
             imageViewAddress.setVisibility(View.VISIBLE);
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم تعديل بلاغك", Toast.LENGTH_SHORT).show();
