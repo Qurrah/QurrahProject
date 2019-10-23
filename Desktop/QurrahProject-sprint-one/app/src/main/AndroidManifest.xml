@@ -81,7 +81,7 @@ package="com.example.qurrah">
     <activity android:name=".UI.RegisteredUserReportView" android:parentActivityName=".UI.MyReport" android:screenOrientation="portrait"/>
     <activity android:name=".UI.SecondPage" android:screenOrientation="portrait" />
     <activity android:name=".UI.UnregisteredUserSecondActivity"  android:screenOrientation="portrait"/>
-    <activity android:name=".UI.ChatActivity" />
+    <activity android:name=".UI.ChatActivity" android:parentActivityName=".UI.SecondActivity" />
     <activity android:name=".UI.MessageActivity" />
     <activity android:name=".Kotlin.PickLocationActivity"/>
     <activity android:name=".UI.MapActivity"/>

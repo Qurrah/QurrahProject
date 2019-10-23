@@ -330,17 +330,9 @@ public class MessageActivity extends AppCompatActivity {
         currentUser("none");
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void back_to_chatlist(View view) {
         finish();
+
     }
+
 }

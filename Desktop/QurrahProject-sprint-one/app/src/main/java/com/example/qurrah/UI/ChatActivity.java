@@ -1,5 +1,6 @@
 package com.example.qurrah.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -292,6 +293,12 @@ String raghad;
 //        super.onPause();
 //        status("offline");
 //    }
+@Override
+public void onBackPressed() {
+    Intent intent = new Intent(getApplicationContext(),SecondActivity.class);
+    startActivity(intent);
+    finish();
+}
 }
 
 
