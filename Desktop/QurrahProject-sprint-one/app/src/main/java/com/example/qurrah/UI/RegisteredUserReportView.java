@@ -355,8 +355,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
         report.setLostTitle(titleText.toString());
         report.setLostDescription(desc.toString());
-
-
+        report.setAddress(address);
+        report.setLatitude(latitude);
+        report.setLongitude(longitude);
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم تعديل بلاغك", Toast.LENGTH_SHORT).show();
 
