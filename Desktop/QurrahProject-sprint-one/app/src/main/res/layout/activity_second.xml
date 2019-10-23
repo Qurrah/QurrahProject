@@ -172,8 +172,6 @@
         </GridLayout>
 
 
-
-
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
