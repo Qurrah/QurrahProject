@@ -87,14 +87,16 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setScrollGesturesEnabled(false);
-
         // Add a marker in a location.
         // and move the map's camera to the same location.
-        LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-        mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this,R.drawable.ic_location)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        mMap.setMinZoomPreference(15);
-
+        if (latitude!=null && longitude != null && latitude.length() >0 && longitude.length() >0) {
+            LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+            mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+            mMap.setMinZoomPreference(15);
+        }else {
+            findViewById(R.id.map).setVisibility(View.GONE);
+        }
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -170,19 +172,11 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
                                             storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
 
-                                            storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                                                    storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                        @Override
-                                                        public void onSuccess(Uri uri) {
-                                                            saveToDatabase(uri.toString());
+                                            storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                saveToDatabase(uri.toString());
 
-                                                            progressDialog.dismiss();
-                                                        }
-                                                    });
-                                                }
-                                            });
+                                                progressDialog.dismiss();
+                                            }));
 
                                         } else {
                                             saveToDatabase(null);
@@ -266,6 +260,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
             title.setText(titleText);
             description.setText(desc);
+            findViewById(R.id.map).setVisibility(View.VISIBLE);
 
             sFlag = true;
             photo.setImageURI(filePath);
@@ -343,7 +338,6 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                 LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
-                markerOptions.title("d"); //Here Total Address is address which you want to show on marker
 
 
 
@@ -373,8 +367,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
         report.setLostTitle(titleText.toString());
         report.setLostDescription(desc.toString());
-
-
+        report.setAddress(address);
+        if (!address.equals("") && !address.equals("الموقع"))
+            imageViewAddress.setVisibility(View.VISIBLE);
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم تعديل بلاغك", Toast.LENGTH_SHORT).show();
 

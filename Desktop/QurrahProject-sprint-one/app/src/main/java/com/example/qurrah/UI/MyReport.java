@@ -43,6 +43,7 @@ public class MyReport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_layout);
+
 //------------------------------------------------
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         newList = new ArrayList<>();
@@ -51,33 +52,27 @@ public class MyReport extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getUid();
 // second filter
-        allbtn=(Button) findViewById(R.id.all);
-        allbtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-                missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-                findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-                SecondFilter("all");
+        allbtn= findViewById(R.id.all);
+        allbtn.setOnClickListener(v -> {
+            allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+            SecondFilter("all");
 
-            }
         });
-        missingbtn=(Button) findViewById(R.id.missing);
-        missingbtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                missingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-                allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-                findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-                SecondFilter("missing");
-            }
+        missingbtn= findViewById(R.id.missing);
+        missingbtn.setOnClickListener(v -> {
+            missingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+            SecondFilter("missing");
         });
-        findingbtn=(Button) findViewById(R.id.finding);
-        findingbtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                findingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-                missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-                allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-                SecondFilter("finding");
-            }
+        findingbtn=findViewById(R.id.finding);
+        findingbtn.setOnClickListener(v -> {
+            findingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+            SecondFilter("finding");
         });
         //
 
@@ -91,9 +86,8 @@ public class MyReport extends AppCompatActivity {
         allbtn.setVisibility(View.GONE);
         findingbtn.setVisibility(View.GONE);
         missingbtn.setVisibility(View.GONE);
-        list = new ArrayList<Report>();
+        list = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
-        // Query query = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -122,6 +116,7 @@ public class MyReport extends AppCompatActivity {
                 allbtn.setVisibility(View.VISIBLE);
                 findingbtn.setVisibility(View.VISIBLE);
                 missingbtn.setVisibility(View.VISIBLE);
+
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
                     allbtn.setVisibility(View.GONE);

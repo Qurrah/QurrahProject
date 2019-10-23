@@ -126,21 +126,14 @@ private String  userID, latitude, longitude;
 
             builder1.setPositiveButton(
                     "نعم",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                            startActivity(new Intent(ViewReport.this, MainActivity.class));
-                        }
-
+                    (dialog, id) -> {
+                        finish();
+                        startActivity(new Intent(ViewReport.this, MainActivity.class));
                     });
 
             builder1.setNegativeButton(
                     "إلغاء الامر",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+                    (dialog, id) -> dialog.cancel());
 
             AlertDialog alert11 = builder1.create();
 
