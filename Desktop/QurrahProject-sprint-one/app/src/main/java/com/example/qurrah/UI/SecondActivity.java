@@ -56,13 +56,12 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     BottomAppBar bottomAppBar;
     TextView username , test;
     private FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference , reference;
+    DatabaseReference databaseReference;
     private boolean mLocationPermissionGranted = false;
     private static final String TAG = "SecondActivity";
 //    ArrayList<String> LatitudeList;
 //    ArrayList<String> LongitudeList;
     ArrayList<Report> reportsList;  // array of reports that contain a location
-    String lat ;
     ArrayList<String> userList, phones;
 
 
