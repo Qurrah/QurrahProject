@@ -269,7 +269,8 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             intent.putExtra("report", report);
             intent.putExtra("lat", report.getLatitude());
             intent.putExtra("lon", report.getLongitude());
-
+            intent.putExtra("locationDescription", report.getLocation());
+            intent.putExtra("address", report.getAddress());
 
             context.startActivity(intent);
         });

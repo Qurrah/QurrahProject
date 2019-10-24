@@ -200,23 +200,19 @@ public class MyReport extends AppCompatActivity {
                             adapter.notifyItemRangeChanged(position,newList.size());
                             adapter.updateList(newList);
 
-                            final Snackbar snackBar = Snackbar.make(recyclerView, deletedReport.getLostTitle(), Snackbar.LENGTH_LONG);
+                            final Snackbar snackBar = Snackbar.make(recyclerView, "تم الحذف", Snackbar.LENGTH_LONG);
                             snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
-                            snackBar.setAction("تراجع", new View.OnClickListener() {
-
-                                @Override
-                                public void onClick(View v) {
-                                    snackBar.dismiss();
-                                    findViewById(R.id.noReports).setVisibility(View.GONE);
-                                    reference.child(snapshot.getKey()).setValue(deletedReport);
-                                    newList.add(position, deletedReport);
-                                    adapter.notifyItemInserted(position);
-                                    adapter.updateList(newList);
+                            snackBar.setAction("تراجع", v -> {
+                                snackBar.dismiss();
+                                findViewById(R.id.noReports).setVisibility(View.GONE);
+                                reference.child(snapshot.getKey()).setValue(deletedReport);
+                                newList.add(position, deletedReport);
+                                adapter.notifyItemInserted(position);
+                                adapter.updateList(newList);
 
 
 
 
-                                }
                             }).show();
 
 
