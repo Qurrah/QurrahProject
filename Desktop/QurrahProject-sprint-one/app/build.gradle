@@ -80,6 +80,7 @@ dependencies {
     implementation 'com.github.Mindinventory:VanillaPlacePicker:0.0.9'
     implementation "org.jetbrains.anko:anko-common:0.8.3"
 
+
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

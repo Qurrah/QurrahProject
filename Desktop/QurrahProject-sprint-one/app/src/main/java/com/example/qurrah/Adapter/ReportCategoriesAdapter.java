@@ -139,6 +139,8 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             intent.putExtra("userType" , finalType);
             intent.putExtra("lat",report.getLatitude());
             intent.putExtra("lon",report.getLongitude());
+            intent.putExtra("locationDescription", report.getLocation());
+            intent.putExtra("address", report.getAddress());
 
 
 
