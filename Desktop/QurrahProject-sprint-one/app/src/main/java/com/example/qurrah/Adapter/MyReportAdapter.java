@@ -72,6 +72,9 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         final Report report = reports.get(position);
         holder.lostTitle.setText(reports.get(position).getLostTitle());
         holder.address.setText(reports.get(position).getAddress());
+        if (holder.address.getText().equals("") || holder.address.getText().equals("الموقع"))
+                 holder.imgAddress.setVisibility(View.GONE);
+
         //holder.lostDate.setText(reports.get(position).getDate());
         //--------------------------------------handling date ------------------------------
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
@@ -266,7 +269,8 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             intent.putExtra("report", report);
             intent.putExtra("lat", report.getLatitude());
             intent.putExtra("lon", report.getLongitude());
-
+            intent.putExtra("locationDescription", report.getLocation());
+            intent.putExtra("address", report.getAddress());
 
             context.startActivity(intent);
         });
@@ -365,6 +369,7 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
         Switch status;
         LinearLayout linear;
         TextView address;
+        ImageView imgAddress;
 
 
         public ViewHolder(View itemView) {
@@ -378,6 +383,8 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             updateButton = itemView.findViewById(R.id.update);
             linear = itemView.findViewById(R.id.linearLayout);
             address = itemView.findViewById(R.id.address);
+            imgAddress = itemView.findViewById(R.id.imageAddress);
+
         }
     }
     public void updateList(ArrayList<Report> newList) {

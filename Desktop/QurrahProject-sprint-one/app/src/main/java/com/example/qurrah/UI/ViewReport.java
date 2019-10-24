@@ -1,5 +1,6 @@
 package com.example.qurrah.UI;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,7 +34,7 @@ import com.squareup.picasso.Picasso;
 
 public class ViewReport extends AppCompatActivity implements OnMapReadyCallback {
 
-private TextView title , description , name ;
+private TextView title , description , name , yourReport;
 private ImageView photo;
 private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
 private String reportImg, UserType;
@@ -54,6 +55,7 @@ private String  userID, latitude, longitude;
     }
 
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,7 @@ private String  userID, latitude, longitude;
         description=findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
         name = findViewById(R.id.reportUsername);
+        yourReport = findViewById(R.id.yourReport);
         whatsapp = findViewById(R.id.whatsapp);
         chatting = findViewById(R.id.chatting);
 
@@ -82,12 +85,15 @@ private String  userID, latitude, longitude;
         UserType =  getIntent().getStringExtra("userType");
 
         if (UserType.equals("current")) {
-            whatsapp.setVisibility(View.INVISIBLE);
-            chatting.setVisibility(View.INVISIBLE);
+            whatsapp.setVisibility(View.GONE);
+            chatting.setVisibility(View.GONE);
+            name.setVisibility(View.INVISIBLE);
+            yourReport.setVisibility(View.VISIBLE);
+        }else{
+            name.setText(reportUser);
         }
 
         // set values
-        name.setText(reportUser);
         Picasso.get().load(reportImg).into(photo);
         title.setText(title.getText()+"\n"+reporTitle);
         description.setText(description.getText()+"\n"+reportDescription);
@@ -126,21 +132,14 @@ private String  userID, latitude, longitude;
 
             builder1.setPositiveButton(
                     "نعم",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finish();
-                            startActivity(new Intent(ViewReport.this, MainActivity.class));
-                        }
-
+                    (dialog, id) -> {
+                        finish();
+                        startActivity(new Intent(ViewReport.this, MainActivity.class));
                     });
 
             builder1.setNegativeButton(
                     "إلغاء الامر",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+                    (dialog, id) -> dialog.cancel());
 
             AlertDialog alert11 = builder1.create();
 

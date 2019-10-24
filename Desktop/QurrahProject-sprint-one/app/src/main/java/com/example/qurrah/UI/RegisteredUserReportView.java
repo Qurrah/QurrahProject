@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import static android.text.TextUtils.isEmpty;
 import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 import com.example.qurrah.Kotlin.PickLocationActivity;
 import com.example.qurrah.R;
@@ -66,8 +69,8 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     private String reportImg;
     private Button update, save;
     AlertDialog dialog;
-    EditText titleEdit, descriptionEdit;
-    protected boolean flag = false;
+    EditText titleEdit, descriptionEdit, locationDescriptionEdit;
+    protected boolean flag = false, flag1= false;
     protected Uri filePath, previousImg;
     static boolean sFlag = false, textFlag = true;
     FirebaseAuth firebaseAuth;
@@ -77,9 +80,8 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     String userID, date, des ,latitude, longitude;
     Report report;
     Editable titleText, desc;
-    LinearLayout placePicker;
-    String address;
-    TextView tvaddress;
+    String address ="", address1;
+    TextView tvaddress , mapDescription;
     ImageView imageViewAddress;
     GoogleMap mMap;
 
@@ -87,14 +89,20 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setScrollGesturesEnabled(false);
+        findViewById(R.id.map).setVisibility(View.VISIBLE);
 
         // Add a marker in a location.
         // and move the map's camera to the same location.
-        LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-        mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this,R.drawable.ic_location)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        mMap.setMinZoomPreference(15);
-
+        if (latitude!=null && longitude != null && latitude.length() >0 && longitude.length() >0) {
+            findViewById(R.id.map).setVisibility(View.VISIBLE);
+            LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+            mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+            mMap.setMinZoomPreference(15);
+            mMap.setMapType(mMap.MAP_TYPE_HYBRID);
+        }else {
+            findViewById(R.id.map).setVisibility(View.GONE);
+        }
     }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,14 +117,14 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        placePicker = findViewById(R.id.pickPlace);
         title = findViewById(R.id.reportTitle);
         description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
         update = findViewById(R.id.update);
         save = findViewById(R.id.saveChanges);
+        mapDescription = findViewById(R.id.mapdesc);
 
-        save.setVisibility(View.INVISIBLE);
+       save.setVisibility(View.INVISIBLE);
 
 
         reporTitle = getIntent().getStringExtra("Title");
@@ -125,6 +133,14 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         report = (Report) getIntent().getSerializableExtra("report");
         latitude =  getIntent().getStringExtra("lat");
         longitude =  getIntent().getStringExtra("lon");
+        address1 =  getIntent().getStringExtra("address");
+
+
+        if (getIntent().getStringExtra("locationDescription") != null){
+            mapDescription.setVisibility(View.VISIBLE);
+            findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
+            mapDescription.setText(getIntent().getStringExtra("locationDescription"));
+        }
 
         if (report.getReportStatus().equals("مغلق"))
             update.setVisibility(View.INVISIBLE);
@@ -133,7 +149,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         Picasso.get().load(reportImg).into(photo);
         title.setText(reporTitle);
         description.setText(reportDescription);
-
+        mapDescription.setText( getIntent().getStringExtra("locationDescription"));
 
         update.setOnClickListener(view -> ShowDialog());
 
@@ -170,19 +186,11 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
                                             storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
 
-                                            storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                                                    storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                        @Override
-                                                        public void onSuccess(Uri uri) {
-                                                            saveToDatabase(uri.toString());
+                                            storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                saveToDatabase(uri.toString());
 
-                                                            progressDialog.dismiss();
-                                                        }
-                                                    });
-                                                }
-                                            });
+                                                progressDialog.dismiss();
+                                            }));
 
                                         } else {
                                             saveToDatabase(null);
@@ -237,7 +245,11 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         descriptionEdit = view.findViewById(R.id.description_edit);
         img = view.findViewById(R.id.img);
         tvaddress = view.findViewById(R.id.address);
+        locationDescriptionEdit = view.findViewById(R.id.location_description_edit);
         imageViewAddress = view.findViewById(R.id.imageAddress);
+
+        tvaddress.setText(address1);
+        locationDescriptionEdit.setText(getIntent().getStringExtra("locationDescription"));
 
 
         if (filePath == null) {
@@ -250,14 +262,52 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         if (textFlag) {
             titleEdit.setText(reporTitle);
             descriptionEdit.setText(reportDescription);
+
+
         } else {
             titleEdit.setText(title.getText());
             descriptionEdit.setText(description.getText());
 
         }
 
+        TextWatcher edittw = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!titleEdit.getText().toString().equals("")  && !descriptionEdit.getText().toString().equals("")) {
+                    confirm.setEnabled(true);
+                    confirm.setAlpha(1);
+
+                } else {
+                    if (titleEdit.getText().toString().equals("")){
+                        titleEdit.setError("لا يمكن ترك هذه الخانة فارغة");
+                    }else {
+                        titleEdit.setError(null);
+                    }
+                    if (descriptionEdit.getText().toString().equals("")){
+                        descriptionEdit.setError("لا يمكن ترك هذه الخانة فارغة");
+                    }else {
+                        descriptionEdit.setError(null);
+                    }
+                    confirm.setEnabled(false);
+                    confirm.setAlpha(0.6f);
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        titleEdit.addTextChangedListener(edittw);
+        descriptionEdit.addTextChangedListener(edittw);
 
 
         confirm.setOnClickListener(view12 -> {
@@ -266,18 +316,25 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
             title.setText(titleText);
             description.setText(desc);
+            mapDescription.setText(locationDescriptionEdit.getText());
+            if (!address.equals("")) {
+                findViewById(R.id.map).setVisibility(View.VISIBLE);
+            }
+            if(mapDescription.getText().toString().equals("")){
+                findViewById(R.id.imageAddress).setVisibility(View.INVISIBLE);
+            }else {
+                findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
 
+            }
             sFlag = true;
             photo.setImageURI(filePath);
             previousImg = filePath;
             dialog.cancel();
             save.setVisibility(View.VISIBLE);
+            update.setVisibility(View.GONE);
             textFlag = false;
 
         });
-
-
-
 
 
         cancel.setOnClickListener(view1 -> dialog.cancel());
@@ -285,7 +342,6 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
         dialog = new AlertDialog.Builder(this).setView(view).create();
         dialog.show();
-
     }
     public void pickPlace(View view) {
         startActivityForResult(new Intent(getApplicationContext(), PickLocationActivity.class), REQUEST_PLACE_PICKER_CODE);
@@ -343,18 +399,12 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                 LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
-                markerOptions.title("d"); //Here Total Address is address which you want to show on marker
-
-
-
-                markerOptions.icon(
-                        BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
+                mMap.setMapType(mMap.MAP_TYPE_HYBRID);
+                markerOptions.icon(bitmapDescriptorFromVector(this, R.drawable.ic_location));
                 markerOptions.getPosition();
                 mMap.addMarker(markerOptions);
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
 
             }
@@ -373,7 +423,12 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
         report.setLostTitle(titleText.toString());
         report.setLostDescription(desc.toString());
-
+        report.setAddress(address);
+        report.setLatitude(latitude);
+        report.setLongitude(longitude);
+        report.setLocation(mapDescription.getText().toString());
+        if (!address.equals(""))
+            imageViewAddress.setVisibility(View.VISIBLE);
 
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم تعديل بلاغك", Toast.LENGTH_SHORT).show();
