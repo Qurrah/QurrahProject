@@ -31,6 +31,7 @@ import com.example.qurrah.UI.ReportTypes.OtherReport;
 import com.example.qurrah.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -56,7 +57,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     BottomAppBar bottomAppBar;
     TextView username , test;
     private FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference , reference;
+    DatabaseReference databaseReference;
     private boolean mLocationPermissionGranted = false;
     private static final String TAG = "SecondActivity";
 //    ArrayList<String> LatitudeList;
@@ -108,7 +109,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         String userId=firebaseAuth.getCurrentUser().getUid();
-        databaseReference = firebaseDatabase.getReference().child("Users");   //.child(userId);
+        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

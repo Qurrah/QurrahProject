@@ -71,6 +71,16 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/yourReport"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:gravity="center"
+            android:text="لقد قمت بنشر هذا البلاغ"
+            android:textAlignment="center"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints" />
+
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
