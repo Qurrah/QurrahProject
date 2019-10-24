@@ -89,7 +89,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
 
-//        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
+//       Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
 
 
 
