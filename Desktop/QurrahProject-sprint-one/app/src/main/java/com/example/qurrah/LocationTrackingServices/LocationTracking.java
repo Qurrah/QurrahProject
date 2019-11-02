@@ -78,7 +78,7 @@ public class LocationTracking extends AppCompatActivity {
                     currentLatitude = l.getLatitude();
                     currentLongitude = l.getLongitude();
                     try {
-                        TimeUnit.SECONDS.sleep(1); // sleep for 10 seconds
+                        TimeUnit.SECONDS.sleep(10); // sleep for 10 seconds
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
