@@ -22,6 +22,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.qurrah.LocationTrackingServices.LocationTracking;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.UI.ReportTypes.AnimalReport;
@@ -308,4 +309,10 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         return false;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocationTracking.notificationManager.cancelAll();
+        LocationTracking.id = 1;
+    }
 }

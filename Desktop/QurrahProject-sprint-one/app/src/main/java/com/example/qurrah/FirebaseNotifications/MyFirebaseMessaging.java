@@ -1,4 +1,4 @@
-package com.example.qurrah.Notifications;
+package com.example.qurrah.FirebaseNotifications;
 
 import android.app.Notification;
 

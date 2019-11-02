@@ -1,4 +1,4 @@
-package com.example.qurrah.Adapter;
+package com.example.qurrah.Adapters;
 
 import android.content.Context;
 import android.content.Intent;

@@ -10,15 +10,12 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import android.os.Parcelable;
 
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.R;
@@ -35,15 +32,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static com.example.qurrah.Constants.COURSE_LOCATION;
+import static android.widget.Toast.*;
+import static com.example.qurrah.Constants.COARSE_LOCATION;
 import static com.example.qurrah.Constants.DEFAULT_ZOOM;
 import static com.example.qurrah.Constants.FINE_LOCATION;
 import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
@@ -62,6 +56,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     ArrayList<Report> reportsList;
     Double Dlatitude, Dlongitude;
     ArrayList<String> userList, phones;
+    static double currentLat, currentLon;
 
 
     @Override
@@ -81,7 +76,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             if (ActivityCompat.checkSelfPermission(this, FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                    COURSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
                 return;
             }
 
@@ -174,17 +169,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
+                            currentLat = currentLocation.getLatitude();
+                            currentLon = currentLocation.getLongitude();
 //                            mMap.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).title("انت"));
                             if (currentLocation != null) {
-                                moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                        DEFAULT_ZOOM);
+                                moveCamera(new LatLng(currentLat, currentLon),
+                                         DEFAULT_ZOOM);
                             }
 
 
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
-                            Toast.makeText(MapActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                            makeText(MapActivity.this, "unable to get current location", LENGTH_SHORT).show();
                         }
+//                        Toast.makeText(getApplicationContext(),String.valueOf(currentLat),Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -194,7 +192,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void moveCamera(LatLng latLng, float zoom) {
-
+        areReportsWithin5km(currentLat,currentLon);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
 
@@ -249,4 +247,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+    private void areReportsWithin5km(double lat, double lan){
+        float[] results = new float[1];
+        Location.distanceBetween(24.571678, 46.629488, lan, lat, results);
+        float distanceInMeters = results[0];
+        boolean isWithin5km = distanceInMeters <=5000;
+        if (isWithin5km){
+            makeText(getApplicationContext(),"yes", LENGTH_LONG).show();
+        }else {
+            makeText(getApplicationContext(), "no", LENGTH_LONG).show();
+        }
+    }
+
 }

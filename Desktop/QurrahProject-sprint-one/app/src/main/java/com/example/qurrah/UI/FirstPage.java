@@ -1,6 +1,5 @@
 package com.example.qurrah.UI;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 //import android.support.v7.app.AppCompatActivity;
@@ -21,8 +20,8 @@ private static int SPLASH_TIME_OUT = 3000;
             @Override
             public void run() {
 
-                Intent hp = new Intent(FirstPage.this , MainActivity.class);
-                startActivity(hp);
+//                Intent hp = new Intent(FirstPage.this , LocationTracking.class);
+//                startActivity(hp);
                 finish();
             }
 

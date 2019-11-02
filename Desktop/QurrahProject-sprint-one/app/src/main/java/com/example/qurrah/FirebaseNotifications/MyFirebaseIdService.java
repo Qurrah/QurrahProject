@@ -1,19 +1,13 @@
-package com.example.qurrah.Notifications;
-
-import android.util.Log;
+package com.example.qurrah.FirebaseNotifications;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
-
-import java.util.concurrent.Executor;
 
 class MyFirebaseIdService extends FirebaseMessagingService {
 

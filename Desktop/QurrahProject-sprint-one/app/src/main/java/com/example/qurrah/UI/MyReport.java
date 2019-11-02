@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.qurrah.Adapter.MyReportAdapter;
+import com.example.qurrah.Adapters.MyReportAdapter;
 import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
 import com.google.android.material.snackbar.Snackbar;
