@@ -10,10 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.qurrah.Adapter.UserAdapter;
+import com.example.qurrah.Adapters.UserAdapter;
 import com.example.qurrah.Model.Chatlist;
 import com.example.qurrah.Model.UserProfile;
-import com.example.qurrah.Notifications.Token;
+import com.example.qurrah.FirebaseNotifications.Token;
 
 import com.example.qurrah.R;
 

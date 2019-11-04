@@ -1,4 +1,4 @@
-package com.example.qurrah.Notifications;
+package com.example.qurrah.FirebaseNotifications;
 
 public class Token {
     private String token;

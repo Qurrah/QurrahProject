@@ -1,7 +1,7 @@
 package com.example.qurrah.Fragments;
 
-import com.example.qurrah.Notifications.MyResponse;
-import com.example.qurrah.Notifications.Sender;
+import com.example.qurrah.FirebaseNotifications.MyResponse;
+import com.example.qurrah.FirebaseNotifications.Sender;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

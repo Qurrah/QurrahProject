@@ -5,12 +5,14 @@ import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
 
+
 import com.vanillaplacepicker.presentation.builder.VanillaPlacePicker
 import com.vanillaplacepicker.utils.KeyUtils
 import com.vanillaplacepicker.utils.MapType
 import com.vanillaplacepicker.utils.PickerLanguage
 import com.vanillaplacepicker.utils.PickerType
-import org.jetbrains.anko.toast
+
+
 
 class PickLocationActivity : AppCompatActivity(){
 
@@ -40,7 +42,6 @@ class PickLocationActivity : AppCompatActivity(){
                         intent.putExtra("Longitude", it.longitude.toString())
                         intent.putExtra("Address",  it.formattedAddress?.replace("""[0-9]""".toRegex(),""))
                         setResult(Activity.RESULT_OK, intent)
-                        //toast (it.formattedAddress.toString())
                         finish()
                 }
                 }
@@ -48,4 +49,5 @@ class PickLocationActivity : AppCompatActivity(){
         }
         finish()
     }
+
 }

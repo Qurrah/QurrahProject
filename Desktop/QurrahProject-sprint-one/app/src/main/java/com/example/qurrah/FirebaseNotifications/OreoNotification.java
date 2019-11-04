@@ -1,4 +1,4 @@
-package com.example.qurrah.Notifications;
+package com.example.qurrah.FirebaseNotifications;
 
 import android.annotation.TargetApi;
 import android.app.Notification;

@@ -1,4 +1,4 @@
-package com.example.qurrah.Adapter;
+package com.example.qurrah.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +23,6 @@ import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.UI.ViewReport;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;

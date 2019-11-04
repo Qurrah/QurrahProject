@@ -1,4 +1,4 @@
-package com.example.qurrah.Adapter;
+package com.example.qurrah.Adapters;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.qurrah.Model.Chat;

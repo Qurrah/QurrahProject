@@ -21,9 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.example.qurrah.Adapter.UserAdapter;
+import com.example.qurrah.Adapters.UserAdapter;
 import com.example.qurrah.Model.Chatlist;
-import com.example.qurrah.Notifications.Token;
+import com.example.qurrah.FirebaseNotifications.Token;
 import com.example.qurrah.R;
 import com.google.firebase.iid.InstanceIdResult;
 

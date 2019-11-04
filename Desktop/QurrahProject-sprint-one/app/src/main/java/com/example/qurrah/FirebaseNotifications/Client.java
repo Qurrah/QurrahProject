@@ -1,4 +1,4 @@
-package com.example.qurrah.Notifications;
+package com.example.qurrah.FirebaseNotifications;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.qurrah.Adapter.ReportCategoriesAdapter;
+import com.example.qurrah.Adapters.ReportCategoriesAdapter;
 import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
