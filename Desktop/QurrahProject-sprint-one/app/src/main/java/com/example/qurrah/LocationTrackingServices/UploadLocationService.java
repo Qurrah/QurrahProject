@@ -17,10 +17,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-/**
- * Created by Marty on 12/20/2017.
- */
-
 public class UploadLocationService extends IntentService {
 
     ArrayList<Location> points;

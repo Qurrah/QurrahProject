@@ -3,6 +3,7 @@ package com.example.qurrah.LocationTrackingServices;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
+import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -49,6 +50,9 @@ public class LocationTracking extends AppCompatActivity {
     public static int counter =0 ,id = 1;
     public static ArrayList<String> ids = new ArrayList<>();
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,12 +80,6 @@ public class LocationTracking extends AppCompatActivity {
                     Location l = b.getParcelable("location");
                     currentLatitude = l.getLatitude();
                     currentLongitude = l.getLongitude();
-                    try {
-                        TimeUnit.SECONDS.sleep(10); // sleep for 10 seconds
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
                     findReportsWithin5Km();
                     Toast.makeText(getApplicationContext(), currentLatitude + " and " + currentLongitude, Toast.LENGTH_LONG).show();
 
@@ -246,5 +244,7 @@ public class LocationTracking extends AppCompatActivity {
         return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
+
 }
+
 

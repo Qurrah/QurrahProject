@@ -96,9 +96,11 @@ public class LocationJobService extends JobService implements GoogleApiClient.Co
 
     private void config() {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setSmallestDisplacement(10);
+        int minimumDistanceBetweenUpdates = 10000;
+        mLocationRequest.setSmallestDisplacement(minimumDistanceBetweenUpdates);
+
+        //  mLocationRequest.setInterval(60000);
+      //  mLocationRequest.setFastestInterval(10000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         cd = new ConnectionDetector(getApplicationContext());
         startLocationUpdates();
