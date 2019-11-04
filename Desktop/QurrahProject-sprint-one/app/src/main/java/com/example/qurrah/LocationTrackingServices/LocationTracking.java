@@ -55,7 +55,6 @@ public class LocationTracking extends AppCompatActivity {
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         notificationManager = NotificationManagerCompat.from(this);
         startBackgroundService();
-
         if (id > 1) {
             id = 1;
         }
@@ -91,7 +90,7 @@ public class LocationTracking extends AppCompatActivity {
                         firstSeenLatitude = currentLatitude;
                         firstSeenLongitude = currentLongitude;
                     }else if (!isUserLocationWithin5kmOfFirstSeenLocation(currentLatitude, currentLongitude)){
-                      Toast.makeText(getApplicationContext(),"users leaves his geoFence, starting a new one", Toast.LENGTH_LONG).show();
+                      Toast.makeText(getApplicationContext(),"user leaves his geoFence, starting a new one", Toast.LENGTH_LONG).show();
                             firstSeenLatitude = 0;
                             firstSeenLongitude = 0;
                              ids.removeAll(ids);

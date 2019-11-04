@@ -5,14 +5,13 @@ import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
 
-import com.google.android.libraries.places.api.Places
 
 import com.vanillaplacepicker.presentation.builder.VanillaPlacePicker
 import com.vanillaplacepicker.utils.KeyUtils
 import com.vanillaplacepicker.utils.MapType
 import com.vanillaplacepicker.utils.PickerLanguage
 import com.vanillaplacepicker.utils.PickerType
-import org.jetbrains.anko.toast
+
 
 
 class PickLocationActivity : AppCompatActivity(){
@@ -20,7 +19,7 @@ class PickLocationActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = VanillaPlacePicker.Builder(this)
-                .with(PickerType.MAP_WITH_AUTO_COMPLETE)
+                .with(PickerType.MAP)
                 .setMapType(MapType.SATELLITE)
                 .setPickerLanguage(PickerLanguage.ARABIC)
                 .setMapPinDrawable(com.example.qurrah.R.drawable.ic_location)
