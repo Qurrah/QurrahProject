@@ -62,7 +62,7 @@ public class LocationTracking extends AppCompatActivity {
         if (id > 1) {
             id = 1;
         }
-        startActivity(new Intent(this, SecondActivity.class));
+         startActivity(new Intent(this, MainActivity.class));
 
     }
 
