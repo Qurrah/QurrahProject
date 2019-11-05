@@ -64,7 +64,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 //    ArrayList<String> LatitudeList;
 //    ArrayList<String> LongitudeList;
     ArrayList<Report> reportsList;  // array of reports that contain a location
-    ArrayList<String> userList, phones;
+    ArrayList<String> userList, phones , IdList;
 
 
     @Override
@@ -81,6 +81,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         reportsList = new ArrayList<>();
         userList = new ArrayList<>();
         phones = new ArrayList<>();
+        IdList=new ArrayList<>();
 //---------------------------------------------------
 
         NavigationView mNavigationView =findViewById(R.id.nav_view);
@@ -120,24 +121,24 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                 reportsList.clear();
                 userList.clear();
                 phones.clear();
-
+                IdList.clear();
 
 
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String ID = userInfo.getId();
                     String userName = userInfo.getUserName();
                     String No = userInfo.getPhone();
 
 
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
-//                        if(ds.getChildrenCount() > 0) {
                             Report report = ds.getValue(Report.class);
                             if(!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")){
-                            reportsList.add(report);
+                                reportsList.add(report);
+                                IdList.add(ID);
                                 userList.add(userName);
                                 phones.add(No);
                             }
-//                        }
                     }
                 }
 
@@ -179,6 +180,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                         if(isServicesOK()){
                             Intent intent = new Intent(SecondActivity.this, MapActivity.class);
                             intent.putStringArrayListExtra("userList" , userList);
+                            intent.putStringArrayListExtra("IDsList" , IdList);
                             intent.putStringArrayListExtra("phoneNumbers" , phones);
                             intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
                             startActivity(intent);

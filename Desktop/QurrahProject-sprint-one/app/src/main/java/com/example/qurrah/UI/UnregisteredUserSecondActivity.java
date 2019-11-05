@@ -45,7 +45,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     private FloatingActionButton fab;
     CardView people_card,animal_card,device_card,other_card;
     ArrayList<Report> reportsList;  // array of reports that contain a location
-    ArrayList<String> userList, phones;
+    ArrayList<String> userList, phones, IdList;
     DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
     private static final String TAG = "UnregisteredSecondActivity";
@@ -60,6 +60,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         reportsList = new ArrayList<>();
         userList = new ArrayList<>();
         phones = new ArrayList<>();
+        IdList=new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Users");   //.child(userId);
@@ -71,11 +72,12 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                 reportsList.clear();
                 userList.clear();
                 phones.clear();
-
+                IdList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
+                    String ID = userInfo.getId();
                     String No = userInfo.getPhone();
 
 
@@ -86,6 +88,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                             reportsList.add(report);
                             userList.add(userName);
                             phones.add(No);
+                            IdList.add(ID);
                         }
 //                        }
                     }
@@ -139,6 +142,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                         if(isServicesOK()){
                             Intent intent = new Intent(UnregisteredUserSecondActivity.this, MapActivity.class);
                             intent.putStringArrayListExtra("userList" , userList);
+                            intent.putStringArrayListExtra("IDsList" , IdList);
                             intent.putStringArrayListExtra("phoneNumbers" , phones);
                             intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
                             startActivity(intent);

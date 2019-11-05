@@ -83,8 +83,10 @@ private String  userID, latitude, longitude;
         latitude =  getIntent().getStringExtra("lat");
         longitude =  getIntent().getStringExtra("lon");
         UserType =  getIntent().getStringExtra("userType");
-
-        if (UserType.equals("current")) {
+        if (UserType == null || UserType.equals("none" )) {
+            UserType="guest";
+        }
+        else if (UserType.equals("current")) {
             whatsapp.setVisibility(View.GONE);
             chatting.setVisibility(View.GONE);
             name.setVisibility(View.INVISIBLE);
