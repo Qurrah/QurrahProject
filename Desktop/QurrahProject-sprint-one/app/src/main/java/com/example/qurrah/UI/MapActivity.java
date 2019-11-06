@@ -32,9 +32,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static android.widget.Toast.*;
 import static com.example.qurrah.Constants.COARSE_LOCATION;
@@ -55,8 +57,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private DatabaseReference reference;
     ArrayList<Report> reportsList;
     Double Dlatitude, Dlongitude;
-    ArrayList<String> userList, phones;
+    ArrayList<String> userList, phones, IDs;
     static double currentLat, currentLon;
+    String type="none", CU="none";
 
 
     @Override
@@ -111,7 +114,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onInfoWindowClick(Marker marker) {
 
         for (int i=0; i< reportsList.size(); i++) {
+            try {
+                CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+            }catch (Exception e){
+                type="guest";
+            }
 
+            final String id =IDs.get(i);
+            if(CU.equals(id)) {
+                type = "current";}
+
+            else if(!CU.equals(id) && type.equals("none")){
+//           if(type.equals("none")){
+            type = "notCurrent";
+            }
             LatLng latLng = new LatLng(Double.parseDouble(reportsList.get(i).getLatitude()) , Double.parseDouble(reportsList.get(i).getLongitude()));
            if(latLng.equals(marker.getPosition())){
                 Intent intent = new Intent(MapActivity.this, ViewReport.class);
@@ -120,7 +136,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("Title", reportsList.get(i).getLostTitle());
                 intent.putExtra("Description", reportsList.get(i).getLostDescription());
                 intent.putExtra("UserName", userList.get(i));
-                intent.putExtra("WhatsApp", phones.get(i));
+               intent.putExtra("userid", IDs.get(i));
+               intent.putExtra("userType",type);
+               intent.putExtra("WhatsApp", phones.get(i));
                 intent.putExtra("lat",reportsList.get(i).getLatitude());
                 intent.putExtra("lon",reportsList.get(i).getLongitude());
                 startActivity(intent);
@@ -143,11 +161,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-
         reportsList = (ArrayList) getIntent().getParcelableArrayListExtra("reportsLoc");
         userList = getIntent().getStringArrayListExtra("userList");
         phones = getIntent().getStringArrayListExtra("phoneNumbers");
+        IDs=getIntent().getStringArrayListExtra("IDsList");
 //        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
 
