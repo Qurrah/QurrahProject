@@ -4,90 +4,220 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F4F5"
+    android:background="@mipmap/qurrah_background"
     tools:context="com.example.qurrah.UI.RegistrationActivity">
 
-    <EditText
-        android:id="@+id/etUserName"
-        android:layout_width="221dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:fontFamily="sans-serif-medium"
-        android:hint="اسم المستخدم"
-        android:inputType="textPersonName"
-        android:textColor="@color/darkPurple"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.33" />
 
-    <EditText
-        android:id="@+id/etUserPassword"
-        android:layout_width="221dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="right"
-        android:hint="كلمة المرور"
-        android:inputType="textPassword"
-        android:textColor="@color/darkPurple"
-        android:textSize="16sp"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserEmail" />
 
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="146dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="right"
-        android:hint="رقم الجوال"
-        android:inputType="number"
-        android:maxLength="9"
-        android:textColor="@color/darkPurple"
-        android:textSize="16sp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.626"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserPassword"
-        app:layout_constraintVertical_bias="0.0" />
+    // Username error message
+    // policy error message design
+    // password eye icon position
+    // error message gravity
 
-    <EditText
-        android:id="@+id/etUserEmail"
-        android:layout_width="222dp"
-        android:layout_height="44dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:fontFamily="sans-serif-medium"
-        android:hint="البريد الالكتروني"
-        android:inputType="textEmailAddress"
-        android:textColor="@color/darkPurple"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserName"
-        app:layout_constraintVertical_bias="0.016" />
+
+
+
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="60dp"
+        android:paddingTop="120dp"
+        android:paddingLeft="50dp"
+        android:background="@drawable/default_frame"
+        >
+
+
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:counterMaxLength="15"
+            app:hintEnabled="false"
+            app:errorTextAppearance="@style/error_appearance"
+            android:paddingBottom="6dp"
+            >
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="221dp"
+                android:layout_height="44dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="0dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-medium"
+                android:hint="اسم المستخدم"
+                android:inputType="textPersonName"
+                android:textColor="@color/darkPurple"
+                android:textSize="16sp"
+                android:maxLength="15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.505"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.33"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etUserEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:errorTextAppearance="@style/error_appearance"
+            android:paddingBottom="5dp"
+            >
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:layout_width="222dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="0dp"
+            android:ems="10"
+            android:fontFamily="sans-serif-medium"
+            android:hint="البريد الالكتروني"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/darkPurple"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etUserName"
+            app:layout_constraintVertical_bias="0.016" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etUserPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true"
+            android:layout_gravity="left"
+            android:gravity="left"
+            app:hintEnabled="false"
+            app:errorTextAppearance="@style/error_appearance"
+            android:paddingBottom="5dp"
+
+            >
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:layout_width="221dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="8dp"
+            android:ems="10"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="right"
+            android:hint="كلمة المرور"
+            android:inputType="textPassword"
+            android:textColor="@color/darkPurple"
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_bias="0.482"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etUserEmail"
+            />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:text="+966"
+                android:textSize="16dp"
+                android:background="@drawable/gray_buttons"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:alpha="0.7"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintBottom_toTopOf="@+id/policy"
+                app:layout_constraintEnd_toStartOf="@+id/phone"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true"
+                app:hintEnabled="false"
+                app:errorTextAppearance="@style/error_appearance"
+                android:paddingBottom="5dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+
+                    android:layout_width="156dp"
+                    android:layout_height="38dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="right"
+                    android:hint="رقم الجوال"
+                    android:inputType="phone"
+                    android:maxLength="9"
+                    android:paddingTop="5dp"
+                    android:textColor="@color/darkPurple"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.626"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etUserPassword"
+                    app:layout_constraintVertical_bias="0.0" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+
 
     <!--    <EditText-->
     <!--        android:id="@+id/etAge2"-->
@@ -114,102 +244,152 @@
     <!--        app:layout_constraintVertical_bias="0.484" />-->
 
 
+        <CheckBox
+            android:id="@+id/policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="الموافقة على الشروط والأحكام "
+            android:textColor="@color/darkPurple"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.701"
+            tools:ignore="MissingConstraints"
+            android:focusableInTouchMode="true"
+            />
+
+
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="248dp"
-        android:layout_height="49dp"
-        android:background="@color/darkPurple"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:background="@drawable/purple_buttons"
         android:text="تسجيل"
         android:textAllCaps="false"
         android:textColor="#ffffff"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.815"
+
         />
 
-    <TextView
-        android:id="@+id/tvUserLogin2"
-        android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="لديك حساب بالفعل؟   "
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.715"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegister"
-        app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/tvUserLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="8dp"
-        android:text="تسجيل الدخول"
-        android:textColor="@color/lightPurple"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvUserLogin2"
-        app:layout_constraintHorizontal_bias="0.277"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegister"
-        app:layout_constraintVertical_bias="0.0" />
+        <Button
+            android:id="@+id/tvUserLogin"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:background="@drawable/gray_buttons"
+            android:text="تسجيل الدخول"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.815"
 
-    <ImageView
-        android:id="@+id/ivProfile"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/etUserName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.126"
-        app:srcCompat="@drawable/qurrah" />
+            />
 
-    <CheckBox
-        android:id="@+id/policy"
+
+
+        <!--    <TextView-->
+<!--        android:id="@+id/tvUserLogin2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="26dp"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:layout_marginRight="8dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:text="لديك حساب بالفعل؟   "-->
+<!--        android:textSize="18dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.715"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnRegister"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvUserLogin"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="26dp"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:text="تسجيل الدخول"-->
+<!--        android:textColor="@color/lightPurple"-->
+<!--        android:textSize="18dp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/tvUserLogin2"-->
+<!--        app:layout_constraintHorizontal_bias="0.277"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnRegister"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/imgLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="الموافقة على الشروط والأحكام "
-        android:textColor="@color/darkPurple"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/circle"
+        android:orientation="vertical"
+        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.701"
         tools:ignore="MissingConstraints"
-        android:focusableInTouchMode="true"
-        />
+        android:layout_marginTop="30dp"
+        >
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="150dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/contentLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.126"
+            app:srcCompat="@drawable/qurrah" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center"
-        android:src="@drawable/message"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.175"
-        app:layout_constraintStart_toEndOf="@+id/etUserEmail"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="200dp">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -217,6 +397,9 @@
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:src="@drawable/usrusr"
+        android:layout_marginTop="135dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.175"
@@ -224,12 +407,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.337" />
 
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/message"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="20dp"/>
+
+
+
+
+
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:src="@drawable/pswd"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.166"
@@ -237,12 +437,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499" />
 
+
+
+
+
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center"
-        android:layout_marginStart="13dp"
         android:src="@drawable/phonemob"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -250,21 +454,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.566" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="69dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:editable="false"
-        android:text="+966"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/policy"
-        app:layout_constraintEnd_toStartOf="@+id/phone"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserPassword"
-        app:layout_constraintVertical_bias="0.0" />
+    </LinearLayout>
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView2"-->
+<!--        android:layout_width="69dp"-->
+<!--        android:layout_height="36dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:editable="false"-->
+<!--        android:text="+966"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/policy"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/phone"-->
+<!--        app:layout_constraintHorizontal_bias="0.95"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/etUserPassword"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

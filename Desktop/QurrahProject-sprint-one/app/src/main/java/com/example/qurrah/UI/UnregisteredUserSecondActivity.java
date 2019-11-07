@@ -45,11 +45,12 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     private FloatingActionButton fab;
     CardView people_card,animal_card,device_card,other_card;
     ArrayList<Report> reportsList;  // array of reports that contain a location
-    ArrayList<String> userList, phones;
+    ArrayList<String> userList, phones,idList;
     DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
     private static final String TAG = "UnregisteredSecondActivity";
     BottomAppBar bottomAppBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         reportsList = new ArrayList<>();
         userList = new ArrayList<>();
         phones = new ArrayList<>();
+        idList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Users");   //.child(userId);
@@ -71,13 +73,14 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                 reportsList.clear();
                 userList.clear();
                 phones.clear();
+                idList.clear();
 
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
                     String No = userInfo.getPhone();
-
+                    String Id = userInfo.getId();
 
                     for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
 //                        if(ds.getChildrenCount() > 0) {
@@ -86,6 +89,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                             reportsList.add(report);
                             userList.add(userName);
                             phones.add(No);
+                            idList.add(Id);
                         }
 //                        }
                     }
@@ -141,6 +145,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                             intent.putStringArrayListExtra("userList" , userList);
                             intent.putStringArrayListExtra("phoneNumbers" , phones);
                             intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
+                            intent.putParcelableArrayListExtra("idList", (ArrayList) idList);
                             startActivity(intent);
                             //             intent.putStringArrayListExtra("Lat", LatitudeList);
 //                            intent.putStringArrayListExtra("Long",LongitudeList);

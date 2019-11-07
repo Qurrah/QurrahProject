@@ -4,14 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/qurrah_background"
     tools:context=".UI.ViewReport"
 
     >
 
+
+
+
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingConstraints">
+
     <LinearLayout
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:paddingTop="20dp"
+        android:paddingLeft="40dp"
+        android:background="@drawable/default_frame"
+        >
 
         <ImageView
             android:id="@+id/reportImg"
@@ -20,15 +39,19 @@
             android:fitsSystemWindows="true"
             android:scaleType="fitXY"
             app:srcCompat="@color/colorPrimaryDark"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:layout_marginRight="40dp"/>
 
         <TextView
             android:id="@+id/reportTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="\nالعنوان:\n"
-            android:textAlignment="center"
-            tools:ignore="MissingConstraints" />
+            android:hint="العنوان:"
+            android:layout_gravity="right"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            tools:ignore="MissingConstraints"
+            android:textSize="20dp"/>
 
         <TextView
             android:id="@+id/reportDes"
@@ -36,25 +59,45 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
 
-            android:text="\nالوصف:"
-            android:textAlignment="center"
+            android:hint="\nالوصف:"
+            android:layout_gravity="right"
+            android:layout_marginRight="50dp"
+            android:textSize="16dp"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="________________________________________\n\nالتواصل:"
+            android:layout_gravity="right"
+            android:layout_marginRight="50dp"
+            tools:ignore="MissingConstraints"
+            />
+
+        <TextView
+            android:id="@+id/reportUsername"
+            android:layout_width="216dp"
+            android:layout_height="29dp"
+            android:layoutDirection="rtl"
+            android:hint="اسم المستخدم"
+            android:layout_gravity="right"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            android:paddingTop="10dp"
+            tools:ignore="MissingConstraints" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="73dp"
+            android:layout_height="wrap_content"
             android:layoutDirection="rtl"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            >
 
-            <TextView
-                android:id="@+id/reportUsername"
-                android:layout_width="216dp"
-                android:layout_height="29dp"
 
-                android:layoutDirection="ltr"
-                android:text="اسم المستخدم"
-                android:textAlignment="center"
-                tools:ignore="MissingConstraints" />
 
             <Button
                 android:id="@+id/whatsapp"
@@ -65,11 +108,23 @@
 
             <Button
                 android:id="@+id/chatting"
-                android:layout_width="62dp"
-                android:layout_height="43dp"
-                android:text="محادثة" />
+                android:layout_width="40dp"
+                android:layout_height="33dp"
+                android:backgroundTint="@color/darkPurple"
+                android:background="@drawable/conversation"
+                android:layout_marginRight="30dp"/>
 
         </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="________________________________________\n"
+            android:layout_gravity="right"
+            android:layout_marginRight="50dp"
+            tools:ignore="MissingConstraints"
+            />
 
         <TextView
             android:id="@+id/yourReport"
@@ -87,11 +142,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".UI.ViewReport"
-            android:layout_margin="10dp"
+            android:layout_marginRight="40dp"
             />
 
 
     </LinearLayout>
+
+</ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

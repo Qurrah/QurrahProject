@@ -62,8 +62,8 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = "SecondActivity";
 //    ArrayList<String> LatitudeList;
 //    ArrayList<String> LongitudeList;
-    ArrayList<Report> reportsList;  // array of reports that contain a location
-    ArrayList<String> userList, phones;
+    ArrayList<Report> reportsList ;  // array of reports that contain a location
+    ArrayList<String> userList, phones ,idList;
 
 
     @Override
@@ -80,6 +80,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         reportsList = new ArrayList<>();
         userList = new ArrayList<>();
         phones = new ArrayList<>();
+        idList= new ArrayList<>();
 //---------------------------------------------------
 
         NavigationView mNavigationView =findViewById(R.id.nav_view);
@@ -119,6 +120,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                 reportsList.clear();
                 userList.clear();
                 phones.clear();
+                idList.clear();
 
 
 
@@ -126,6 +128,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
                     String No = userInfo.getPhone();
+                    String Id = userProfile.getId();
 
 
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
@@ -135,6 +138,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                             reportsList.add(report);
                                 userList.add(userName);
                                 phones.add(No);
+                                idList.add(Id);
                             }
 //                        }
                     }
@@ -180,6 +184,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                             intent.putStringArrayListExtra("userList" , userList);
                             intent.putStringArrayListExtra("phoneNumbers" , phones);
                             intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
+                            intent.putParcelableArrayListExtra("idList", (ArrayList) idList);
                             startActivity(intent);
                             //             intent.putStringArrayListExtra("Lat", LatitudeList);
 //                            intent.putStringArrayListExtra("Long",LongitudeList);

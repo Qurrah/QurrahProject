@@ -52,6 +52,7 @@ import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCAT
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback ,
         GoogleMap.OnInfoWindowClickListener {
     private static final String TAG = "MapActivity";
+//    private String userID;
 
 
     //vars
@@ -61,7 +62,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private DatabaseReference reference;
     ArrayList<Report> reportsList;
     Double Dlatitude, Dlongitude;
-    ArrayList<String> userList, phones;
+    ArrayList<String> userList, phones , idList;
 
 
     @Override
@@ -89,7 +90,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
 
-//       Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
 
 
 
@@ -98,9 +99,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Dlongitude = Double.parseDouble(reportsList.get(i).getLongitude());
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(Dlatitude, Dlongitude))
-                    .title("Title: "+reportsList.get(i).getLostTitle())
-                    .snippet("Category: "+reportsList.get(i).getCategoryOption()+"\nType: "+reportsList.get(i).getReportTypeOption())
-                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
+                    .title(reportsList.get(i).getLostTitle())
+                    .snippet(reportsList.get(i).getCategoryOption()+"\nType: "+reportsList.get(i).getReportTypeOption()));
+//                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
+//
+
         }
 
 
@@ -126,11 +129,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("Description", reportsList.get(i).getLostDescription());
                 intent.putExtra("UserName", userList.get(i));
                 intent.putExtra("WhatsApp", phones.get(i));
+                intent.putExtra(  "userid",idList.get(i));
                 intent.putExtra("lat",reportsList.get(i).getLatitude());
                 intent.putExtra("lon",reportsList.get(i).getLongitude());
+
+//               intent.putExtra("userid" , userID );
                 startActivity(intent);
             }
-//                intent.putExtra("userid" , id);
+
 
 
             }
@@ -153,6 +159,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         reportsList = (ArrayList) getIntent().getParcelableArrayListExtra("reportsLoc");
         userList = getIntent().getStringArrayListExtra("userList");
         phones = getIntent().getStringArrayListExtra("phoneNumbers");
+        idList = getIntent().getStringArrayListExtra("idList");
 //        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
 
