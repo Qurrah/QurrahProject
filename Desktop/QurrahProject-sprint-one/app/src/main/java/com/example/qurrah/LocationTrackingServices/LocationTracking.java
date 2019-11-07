@@ -22,29 +22,18 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.qurrah.Model.Report;
-import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
-import com.example.qurrah.UI.MainActivity;
-import com.example.qurrah.UI.MapActivity;
 import com.example.qurrah.UI.SecondActivity;
-import com.example.qurrah.UI.ViewReport;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import static com.example.qurrah.App.App.CHANNEL_1_ID;
 
@@ -57,15 +46,9 @@ public class LocationTracking extends AppCompatActivity {
     public static final String LOCATION_ACQUIRED = "locAcquired";
     public static double currentLatitude, currentLongitude, firstSeenLatitude = 0, firstSeenLongitude = 0;
     public static NotificationManagerCompat notificationManager;
-    String type="none", CU="none";
     DatabaseReference reference;
     public static int counter =0 ,id = 1;
     public static ArrayList<String> ids = new ArrayList<>();
-    String greeting="اهلين ";
-    String lostmsg=" فيه احد يحتاج فزعتك ";
-    String foundmsg =" فيه شي ضايع لك ؟ ";
-    String msg="";
-
 
 
 
@@ -169,29 +152,14 @@ public class LocationTracking extends AppCompatActivity {
         super.onDestroy();
     }
     // TODO: Stay the photo here
-    public void sendOnChannel1(String userid, String title, String description,String lat,String lon, String photo,String address, String location,String username,String phoneNo, String type,String message) {
-        Intent intent = new Intent(this, ViewReport.class);
-//                    intent.putExtra("Report", (Parcelable) reports.get(position));
-        intent.putExtra("Image", photo);
-        intent.putExtra("Title",title);
-        intent.putExtra("Description",description);
-        intent.putExtra("UserName", username);
-        intent.putExtra("userid" , userid);
-        intent.putExtra("WhatsApp",phoneNo);
-        intent.putExtra("lat",lat);
-        intent.putExtra("lon",lon);
-        intent.putExtra("locationDescription", location);
-        intent.putExtra("address",address);
-        intent.putExtra("userType",type);
-
+    public void sendOnChannel1(String title, String description, String photo) {
+        Intent intent = new Intent(this, SecondActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.qurrah)
-                .setContentTitle(message)
-                .setStyle(new NotificationCompat.InboxStyle()
-                        .addLine(title)
-                        .addLine(description))
+                .setSmallIcon(R.drawable.ic_message_black_24dp)
+                .setContentTitle(title)
+                .setContentText(description)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setContentIntent(pendingIntent)
@@ -205,41 +173,14 @@ public class LocationTracking extends AppCompatActivity {
 
     public void findReportsWithin5Km(){
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
-        try {
-            CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        }catch (Exception e){
-            type="guest";
-        }
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
-                    String userName = userInfo.getUserName();
-                    String userID=userInfo.getId();
-                    String phoneNo = userInfo.getPhone();
-                    String currentUserName="";
-
-
-                    if(CU.equals(userID)) {
-                        type = "current";
-                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
-
-                    }else if(!CU.equals(userID) && type.equals("none")){
-                        type = "notCurrent";
-                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
-
-                    }
-
                     for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
 
                         Report report = ds.getValue(Report.class);
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                        String date = dateFormat.format(new Date());
-                        if (report.getReportStatus().equals("نشط")&&report.getDate().contains(date)) {
+                        if (report.getReportStatus().equals("نشط")) {
 
                             if (!report.getLatitude().isEmpty() && !report.getLongitude().isEmpty()) {
                                if(isReportWithin5km(Double.parseDouble(report.getLatitude()), Double.parseDouble(report.getLongitude()))) {
@@ -247,35 +188,15 @@ public class LocationTracking extends AppCompatActivity {
                                    if (!isReportAlreadyNotified(report.getLostTitle() +" " +report.getLostDescription()+" "+report.getDate())) {
                                            ids.add(report.getLostTitle() +" " +report.getLostDescription()+" "+report.getDate());
                                         //   Log.d("e", "onDataChange:" +"HERE"+ids);
-                                       if(report.getReportTypeOption().equals("فاقد"))
-                                       {
-                                           msg=greeting+currentUserName+lostmsg;
-                                       }
-                                       else{
-                                           msg=greeting+currentUserName+foundmsg;
-                                       }
-                                       sendOnChannel1(
-                                               userID,
-                                               report.getLostTitle(),
-                                               report.getLostDescription(),
-                                               report.getLatitude(),
-                                               report.getLongitude(),
-                                               report.getPhoto(),
-                                               report.getAddress(),
-                                               report.getLocation(),
-                                               userName,
-                                               phoneNo,
-                                               type,
-                                               msg);
+                                       sendOnChannel1(report.getLostTitle(),report.getLostDescription(), report.getPhoto());
                                    }
 
                                }
                             }
 
                             }
-                        }//end report for
-                    }//end for dataSnapshot
-
+                        }
+                    }
                 }
 
 

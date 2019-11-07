@@ -83,17 +83,15 @@ private String  userID, latitude, longitude;
         latitude =  getIntent().getStringExtra("lat");
         longitude =  getIntent().getStringExtra("lon");
         UserType =  getIntent().getStringExtra("userType");
-        if (UserType == null || UserType.equals("none" )) {
-            UserType="guest";
-        }
-        else if (UserType.equals("current")) {
-            whatsapp.setVisibility(View.GONE);
-            chatting.setVisibility(View.GONE);
-            name.setVisibility(View.INVISIBLE);
-            yourReport.setVisibility(View.VISIBLE);
-        }else{
+
+//        if (UserType.equals("current")) {
+//            whatsapp.setVisibility(View.GONE);
+//            chatting.setVisibility(View.GONE);
+//            name.setVisibility(View.INVISIBLE);
+//            yourReport.setVisibility(View.VISIBLE);
+//        }else{
             name.setText(reportUser);
-        }
+//        }
 
         // set values
         Picasso.get().load(reportImg).into(photo);
@@ -122,31 +120,32 @@ private String  userID, latitude, longitude;
 
     chatting.setOnClickListener(view -> {
 
-        if (UserType.equals("notCurrent")) {
+//        if (UserType.equals("notCurrent")) {
         Intent intent = new Intent(ViewReport.this, MessageActivity.class);
         intent.putExtra("userid", userID);
-        startActivity(intent);}
+        startActivity(intent);
+//    }
 
-        else if (UserType.equals("guest")) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
-            builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
-            builder1.setCancelable(true);
-
-            builder1.setPositiveButton(
-                    "نعم",
-                    (dialog, id) -> {
-                        finish();
-                        startActivity(new Intent(ViewReport.this, MainActivity.class));
-                    });
-
-            builder1.setNegativeButton(
-                    "إلغاء الامر",
-                    (dialog, id) -> dialog.cancel());
-
-            AlertDialog alert11 = builder1.create();
-
-            alert11.show();
-        }
+//        else if (UserType.equals("guest")) {
+//            AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
+//            builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
+//            builder1.setCancelable(true);
+//
+//            builder1.setPositiveButton(
+//                    "نعم",
+//                    (dialog, id) -> {
+//                        finish();
+//                        startActivity(new Intent(ViewReport.this, MainActivity.class));
+//                    });
+//
+//            builder1.setNegativeButton(
+//                    "إلغاء الامر",
+//                    (dialog, id) -> dialog.cancel());
+//
+//            AlertDialog alert11 = builder1.create();
+//
+//            alert11.show();
+////        }
     });
 
 
