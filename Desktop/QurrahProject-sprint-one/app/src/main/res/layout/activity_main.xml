@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true"
+            android:layoutDirection="rtl"
             android:layout_gravity="left"
             android:gravity="left"
             app:hintEnabled="false"

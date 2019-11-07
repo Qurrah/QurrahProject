@@ -17,6 +17,7 @@ import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +34,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private String verificationId;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
-    private EditText editText;
+    private TextInputLayout editText;
     String email, name, phonenumber,password, phoneNumberWithCode;
 
     @Override
@@ -61,7 +62,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String code = editText.getText().toString().trim();
+                String code = editText.getEditText().getText().toString().trim();
 
                 if (code.isEmpty() || code.length() < 6 ) {
 
@@ -148,7 +149,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
             String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
-                editText.setText(code);
+                editText.getEditText().setText(code);
                 verifyCode(code);
             }
         }

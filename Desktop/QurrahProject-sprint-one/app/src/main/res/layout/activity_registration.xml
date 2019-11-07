@@ -118,10 +118,10 @@
             app:passwordToggleEnabled="true"
             android:layout_gravity="left"
             android:gravity="left"
+            android:layoutDirection="rtl"
             app:hintEnabled="false"
             app:errorTextAppearance="@style/error_appearance"
             android:paddingBottom="5dp"
-
             >
 
         <com.google.android.material.textfield.TextInputEditText
