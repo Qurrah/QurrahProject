@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
 
 public class ViewReport extends AppCompatActivity implements OnMapReadyCallback {
@@ -40,6 +41,7 @@ private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
 private String reportImg, UserType;
 private Button whatsapp , chatting;
 private String  userID, latitude, longitude;
+private CollapsingToolbarLayout collapsingToolbarLayout;
 
 
     @Override
@@ -72,6 +74,7 @@ private String  userID, latitude, longitude;
         yourReport = findViewById(R.id.yourReport);
         whatsapp = findViewById(R.id.whatsapp);
         chatting = findViewById(R.id.chatting);
+        collapsingToolbarLayout = findViewById(R.id.backImg);
 
         // get values from the prev activity
         userID = getIntent().getStringExtra("userid");
@@ -93,6 +96,9 @@ private String  userID, latitude, longitude;
             name.setText(reportUser);
 //        }
 
+
+
+//        collapsingToolbarLayout.setBackground(Drawable.createFromPath(reportImg));
         // set values
         Picasso.get().load(reportImg).into(photo);
         title.setText(title.getText()+"\n"+reporTitle);
