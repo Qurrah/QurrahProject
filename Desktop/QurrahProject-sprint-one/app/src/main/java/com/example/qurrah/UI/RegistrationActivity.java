@@ -1,32 +1,59 @@
 package com.example.qurrah.UI;
 
+
+
+
+
+//  double click on register button
+//  password eye icon position
+// validate all fields at the same time
+// colors
+// policy error message style
+
+
+
+
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.SignInMethodQueryResult;
+
+import java.util.ArrayList;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText phone,userName, userPassword, userEmail;
+    private TextInputLayout userName , phone, userPassword, userEmail;
+//    private EditText phone, userPassword, userEmail;
     private Button regButton;
     private TextView userLogin;
     private Spinner spinner;
@@ -34,6 +61,9 @@ public class RegistrationActivity extends AppCompatActivity {
     Boolean result;
     boolean valid ;
     private CheckBox policyCheck ;
+    private ProgressBar progressBar;
+    private ArrayList<String> phoneNumbers;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +71,205 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         setupUIViews();
 
-//        spinner = findViewById(R.id.spinnerCountries);
-//        spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, CountryCode.countryNames));
+
+        name = userName.getEditText().getText().toString().trim();
+        password = userPassword.getEditText().getText().toString().trim();
+        email = userEmail.getEditText().getText().toString().trim();
+        phoneNumber = phone.getEditText().getText().toString().trim();
+        phoneN = phone.getEditText().getText().toString().trim();
+        phoneNumbers = new ArrayList<>();
 
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        regButton.setEnabled(false);
+        regButton.setAlpha(0.6f);
+
+
+
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                phoneNumbers.clear();
+
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    UserProfile userProfile = snapshot.getValue(UserProfile.class);
+                    String No = userProfile.getPhone();
+                    phoneNumbers.add(No);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+        userName.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                name = userName.getEditText().getText().toString().trim();
+                if(name.length()>=3)
+                validateName();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                name = userName.getEditText().getText().toString().trim();
+                if (validateN()){
+
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
+
+                if(name.length()>=3)
+                    validateName();
+            }
+        });
+
+
+
+        userEmail.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                email = userEmail.getEditText().getText().toString().trim();
+                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    validateEmail();}
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                email = userEmail.getEditText().getText().toString().trim();
+                if (validateN()){
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
+                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    validateEmail();}
+            }
+        });
+
+
+
+        userPassword.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                password = userPassword.getEditText().getText().toString().trim();
+                if(password.length()>=7)
+                    validatePass();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                password = userPassword.getEditText().getText().toString().trim();
+                if (validateN()){
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
+
+                if(password.length()>=7)
+                    validatePass();
+            }
+        });
+
+
+        phone.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                phoneN = phone.getEditText().getText().toString().trim();
+                if (phoneN.length() == 9 && phoneN.indexOf(0)== 5)
+                    validatePhone();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                phoneN = phone.getEditText().getText().toString().trim();
+                if (validateN()){
+                    regButton.setEnabled(true);
+                    regButton.setAlpha(1f);
+                }else {
+                    regButton.setEnabled(false);
+                    regButton.setAlpha(0.6f);
+                }
+
+                if (phoneN.length() == 9 && phoneN.charAt(0)=='5')
+                    validatePhone();
+
+            }
+        });
+
+
+
+        policyCheck.setOnClickListener(new View.OnClickListener() {
+           @Override
+              public void onClick(View view) {
+                    validatePolicy();
+                }
+            });
+
+
+
+
 
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(validate()){
-                    //Upload data to the database
-                    step1();
+
+                validateName();
+                validateEmail();
+                validatePass();
+                validatePhone();
+                validatePolicy();
+
+                // will remove recalling methods
+                if(validateName()&& validateEmail()&& validatePass()&&validatePhone()&&validatePolicy()) {
+                    if(duplicateEmail()&&duplicatePhone())  // find something to make the method wait , it returns true before it search the whole database
+//                        if(duplicatePhone())
+                            step1();
                 }
+//                }
             }
         });
 
@@ -68,129 +283,180 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void setupUIViews(){
-        userName = (EditText)findViewById(R.id.etUserName);
-        userPassword = (EditText)findViewById(R.id.etUserPassword);
-        userEmail = (EditText)findViewById(R.id.etUserEmail);
-        regButton = (Button)findViewById(R.id.btnRegister);
-        userLogin = (TextView)findViewById(R.id.tvUserLogin);
-//        userAge = (EditText)findViewById(R.id.etAge2);
-        phone = (EditText)findViewById(R.id.phone);
-        policyCheck = (CheckBox)findViewById(R.id.policy);
+        userName = findViewById(R.id.etUserName);
+        userPassword = findViewById(R.id.etUserPassword);
+        userEmail = findViewById(R.id.etUserEmail);
+        regButton = findViewById(R.id.btnRegister);
+        userLogin = findViewById(R.id.tvUserLogin);
+        phone = findViewById(R.id.phone);
+        policyCheck = findViewById(R.id.policy);
+        progressBar = findViewById(R.id.progressBar);
     }
 
-    private Boolean validate(){
-        result = false;
 
-        name = userName.getText().toString();
-        password = userPassword.getText().toString();
-        email = userEmail.getText().toString();
-//            age = userAge.getText().toString();
-        phoneNumber = phone.getText().toString().trim();
-        phoneN = phone.getText().toString().trim();
-        //String code = CountryCode.countryAreaCodes[spinner.getSelectedItemPosition()];
-
+    private Boolean validateName() {
 
         if (name.isEmpty()) {
             userName.setError("الرجاء ادخال اسم المستخدم");
-            userName.requestFocus();
+            return false;
         }
+        if (name.length() >= 3 ) {
+            userName.setError(null);
+            return true;
 
-        else if (name.length() < 3 ) {
+        }else {
             userName.setError("أدخل اسم مستخدم مكون من 3 خانات أو اكثر");
-            userName.requestFocus();
+            return false;
         }
 
-        else if (email.isEmpty()) {
+    }
+
+
+    private Boolean validateEmail() {
+
+        if (email.isEmpty()) {
             userEmail.setError("الرجاء ادخال البريد الالكتروني");
-            userEmail.requestFocus();
+            return false;
         }
-
         else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             userEmail.setError("صيغة البريد الالكتروني غير صحيحة");
-            userEmail.requestFocus();
+            return false;
         }
+        else if(duplicateEmail())
+            userEmail.setError(null);
+        return true;
+    }
 
-        else if (password.isEmpty()) {
+
+
+    private Boolean validatePass() {
+
+        if (password.isEmpty()) {
             userPassword.setError("الرجاء ادخال كلمة المرور");
-            userPassword.requestFocus();
+            return false;
         }
 
-        else if (password.length() < 6) {
-            userPassword.setError("أدخل كلمة مرور من 6 خانات أو اكثر");
-            userPassword.requestFocus();
+        else if (password.length() < 7) {
+            userPassword.setError("أدخل كلمة مرور من 7 خانات أو اكثر");
+            return false;
         }
 
-        else if (phoneN.isEmpty()) {
+        else
+            userPassword.setError(null);
+        return true;
+    }
+
+
+
+    private Boolean validatePhone() {
+
+        if (phoneN.isEmpty()) {
             phone.setError("الرجاء ادخال رقم الجوال");
-            phone.requestFocus();
+            return false;
         }
-
-        else if (phoneN.length() != 9) {
-            phone.setError("الرقم غير صحيح، الرجاء ادخال الصيغة الصحيحة");
-            phone.requestFocus();
+        else if (phoneN.length() != 9 || phoneN.charAt(0)!= '5') {
+            phone.setError("صيغة الرقم غير صحيحة");
+            return false;
         }
+        else if(duplicatePhone())
+            phone.setError(null);
+        return true;
+    }
 
 
-        else if (!(policyCheck.isChecked())) {
+    private Boolean validatePolicy() {
+
+        if (!(policyCheck.isChecked())) {
             policyCheck.setError("الرجاء الموافقة على الشروط والأحكام");
-            policyCheck.requestFocus();
+            return false;
         }
-
-        else{
-            result =duplicate();
-        }
-
-
-        return result;
+        else
+            policyCheck.setError(null);
+        return true;
     }
 
 
 
 
+    private boolean validateN(){
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || phoneN.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
 
-    private Boolean duplicate(){
+
+
+    private Boolean duplicateEmail() {
+
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
 
         firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     valid = task.getResult().getSignInMethods().isEmpty();
 
-                    if (valid){
+                    if (valid) {
+
+                    } else {
+                        userEmail.setError("البريد الالكتروني مستخدم مسبقا");
                     }
-                    else {
-                        userEmail.setError("البريد الالكتروني مستخدم مسبقاً،الرجاء ادخال بريد الكتروني صحيح");
-                        userEmail.requestFocus();
-                    }
-                }}
-        });
-
-
-        Query phoneQuery = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("phone").equalTo(phoneNumber);
-        phoneQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getChildrenCount() > 0) {
-                    valid = false;
-                    phone.setError("رقم الهاتف مستخدم مسبقاً،الرجاء ادخال رقم هاتف صحيح");
-                    phone.requestFocus();
-
                 }
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-
         });
 
         return valid;
+    }
 
+
+
+    private Boolean duplicatePhone() {
+
+        valid=true;
+
+        phoneNumber = "+966"+phoneN;
+
+        for(String s : phoneNumbers) {
+
+            if(s.equals(phoneNumber)){
+                valid = false;
+            phone.setError("رقم الهاتف مستخدم مسبقاً");
+            return valid;
+            }
+
+        }
+
+        if(valid)
+        phone.setError(null);
+
+
+
+
+
+
+//        Query phoneQuery = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("phone").equalTo(phoneNumber);
+//        phoneQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getChildrenCount() > 0) {
+//                    valid = false;
+//                    phone.setError("رقم الهاتف مستخدم مسبقاً");
+//                    phone.requestFocus();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//
+//        });
+
+        return valid;
     }
 
 
@@ -200,17 +466,15 @@ public class RegistrationActivity extends AppCompatActivity {
         try{
 
             Intent intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
-//                intent.putExtra("phonenumber", phoneNumber);
             Bundle extras = new Bundle();
-            extras.putString("phonenumber",phoneN);
-//                extras.putString("age",age);
+            extras.putString("phonenumber",phoneNumber);
             extras.putString("email",email);
             extras.putString("name",name);
             extras.putString("password",password);
 
             intent.putExtras(extras);
-//                finish();
             startActivity(intent);}
+
         catch (Exception e){ e.getStackTrace();}
 
     }

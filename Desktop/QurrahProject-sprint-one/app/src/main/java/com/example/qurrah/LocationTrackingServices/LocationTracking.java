@@ -205,34 +205,35 @@ public class LocationTracking extends AppCompatActivity {
 
     public void findReportsWithin5Km(){
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
+        try {
+            CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        }catch (Exception e){
+            type="guest";
+        }
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
-                    String currentUserName="";
                     String userID=userInfo.getId();
                     String phoneNo = userInfo.getPhone();
-                    try {
-                        CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                    }catch (Exception e){
-                        type="guest";
-                        currentUserName ="";
-                    }
+                    String currentUserName="";
+
 
                     if(CU.equals(userID)) {
                         type = "current";
-                        currentUserName = dataSnapshot.getValue(UserProfile.class).getUserName();
+                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
-
-                    }
-                    else if(!CU.equals(userID) && type.equals("none")){
+                    }else if(!CU.equals(userID) && type.equals("none")){
                         type = "notCurrent";
-                        currentUserName = dataSnapshot.getValue(UserProfile.class).getUserName();
+                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
                     }
+
                     for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
 
                         Report report = ds.getValue(Report.class);
