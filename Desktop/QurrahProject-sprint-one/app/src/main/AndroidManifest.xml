@@ -35,7 +35,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="قُرّة"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
@@ -90,7 +89,8 @@
         </activity>
         <activity
             android:name=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".UI.RegistrationActivity"
             android:screenOrientation="portrait"
@@ -149,7 +149,8 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
             android:name=".LocationTrackingServices.UploadLocationService"
-            android:exported="true" />
+            android:exported="true"
+            />
 
 
         <meta-data

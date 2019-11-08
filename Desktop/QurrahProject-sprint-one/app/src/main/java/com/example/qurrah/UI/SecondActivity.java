@@ -1,10 +1,12 @@
 package com.example.qurrah.UI;
 
+import android.Manifest;
 import android.app.Dialog;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -19,9 +21,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.qurrah.LocationTrackingServices.LocationJobService;
 import com.example.qurrah.LocationTrackingServices.LocationTracking;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
@@ -48,6 +52,8 @@ import com.google.firebase.database.core.Repo;
 import java.util.ArrayList;
 
 import static com.example.qurrah.Constants.ERROR_DIALOG_REQUEST;
+import static com.example.qurrah.Constants.FINE_LOCATION;
+import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 
 public class SecondActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -71,6 +77,8 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
+       // requestLocationPermission();
+        showPermissionDialog();
 
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
 
@@ -94,15 +102,12 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         //setSupportActionBar(bottomAppBar);
         bottomAppBar.replaceMenu(R.menu.map_menu);
 //---------------------------------------------------
-        bottomAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
-                // If navigation drawer is not open yet, open it else close it.
-                if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
-                else navDrawer.closeDrawer(GravityCompat.END);
+        bottomAppBar.setNavigationOnClickListener(v -> {
+            //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
+            // If navigation drawer is not open yet, open it else close it.
+            if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
+            else navDrawer.closeDrawer(GravityCompat.END);
 
-            }
         });
 //---------------------------------------------------
 
@@ -165,38 +170,31 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         fab =  findViewById(R.id.addReport);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this, ReportActivity.class));
-            }
-        });
-        bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                switch(id){
-                    case R.id.map:{
-                        if(isServicesOK()){
-                            Intent intent = new Intent(SecondActivity.this, MapActivity.class);
-                            intent.putStringArrayListExtra("userList" , userList);
-                            intent.putStringArrayListExtra("IDsList" , IdList);
-                            intent.putStringArrayListExtra("phoneNumbers" , phones);
-                            intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
-                            startActivity(intent);
-                            //             intent.putStringArrayListExtra("Lat", LatitudeList);
+        fab.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, ReportActivity.class)));
+        bottomAppBar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            switch(id){
+                case R.id.map:{
+                    if(isServicesOK()){
+                        Intent intent = new Intent(SecondActivity.this, MapActivity.class);
+                        intent.putStringArrayListExtra("userList" , userList);
+                        intent.putStringArrayListExtra("IDsList" , IdList);
+                        intent.putStringArrayListExtra("phoneNumbers" , phones);
+                        intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
+                        startActivity(intent);
+                        //             intent.putStringArrayListExtra("Lat", LatitudeList);
 //                            intent.putStringArrayListExtra("Long",LongitudeList);
-                        }
+                    }
 
+                break;
+            }
+
+                case R.id.chats:{
+                    Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     break;
                 }
-
-                    case R.id.chats:{
-                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        break;
-                    }
 //
 //                    case R.id.chats:{
 //                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
@@ -205,9 +203,8 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 //                        break;
 //                    }
 
-                }
-                return false;
             }
+            return false;
         });
     }
     //------------------------------------------------------------------------------------------------------
@@ -265,22 +262,15 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
         builder1.setPositiveButton(
                 "نعم",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        firebaseAuth.signOut();
-                        finish();
-                        startActivity(new Intent(SecondActivity.this, MainActivity.class));
-                    }
-
+                (dialog, id) -> {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(SecondActivity.this, MainActivity.class));
                 });
 
         builder1.setNegativeButton(
                 "إلغاء الامر",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                (dialog, id) -> dialog.cancel());
 
         AlertDialog alert11 = builder1.create();
 
@@ -316,4 +306,42 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         LocationTracking.notificationManager.cancelAll();
         LocationTracking.id = 1;
     }
+//private void requestLocationPermission() {
+//    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//            FINE_LOCATION)) {
+//
+//        new AlertDialog.Builder(this)
+//                .setTitle("Permission needed")
+//                .setMessage("This permission is needed because of this and that")
+//                .setPositiveButton("ok", (dialog, which) -> ActivityCompat.requestPermissions(SecondActivity.this,
+//                        new String[] {FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION))
+//                .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
+//                .create().show();
+//
+//    } else {
+//        ActivityCompat.requestPermissions(this,
+//                new String[] {FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+//    }
+//}
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)  {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+              //  Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LocationTracking.class));
+            } else {
+             //   Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void showPermissionDialog() {
+        if (!LocationJobService.checkPermission(this)) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
 }
+
