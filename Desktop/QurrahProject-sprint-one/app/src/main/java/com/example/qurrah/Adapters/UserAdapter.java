@@ -31,7 +31,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private List<UserProfile> mUsers;
     private boolean ischat;
 
-    String theLastMessage;
+    String theLastMessage, theLastMessageType;
 
     public UserAdapter(Context mContext, List<UserProfile> mUsers, boolean ischat){
         this.mUsers = mUsers;
@@ -114,6 +114,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     //check for last message
     private void lastMessage(final String userid, final TextView last_msg){
         theLastMessage = "default";
+
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
 
@@ -126,6 +127,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid) ||
                                 chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())) {
                             theLastMessage = chat.getMessage();
+                            theLastMessageType = chat.getMessageType();
+
                         }
                     }
                 }
@@ -136,7 +139,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         break;
 
                     default:
-                        last_msg.setText(theLastMessage);
+                        if(theLastMessageType.equals("text"))
+                            last_msg.setText(theLastMessage);
+                        else if(theLastMessageType.equals("image"))
+                            last_msg.setText("صورة");
                         break;
                 }
 

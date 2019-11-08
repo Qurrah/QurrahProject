@@ -1,8 +1,11 @@
 package com.example.qurrah.UI;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.qurrah.Adapters.UserAdapter;
 import com.example.qurrah.Model.Chatlist;
+import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.FirebaseNotifications.Token;
 
@@ -20,6 +24,7 @@ import com.example.qurrah.R;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class ChatActivity extends AppCompatActivity {
 String raghad;
@@ -299,6 +305,79 @@ public void onBackPressed() {
     startActivity(intent);
     finish();
 }
+
+
+//    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+//        @Override
+//        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//            return false;
+//        }
+//
+//        @Override
+//        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+//            final int position = viewHolder.getAdapterPosition();
+//            deletedReport = newList.get(position);
+//            System.out.println("Here"+position);
+//            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//
+//                    for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        Report rep = snapshot.getValue(Report.class);
+//                        if (deletedReport.getDate() == rep.getDate()) {
+//                            reference.child(snapshot.getKey()).removeValue();
+//                            newList.remove(position);
+//                            adapter.notifyItemRangeChanged(position,newList.size());
+//                            adapter.updateList(newList);
+//
+//                            final Snackbar snackBar = Snackbar.make(recyclerView, "تم الحذف", Snackbar.LENGTH_LONG);
+//                            snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+//                            snackBar.setAction("تراجع", v -> {
+//                                snackBar.dismiss();
+//                                findViewById(R.id.noReports).setVisibility(View.GONE);
+//                                reference.child(snapshot.getKey()).setValue(deletedReport);
+//                                newList.add(position, deletedReport);
+//                                adapter.notifyItemInserted(position);
+//                                adapter.updateList(newList);
+//
+//
+//
+//
+//                            }).show();
+//
+//
+//                        }
+//
+//
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//
+//            });
+//        }
+//
+//        @Override
+//        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+//            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+//                    .addSwipeRightBackgroundColor(ContextCompat.getColor(MyReport.this, R.color.darkRed))
+//                    .addActionIcon(R.drawable.ic_delete_black_24dp)
+//                    .addSwipeRightLabel("حذف")
+//                    .create()
+//                    .decorate();
+//
+//            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//        }
+//    };
+
+
 }
 
 

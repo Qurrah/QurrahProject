@@ -23,6 +23,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.R;
+import com.example.qurrah.UI.MainActivity;
 import com.example.qurrah.UI.SecondActivity;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;

@@ -1,15 +1,19 @@
 package com.example.qurrah.UI;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.provider.MediaStore;
 import android.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,15 +41,21 @@ import com.example.qurrah.FirebaseNotifications.Data;
 import com.example.qurrah.FirebaseNotifications.MyResponse;
 import com.example.qurrah.FirebaseNotifications.Sender;
 import com.example.qurrah.FirebaseNotifications.Token;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -54,7 +65,7 @@ public class MessageActivity extends AppCompatActivity {
     FirebaseUser fuser;
     DatabaseReference reference;
 
-    ImageButton btn_send;
+    ImageButton btn_send, add_image;
     EditText text_send;
 
     MessageAdapter messageAdapter;
@@ -66,11 +77,18 @@ public class MessageActivity extends AppCompatActivity {
 
     ValueEventListener seenListener;
 
-    String userid;
+    String userid, type;
+
+    Uri imagePath;
 
     APIService apiService;
 
     boolean notify = false;
+
+    FirebaseStorage storage;
+
+    StorageReference storageReference, storageRef;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -98,6 +116,7 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         profile_image = findViewById(R.id.profile_image);
+        add_image = findViewById(R.id.addImage);
         username = findViewById(R.id.username);
         btn_send = findViewById(R.id.btn_send);
         text_send = findViewById(R.id.text_send);
@@ -113,7 +132,7 @@ public class MessageActivity extends AppCompatActivity {
                 notify = true;
                 String msg = text_send.getText().toString();
                 if (!msg.equals("")){
-                    sendMessage(fuser.getUid(), userid, msg);
+                    sendMessage(fuser.getUid(), userid, msg , "text");
                 } else {
                     Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
                 }
@@ -149,8 +168,73 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
-    private void setSupportActionBar(Toolbar toolbar) {
+
+
+    public void upload_img(View view) {
+
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 100);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imagePath = data.getData();
+            reference = FirebaseDatabase.getInstance().getReference("Chats");
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (imagePath != null) {
+
+                        final ProgressDialog progressDialog = new ProgressDialog(MessageActivity.this);
+                        progressDialog.setTitle("يتم الان ارسال الصورة...");
+                        progressDialog.show();
+
+                        storage = FirebaseStorage.getInstance();
+                        storageReference = storage.getReference();
+                        storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+
+                        storageRef.putFile(imagePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        sendMessage( fuser.getUid(), userid, uri.toString(), "image");
+
+                                        progressDialog.dismiss();
+
+
+
+                                    }
+                                });
+                            }
+                        });
+//
+                    } else{
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+
+            });
+
+        } else {
+
+        }
+    }
+
 
     private void seenMessage(final String userid){
         reference = FirebaseDatabase.getInstance().getReference("Chats");
@@ -174,13 +258,14 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String sender, final String receiver, String message){
+    private void sendMessage(String sender, final String receiver, String message, String type){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
+        hashMap.put("messageType", type);
         hashMap.put("message", message);
         hashMap.put("isseen", false);
 
