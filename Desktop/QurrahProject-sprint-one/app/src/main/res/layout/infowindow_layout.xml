@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:backgroundTint="@color/lightGrey">
+<ImageView
+    android:id="@+id/info_window_imagen"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/logo" />
+
+    <TextView
+android:id="@+id/titleInfoWind"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+        android:layout_marginLeft="80sp"
+android:layout_toRightOf="@id/info_window_imagen"
+android:paddingLeft="5dp"
+android:text="Carlo Estrada Solano"
+    android:textStyle="bold"
+    android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/categoryInfoWind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80sp"
+
+        android:layout_below="@id/titleInfoWind"
+        android:layout_toRightOf="@id/info_window_imagen"
+        android:paddingLeft="5dp"
+        android:text="Placas: SX5487"
+        android:textSize="18sp"
+       />
+
+<TextView
+android:id="@+id/typeInfoWindo"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+    android:layout_marginLeft="80sp"
+    android:layout_below="@id/categoryInfoWind"
+android:layout_toRightOf="@id/info_window_imagen"
+android:paddingLeft="5dp"
+android:text="Estado: Activo"
+    android:textSize="18sp"
+    />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/typeInfoWindo"
+        android:layout_toRightOf="@id/info_window_imagen"
+        android:paddingLeft="5dp"
+        android:layout_marginLeft="50sp"
+
+        android:text="اضغط للمزيد من التفاصيل"
+        android:textColorLink="@color/darkPurple"
+        android:textSize="18sp"
+        android:textStyle="bold|italic" />
+
+    </RelativeLayout>
