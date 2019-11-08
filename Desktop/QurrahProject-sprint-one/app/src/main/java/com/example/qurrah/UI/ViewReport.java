@@ -34,12 +34,12 @@ import com.squareup.picasso.Picasso;
 
 public class ViewReport extends AppCompatActivity implements OnMapReadyCallback {
 
-private TextView title , description , name , yourReport;
-private ImageView photo;
-private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
-private String reportImg, UserType;
-private Button whatsapp , chatting;
-private String  userID, latitude, longitude;
+    private TextView title , description , name , yourReport;
+    private ImageView photo;
+    private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
+    private String reportImg, UserType;
+    private Button whatsapp , chatting;
+    private String  userID, latitude, longitude;
 
 
     @Override
@@ -83,15 +83,17 @@ private String  userID, latitude, longitude;
         latitude =  getIntent().getStringExtra("lat");
         longitude =  getIntent().getStringExtra("lon");
         UserType =  getIntent().getStringExtra("userType");
-
-//        if (UserType.equals("current")) {
-//            whatsapp.setVisibility(View.GONE);
-//            chatting.setVisibility(View.GONE);
-//            name.setVisibility(View.INVISIBLE);
-//            yourReport.setVisibility(View.VISIBLE);
-//        }else{
+        if (UserType == null || UserType.equals("none" )) {
+            UserType="guest";
+        }
+        else if (UserType.equals("current")) {
+            whatsapp.setVisibility(View.GONE);
+            chatting.setVisibility(View.GONE);
+            name.setVisibility(View.INVISIBLE);
+            yourReport.setVisibility(View.VISIBLE);
+        }else{
             name.setText(reportUser);
-//        }
+        }
 
         // set values
         Picasso.get().load(reportImg).into(photo);
@@ -100,53 +102,52 @@ private String  userID, latitude, longitude;
 
         // try to divide users
 
-            whatsapp.setOnClickListener(view -> {
+        whatsapp.setOnClickListener(view -> {
 
-                    try {
-                        Uri uri = Uri.parse("smsto:" + reportWhatsApp);
-                        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-                        i.setPackage("com.whatsapp");
-                        startActivity(Intent.createChooser(i, ""));
-                        Intent waIntent = new Intent(Intent.ACTION_SEND);
-                        waIntent.setType("text/plain");
-                        String text = "YOUR TEXT HERE";
+            try {
+                Uri uri = Uri.parse("smsto:" + reportWhatsApp);
+                Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                i.setPackage("com.whatsapp");
+                startActivity(Intent.createChooser(i, ""));
+                Intent waIntent = new Intent(Intent.ACTION_SEND);
+                waIntent.setType("text/plain");
+                String text = "YOUR TEXT HERE";
 
-                    } catch (Exception e) {
-                        Toast.makeText(ViewReport.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+            } catch (Exception e) {
+                Toast.makeText(ViewReport.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                         .show();
-                    }
+            }
 
-    });
+        });
 
-    chatting.setOnClickListener(view -> {
+        chatting.setOnClickListener(view -> {
 
-//        if (UserType.equals("notCurrent")) {
-        Intent intent = new Intent(ViewReport.this, MessageActivity.class);
-        intent.putExtra("userid", userID);
-        startActivity(intent);
-//    }
+            if (UserType.equals("notCurrent")) {
+                Intent intent = new Intent(ViewReport.this, MessageActivity.class);
+                intent.putExtra("userid", userID);
+                startActivity(intent);}
 
-//        else if (UserType.equals("guest")) {
-//            AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
-//            builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
-//            builder1.setCancelable(true);
-//
-//            builder1.setPositiveButton(
-//                    "نعم",
-//                    (dialog, id) -> {
-//                        finish();
-//                        startActivity(new Intent(ViewReport.this, MainActivity.class));
-//                    });
-//
-//            builder1.setNegativeButton(
-//                    "إلغاء الامر",
-//                    (dialog, id) -> dialog.cancel());
-//
-//            AlertDialog alert11 = builder1.create();
-//
-//            alert11.show();
-////        }
-    });
+            else if (UserType.equals("guest")) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
+                builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "نعم",
+                        (dialog, id) -> {
+                            finish();
+                            startActivity(new Intent(ViewReport.this, MainActivity.class));
+                        });
+
+                builder1.setNegativeButton(
+                        "إلغاء الامر",
+                        (dialog, id) -> dialog.cancel());
+
+                AlertDialog alert11 = builder1.create();
+
+                alert11.show();
+            }
+        });
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

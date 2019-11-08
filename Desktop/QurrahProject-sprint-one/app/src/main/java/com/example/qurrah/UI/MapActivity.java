@@ -144,6 +144,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
 //                intent.putExtra("userid" , id);
+            type="none";
 
 
             }

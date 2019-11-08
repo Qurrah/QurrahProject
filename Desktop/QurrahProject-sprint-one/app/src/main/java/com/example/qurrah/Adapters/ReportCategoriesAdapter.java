@@ -146,7 +146,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             context.startActivity(intent);
         });
 
-
+        type="none";
 
         Picasso.get().load(reports.get(position).getPhoto()).into(holder.img, new Callback() {
             @Override
