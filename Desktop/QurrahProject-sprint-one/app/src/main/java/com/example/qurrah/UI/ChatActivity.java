@@ -1,5 +1,6 @@
 package com.example.qurrah.UI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.qurrah.Adapters.UserAdapter;
+import com.example.qurrah.Model.Chat;
 import com.example.qurrah.Model.Chatlist;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
@@ -44,9 +46,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 public class ChatActivity extends AppCompatActivity {
 String raghad;
     CircleImageView profile_image;
-    TextView username, noChats;
-
-    FirebaseUser firebaseUser;
+    TextView username, noChats, Chats;
 
     DatabaseReference reference;
     private RecyclerView recyclerView;
@@ -70,6 +70,9 @@ String raghad;
 
         recyclerView = findViewById(R.id.recycler_view);
         noChats = findViewById(R.id.noChats);
+        Chats = findViewById(R.id.Chats);
+        Chats.setText("المحادثات");
+
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ChatActivity.this);
@@ -102,27 +105,33 @@ String raghad;
         });
 
 
-//        reference = FirebaseDatabase.getInstance().getReference("Chats");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                int unread = 0;
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    Chat chat = snapshot.getValue(Chat.class);
-//                    if (chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()) {
-//                        unread++;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+            reference = FirebaseDatabase.getInstance().getReference("Chats");
+            reference.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            int unread = 0;
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Chat chat = snapshot.getValue(Chat.class);
+                assert chat != null;
+                if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
+                    unread++;
+                }
+            }
+
+            if (unread != 0) {
+                Chats.setText("("+unread+") المحادثات");
+            }
+    }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         String newToken =FirebaseInstanceId.getInstance().getToken();
-                updateToken(newToken);
+        updateToken(newToken);
+
     }
 
     private void updateToken(String token) {
@@ -270,7 +279,7 @@ String raghad;
 
     private void status(String status){
 
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
 
 
         HashMap<String, Object> hashMap = new HashMap<>();

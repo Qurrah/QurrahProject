@@ -7,36 +7,63 @@
     tools:context="com.example.qurrah.UI.MyReport"
     android:layout_marginBottom="20dp"
     android:layoutDirection="ltr">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/noChats"
-        android:layout_width="163dp"
-        android:layout_height="126dp"
-        android:layout_alignStart="@+id/recycler_view"
-        android:layout_alignTop="@+id/recycler_view"
-        android:layout_alignEnd="@+id/recycler_view"
-        android:layout_alignBottom="@+id/recycler_view"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="293dp"
-        android:layout_marginEnd="123dp"
-        android:layout_marginBottom="312dp"
-        android:gravity="center"
-        android:text="لا يوجد لديك محادثات"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="visible" />
+    <RelativeLayout
+        android:layout_width="408dp"
+        android:layout_height="70dp"
+        tools:ignore="MissingConstraints">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        <TextView
+            android:id="@+id/Chats"
+            android:layout_width="373dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="35dp"
+            android:gravity="center"
+            android:text="المحادثات "
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorPrimaryDark"
+            android:textDirection="ltr"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:layout_editor_absoluteX="185dp"
+            tools:layout_editor_absoluteY="6dp"
+            tools:ignore="RtlCompat" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:visibility="visible" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/noChats"
+            android:layout_width="163dp"
+            android:layout_height="126dp"
+            android:layout_alignStart="@+id/recycler_view"
+            android:layout_alignTop="@+id/recycler_view"
+            android:layout_alignEnd="@+id/recycler_view"
+            android:layout_alignBottom="@+id/recycler_view"
+            android:layout_marginStart="125dp"
+            android:layout_marginTop="293dp"
+            android:layout_marginEnd="123dp"
+            android:layout_marginBottom="312dp"
+            android:gravity="center"
+            android:text="لا يوجد لديك محادثات"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="607dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="69dp"
+            android:visibility="visible" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,16 +19,11 @@
             android:layout_height="wrap_content"
             android:background="@color/darkPurple"
             android:gravity="right"
+            android:layoutDirection="rtl"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
             android:visibility="visible"
-            app:popupTheme="@style/MenuStyle"
-            android:layoutDirection="rtl">
+            app:popupTheme="@style/MenuStyle">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layoutDirection="ltr" />
 
             <TextView
                 android:id="@+id/username"
@@ -41,6 +36,13 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layoutDirection="ltr"
+                android:paddingRight="10dp" />
+
 
             <ImageView
                 android:id="@+id/back_button"
@@ -49,13 +51,15 @@
                 android:clickable="true"
                 android:fitsSystemWindows="true"
                 android:onClick="back_to_chatlist"
+                android:rotation="180"
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/profile_image"
                 app:layout_constraintTop_toTopOf="parent"
-                android:rotation="180"
                 app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+
         </androidx.appcompat.widget.Toolbar>
 
 
