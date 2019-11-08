@@ -75,7 +75,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
-        requestStoragePermission();
+        requestLocationPermission();
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -302,7 +302,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         LocationTracking.notificationManager.cancelAll();
         LocationTracking.id = 1;
     }
-private void requestStoragePermission() {
+private void requestLocationPermission() {
     if (ActivityCompat.shouldShowRequestPermissionRationale(this,
             FINE_LOCATION)) {
 
