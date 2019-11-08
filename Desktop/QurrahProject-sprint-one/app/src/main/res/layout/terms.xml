@@ -16,7 +16,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="104dp"
         android:layout_marginLeft="80dp"
         android:backgroundTint="@color/black"
         android:text="1 . باستخدام تطبيق قرة فأنت توافق على الالتزام بهذه الشروط والأحكام، وفي حال عدم موافقتك على الشروط والأحكام يتعين عليك عدم استخدام التطبيق."
@@ -24,7 +24,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="161dp"
+        android:layout_height="207dp"
         android:layout_marginLeft="80dp"
         android:backgroundTint="@color/black"
         android:text="2.نحتفظ بحقنا بتغيير الشروط والأحكام من وقت لآخر وعليه يتعين عليك الاطلاع على هذه الشروط والأحكام بشكلٍ دوري، ولا يتوجب علينا الاتصال بك أو إعلامك بأي تغييرات تم إجراؤها على الشروط والأحكام، ويعتبر استمرار استخدامك تطبيق بمثابة موافقة على الشروط والأحكام المطبقة في وقت استخدامك التطبيق كجزء من التزامنا بجعل تطبيق  مكانا ترغب في زيارته باستمرار فإننا نرحب بكافة تعليقاتك على أي من السياسات أو القواعد."
@@ -33,10 +33,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="86dp"
+        android:layout_height="90dp"
         android:layout_marginLeft="80dp"
+
         android:backgroundTint="@color/black"
-        android:text="3.يجب ألا يقل عمرك عن 18 عاما"
+        android:text="3.يجب ألا يقل عمرك عن 13 عاما"
         android:textSize="14sp" />
 
 
@@ -50,7 +51,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="83dp"
+        android:layout_height="103dp"
         android:layout_marginLeft="80dp"
         android:backgroundTint="@color/black"
         android:text="5. يجب ان تقدم معلومات صحيحة ودقيقة لـ قرة كما يجب عليك الالتزام لأي اشعارات تقوم بها قرة فيما يخص الخدمات التي تقدمها قرة لضمان عدم تعرقل أي عمليات تشغيليه تقوم بها قرة."

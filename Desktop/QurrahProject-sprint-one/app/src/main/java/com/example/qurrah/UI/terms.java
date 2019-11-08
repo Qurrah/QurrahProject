@@ -15,5 +15,13 @@ public class terms extends AppCompatActivity {
         setContentView(R.layout.terms);
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
