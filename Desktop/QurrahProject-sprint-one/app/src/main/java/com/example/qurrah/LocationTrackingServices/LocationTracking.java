@@ -1,5 +1,6 @@
 package com.example.qurrah.LocationTrackingServices;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -47,6 +49,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import static com.example.qurrah.App.App.CHANNEL_1_ID;
+import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 
 public class LocationTracking extends AppCompatActivity {
@@ -322,7 +325,14 @@ public class LocationTracking extends AppCompatActivity {
         intent.setAction("notification_cancelled");
         return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
-
+    private void showPermissionDialog() {
+        if (!LocationJobService.checkPermission(this)) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
 
 }
 

@@ -80,8 +80,7 @@ dependencies {
     implementation 'com.github.Mindinventory:VanillaPlacePicker:0.0.9'
     implementation "org.jetbrains.anko:anko-common:0.8.3"
 
-    
-
+    implementation 'com.intentfilter:android-permissions:1.0.43'
 
 }
 apply plugin: 'com.google.gms.google-services'
