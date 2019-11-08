@@ -97,21 +97,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Dlatitude = Double.parseDouble(reportsList.get(i).getLatitude());
             Dlongitude = Double.parseDouble(reportsList.get(i).getLongitude());
 
-            if (reportsList.get(i).getCategoryOption().equals("حيوانات")){
+            if (reportsList.get(i).getCategoryOption().equals("حيوان")){
                 markerOptions .position(new LatLng(Dlatitude, Dlongitude))
                     .icon(bitmapDescriptorFromVector(this, R.drawable.animal_marker));
         }
-            else if (reportsList.get(i).getCategoryOption().equals("أشخاص")){
+            else if (reportsList.get(i).getCategoryOption().equals("انسان")){
                 markerOptions .position(new LatLng(Dlatitude, Dlongitude))
                         .icon(bitmapDescriptorFromVector(this, R.drawable.person_marker));
             }
-            else if (reportsList.get(i).getCategoryOption().equals("أجهزة")){
+            else if (reportsList.get(i).getCategoryOption().equals("اجهزة")){
                 markerOptions.position(new LatLng(Dlatitude, Dlongitude))
                         .icon(bitmapDescriptorFromVector(this, R.drawable.device_marker));
             }
             else{
-                         markerOptions.position(new LatLng(Dlatitude, Dlongitude)).title("Title: "+reportsList.get(i).getLostTitle())
-                            .icon(bitmapDescriptorFromVector(this, R.drawable.other_marker));
+                markerOptions.position(new LatLng(Dlatitude, Dlongitude)).title("Title: "+reportsList.get(i).getLostTitle())
+                        .icon(bitmapDescriptorFromVector(this, R.drawable.other_marker));
 
             }
             InfoWindowData info = new InfoWindowData();
