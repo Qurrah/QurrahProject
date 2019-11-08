@@ -66,9 +66,10 @@ public class LocationTracking extends AppCompatActivity {
     public static int counter =0 ,id = 1;
     public static ArrayList<String> ids = new ArrayList<>();
     String greeting="اهلين ";
-    String lostmsg=" فيه احد يحتاج فزعتك ";
-    String foundmsg =" فيه شي ضايع لك ؟ ";
+    String lostmsg="فيه احد يحتاج فزعتك ";
+    String foundmsg ="فيه شي ضايع لك ؟ ";
     String msg="";
+    String userID;
 
 
 
@@ -108,14 +109,14 @@ public class LocationTracking extends AppCompatActivity {
                     currentLatitude = l.getLatitude();
                     currentLongitude = l.getLongitude();
                     findReportsWithin5Km();
-                    Toast.makeText(getApplicationContext(), currentLatitude + " and " + currentLongitude, Toast.LENGTH_LONG).show();
+                //    Toast.makeText(getApplicationContext(), currentLatitude + " and " + currentLongitude, Toast.LENGTH_LONG).show();
 
                     if (firstSeenLatitude == 0 && firstSeenLongitude == 0){
                         // first time seen latitude and longitude
                         firstSeenLatitude = currentLatitude;
                         firstSeenLongitude = currentLongitude;
                     }else if (!isUserLocationWithin5kmOfFirstSeenLocation(currentLatitude, currentLongitude)){
-                        Toast.makeText(getApplicationContext(),"user leaves his geoFence, starting a new one", Toast.LENGTH_LONG).show();
+                 //       Toast.makeText(getApplicationContext(),"user leaves his geoFence, starting a new one", Toast.LENGTH_LONG).show();
                         firstSeenLatitude = 0;
                         firstSeenLongitude = 0;
                         ids.removeAll(ids);
@@ -229,61 +230,62 @@ public class LocationTracking extends AppCompatActivity {
 
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
-                    String userID=userInfo.getId();
+                    userID=userInfo.getId();
                     String phoneNo = userInfo.getPhone();
                     String currentUserName="";
+                    currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
 
                     if(CU.equals(userID)) {
                         type = "current";
-                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
                     }else if(!CU.equals(userID) && type.equals("none")){
                         type = "notCurrent";
-                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
                     }
+                    if (isReportMine())
+                        continue;
+                    else {
+                        for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
 
-                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                            Report report = ds.getValue(Report.class);
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                            String date = dateFormat.format(new Date());
+                            if (report.getReportStatus().equals("نشط") && report.getDate().contains(date)) {
 
-                        Report report = ds.getValue(Report.class);
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                        String date = dateFormat.format(new Date());
-                        if (report.getReportStatus().equals("نشط")&&report.getDate().contains(date)) {
-
-                            if (!report.getLatitude().isEmpty() && !report.getLongitude().isEmpty()) {
-                                if(isReportWithin5km(Double.parseDouble(report.getLatitude()), Double.parseDouble(report.getLongitude()))) {
-                                    Log.d("e", "onDataChange:" + ds.getRef().getKey());
-                                    if (!isReportAlreadyNotified(report.getLostTitle() +" " +report.getLostDescription()+" "+report.getDate())) {
-                                        ids.add(report.getLostTitle() +" " +report.getLostDescription()+" "+report.getDate());
-                                        //   Log.d("e", "onDataChange:" +"HERE"+ids);
-                                        if(report.getReportTypeOption().equals("فاقد"))
-                                        {
-                                            msg=greeting+currentUserName+lostmsg;
+                                if (!report.getLatitude().isEmpty() && !report.getLongitude().isEmpty()) {
+                                    if (isReportWithin5km(Double.parseDouble(report.getLatitude()), Double.parseDouble(report.getLongitude()))) {
+                                        Log.d("e", "onDataChange:" + ds.getRef().getKey());
+                                        if (!isReportAlreadyNotified(report.getLostTitle() + " " + report.getLostDescription() + " " + report.getDate())) {
+                                            ids.add(report.getLostTitle() + " " + report.getLostDescription() + " " + report.getDate());
+                                            //   Log.d("e", "onDataChange:" +"HERE"+ids);
+                                            if (report.getReportTypeOption().equals("فاقد")) {
+                                                msg = greeting + currentUserName + lostmsg;
+                                            } else {
+                                                msg = greeting + currentUserName + foundmsg;
+                                            }
+                                            sendOnChannel1(
+                                                    userID,
+                                                    report.getLostTitle(),
+                                                    report.getLostDescription(),
+                                                    report.getLatitude(),
+                                                    report.getLongitude(),
+                                                    report.getPhoto(),
+                                                    report.getAddress(),
+                                                    report.getLocation(),
+                                                    userName,
+                                                    phoneNo,
+                                                    type,
+                                                    msg);
                                         }
-                                        else{
-                                            msg=greeting+currentUserName+foundmsg;
-                                        }
-                                        sendOnChannel1(
-                                                userID,
-                                                report.getLostTitle(),
-                                                report.getLostDescription(),
-                                                report.getLatitude(),
-                                                report.getLongitude(),
-                                                report.getPhoto(),
-                                                report.getAddress(),
-                                                report.getLocation(),
-                                                userName,
-                                                phoneNo,
-                                                type,
-                                                msg);
+
                                     }
-
                                 }
+
                             }
 
-                        }
-                    }//end report for
+                        }//end report for
+                    }
                 }//end for dataSnapshot
 
             }
@@ -326,6 +328,9 @@ public class LocationTracking extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+    private boolean isReportMine(){
+        return CU.equals(userID);
     }
     protected PendingIntent getDeleteIntent () {
         Intent intent = new Intent(this, NotificationBroadcastReceiver.class);
