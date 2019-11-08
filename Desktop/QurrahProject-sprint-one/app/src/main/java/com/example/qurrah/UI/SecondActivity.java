@@ -299,7 +299,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        LocationTracking.notificationManager.cancelAll();
+//        LocationTracking.notificationManager.cancelAll();
         LocationTracking.id = 1;
     }
 //private void requestLocationPermission() {

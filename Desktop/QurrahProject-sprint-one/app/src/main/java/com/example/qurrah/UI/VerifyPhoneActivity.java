@@ -5,7 +5,6 @@ import android.os.Bundle;
 //import android.support.annotation.NonNull;
 //import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -25,6 +24,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.laizexin.sdj.library.ProgressButton;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +36,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextInputLayout editText;
     String email, name, phonenumber,password, phoneNumberWithCode;
+    ProgressButton check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +58,20 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         password=extras.getString("password");
 
         sendVerificationCode(phonenumber);
-
-        findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
+       check =  findViewById(R.id.buttonSignUp);
+       check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String code = editText.getEditText().getText().toString().trim();
 
+                if (check.getProgress() == 0) {
+                    check.setProgress(50);
+                } else if (check.getProgress() == 100) {
+                    check.setProgress(0);
+                } else {
+                    check.setProgress(100);
+                }
                 if (code.isEmpty() || code.length() < 6 ) {
 
                     editText.setError("أدخل رمز تحقق صحيح");
@@ -71,7 +79,8 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+
+
                 verifyCode(code);
             }
         });
@@ -80,7 +89,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
     private void verifyCode(String code) {
         try{
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+       PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signInWithCredential(credential);}
         catch (Exception e){}
     }
@@ -109,6 +118,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                             }
                             else{
+                                check.setProgress(0);
                                 Toast.makeText(VerifyPhoneActivity.this, "فشل تسجيل الدخول", Toast.LENGTH_SHORT).show();
                             }
 
@@ -117,6 +127,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
 
                         }  else{
+                            check.setProgress(0);
                             Toast.makeText(VerifyPhoneActivity.this, "رمز التحقق غير صحيح", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -125,7 +136,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
 
     private void sendVerificationCode(String number) {
-//        progressBar.setVisibility(View.VISIBLE);
+
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+9660" + number,
                 60,

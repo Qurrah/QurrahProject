@@ -134,26 +134,26 @@
 
 
 
-    <Button
+    <com.laizexin.sdj.library.ProgressButton
         android:id="@+id/btnLogin"
         android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/purple_buttons"
-        android:text="تسجيل الدخول"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:alpha="0.6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword"
-        app:layout_constraintVertical_bias="0.103"
-        android:enabled="false"/>
+        app:pb_normalText="تسجيل الدخول"
+        app:pb_completeText="تسجيل الدخول"
+        app:pb_normalTextColor="@color/white"
+        app:pb_completelTextColor="@color/white"
+        app:pb_normalBackgroundColor="@color/darkPurple"
+        app:pb_completeBackgroundColor="@color/darkPurple"
+        app:pb_progress_indicator_color="@color/white"
+        app:pb_progress_indicator_background_color="@color/pb_progress_indicator_background"
+        app:pb_corner_radius="50dp"
+        />
+
+
 
         <Button
             android:id="@+id/tvRegister"
@@ -198,21 +198,6 @@
 <!--        app:layout_constraintVertical_bias="0.0" />-->
 
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="110dp"
-            android:indeterminateTint="@color/white"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/etPassword"
-            app:layout_constraintVertical_bias="0.311" />
 
 
     </LinearLayout>
