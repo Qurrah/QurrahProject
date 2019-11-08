@@ -42,7 +42,8 @@
         <activity
             android:name=".UI.ReportTypes.HumanReport"
             android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".UI.ReportTypes.AnimalReport"
             android:parentActivityName=".UI.SecondActivity"
@@ -133,7 +134,9 @@
             android:parentActivityName=".UI.SecondActivity" />
         <activity android:name=".UI.MessageActivity" />
         <activity android:name=".Kotlin.PickLocationActivity" />
-        <activity android:name=".UI.MapActivity" />
+        <activity android:name=".UI.MapActivity"
+            android:parentActivityName=".UI.SecondActivity"/>
+
         <activity android:name=".LocationTrackingServices.LocationTracking" />
         <activity android:name=".UI.terms" />
 

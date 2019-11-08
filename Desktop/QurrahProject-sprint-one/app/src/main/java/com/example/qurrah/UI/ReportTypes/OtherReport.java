@@ -46,6 +46,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
         setContentView(R.layout.report_layout);
 //------------------------------------------------
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 //------------------------------------------------
 
         // inputs

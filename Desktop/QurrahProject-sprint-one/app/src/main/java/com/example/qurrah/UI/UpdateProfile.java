@@ -56,6 +56,7 @@ public class UpdateProfile extends AppCompatActivity {
         save = findViewById(R.id.btnSave);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();

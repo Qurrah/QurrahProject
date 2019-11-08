@@ -9,7 +9,8 @@
     android:clickable="true"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:ignore="MissingDefaultResource">
+    tools:ignore="MissingDefaultResource"
+    android:layoutDirection="ltr">
 
     <LinearLayout
         android:id="@+id/linear"
