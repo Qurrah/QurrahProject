@@ -115,9 +115,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
             InfoWindowData info = new InfoWindowData();
-            info.setTitle(reportsList.get(i).getLostTitle() +"  : العنوان  " );
-            info.setCatogery(reportsList.get(i).getCategoryOption() + " :  نوع الفئة ");
-            info.setType(reportsList.get(i).getReportTypeOption()+  " : نوع البلاغ ");
+            info.setTitle("   العنوان : "+"\n"+reportsList.get(i).getLostTitle());
+            info.setCatogery("   نوع الفئة :"+"\n"+reportsList.get(i).getCategoryOption()  );
+            info.setType("  نوع البلاغ: "+"\n"+reportsList.get(i).getReportTypeOption());
 
             customWindowInfo customInfo = new customWindowInfo(this);
             mMap.setInfoWindowAdapter(customInfo);

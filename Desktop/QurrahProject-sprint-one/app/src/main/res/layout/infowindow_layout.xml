@@ -11,12 +11,12 @@
     android:scaleType="centerCrop"
     android:src="@drawable/logo" />
 
+
     <TextView
 android:id="@+id/titleInfoWind"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_alignParentTop="true"
-        android:layout_marginLeft="80sp"
 android:layout_toRightOf="@id/info_window_imagen"
 android:paddingLeft="5dp"
 android:text="Carlo Estrada Solano"
@@ -27,8 +27,6 @@ android:text="Carlo Estrada Solano"
         android:id="@+id/categoryInfoWind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80sp"
-
         android:layout_below="@id/titleInfoWind"
         android:layout_toRightOf="@id/info_window_imagen"
         android:paddingLeft="5dp"
@@ -40,7 +38,6 @@ android:text="Carlo Estrada Solano"
 android:id="@+id/typeInfoWindo"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
-    android:layout_marginLeft="80sp"
     android:layout_below="@id/categoryInfoWind"
 android:layout_toRightOf="@id/info_window_imagen"
 android:paddingLeft="5dp"
@@ -55,7 +52,6 @@ android:text="Estado: Activo"
         android:layout_toRightOf="@id/info_window_imagen"
         android:paddingLeft="5dp"
         android:layout_marginLeft="50sp"
-
         android:text="اضغط للمزيد من التفاصيل"
         android:textColorLink="@color/darkPurple"
         android:textSize="18sp"
