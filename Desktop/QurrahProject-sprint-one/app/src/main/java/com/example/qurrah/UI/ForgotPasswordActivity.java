@@ -45,8 +45,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
-           email.addTextChangedListener(new TextWatcher() {
+
+        email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

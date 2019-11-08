@@ -38,6 +38,7 @@ public class UpdatePassword extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getInstance().getCurrentUser();

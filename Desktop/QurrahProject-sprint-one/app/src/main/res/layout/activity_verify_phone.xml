@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/qurrah_background"
-    tools:context="com.example.qurrah.UI.VerifyPhoneActivity">
+    tools:context="com.example.qurrah.UI.VerifyPhoneActivity"
+    android:layoutDirection="ltr">
 
     <LinearLayout
         android:id="@+id/relativeLayout"

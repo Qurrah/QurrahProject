@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.UnregisteredUserSecondActivity"
-    android:background="#fff">
+    android:background="#fff"
+    android:layoutDirection="ltr">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

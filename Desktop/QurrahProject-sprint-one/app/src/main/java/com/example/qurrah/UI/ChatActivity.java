@@ -66,7 +66,7 @@ String raghad;
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         recyclerView = findViewById(R.id.recycler_view);
         noChats = findViewById(R.id.noChats);

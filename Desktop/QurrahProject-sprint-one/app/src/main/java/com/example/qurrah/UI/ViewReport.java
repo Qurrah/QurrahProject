@@ -61,7 +61,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_page);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
 
 

@@ -6,6 +6,7 @@
     android:id="@+id/toolbar"
     android:background="@color/colorPrimaryDark"
     android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/MenuStyle">
+    app:popupTheme="@style/MenuStyle"
+    android:layoutDirection="ltr">
 
 </androidx.appcompat.widget.Toolbar>

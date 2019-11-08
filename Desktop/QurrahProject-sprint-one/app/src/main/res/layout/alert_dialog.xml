@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context = ".UI.RegisteredUserReportView"
-    android:padding="50dp">
+    android:padding="50dp"
+    android:layoutDirection="ltr">
 
 
     <TextView

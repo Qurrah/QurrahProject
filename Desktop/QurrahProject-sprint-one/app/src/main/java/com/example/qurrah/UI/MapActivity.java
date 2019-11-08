@@ -197,7 +197,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         IDs=getIntent().getStringArrayListExtra("IDsList");
 //        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
     private void getDeviceLocation() {
