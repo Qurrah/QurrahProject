@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="7dp">
 
     <RelativeLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
-        android:layout_height="79dp"
+        android:layout_height="83dp"
         android:orientation="horizontal"
         android:padding="4dp"
         android:visibility="visible">
@@ -24,12 +24,13 @@
 
         <TextView
             android:id="@+id/username"
-            android:layout_width="wrap_content"
+            android:layout_width="257dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-137dp"
+            android:layout_marginLeft="-343dp"
             android:layout_toRightOf="@id/profile_image"
-            android:text="username"
+            android:textAlignment="inherit"
             android:textColor="#000000"
+            android:textDirection="rtl"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -80,12 +81,13 @@
 
         <View
             android:id="@+id/divider"
-            android:layout_width="290dp"
+            android:layout_width="295dp"
             android:layout_height="1.5dp"
             android:layout_below="@id/profile_image"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:layout_marginBottom="-1dp"
             android:background="#DBDBDB"
+            android:paddingLeft="200dp"
             android:paddingTop="50dp" />
 
     </RelativeLayout>
