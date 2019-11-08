@@ -128,7 +128,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.UnregisteredUserSecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".UI.ChatActivity"
             android:parentActivityName=".UI.SecondActivity" />

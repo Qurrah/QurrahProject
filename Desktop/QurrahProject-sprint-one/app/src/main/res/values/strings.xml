@@ -19,6 +19,8 @@
     <string name="upload_photo"> ارفع صورة (اختياري) </string>
     <string name="pick_location"> وصف الموقع (اختياري)</string>
     <string name="changeImg">تغيير الصورة</string>
+    <string name="AddReportRequest">"يلزمك التسجيل لإضافة بلاغ، هل تود التسجيل الآن؟"</string>
+    <string name="ChatRequest">"يلزمك التسجيل لإجراء محادثات، هل تود التسجيل الآن؟"</string>
     <string name="edit">تعديل</string>
     <string name="delete">حذف</string>
     <string-array name="LostCategory">

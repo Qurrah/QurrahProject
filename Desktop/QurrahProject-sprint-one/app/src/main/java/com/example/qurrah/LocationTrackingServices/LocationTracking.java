@@ -29,6 +29,7 @@ import com.example.qurrah.R;
 import com.example.qurrah.UI.MainActivity;
 import com.example.qurrah.UI.MapActivity;
 import com.example.qurrah.UI.SecondActivity;
+import com.example.qurrah.UI.UnregisteredUserSecondActivity;
 import com.example.qurrah.UI.ViewReport;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -82,8 +83,14 @@ public class LocationTracking extends AppCompatActivity {
         if (id > 1) {
             id = 1;
         }
-        startActivity(new Intent(this, MainActivity.class));
-
+        Intent mIntent = getIntent();
+        try {
+            if ( mIntent.getStringExtra("FROM_ACTIVITY").equalsIgnoreCase("UnregisteredUserSecondActivity")){
+                startActivity(new Intent(this, UnregisteredUserSecondActivity.class));
+            }
+        } catch (NullPointerException e) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     private BroadcastReceiver jobStateChanged = new BroadcastReceiver() {

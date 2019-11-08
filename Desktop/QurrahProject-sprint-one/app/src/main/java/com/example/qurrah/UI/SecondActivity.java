@@ -193,15 +193,11 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                     Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    Toast.makeText(this, "chat clicked", Toast.LENGTH_SHORT).show();
+
                     break;
                 }
-//
-//                    case R.id.chats:{
-//                        Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(intent);
-//                        break;
-//                    }
+
 
             }
             return false;
@@ -341,6 +337,39 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                     this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+    private void SignUpRequest(String request) {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(SecondActivity.this);
+        builder1.setMessage(request);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "نعم",
+                (dialog, id) -> {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(SecondActivity.this, MainActivity.class));
+                });
+
+        builder1.setNegativeButton(
+                "إلغاء الامر",
+                (dialog, id) -> dialog.cancel());
+
+        AlertDialog alert11 = builder1.create();
+
+        alert11.show();
+
+    }
+
+    public void onClickChats(MenuItem item) {
+        if (firebaseAuth.getCurrentUser() == null)
+        SignUpRequest(getString(R.string.ChatRequest));
+        else {
+            Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 }
