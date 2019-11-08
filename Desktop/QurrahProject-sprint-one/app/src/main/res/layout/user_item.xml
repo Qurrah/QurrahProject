@@ -91,6 +91,12 @@
             android:paddingLeft="200dp"
             android:paddingTop="50dp" />
 
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="38dp"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -23,7 +23,12 @@ import com.example.qurrah.Model.Chat;
 import com.example.qurrah.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
@@ -139,6 +144,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         break;
 
                     default:
+//                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
+//                        String date = dateFormat.format(new Date());
+//                        if (reports.get(position).getDate().substring(0,10).equals(date.substring(0,10))){
+//                            if (reports.get(position).getDate().substring(reports.get(position).getDate().length()-2).equalsIgnoreCase("pm"))
+//                                date2 ="م";
+//                            else
+//                                date2 = "ص";
+//                            date1 = reports.get(position).getDate().substring(11,16)+" "+date2;
+//
+//                            holder.lostDate.setText(date1);
+//                        }else if (reports.get(position).getDate().substring(0,7).equals(date.substring(0,7))){
+//                            int diff = Integer.parseInt(date.substring(8,10))-Integer.parseInt(reports.get(position).getDate().substring(8,10));
+//                            if (diff>=1 && diff <=7){
+//                                // Toast.makeText(context,String.valueOf(diff),Toast.LENGTH_SHORT).show();
+//                                DateFormat format2=new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
+//                                Calendar cal = Calendar.getInstance();
+//                                cal.setTime(new Date());
+//                                cal.add(Calendar.DATE, -diff);
+//                                holder.lostDate.setText(format2.format(cal.getTime()));
+//                            }
+//                            else {
+//                                holder.lostDate.setText(reports.get(position).getDate().substring(0,10));
+//                            }
                         if(theLastMessageType.equals("text"))
                             last_msg.setText(theLastMessage);
                         else if(theLastMessageType.equals("image"))
