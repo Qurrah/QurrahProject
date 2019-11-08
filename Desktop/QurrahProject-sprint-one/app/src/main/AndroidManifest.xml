@@ -135,6 +135,8 @@
         <activity android:name=".Kotlin.PickLocationActivity" />
         <activity android:name=".UI.MapActivity" />
         <activity android:name=".LocationTrackingServices.LocationTracking" />
+        <activity android:name=".UI.terms" />
+
 
         <service
             android:name=".FirebaseNotifications.MyFirebaseMessaging"
