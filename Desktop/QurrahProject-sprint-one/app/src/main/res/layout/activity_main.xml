@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/parent"
     android:background="@mipmap/qurrah_background"
-    tools:context="com.example.qurrah.UI.MainActivity">
+    tools:context="com.example.qurrah.UI.MainActivity"
+    android:layoutDirection="ltr">
 
 
 
@@ -278,13 +279,13 @@
         <TextView
             android:id="@+id/guest"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
+            android:layout_height="match_parent"
             android:background="@color/transparent"
+            android:paddingLeft="25dp"
             android:text="أكمل كضيف>"
             android:textColor="@color/darkPurple"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:paddingLeft="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/etName" />
