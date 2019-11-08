@@ -55,7 +55,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputLayout userName , phone, userPassword, userEmail;
 //    private EditText phone, userPassword, userEmail;
     private Button regButton;
-    private TextView userLogin;
+    private TextView userLogin,term;
     private Spinner spinner;
     String email, name, password, phoneNumber , phoneN;
     Boolean result;
@@ -64,6 +64,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private ArrayList<String> phoneNumbers;
     DatabaseReference reference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,8 @@ public class RegistrationActivity extends AppCompatActivity {
         phoneNumber = phone.getEditText().getText().toString().trim();
         phoneN = phone.getEditText().getText().toString().trim();
         phoneNumbers = new ArrayList<>();
+
+
 
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -280,6 +283,13 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
+        term.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegistrationActivity.this, terms.class));
+            }
+        });
+
     }
 
     private void setupUIViews(){
@@ -288,6 +298,7 @@ public class RegistrationActivity extends AppCompatActivity {
         userEmail = findViewById(R.id.etUserEmail);
         regButton = findViewById(R.id.btnRegister);
         userLogin = findViewById(R.id.tvUserLogin);
+        term=findViewById(R.id.terms);
         phone = findViewById(R.id.phone);
         policyCheck = findViewById(R.id.policy);
         progressBar = findViewById(R.id.progressBar);
