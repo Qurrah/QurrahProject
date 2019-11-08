@@ -139,8 +139,6 @@
 
         <activity android:name=".LocationTrackingServices.LocationTracking" />
         <activity android:name=".UI.terms" />
-
-
         <service
             android:name=".FirebaseNotifications.MyFirebaseMessaging"
             android:stopWithTask="false">
