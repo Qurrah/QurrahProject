@@ -25,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -182,5 +183,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             }
         });
+    }
+
+    public void updateList(ArrayList<UserProfile> newList) {
+        mUsers = new ArrayList<>();
+        mUsers.addAll(newList);
+        notifyDataSetChanged();
+
+
     }
 }

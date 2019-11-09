@@ -9,16 +9,17 @@
     android:layoutDirection="ltr">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="408dp"
-        android:layout_height="70dp"
+        android:layout_height="110dp"
         tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/Chats"
-            android:layout_width="373dp"
-            android:layout_height="match_parent"
+            android:layout_width="384dp"
+            android:layout_height="62dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="35dp"
+            android:layout_marginEnd="24dp"
             android:gravity="center"
             android:text="المحادثات "
             android:textAlignment="textEnd"
@@ -27,9 +28,23 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:visibility="visible"
+            tools:ignore="RtlCompat"
             tools:layout_editor_absoluteX="185dp"
-            tools:layout_editor_absoluteY="6dp"
-            tools:ignore="RtlCompat" />
+            tools:layout_editor_absoluteY="6dp" />
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Chats"
+            android:background="#F5F5F5"
+            android:queryHint="البحث"
+            android:textDirection="rtl"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintVertical_bias="0.103">
+
+        </SearchView>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -38,17 +53,30 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/noMatchUsers"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_above="@id/recycler_view"
+            android:layout_marginBottom="-159dp"
+            android:gravity="center"
+            android:text="لا توجد نتائج"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/noChats"
-            android:layout_width="163dp"
-            android:layout_height="126dp"
-            android:layout_alignStart="@+id/recycler_view"
+            android:layout_width="227dp"
+            android:layout_height="43dp"
             android:layout_alignTop="@+id/recycler_view"
             android:layout_alignEnd="@+id/recycler_view"
             android:layout_alignBottom="@+id/recycler_view"
-            android:layout_marginStart="125dp"
-            android:layout_marginTop="293dp"
-            android:layout_marginEnd="123dp"
-            android:layout_marginBottom="312dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="94dp"
+            android:layout_marginTop="226dp"
+            android:layout_marginEnd="90dp"
+            android:layout_marginBottom="338dp"
             android:gravity="center"
             android:text="لا يوجد لديك محادثات"
             android:textColor="@color/colorPrimaryDark"
@@ -59,9 +87,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="607dp"
+            android:layout_height="600dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="69dp"
+            android:layout_marginTop="110dp"
             android:visibility="visible" />
 
 

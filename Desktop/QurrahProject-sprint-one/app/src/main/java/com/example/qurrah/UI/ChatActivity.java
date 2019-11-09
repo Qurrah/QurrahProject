@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.qurrah.Adapters.UserAdapter;
@@ -43,13 +44,14 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class ChatActivity extends AppCompatActivity {
-String raghad;
+public class ChatActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
     CircleImageView profile_image;
     TextView username, noChats, Chats;
 
     DatabaseReference reference;
     private RecyclerView recyclerView;
+    SearchView searchView;
 
     private UserAdapter userAdapter;
     private List<UserProfile> mUsers;
@@ -72,6 +74,9 @@ String raghad;
         noChats = findViewById(R.id.noChats);
         Chats = findViewById(R.id.Chats);
         Chats.setText("المحادثات");
+
+        searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(this);
 
 
         recyclerView.setHasFixedSize(true);
@@ -132,6 +137,7 @@ String raghad;
         String newToken =FirebaseInstanceId.getInstance().getToken();
         updateToken(newToken);
 
+
     }
 
     private void updateToken(String token) {
@@ -139,6 +145,8 @@ String raghad;
         Token token1 = new Token(token);
         reference.child(fuser.getUid()).setValue(token1);
     }
+
+
 
     private void chatList() {
         mUsers = new ArrayList<>();
@@ -308,12 +316,38 @@ String raghad;
 //        super.onPause();
 //        status("offline");
 //    }
+
 @Override
 public void onBackPressed() {
     Intent intent = new Intent(getApplicationContext(),SecondActivity.class);
     startActivity(intent);
     finish();
 }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        String userInput = newText.toLowerCase();
+        ArrayList<UserProfile> newList = new ArrayList<>();
+
+        for(UserProfile user: mUsers){
+            if(user.getUserName().toLowerCase().contains(userInput)){
+                newList.add(user);
+                findViewById(R.id.noMatchUsers).setVisibility(View.GONE);
+
+            }
+            else{
+                findViewById(R.id.noMatchUsers).setVisibility(View.VISIBLE);
+            }
+        }
+        userAdapter.updateList(newList);
+        return true;
+    }
 
 
 //    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
