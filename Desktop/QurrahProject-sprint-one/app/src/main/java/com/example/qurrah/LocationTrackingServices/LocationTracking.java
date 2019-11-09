@@ -263,7 +263,7 @@ public class LocationTracking extends AppCompatActivity {
                                             if (report.getReportTypeOption().equals("فاقد")) {
                                                 msg = greeting + currentUserName + lostmsg;
                                             } else {
-                                                msg = greeting + currentUserName + foundmsg;
+                                                msg = greeting + currentUserName + " "+ foundmsg;
                                             }
                                             sendOnChannel1(
                                                     userID,
