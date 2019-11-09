@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.laizexin.sdj.library.ProgressButton;
 
 
 // fix the code
@@ -38,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout userِEmail , Password;
 //    private EditText userِEmail;
 //    private EditText Password;
-    private Button Login;
+    private ProgressButton Login;
     private Button userRegistration;
     private FirebaseAuth firebaseAuth;
     private TextView forgotPassword , guest;
-    private ProgressBar progressBar;
     String Email, password;
 
 //    public static void hideSoftKeyboard(Activity activity) {
@@ -61,18 +61,18 @@ public class MainActivity extends AppCompatActivity {
         userِEmail = findViewById(R.id.etName);
         Password = findViewById(R.id.etPassword);
         Login = findViewById(R.id.btnLogin);
+
         userRegistration = findViewById(R.id.tvRegister);
         forgotPassword = findViewById(R.id.tvForgotPassword);
-        progressBar = findViewById(R.id.progressBar);
         guest = findViewById(R.id.guest);
 //-------------------------------------------------------------
 
         Email = userِEmail.getEditText().getText().toString().trim();
         password = Password.getEditText().getText().toString().trim();
 
-
-
-
+        Login.setEnabled(false);
+        Login.setAlpha(0.6f);
+        Login.setProgress(0);
 //--------------------------------------------------------------
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -140,68 +140,55 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        guest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this , UnregisteredUserSecondActivity.class));
+        guest.setOnClickListener(view -> startActivity(new Intent(MainActivity.this , UnregisteredUserSecondActivity.class)));
+
+        Login.setOnClickListener(view -> {
+           //  Login.setEnabled(false);
+            if (Login.getProgress() == 0) {
+                Login.setProgress(50);
+            } else if (Login.getProgress() == 100) {
+                Login.setProgress(0);
+            } else {
+                Login.setProgress(100);
             }
-        });
 
-        Login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Login.setEnabled(false);
-                Login.setText("");
-                progressBar.setVisibility(View.VISIBLE);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                if(validateEmail() && validatePassword()) {
+            if(validateEmail() && validatePassword()) {
 
-                    firebaseAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                firebaseAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
 
-                                Toast.makeText(MainActivity.this, "تم تسجيل الدخول", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, SecondActivity.class));
+                            Toast.makeText(MainActivity.this, "تم تسجيل الدخول", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this, SecondActivity.class));
 
-                            } else {
-                                Login.setEnabled(true);
-                                Toast.makeText(MainActivity.this, "فشل تسجيل الدخول, الرجاء ادخال بيانات صحيحة", Toast.LENGTH_SHORT).show();
-                                Login.setText("تسجيل الدخول");
-                                progressBar.setVisibility(View.INVISIBLE);
+                        } else {
+                            Login.setEnabled(true);
+                            Login.setProgress(0);
+                            Toast.makeText(MainActivity.this, "فشل تسجيل الدخول, الرجاء ادخال بيانات صحيحة", Toast.LENGTH_SHORT).show();
 
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                            }
                         }
+                    }
 
-                    });
-                }else {
-                    Login.setEnabled(true);
-                    Login.setText("تسجيل الدخول");
-                    progressBar.setVisibility(View.INVISIBLE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                }
-
+                });
+            }else {
+               Login.setEnabled(true);
+               Login.setProgress(0);
+               getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
 
         });
 
-        userRegistration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
-            }
+        userRegistration.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
         });
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ForgotPasswordActivity.class));
-            }
-        });
+        forgotPassword.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, ForgotPasswordActivity.class)));
 
 
     }
