@@ -145,8 +145,8 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.126"
-            app:srcCompat="@drawable/verfyicon" />
+            app:layout_constraintVertical_bias="0.126"></ImageView>
+<!--            app:srcCompat="@drawable/verfyicon" />-->
 
 
     </LinearLayout>

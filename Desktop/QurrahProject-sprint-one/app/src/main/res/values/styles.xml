@@ -14,11 +14,21 @@
         <item name="colorPrimaryDark">@color/lightPurple</item>
         <item name="colorAccent">@color/black</item>
     </style>
+
     <style name="error_appearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor"> @color/darkPurple </item>
+        <item name="android:textColor">@color/darkPurple</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="MenuStyle">red</style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

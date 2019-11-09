@@ -34,4 +34,8 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="ReportType">اختر نوع البلاغ:</string>
     <string name="pickLocation">اختر الموقع</string>
+
+    <string name="title_activity_animal_report_tabs">AnimalReportTabs</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

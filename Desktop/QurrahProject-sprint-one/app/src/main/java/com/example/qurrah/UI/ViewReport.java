@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +39,9 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
     private ImageView photo;
     private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
     private String reportImg, UserType;
-    private Button whatsapp , chatting;
+    private LinearLayout chatting , whatsapp;
     private String  userID, latitude, longitude;
+
 
 
     @Override
@@ -68,7 +70,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         title= findViewById(R.id.reportTitle);
         description=findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
-        name = findViewById(R.id.reportUsername);
+//        name = findViewById(R.id.reportUsername);
         yourReport = findViewById(R.id.yourReport);
         whatsapp = findViewById(R.id.whatsapp);
         chatting = findViewById(R.id.chatting);
@@ -89,16 +91,16 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         else if (UserType.equals("current")) {
             whatsapp.setVisibility(View.GONE);
             chatting.setVisibility(View.GONE);
-            name.setVisibility(View.INVISIBLE);
+//            name.setVisibility(View.INVISIBLE);
             yourReport.setVisibility(View.VISIBLE);
         }else{
-            name.setText(reportUser);
+//            name.setText(reportUser);
         }
 
         // set values
         Picasso.get().load(reportImg).into(photo);
-        title.setText(title.getText()+"\n"+reporTitle);
-        description.setText(description.getText()+"\n"+reportDescription);
+        title.setText(reporTitle);
+        description.setText(reportDescription);
 
         // try to divide users
 
