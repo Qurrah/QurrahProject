@@ -38,6 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/Chats"
             android:background="#F5F5F5"
+            android:layoutDirection="rtl"
+            android:paddingRight="40dp"
             android:queryHint="البحث"
             android:textDirection="rtl"
             app:layout_constraintHorizontal_bias="0.498"
