@@ -233,7 +233,8 @@ public class LocationTracking extends AppCompatActivity {
                     userID=userInfo.getId();
                     String phoneNo = userInfo.getPhone();
                     String currentUserName="";
-                    currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
+                    if(!type.equals("guest"))
+                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
 
                     if(CU.equals(userID)) {
