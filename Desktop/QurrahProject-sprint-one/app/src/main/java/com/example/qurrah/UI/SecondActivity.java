@@ -80,6 +80,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
        // requestLocationPermission();
         showPermissionDialog();
 
+
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
