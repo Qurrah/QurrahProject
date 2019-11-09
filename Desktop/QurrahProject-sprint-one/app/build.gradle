@@ -7,7 +7,7 @@ android {
 //    buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId "com.example.qurrah"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -79,8 +79,7 @@ dependencies {
 
     implementation 'com.github.Mindinventory:VanillaPlacePicker:0.0.9'
     implementation "org.jetbrains.anko:anko-common:0.8.3"
-
-
+    implementation 'com.kkaka.ui:library:1.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

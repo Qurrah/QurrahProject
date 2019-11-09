@@ -1,9 +1,11 @@
 package com.example.qurrah.UI;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,11 +14,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 
+import com.example.qurrah.LocationTrackingServices.LocationJobService;
+import com.example.qurrah.LocationTrackingServices.LocationTracking;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.UI.ReportTypes.AnimalReport;
@@ -38,6 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.qurrah.Constants.ERROR_DIALOG_REQUEST;
+import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 public class UnregisteredUserSecondActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -61,7 +68,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         userList = new ArrayList<>();
         phones = new ArrayList<>();
         IdList=new ArrayList<>();
-
+        showPermissionDialog();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Users");   //.child(userId);
 
@@ -127,7 +134,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SignUpRequest();
+                SignUpRequest(getString(R.string.AddReportRequest));
             }
         });
 
@@ -208,30 +215,23 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     }
 
 
-    private void SignUpRequest() {
+    private void SignUpRequest(String request) {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(UnregisteredUserSecondActivity.this);
-        builder1.setMessage("يلزمك التسجيل لإضافة بلاغ، هل تود التسجيل الآن؟");
+        builder1.setMessage(request);
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
                 "نعم",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        firebaseAuth.signOut();
-                        finish();
-                        startActivity(new Intent(UnregisteredUserSecondActivity.this, MainActivity.class));
-                    }
-
+                (dialog, id) -> {
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(UnregisteredUserSecondActivity.this, MainActivity.class));
                 });
 
         builder1.setNegativeButton(
                 "إلغاء الامر",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                (dialog, id) -> dialog.cancel());
 
         AlertDialog alert11 = builder1.create();
 
@@ -257,5 +257,27 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                 break;
             }}
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)  {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //  Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LocationTracking.class).putExtra("FROM_ACTIVITY", "UnregisteredUserSecondActivity" ));
+            } else {
+                //   Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void showPermissionDialog() {
+        if (!LocationJobService.checkPermission(this)) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+    public void onClickChats(MenuItem item) {
+        SignUpRequest(getString(R.string.ChatRequest));
     }
 }

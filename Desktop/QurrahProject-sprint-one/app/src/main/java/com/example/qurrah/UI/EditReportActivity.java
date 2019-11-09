@@ -37,6 +37,7 @@ public class EditReportActivity extends ReportActivity {
         Button update = findViewById(R.id.LocationPhotoSubmit);
 //------------------------------------------------
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 //------------------------------------------------
         update.setText("تحديث");
 

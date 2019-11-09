@@ -50,19 +50,44 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         Chat chat = mChat.get(position);
 
-        holder.show_message.setText(chat.getMessage());
+        String type = chat.getMessageType();
 
-        if (imageurl.equals("default")){
-            holder.profile_image.setImageResource(R.drawable.ic_account_circle_black_24dp);
-        } else {
-            Picasso.get().load(imageurl).into(holder.profile_image);
+        if(type.equals("text")){
+            holder.image.setVisibility(View.GONE);
+            holder.show_message.setVisibility(View.VISIBLE);
+            holder.show_message.setText(chat.getMessage());
+
+        }else if(type.equals("image")){
+            holder.show_message.setVisibility(View.GONE);
+            holder.image.setVisibility(View.VISIBLE);
+            Picasso.get().load(chat.getMessage()).into(holder.image);
+
         }
+
+//        if (imageurl.equals("default")){
+//            holder.profile_image.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//        } else {
+//            Picasso.get().load(imageurl).into(holder.profile_image);
+//        }
 
         if (position == mChat.size()-1){
             if (chat.isIsseen()){
-                holder.txt_seen.setText("قرِئت");
+                if(type.equals("text")){
+                    holder.txt_seen2.setVisibility(View.GONE);
+                    holder.txt_seen.setText("قرِئت");
+
+                }
+                else if(type.equals("image")){
+                    holder.txt_seen.setVisibility(View.GONE);
+                    holder.txt_seen2.setText("قرِئت");}
             } else {
-                holder.txt_seen.setText("مرسلة");
+                if(type.equals("text")) {
+                    holder.txt_seen2.setVisibility(View.GONE);
+                    holder.txt_seen.setText("مرسلة");
+                }else if (type.equals("image")){
+                    holder.txt_seen.setVisibility(View.GONE);
+                    holder.txt_seen2.setText("مرسلة");
+                }
             }
         } else {
             holder.txt_seen.setVisibility(View.GONE);
@@ -78,15 +103,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public  class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView show_message;
-        public ImageView profile_image;
-        public TextView txt_seen;
+        public ImageView image;
+        public TextView txt_seen, txt_seen2;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             show_message = itemView.findViewById(R.id.show_message);
-            profile_image = itemView.findViewById(R.id.profile_image);
+            image = itemView.findViewById(R.id.imageMessage);
             txt_seen = itemView.findViewById(R.id.txt_seen);
+            txt_seen2 = itemView.findViewById(R.id.txt_seen2);
+
         }
     }
 

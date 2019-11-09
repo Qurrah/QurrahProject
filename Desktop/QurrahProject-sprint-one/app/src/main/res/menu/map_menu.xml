@@ -5,13 +5,15 @@
     <item
         android:id="@+id/map"
         android:icon="@drawable/ic_map_white_35dp"
-        android:title="Item"
+        android:title="خريطة"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/chats"
         android:icon="@drawable/conversation"
-        android:title="Item"
+        android:title="محادثة"
+        android:enabled="true"
+        android:onClick="onClickChats"
         app:showAsAction="always" />
 
 <!--    <item-->

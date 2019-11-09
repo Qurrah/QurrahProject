@@ -10,13 +10,14 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
+import com.example.qurrah.Model.InfoWindowData;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -49,7 +50,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         GoogleMap.OnInfoWindowClickListener {
     private static final String TAG = "MapActivity";
 
-
     //vars
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
@@ -60,6 +60,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     ArrayList<String> userList, phones, IDs;
     static double currentLat, currentLon;
     String type="none", CU="none";
+
 
 
     @Override
@@ -90,19 +91,47 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //       Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
 
 
+        MarkerOptions markerOptions= new MarkerOptions();
 
         for(int i = 0 ; i<reportsList.size() ; i++) {
             Dlatitude = Double.parseDouble(reportsList.get(i).getLatitude());
             Dlongitude = Double.parseDouble(reportsList.get(i).getLongitude());
-            googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(Dlatitude, Dlongitude))
-                    .title("Title: "+reportsList.get(i).getLostTitle())
-                    .snippet("Category: "+reportsList.get(i).getCategoryOption()+"\nType: "+reportsList.get(i).getReportTypeOption())
-                    .icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
+
+            if (reportsList.get(i).getCategoryOption().equals("حيوان")){
+                markerOptions .position(new LatLng(Dlatitude, Dlongitude))
+                    .icon(bitmapDescriptorFromVector(this, R.drawable.animal_marker));
+        }
+            else if (reportsList.get(i).getCategoryOption().equals("انسان")){
+                markerOptions .position(new LatLng(Dlatitude, Dlongitude))
+                        .icon(bitmapDescriptorFromVector(this, R.drawable.person_marker));
+            }
+            else if (reportsList.get(i).getCategoryOption().equals("اجهزة")){
+                markerOptions.position(new LatLng(Dlatitude, Dlongitude))
+                        .icon(bitmapDescriptorFromVector(this, R.drawable.device_marker));
+            }
+            else{
+                markerOptions.position(new LatLng(Dlatitude, Dlongitude)).title("Title: "+reportsList.get(i).getLostTitle())
+                        .icon(bitmapDescriptorFromVector(this, R.drawable.other_marker));
+
+            }
+            InfoWindowData info = new InfoWindowData();
+            info.setTitle("   العنوان : "+"\n"+reportsList.get(i).getLostTitle());
+            info.setCatogery("   نوع الفئة :"+"\n"+reportsList.get(i).getCategoryOption()  );
+            info.setType("  نوع البلاغ: "+"\n"+reportsList.get(i).getReportTypeOption());
+
+            customWindowInfo customInfo = new customWindowInfo(this);
+            mMap.setInfoWindowAdapter(customInfo);
+
+            Marker m = mMap.addMarker(markerOptions);
+            m.setTag(info);
+            m.showInfoWindow();
+
+            mMap.setOnInfoWindowClickListener(this);
+
         }
 
 
-        mMap.setOnInfoWindowClickListener(this);
+
 
 
     }
@@ -144,6 +173,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
 //                intent.putExtra("userid" , id);
+            type="none";
 
 
             }
@@ -167,7 +197,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         IDs=getIntent().getStringArrayListExtra("IDsList");
 //        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
-
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
     private void getDeviceLocation() {
@@ -275,5 +306,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             makeText(getApplicationContext(), "no", LENGTH_LONG).show();
         }
     }
+
 
 }

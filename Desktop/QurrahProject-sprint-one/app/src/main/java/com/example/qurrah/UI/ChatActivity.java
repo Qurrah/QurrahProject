@@ -1,8 +1,12 @@
 package com.example.qurrah.UI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,7 +15,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.qurrah.Adapters.UserAdapter;
+import com.example.qurrah.Model.Chat;
 import com.example.qurrah.Model.Chatlist;
+import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.FirebaseNotifications.Token;
 
@@ -20,6 +26,7 @@ import com.example.qurrah.R;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,13 +41,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class ChatActivity extends AppCompatActivity {
 String raghad;
     CircleImageView profile_image;
-    TextView username, noChats;
-
-    FirebaseUser firebaseUser;
+    TextView username, noChats, Chats;
 
     DatabaseReference reference;
     private RecyclerView recyclerView;
@@ -60,10 +66,13 @@ String raghad;
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         recyclerView = findViewById(R.id.recycler_view);
         noChats = findViewById(R.id.noChats);
+        Chats = findViewById(R.id.Chats);
+        Chats.setText("المحادثات");
+
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(ChatActivity.this);
@@ -96,27 +105,33 @@ String raghad;
         });
 
 
-//        reference = FirebaseDatabase.getInstance().getReference("Chats");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                int unread = 0;
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    Chat chat = snapshot.getValue(Chat.class);
-//                    if (chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()) {
-//                        unread++;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+            reference = FirebaseDatabase.getInstance().getReference("Chats");
+            reference.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            int unread = 0;
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Chat chat = snapshot.getValue(Chat.class);
+                assert chat != null;
+                if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
+                    unread++;
+                }
+            }
+
+            if (unread != 0) {
+                Chats.setText("("+unread+") المحادثات");
+            }
+    }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         String newToken =FirebaseInstanceId.getInstance().getToken();
-                updateToken(newToken);
+        updateToken(newToken);
+
     }
 
     private void updateToken(String token) {
@@ -264,7 +279,7 @@ String raghad;
 
     private void status(String status){
 
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
 
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -299,6 +314,79 @@ public void onBackPressed() {
     startActivity(intent);
     finish();
 }
+
+
+//    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+//        @Override
+//        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//            return false;
+//        }
+//
+//        @Override
+//        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+//            final int position = viewHolder.getAdapterPosition();
+//            deletedReport = newList.get(position);
+//            System.out.println("Here"+position);
+//            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//
+//                    for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        Report rep = snapshot.getValue(Report.class);
+//                        if (deletedReport.getDate() == rep.getDate()) {
+//                            reference.child(snapshot.getKey()).removeValue();
+//                            newList.remove(position);
+//                            adapter.notifyItemRangeChanged(position,newList.size());
+//                            adapter.updateList(newList);
+//
+//                            final Snackbar snackBar = Snackbar.make(recyclerView, "تم الحذف", Snackbar.LENGTH_LONG);
+//                            snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+//                            snackBar.setAction("تراجع", v -> {
+//                                snackBar.dismiss();
+//                                findViewById(R.id.noReports).setVisibility(View.GONE);
+//                                reference.child(snapshot.getKey()).setValue(deletedReport);
+//                                newList.add(position, deletedReport);
+//                                adapter.notifyItemInserted(position);
+//                                adapter.updateList(newList);
+//
+//
+//
+//
+//                            }).show();
+//
+//
+//                        }
+//
+//
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//
+//            });
+//        }
+//
+//        @Override
+//        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+//            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+//                    .addSwipeRightBackgroundColor(ContextCompat.getColor(MyReport.this, R.color.darkRed))
+//                    .addActionIcon(R.drawable.ic_delete_black_24dp)
+//                    .addSwipeRightLabel("حذف")
+//                    .create()
+//                    .decorate();
+//
+//            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//        }
+//    };
+
+
 }
 
 

@@ -46,6 +46,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.report_layout);
 //------------------------------------------------
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 //------------------------------------------------
         // inputs
         mAuth = FirebaseAuth.getInstance();

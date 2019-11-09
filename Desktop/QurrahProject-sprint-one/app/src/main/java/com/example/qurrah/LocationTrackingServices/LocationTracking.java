@@ -1,5 +1,6 @@
 package com.example.qurrah.LocationTrackingServices;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -27,6 +29,7 @@ import com.example.qurrah.R;
 import com.example.qurrah.UI.MainActivity;
 import com.example.qurrah.UI.MapActivity;
 import com.example.qurrah.UI.SecondActivity;
+import com.example.qurrah.UI.UnregisteredUserSecondActivity;
 import com.example.qurrah.UI.ViewReport;
 import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -47,6 +50,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import static com.example.qurrah.App.App.CHANNEL_1_ID;
+import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 
 public class LocationTracking extends AppCompatActivity {
@@ -62,9 +66,10 @@ public class LocationTracking extends AppCompatActivity {
     public static int counter =0 ,id = 1;
     public static ArrayList<String> ids = new ArrayList<>();
     String greeting="اهلين ";
-    String lostmsg=" فيه احد يحتاج فزعتك ";
-    String foundmsg =" فيه شي ضايع لك ؟ ";
+    String lostmsg="فيه احد يحتاج فزعتك ";
+    String foundmsg ="فيه شي ضايع لك ؟ ";
     String msg="";
+    String userID;
 
 
 
@@ -79,8 +84,14 @@ public class LocationTracking extends AppCompatActivity {
         if (id > 1) {
             id = 1;
         }
-         startActivity(new Intent(this, MainActivity.class));
-
+        Intent mIntent = getIntent();
+        try {
+            if ( mIntent.getStringExtra("FROM_ACTIVITY").equalsIgnoreCase("UnregisteredUserSecondActivity")){
+                startActivity(new Intent(this, UnregisteredUserSecondActivity.class));
+            }
+        } catch (NullPointerException e) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     private BroadcastReceiver jobStateChanged = new BroadcastReceiver() {
@@ -98,18 +109,18 @@ public class LocationTracking extends AppCompatActivity {
                     currentLatitude = l.getLatitude();
                     currentLongitude = l.getLongitude();
                     findReportsWithin5Km();
-                    Toast.makeText(getApplicationContext(), currentLatitude + " and " + currentLongitude, Toast.LENGTH_LONG).show();
+                //    Toast.makeText(getApplicationContext(), currentLatitude + " and " + currentLongitude, Toast.LENGTH_LONG).show();
 
                     if (firstSeenLatitude == 0 && firstSeenLongitude == 0){
                         // first time seen latitude and longitude
                         firstSeenLatitude = currentLatitude;
                         firstSeenLongitude = currentLongitude;
                     }else if (!isUserLocationWithin5kmOfFirstSeenLocation(currentLatitude, currentLongitude)){
-                      Toast.makeText(getApplicationContext(),"user leaves his geoFence, starting a new one", Toast.LENGTH_LONG).show();
-                            firstSeenLatitude = 0;
-                            firstSeenLongitude = 0;
-                             ids.removeAll(ids);
-                        }
+                 //       Toast.makeText(getApplicationContext(),"user leaves his geoFence, starting a new one", Toast.LENGTH_LONG).show();
+                        firstSeenLatitude = 0;
+                        firstSeenLongitude = 0;
+                        ids.removeAll(ids);
+                    }
 
 
                 } else {
@@ -219,64 +230,65 @@ public class LocationTracking extends AppCompatActivity {
 
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
-                    String userID=userInfo.getId();
+                    userID=userInfo.getId();
                     String phoneNo = userInfo.getPhone();
                     String currentUserName="";
+                    currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
 
                     if(CU.equals(userID)) {
                         type = "current";
-                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
                     }else if(!CU.equals(userID) && type.equals("none")){
                         type = "notCurrent";
-                        currentUserName = dataSnapshot.child(CU).getValue(UserProfile.class).getUserName();
 
                     }
+                    if (isReportMine())
+                        continue;
+                    else {
+                        for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
 
-                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                            Report report = ds.getValue(Report.class);
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                            String date = dateFormat.format(new Date());
+                            if (report.getReportStatus().equals("نشط") && report.getDate().contains(date)) {
 
-                        Report report = ds.getValue(Report.class);
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                        String date = dateFormat.format(new Date());
-                        if (report.getReportStatus().equals("نشط")&&report.getDate().contains(date)) {
+                                if (!report.getLatitude().isEmpty() && !report.getLongitude().isEmpty()) {
+                                    if (isReportWithin5km(Double.parseDouble(report.getLatitude()), Double.parseDouble(report.getLongitude()))) {
+                                        Log.d("e", "onDataChange:" + ds.getRef().getKey());
+                                        if (!isReportAlreadyNotified(report.getLostTitle() + " " + report.getLostDescription() + " " + report.getDate())) {
+                                            ids.add(report.getLostTitle() + " " + report.getLostDescription() + " " + report.getDate());
+                                            //   Log.d("e", "onDataChange:" +"HERE"+ids);
+                                            if (report.getReportTypeOption().equals("فاقد")) {
+                                                msg = greeting + currentUserName + lostmsg;
+                                            } else {
+                                                msg = greeting + currentUserName + foundmsg;
+                                            }
+                                            sendOnChannel1(
+                                                    userID,
+                                                    report.getLostTitle(),
+                                                    report.getLostDescription(),
+                                                    report.getLatitude(),
+                                                    report.getLongitude(),
+                                                    report.getPhoto(),
+                                                    report.getAddress(),
+                                                    report.getLocation(),
+                                                    userName,
+                                                    phoneNo,
+                                                    type,
+                                                    msg);
+                                        }
 
-                            if (!report.getLatitude().isEmpty() && !report.getLongitude().isEmpty()) {
-                               if(isReportWithin5km(Double.parseDouble(report.getLatitude()), Double.parseDouble(report.getLongitude()))) {
-                                   Log.d("e", "onDataChange:" + ds.getRef().getKey());
-                                   if (!isReportAlreadyNotified(report.getLostTitle() +" " +report.getLostDescription()+" "+report.getDate())) {
-                                           ids.add(report.getLostTitle() +" " +report.getLostDescription()+" "+report.getDate());
-                                        //   Log.d("e", "onDataChange:" +"HERE"+ids);
-                                       if(report.getReportTypeOption().equals("فاقد"))
-                                       {
-                                           msg=greeting+currentUserName+lostmsg;
-                                       }
-                                       else{
-                                           msg=greeting+currentUserName+foundmsg;
-                                       }
-                                       sendOnChannel1(
-                                               userID,
-                                               report.getLostTitle(),
-                                               report.getLostDescription(),
-                                               report.getLatitude(),
-                                               report.getLongitude(),
-                                               report.getPhoto(),
-                                               report.getAddress(),
-                                               report.getLocation(),
-                                               userName,
-                                               phoneNo,
-                                               type,
-                                               msg);
-                                   }
+                                    }
+                                }
 
-                               }
                             }
 
-                            }
                         }//end report for
-                    }//end for dataSnapshot
+                    }
+                }//end for dataSnapshot
 
-                }
+            }
 
 
 
@@ -292,15 +304,15 @@ public class LocationTracking extends AppCompatActivity {
         float distanceInMeters = results[0];
         boolean isWithin5km = distanceInMeters <=5000;
         if (isWithin5km){
-           return true;
+            return true;
         }
-           return false;
+        return false;
 
     }
     private boolean isReportAlreadyNotified(String id){
         boolean test = false;
         if ( ids.contains(id) ) {
-           test = true;
+            test = true;
         }
         return test;
     }
@@ -317,13 +329,22 @@ public class LocationTracking extends AppCompatActivity {
         }
         return false;
     }
+    private boolean isReportMine(){
+        return CU.equals(userID);
+    }
     protected PendingIntent getDeleteIntent () {
         Intent intent = new Intent(this, NotificationBroadcastReceiver.class);
         intent.setAction("notification_cancelled");
         return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
-
+    private void showPermissionDialog() {
+        if (!LocationJobService.checkPermission(this)) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
 
 }
-
 

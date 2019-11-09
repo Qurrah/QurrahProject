@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/qurrah_background"
-    tools:context="com.example.qurrah.UI.VerifyPhoneActivity">
+    tools:context="com.example.qurrah.UI.VerifyPhoneActivity"
+    android:layoutDirection="ltr">
 
     <LinearLayout
         android:id="@+id/relativeLayout"
@@ -77,34 +78,41 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
-        android:id="@+id/buttonSignIn"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:background="@drawable/purple_buttons"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815"
-        android:text="تحقق"
-        android:textSize="18dp" />
+        <com.laizexin.sdj.library.ProgressButton
+            android:id="@+id/buttonSignUp"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:textAllCaps="false"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.815"
+            app:pb_normalText="تحقق"
+            app:pb_completeText="تحقق"
+            app:pb_normalTextColor="@color/white"
+            app:pb_completelTextColor="@color/white"
+            app:pb_normalBackgroundColor="@color/darkPurple"
+            app:pb_completeBackgroundColor="@color/darkPurple"
+            app:pb_progress_indicator_color="@color/white"
+            app:pb_progress_indicator_background_color="@color/pb_progress_indicator_background"
+            app:pb_corner_radius="50dp"
+            android:textSize="18dp" />
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_below="@id/buttonSignIn"
-        android:layout_centerHorizontal="true"
-        android:layout_width="222dp"
-        android:layout_height="44dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="0dp"        android:visibility="gone" />
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressbar"-->
+<!--        android:layout_below="@id/buttonSignUp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_width="222dp"-->
+<!--        android:layout_height="44dp"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginTop="0dp"-->
+<!--        android:layout_marginRight="8dp"-->
+<!--        android:layout_marginBottom="0dp"        -->
+<!--        android:visibility="gone" />-->
 
 
     </LinearLayout>

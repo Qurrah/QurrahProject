@@ -142,7 +142,7 @@ public class LocationJobService extends JobService implements GoogleApiClient.Co
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            Toast.makeText(getApplicationContext(),"permission required !!", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(),"permission required !!", Toast.LENGTH_SHORT).show();
             return;
         }
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(LocationJobService.this);
@@ -268,6 +268,7 @@ public class LocationJobService extends JobService implements GoogleApiClient.Co
         stopForeground(true); // use this for foreground service
     }
 
+
     private void stopLocationUpdates() {
 
         // It is a good practice to remove location requests when the activity is in a paused or
@@ -276,7 +277,7 @@ public class LocationJobService extends JobService implements GoogleApiClient.Co
         Log.d("stop location "," updates called");
         if(mLocationCallback!=null && mFusedLocationProviderClient!=null) {
             mFusedLocationProviderClient.removeLocationUpdates(mLocationCallback);
-            Toast.makeText(getApplicationContext(), "Location job service stopped.", Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(getApplicationContext(), "Location job service stopped.", Toast.LENGTH_SHORT).show();
         }
         getSharedPreferences("track",MODE_PRIVATE).edit().putBoolean("isServiceStarted",false).apply();
         Intent jobStoppedMessage = new Intent(JOB_STATE_CHANGED);
@@ -284,5 +285,9 @@ public class LocationJobService extends JobService implements GoogleApiClient.Co
         Log.d("broadcasted","job state change");
         removeNotification();
         LocalBroadcastManager.getInstance(getBaseContext()).sendBroadcast(jobStoppedMessage);
+    }
+    public static boolean checkPermission(final Context context) {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 }

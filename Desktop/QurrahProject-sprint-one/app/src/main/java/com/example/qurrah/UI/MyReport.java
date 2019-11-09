@@ -46,6 +46,7 @@ public class MyReport extends AppCompatActivity {
 
 //------------------------------------------------
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         newList = new ArrayList<>();
 //------------------------------------------------
         // inputs

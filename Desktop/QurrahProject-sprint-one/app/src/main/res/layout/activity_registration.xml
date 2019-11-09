@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/qurrah_background"
-    tools:context="com.example.qurrah.UI.RegistrationActivity">
+    tools:context="com.example.qurrah.UI.RegistrationActivity"
+    android:layoutDirection="ltr">
 
 
 
-    // Username error message
-    // policy error message design
-    // password eye icon position
-    // error message gravity
+<!--    // Username error message-->
+<!--    // policy error message design-->
+<!--    // password eye icon position-->
+<!--    // error message gravity-->
 
 
 
@@ -42,10 +43,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
-            app:counterMaxLength="15"
+            app:counterMaxLength="25"
             app:hintEnabled="false"
             app:errorTextAppearance="@style/error_appearance"
-            android:paddingBottom="6dp"
+            android:paddingBottom="5dp"
+            android:layoutDirection="rtl"
+
             >
 
 
@@ -62,7 +65,7 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/darkPurple"
                 android:textSize="16sp"
-                android:maxLength="15"
+                android:maxLength="25"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -83,11 +86,12 @@
             app:hintEnabled="false"
             app:errorTextAppearance="@style/error_appearance"
             android:paddingBottom="5dp"
+            android:layoutDirection="rtl"
             >
 
         <com.google.android.material.textfield.TextInputEditText
 
-            android:layout_width="222dp"
+            android:layout_width="221dp"
             android:layout_height="44dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="0dp"
@@ -149,8 +153,8 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="221dp"
+            android:layout_height="44dp"
             android:orientation="horizontal">
 
 
@@ -182,6 +186,7 @@
                 app:hintEnabled="false"
                 app:errorTextAppearance="@style/error_appearance"
                 android:paddingBottom="5dp"
+                android:layoutDirection="rtl"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -243,45 +248,52 @@
     <!--        app:layout_constraintTop_toBottomOf="@+id/etAge2"-->
     <!--        app:layout_constraintVertical_bias="0.484" />-->
 
+        <TextView
+            android:id="@+id/terms"
+            android:layout_width="211dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="10dp"
+            android:autoSizeMaxTextSize="20sp"
+            android:text="قراءة على الشروط والأحكام "
+            android:textColor="@color/darkGrey" />
 
         <CheckBox
             android:id="@+id/policy"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="الموافقة على الشروط والأحكام "
-            android:textColor="@color/darkPurple"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="0dp"
+            android:focusableInTouchMode="true"
+            android:text="أوافق على الشروط والأحكام"
+            android:textColor="@color/darkPurple"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.701"
-            tools:ignore="MissingConstraints"
-            android:focusableInTouchMode="true"
+            tools:ignore="MissingConstraints" />
+
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/purple_buttons"
+            android:text="تسجيل"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.815"
+
             />
-
-
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:background="@drawable/purple_buttons"
-        android:text="تسجيل"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815"
-
-        />
-
 
         <Button
             android:id="@+id/tvUserLogin"
