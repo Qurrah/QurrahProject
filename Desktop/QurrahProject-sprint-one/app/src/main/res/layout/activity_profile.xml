@@ -161,7 +161,7 @@ tools:context="com.example.qurrah.UI.MainActivity">
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.126"
-            app:srcCompat="@drawable/profile" />
+            app:srcCompat="@drawable/userprofile" />
     </LinearLayout>
 
 
