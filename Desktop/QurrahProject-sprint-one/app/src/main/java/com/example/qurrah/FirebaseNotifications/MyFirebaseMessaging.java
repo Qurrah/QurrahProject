@@ -114,31 +114,4 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         noti.notify(i, builder.build());
     }
 
-    @Override
-    public void onNewToken(@NonNull String s) {
-        super.onNewToken(s);
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (firebaseUser != null){
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( new OnSuccessListener<InstanceIdResult>() {
-                @Override
-                public void onSuccess(InstanceIdResult instanceIdResult) {
-                    String deviceToken = instanceIdResult.getToken();
-                    Log.e("newToken", deviceToken);
-                    updateToken(deviceToken);
-                    // Do whatever you want with your token now
-                    // i.e. store it on SharedPreferences or DB
-                    // or directly send it to server
-                }
-            });
-                }
-            }
-
-    private void updateToken(String refreshToken) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
-        Token token = new Token(refreshToken);
-        reference.child(firebaseUser.getUid()).setValue(token);
-    }
 }

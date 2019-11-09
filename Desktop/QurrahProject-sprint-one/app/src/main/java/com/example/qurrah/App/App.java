@@ -18,7 +18,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         createNotificationChannels();
-        startActivity(new Intent(this, LocationTracking.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+     //   startActivity(new Intent(this, LocationTracking.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
     }
 

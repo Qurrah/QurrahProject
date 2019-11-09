@@ -163,13 +163,23 @@
 
         <activity android:name=".LocationTrackingServices.LocationTracking" />
         <activity android:name=".UI.terms" />
-        <service
-            android:name=".FirebaseNotifications.MyFirebaseMessaging"
-            android:stopWithTask="false">
+
+        <service android:name=".FirebaseNotifications.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <service android:name=".FirebaseNotifications.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <service
             android:name=".LocationTrackingServices.LocationJobService"
             android:exported="true"

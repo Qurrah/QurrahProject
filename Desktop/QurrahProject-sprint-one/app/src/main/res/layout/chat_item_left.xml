@@ -22,6 +22,7 @@
             android:background="@drawable/background_left"
             android:padding="8dp"
             android:text="hello"
+            android:textColor="#444141"
             android:textSize="18sp" />
 
         <ImageView
