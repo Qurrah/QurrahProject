@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -16,7 +17,12 @@ import android.widget.Toast;
 import com.example.qurrah.Adapters.MyReportAdapter;
 import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
+import com.example.qurrah.ReportTypesWithTabs.All_Reports;
+import com.example.qurrah.ReportTypesWithTabs.Found_reports;
+import com.example.qurrah.ReportTypesWithTabs.Missing_reports;
+import com.example.qurrah.ReportTypesWithTabs.main.SectionsPagerAdapter;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,13 +42,24 @@ public class MyReport extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Report> list, newList;
     MyReportAdapter adapter;
-    Button allbtn,missingbtn, findingbtn;
+//    Button allbtn,missingbtn, findingbtn;
     Report report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_layout);
+
+
+//---------------------Tabs---------------------------
+
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(2).select();
 
 //------------------------------------------------
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
@@ -52,29 +69,69 @@ public class MyReport extends AppCompatActivity {
         // inputs
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getUid();
-// second filter
-        allbtn= findViewById(R.id.all);
-        allbtn.setOnClickListener(v -> {
-            allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-            SecondFilter("all");
 
+
+
+
+        // tabs click
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:
+                        SecondFilter("finding");
+                        break;
+                    case 1:
+                        SecondFilter("missing");
+                        break;
+                    case 2:
+                        SecondFilter("all");
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
         });
-        missingbtn= findViewById(R.id.missing);
-        missingbtn.setOnClickListener(v -> {
-            missingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-            SecondFilter("missing");
-        });
-        findingbtn=findViewById(R.id.finding);
-        findingbtn.setOnClickListener(v -> {
-            findingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-            SecondFilter("finding");
-        });
+
+
+
+
+
+
+//
+//// second filter
+//        allbtn= findViewById(R.id.all);
+//        allbtn.setOnClickListener(v -> {
+//            allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+//            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+//            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+//            SecondFilter("all");
+//
+//        });
+//        missingbtn= findViewById(R.id.missing);
+//        missingbtn.setOnClickListener(v -> {
+//            missingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+//            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+//            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+//            SecondFilter("missing");
+//        });
+//        findingbtn=findViewById(R.id.finding);
+//        findingbtn.setOnClickListener(v -> {
+//            findingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
+//            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+//            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
+//            SecondFilter("finding");
+//        });
         //
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -83,10 +140,12 @@ public class MyReport extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
+
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
-        allbtn.setVisibility(View.GONE);
-        findingbtn.setVisibility(View.GONE);
-        missingbtn.setVisibility(View.GONE);
+//        allbtn.setVisibility(View.GONE);
+//        findingbtn.setVisibility(View.GONE);
+//        missingbtn.setVisibility(View.GONE);
+
         list = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
         reference.addValueEventListener(new ValueEventListener() {
@@ -99,9 +158,9 @@ public class MyReport extends AppCompatActivity {
                     if(ds.getChildrenCount() > 0) {
                         findViewById(R.id.progressbar).setVisibility(View.GONE);
 
-                        allbtn.setVisibility(View.VISIBLE);
-                        findingbtn.setVisibility(View.VISIBLE);
-                        missingbtn.setVisibility(View.VISIBLE);
+//                        allbtn.setVisibility(View.VISIBLE);
+//                        findingbtn.setVisibility(View.VISIBLE);
+//                        missingbtn.setVisibility(View.VISIBLE);
 
                     }
 
@@ -114,15 +173,15 @@ public class MyReport extends AppCompatActivity {
                 new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
-                allbtn.setVisibility(View.VISIBLE);
-                findingbtn.setVisibility(View.VISIBLE);
-                missingbtn.setVisibility(View.VISIBLE);
+//                allbtn.setVisibility(View.VISIBLE);
+//                findingbtn.setVisibility(View.VISIBLE);
+//                missingbtn.setVisibility(View.VISIBLE);
 
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
-                    allbtn.setVisibility(View.GONE);
-                    findingbtn.setVisibility(View.GONE);
-                    missingbtn.setVisibility(View.GONE);
+//                    allbtn.setVisibility(View.GONE);
+//                    findingbtn.setVisibility(View.GONE);
+//                    missingbtn.setVisibility(View.GONE);
 
                 }
 
@@ -244,6 +303,18 @@ public class MyReport extends AppCompatActivity {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
+
+// ------------------Tabs------------------------
+    private void setupViewPager(ViewPager viewPager) {
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Found_reports(), "المعثورات");
+        adapter.addFragment(new Missing_reports() , "المفقودات");
+        adapter.addFragment(new All_Reports(), "الكل");
+        viewPager.setAdapter(adapter);
+    }
+
+
+
 }
 
 
