@@ -4,57 +4,91 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:backgroundTint="@color/lightGrey">
-<ImageView
-    android:id="@+id/info_window_imagen"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:scaleType="centerCrop"
-    android:src="@drawable/logo" />
 
+    <ImageView
+        android:id="@+id/info_window_image"
+        android:layout_width="89dp"
+        android:layout_height="81dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
 
     <TextView
-android:id="@+id/titleInfoWind"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_alignParentTop="true"
-android:layout_toRightOf="@id/info_window_imagen"
-android:paddingLeft="5dp"
-android:text="Carlo Estrada Solano"
-    android:textStyle="bold"
-    android:textSize="20sp"/>
+        android:id="@+id/tit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/info_window_image"
+        android:text="  العنوان :"
+        android:textStyle="bold"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/titleInfoWind"
+        android:layout_width="95dp"
+        android:layout_height="41dp"
+        android:layout_below="@+id/tit"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/info_window_image"
+        android:text="Carlo Estrada Solano"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/cat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="75dp"
+        android:layout_toRightOf="@id/info_window_image"
+        android:text="  نوع الفئة :"
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/categoryInfoWind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleInfoWind"
-        android:layout_toRightOf="@id/info_window_imagen"
-        android:paddingLeft="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="44dp"
+        android:layout_toRightOf="@id/info_window_image"
         android:text="Placas: SX5487"
-        android:textSize="18sp"
-       />
+        android:textSize="15sp" />
 
-<TextView
-android:id="@+id/typeInfoWindo"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-    android:layout_below="@id/categoryInfoWind"
-android:layout_toRightOf="@id/info_window_imagen"
-android:paddingLeft="5dp"
-android:text="Estado: Activo"
-    android:textSize="18sp"
-    />
+    <TextView
+        android:id="@+id/typ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="140dp"
+        android:layout_toRightOf="@id/info_window_image"
+        android:text="  نوع البلاغ :"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/typeInfoWindo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryInfoWind"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="38dp"
+        android:layout_toRightOf="@id/info_window_image"
+        android:text="Estado: Activo"
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/typeInfoWindo"
-        android:layout_toRightOf="@id/info_window_imagen"
+        android:layout_marginLeft="-4dp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/info_window_image"
         android:paddingLeft="5dp"
-        android:layout_marginLeft="50sp"
         android:text="اضغط للمزيد من التفاصيل"
         android:textColorLink="@color/darkPurple"
-        android:textSize="18sp"
+        android:textSize="12sp"
         android:textStyle="bold|italic" />
 
-    </RelativeLayout>
+</RelativeLayout>

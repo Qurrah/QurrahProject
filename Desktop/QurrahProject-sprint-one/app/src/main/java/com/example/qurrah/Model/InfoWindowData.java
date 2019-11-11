@@ -4,6 +4,15 @@ public class InfoWindowData {
     private String catogery;
     private String type;
     private String title;
+    public String img;
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getType() {
         return type;

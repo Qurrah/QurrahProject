@@ -255,7 +255,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginTop="10dp"
             android:autoSizeMaxTextSize="20sp"
-            android:text="قراءة على الشروط والأحكام "
+            android:text="قراءة الشروط والأحكام "
             android:textColor="@color/darkGrey" />
 
         <CheckBox
