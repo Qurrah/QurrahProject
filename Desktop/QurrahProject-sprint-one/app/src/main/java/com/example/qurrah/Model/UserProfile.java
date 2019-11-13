@@ -9,6 +9,7 @@ public class UserProfile {
     public String imageURL;
     public String status;
     public String search;
+    public String allowPhone;
 
 
     //constructors
@@ -61,6 +62,8 @@ public class UserProfile {
         return search;
     }
 
+    public String getAllowPhone() { return allowPhone;}
+
     //setters
 
     public void setId(String id) {
@@ -91,5 +94,8 @@ public class UserProfile {
         this.search = search;
     }
 
+    public void setAllowPhone(String allowPhone) {
+        this.allowPhone = allowPhone;
+    }
 
 }

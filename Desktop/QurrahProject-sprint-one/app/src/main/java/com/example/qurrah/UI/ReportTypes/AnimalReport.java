@@ -174,6 +174,7 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
                     String userName = userProfile.getUserName();
                     String No = userProfile.getPhone();
                     String Id = userProfile.getId();
+                    String allowPhoneAccess=userProfile.getAllowPhone();
 
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
                         if(ds.getChildrenCount() > 0) {
@@ -188,7 +189,12 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
                         if (report.getCategoryOption().equals(getString(R.string.animal)) && report.getReportStatus().equals("نشط")){
                             list.add(report);
                             userList.add(userName);
-                            phones.add(No);
+                            userList.add(userName);
+                            if(allowPhoneAccess.equals("true")){
+                                phones.add(No);
+                            }else{
+                                phones.add("0");
+                            }
                             id.add(Id);
 
                         }

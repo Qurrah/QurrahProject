@@ -1,3 +1,5 @@
+
+
 package com.example.qurrah.UI;
 
 import android.Manifest;
@@ -85,7 +87,12 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
                     String ID = userInfo.getId();
-                    String No = userInfo.getPhone();
+                    String phoneIsAllowed =userInfo.getAllowPhone();
+                    String No="0";
+
+                    if(phoneIsAllowed.equals("true")) {
+                        No = userInfo.getPhone();
+                    }
 
 
                     for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
@@ -94,7 +101,12 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                         if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
                             reportsList.add(report);
                             userList.add(userName);
-                            phones.add(No);
+                            userList.add(userName);
+                            if(phoneIsAllowed.equals("true")){
+                                phones.add(No);
+                            }else{
+                                phones.add("0");
+                            }
                             IdList.add(ID);
                         }
 //                        }
@@ -281,3 +293,4 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         SignUpRequest(getString(R.string.ChatRequest));
     }
 }
+

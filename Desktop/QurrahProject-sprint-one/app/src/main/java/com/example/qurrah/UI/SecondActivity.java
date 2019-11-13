@@ -67,7 +67,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     DatabaseReference databaseReference;
     private boolean mLocationPermissionGranted = false;
     private static final String TAG = "SecondActivity";
-//    ArrayList<String> LatitudeList;
+    //    ArrayList<String> LatitudeList;
 //    ArrayList<String> LongitudeList;
     ArrayList<Report> reportsList;  // array of reports that contain a location
     ArrayList<String> userList, phones , IdList;
@@ -77,7 +77,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
-       // requestLocationPermission();
+        // requestLocationPermission();
         showPermissionDialog();
 
 
@@ -135,16 +135,21 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                     String ID = userInfo.getId();
                     String userName = userInfo.getUserName();
                     String No = userInfo.getPhone();
+                    String allowPhoneAccess=userInfo.getAllowPhone();
 
 
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
-                            Report report = ds.getValue(Report.class);
-                            if(!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")){
-                                reportsList.add(report);
-                                IdList.add(ID);
-                                userList.add(userName);
+                        Report report = ds.getValue(Report.class);
+                        if(!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")){
+                            reportsList.add(report);
+                            IdList.add(ID);
+                            userList.add(userName);
+                            if(allowPhoneAccess.equals("true")){
                                 phones.add(No);
+                            }else{
+                                phones.add("0");
                             }
+                        }
                     }
                 }
 
@@ -187,8 +192,8 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 //                            intent.putStringArrayListExtra("Long",LongitudeList);
                     }
 
-                break;
-            }
+                    break;
+                }
 
                 case R.id.chats:{
                     Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
@@ -288,6 +293,9 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.nav_my_report:
                 startActivity(new Intent(SecondActivity.this, MyReport.class));
                 break;
+//            case R.id.nav_privacyAndSecurity:
+//                startActivity(new Intent(SecondActivity.this, privacyAndSecurity.class));
+//                break;
             case R.id.nav_logout:
                 Logout();
                 break;
@@ -325,10 +333,10 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)  {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-              //  Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LocationTracking.class));
             } else {
-             //   Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -366,7 +374,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
     public void onClickChats(MenuItem item) {
         if (firebaseAuth.getCurrentUser() == null)
-        SignUpRequest(getString(R.string.ChatRequest));
+            SignUpRequest(getString(R.string.ChatRequest));
         else {
             Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -374,4 +382,3 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 }
-

@@ -1,3 +1,4 @@
+
 package com.example.qurrah.UI;
 
 import android.annotation.SuppressLint;
@@ -9,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +43,8 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
     private String reportImg, UserType;
     private LinearLayout chatting , whatsapp;
     private String  userID, latitude, longitude;
+    private static final String TAG = "viewReport";
+
 
 
 
@@ -97,6 +101,13 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
 //            name.setText(reportUser);
         }
 
+        if(reportWhatsApp.equals("0")){
+            whatsapp.setVisibility(View.GONE);
+        }
+        Log.d(TAG, "phone: "+reportWhatsApp);
+
+
+
         // set values
         Picasso.get().load(reportImg).into(photo);
         title.setText(reporTitle);
@@ -105,7 +116,17 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         // try to divide users
 
         whatsapp.setOnClickListener(view -> {
-
+//            if(reportWhatsApp.equals("0")){
+//                AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
+//                builder1.setMessage("صاحب البلاغ لا يفضل التواصل عن طريق الواتساب");
+//                builder1.setCancelable(true);
+//                builder1.setPositiveButton(
+//                        "حسناً",
+//                        (dialog, id) -> dialog.cancel());
+//                AlertDialog alert11 = builder1.create();
+//                alert11.show();
+//            }
+//            else {
             try {
                 Uri uri = Uri.parse("smsto:" + reportWhatsApp);
                 Intent i = new Intent(Intent.ACTION_SENDTO, uri);
@@ -119,6 +140,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
                 Toast.makeText(ViewReport.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                         .show();
             }
+//            }
 
         });
 
@@ -178,3 +200,4 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
     }
 
 }
+
