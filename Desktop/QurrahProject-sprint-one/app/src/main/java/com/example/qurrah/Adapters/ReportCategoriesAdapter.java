@@ -115,6 +115,8 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             else {
                 holder.lostDate.setText(reports.get(position).getDate().substring(0,10));
             }
+        } else {
+            holder.lostDate.setText(reports.get(position).getDate().substring(0,10));
         }
 
 

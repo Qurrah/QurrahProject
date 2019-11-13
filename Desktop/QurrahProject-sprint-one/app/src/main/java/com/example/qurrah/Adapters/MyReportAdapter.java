@@ -100,6 +100,8 @@ public class MyReportAdapter extends RecyclerView.Adapter<MyReportAdapter.ViewHo
             else {
                 holder.lostDate.setText(reports.get(position).getDate().substring(0,10));
             }
+        } else {
+            holder.lostDate.setText(reports.get(position).getDate().substring(0,10));
         }
 
 
