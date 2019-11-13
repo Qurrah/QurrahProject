@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class HumanReport extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -188,6 +189,7 @@ public class HumanReport extends AppCompatActivity implements SearchView.OnQuery
                         Report report = ds.getValue(Report.class);
                         if (report.getCategoryOption().equals(getString(R.string.human)) && report.getReportStatus().equals("نشط")) {
                             list.add(report);
+                            sortByDate(list);
                             userList.add(userName);
                             userList.add(userName);
                             if(allowPhoneAccess.equals("true")){
@@ -317,7 +319,9 @@ public void SecondFilter(String flag){
     }
 
 
-
+    public void sortByDate(ArrayList<Report> list){
+        Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+    }
 
 }
 

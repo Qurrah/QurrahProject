@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AnimalReport extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -188,6 +189,7 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
                         Report report = ds.getValue(Report.class);
                         if (report.getCategoryOption().equals(getString(R.string.animal)) && report.getReportStatus().equals("نشط")){
                             list.add(report);
+                            sortByDate(list);
                             userList.add(userName);
                             userList.add(userName);
                             if(allowPhoneAccess.equals("true")){
@@ -271,42 +273,42 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
         return false;
     }
 
-//-------------------------Second Filter Method---------------------------------
- public void SecondFilter(String flag){
-     ArrayList<Report> newList = new ArrayList<>();
+    //-------------------------Second Filter Method---------------------------------
+    public void SecondFilter(String flag){
+        ArrayList<Report> newList = new ArrayList<>();
 
-     switch(flag){
+        switch(flag){
             case "all":
                 for(Report rep: list)
                     newList.add(rep);
                 break;
-         case"missing":
-             for(Report rep: list){
-                 if(rep.getReportTypeOption().equals("فاقد")){
-                     newList.add(rep);
+            case"missing":
+                for(Report rep: list){
+                    if(rep.getReportTypeOption().equals("فاقد")){
+                        newList.add(rep);
 
-                 }
-             }
-             break;
-         case"finding":
-             for(Report rep: list){
-                 if(rep.getReportTypeOption().equals("معثور عليه")){
-                     newList.add(rep);
+                    }
+                }
+                break;
+            case"finding":
+                for(Report rep: list){
+                    if(rep.getReportTypeOption().equals("معثور عليه")){
+                        newList.add(rep);
 
-                 }
-             }
-             break;
+                    }
+                }
+                break;
         }
-     if(newList.isEmpty()){
-         findViewById(R.id.noReports).setVisibility(View.VISIBLE);
+        if(newList.isEmpty()){
+            findViewById(R.id.noReports).setVisibility(View.VISIBLE);
 
-     }else{
-         findViewById(R.id.noReports).setVisibility(View.GONE);
-     }
-     adapter.updateList(newList);
-     recyclerView.scrollToPosition(adapter.getItemCount()-1);
+        }else{
+            findViewById(R.id.noReports).setVisibility(View.GONE);
+        }
+        adapter.updateList(newList);
+        recyclerView.scrollToPosition(adapter.getItemCount()-1);
 
- }
+    }
 //
 
     private void setupViewPager(ViewPager viewPager) {
@@ -316,10 +318,8 @@ public class AnimalReport extends AppCompatActivity implements SearchView.OnQuer
         adapter.addFragment(new  All_Reports(), "الكل");
         viewPager.setAdapter(adapter);
     }
-
-
+    public void sortByDate(ArrayList<Report> list){
+        Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+    }
 
 }
-
-
-

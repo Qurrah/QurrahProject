@@ -256,8 +256,6 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
 
 
     }
-
-
 }
 
 

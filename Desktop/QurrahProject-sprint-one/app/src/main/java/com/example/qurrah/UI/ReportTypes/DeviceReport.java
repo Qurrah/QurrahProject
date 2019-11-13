@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DeviceReport extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -189,6 +190,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
                         Report report = ds.getValue(Report.class);
                         if (report.getCategoryOption().equals(getString(R.string.devices)) && report.getReportStatus().equals("نشط")) {
                             list.add(report);
+                            sortByDate(list);
                             userList.add(userName);
                             userList.add(userName);
                             if(allowPhoneAccess.equals("true")){
@@ -311,7 +313,9 @@ public void SecondFilter(String flag){
         adapter.addFragment(new All_Reports(), "الكل");
         viewPager.setAdapter(adapter);
     }
-
+    public void sortByDate(ArrayList<Report> list){
+        Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+    }
 
 }
 

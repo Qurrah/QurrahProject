@@ -1,6 +1,8 @@
 package com.example.qurrah.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Report implements Serializable {
@@ -121,5 +123,6 @@ public class Report implements Serializable {
     public String getAddress() {
         return address;
     }
+
 }
 
