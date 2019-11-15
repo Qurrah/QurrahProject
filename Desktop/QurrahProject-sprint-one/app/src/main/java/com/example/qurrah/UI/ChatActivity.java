@@ -1,10 +1,12 @@
 package com.example.qurrah.UI;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,6 +76,7 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
         noChats = findViewById(R.id.noChats);
         Chats = findViewById(R.id.Chats);
         Chats.setText("المحادثات");
+        findViewById(R.id.noMatchUsers).setVisibility(View.GONE);
 
         searchView = findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(this);
@@ -167,6 +170,7 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
                 if (mUsers.isEmpty())
                     noChats.setVisibility(View.VISIBLE);
                 userAdapter = new UserAdapter(ChatActivity.this, mUsers, true);
+                new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
                 recyclerView.setAdapter(userAdapter);
 
             }
@@ -331,7 +335,6 @@ public void onBackPressed() {
 
     @Override
     public boolean onQueryTextChange(String newText) {
-
         String userInput = newText.toLowerCase();
         ArrayList<UserProfile> newList = new ArrayList<>();
 
@@ -341,7 +344,7 @@ public void onBackPressed() {
                 findViewById(R.id.noMatchUsers).setVisibility(View.GONE);
 
             }
-            else{
+            if(newList.isEmpty()){
                 findViewById(R.id.noMatchUsers).setVisibility(View.VISIBLE);
             }
         }
@@ -350,75 +353,99 @@ public void onBackPressed() {
     }
 
 
-//    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-//        @Override
-//        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//            return false;
-//        }
-//
-//        @Override
-//        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-//            final int position = viewHolder.getAdapterPosition();
-//            deletedReport = newList.get(position);
-//            System.out.println("Here"+position);
-//            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//
-//                    for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        Report rep = snapshot.getValue(Report.class);
-//                        if (deletedReport.getDate() == rep.getDate()) {
-//                            reference.child(snapshot.getKey()).removeValue();
-//                            newList.remove(position);
-//                            adapter.notifyItemRangeChanged(position,newList.size());
-//                            adapter.updateList(newList);
-//
-//                            final Snackbar snackBar = Snackbar.make(recyclerView, "تم الحذف", Snackbar.LENGTH_LONG);
-//                            snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(ChatActivity.this);
+            builder1.setMessage("هل أنت متأكد من حذف هذه المحادثة ؟");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "نعم",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+            final int position = viewHolder.getAdapterPosition();
+            UserProfile deletedChat = mUsers.get(position);
+            ArrayList<UserProfile> mUsers2 = new ArrayList<>();
+            System.out.println("Here"+position);
+            reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(fuser.getUid());
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                    for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Chatlist chat = snapshot.getValue(Chatlist.class);
+                        if (deletedChat.getId().equals(chat.getId())) {
+                            reference.child(snapshot.getKey()).removeValue();
+                            mUsers.remove(position);
+                            userAdapter.notifyItemRangeChanged(position,mUsers.size());
+                            mUsers2.addAll(mUsers);
+                            userAdapter.updateList(mUsers2);
+
+                            final Snackbar snackBar = Snackbar.make(recyclerView, "تم الحذف", Snackbar.LENGTH_LONG);
+                            snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
 //                            snackBar.setAction("تراجع", v -> {
 //                                snackBar.dismiss();
-//                                findViewById(R.id.noReports).setVisibility(View.GONE);
-//                                reference.child(snapshot.getKey()).setValue(deletedReport);
-//                                newList.add(position, deletedReport);
-//                                adapter.notifyItemInserted(position);
-//                                adapter.updateList(newList);
+//                                //findViewById(R.id.noReports).setVisibility(View.GONE);
+//                                reference.child(snapshot.getKey()).setValue(fuser.getUid());
+//                                mUsers.add(position, deletedChat);
+//                                userAdapter.notifyItemInserted(position);
+//                                mUsers2.addAll(mUsers);
+//                                userAdapter.updateList(mUsers2);
 //
 //
 //
 //
 //                            }).show();
-//
-//
-//                        }
-//
-//
-//
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//
-//            });
-//        }
-//
-//        @Override
-//        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-//            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-//                    .addSwipeRightBackgroundColor(ContextCompat.getColor(MyReport.this, R.color.darkRed))
-//                    .addActionIcon(R.drawable.ic_delete_black_24dp)
-//                    .addSwipeRightLabel("حذف")
-//                    .create()
-//                    .decorate();
-//
-//            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-//        }
-//    };
+
+
+                        }
+
+
+
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });}});
+            builder1.setNegativeButton(
+                    "إلغاء الامر",
+                    (dialog, id) -> {
+                        userAdapter.updateList((ArrayList<UserProfile>) mUsers);
+                        dialog.cancel();
+                    });
+
+            AlertDialog alert11 = builder1.create();
+
+            alert11.show();
+            alert11.setCanceledOnTouchOutside(false);
+
+
+
+            }
+
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(ChatActivity.this, R.color.darkRed))
+                    .addActionIcon(R.drawable.ic_delete_black_24dp)
+                    .addSwipeRightLabel("حذف")
+                    .create()
+                    .decorate();
+
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    };
 
 
 }

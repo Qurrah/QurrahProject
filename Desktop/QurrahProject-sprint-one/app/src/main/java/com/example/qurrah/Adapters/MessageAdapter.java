@@ -78,6 +78,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
                 }
                 else if(type.equals("image")){
+                    holder.txt_seen2.setVisibility(View.VISIBLE);
                     holder.txt_seen.setVisibility(View.GONE);
                     holder.txt_seen2.setText("قرِئت");}
             } else {
@@ -85,6 +86,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                     holder.txt_seen2.setVisibility(View.GONE);
                     holder.txt_seen.setText("مرسلة");
                 }else if (type.equals("image")){
+                    holder.txt_seen2.setVisibility(View.VISIBLE);
                     holder.txt_seen.setVisibility(View.GONE);
                     holder.txt_seen2.setText("مرسلة");
                 }
