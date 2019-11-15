@@ -45,9 +45,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -262,14 +266,19 @@ public class MessageActivity extends AppCompatActivity {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", sender);
-        hashMap.put("receiver", receiver);
-        hashMap.put("messageType", type);
-        hashMap.put("message", message);
-        hashMap.put("isseen", false);
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("sender", sender);
+//        hashMap.put("receiver", receiver);
+//        hashMap.put("messageType", type);
+//        hashMap.put("message", message);
+//        hashMap.put("isseen", false);
+//        hashMap.put("senderDelete", false);
+//        hashMap.put("receiverDelete", false);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
+        String date = dateFormat.format(new Date());
+        Chat c= new Chat(sender, receiver, type, message,  date, false);
 
-        reference.child("Chats").push().setValue(hashMap);
+        reference.child("Chats").push().setValue(c);
 
 
         // add user to chat fragment
@@ -365,8 +374,8 @@ public class MessageActivity extends AppCompatActivity {
                 mchat.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
-                    if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid) ||
-                            chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
+                    if (chat.getReceiver().equals(myid) && chat.getSender().equals(userid)&& !chat.isReceiverDelete() ||
+                            chat.getReceiver().equals(userid) && chat.getSender().equals(myid) && !chat.isSenderDelete()){
                         mchat.add(chat);
                     }
 

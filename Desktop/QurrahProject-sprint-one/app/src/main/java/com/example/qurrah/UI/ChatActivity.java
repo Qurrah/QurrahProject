@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.qurrah.Adapters.MessageAdapter;
 import com.example.qurrah.Adapters.UserAdapter;
 import com.example.qurrah.Model.Chat;
 import com.example.qurrah.Model.Chatlist;
@@ -391,6 +392,34 @@ public void onBackPressed() {
 
                             final Snackbar snackBar = Snackbar.make(recyclerView, "تم الحذف", Snackbar.LENGTH_LONG);
                             snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+
+                            reference = FirebaseDatabase.getInstance().getReference("Chats");
+                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                        Chat chat = snapshot.getValue(Chat.class);
+                                        if (chat.getReceiver().equals(deletedChat.getId()) && chat.getSender().equals(fuser.getUid())){
+                                            chat.setSenderDelete(true);
+                                            snapshot.getRef().setValue(chat);
+                                        }else if(chat.getReceiver().equals(fuser.getUid()) && chat.getSender().equals(deletedChat.getId())){
+                                           chat.setReceiverDelete(true);
+                                            snapshot.getRef().setValue(chat);
+                                        }if(chat.isSenderDelete() && chat.isReceiverDelete()){
+                                            snapshot.getRef().removeValue();
+                                        }
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+
 //                            snackBar.setAction("تراجع", v -> {
 //                                snackBar.dismiss();
 //                                //findViewById(R.id.noReports).setVisibility(View.GONE);
