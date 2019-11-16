@@ -325,7 +325,9 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
 @Override
 public void onBackPressed() {
     Intent intent = new Intent(getApplicationContext(),SecondActivity.class);
-    startActivity(intent);
+    intent.putExtra("from", "ChatActivity");
+    startActivityForResult(intent, 0);
+    overridePendingTransition(0,0); //0 for no animation
     finish();
 }
 

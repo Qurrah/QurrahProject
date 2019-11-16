@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       // overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
 //-------------------------------------------------------------
         userِEmail = findViewById(R.id.etName);
         Password = findViewById(R.id.etPassword);
@@ -77,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
-
+//
         if(user != null){
+            startActivity(new Intent(MainActivity.this, SecondActivity.class).putExtra("from", "MainActivity"));
             finish();
-            startActivity(new Intent(MainActivity.this, SecondActivity.class));
         }
 //--------------------------------------------------------------
 //        setupUI(findViewById(R.id.parent));

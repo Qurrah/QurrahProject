@@ -13,6 +13,8 @@ import android.util.Log;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Parcelable;
@@ -67,6 +69,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     DatabaseReference databaseReference;
     private boolean mLocationPermissionGranted = false;
     private static final String TAG = "SecondActivity";
+    Intent intent;
     //    ArrayList<String> LatitudeList;
 //    ArrayList<String> LongitudeList;
     ArrayList<Report> reportsList;  // array of reports that contain a location
@@ -76,10 +79,17 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav);
-        // requestLocationPermission();
-        showPermissionDialog();
 
+        setContentView(R.layout.activity_nav);
+        //overridePendingTransition(0, 0);
+        // requestLocationPermission();
+        intent = getIntent();
+        String activity = intent.getStringExtra("from");
+        if (activity.equalsIgnoreCase("FirstPage")) {
+            Animation hold = AnimationUtils.loadAnimation(this, R.anim.translate_scale);
+            findViewById(R.id.CategoryGroup).startAnimation(hold);
+        }
+        showPermissionDialog();
 
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
 
