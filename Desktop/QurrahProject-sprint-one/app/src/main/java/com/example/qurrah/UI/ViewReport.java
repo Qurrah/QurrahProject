@@ -2,6 +2,7 @@
 package com.example.qurrah.UI;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,7 +42,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
     private ImageView photo;
     private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
     private String reportImg, UserType;
-    private LinearLayout chatting , whatsapp;
+    private LinearLayout chatting , whatsapp ,map ,noMap;
     private String  userID, latitude, longitude;
     private static final String TAG = "viewReport";
 
@@ -53,10 +54,14 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         googleMap.getUiSettings().setScrollGesturesEnabled(false);
         // Add a marker in a location.
         // and move the map's camera to the same location.
-        LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-        googleMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this,R.drawable.ic_location)));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        googleMap.setMinZoomPreference(15);
+        if(!latitude.equals("") && !longitude.equals("")){
+            LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+
+            googleMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this,R.drawable.ic_location)));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+            googleMap.setMinZoomPreference(15);
+        }
+
 
     }
 
@@ -70,42 +75,41 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
 
-
-        title= findViewById(R.id.reportTitle);
-        description=findViewById(R.id.reportDes);
+        title = findViewById(R.id.reportTitle);
+        description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
 //        name = findViewById(R.id.reportUsername);
         yourReport = findViewById(R.id.yourReport);
         whatsapp = findViewById(R.id.whatsapp);
         chatting = findViewById(R.id.chatting);
+        map = findViewById(R.id.mapLayout);
+        noMap =findViewById(R.id.noMapLayout);
 
         // get values from the prev activity
         userID = getIntent().getStringExtra("userid");
-        reporTitle =getIntent().getStringExtra("Title");
+        reporTitle = getIntent().getStringExtra("Title");
         reportDescription = getIntent().getStringExtra("Description");
         reportImg = getIntent().getStringExtra("Image");
         reportUser = getIntent().getStringExtra("UserName");
         reportWhatsApp = getIntent().getStringExtra("WhatsApp");
-        latitude =  getIntent().getStringExtra("lat");
-        longitude =  getIntent().getStringExtra("lon");
-        UserType =  getIntent().getStringExtra("userType");
-        if (UserType == null || UserType.equals("none" )) {
-            UserType="guest";
-        }
-        else if (UserType.equals("current")) {
+        latitude = getIntent().getStringExtra("lat");
+        longitude = getIntent().getStringExtra("lon");
+        UserType = getIntent().getStringExtra("userType");
+        if (UserType == null || UserType.equals("none")) {
+            UserType = "guest";
+        } else if (UserType.equals("current")) {
             whatsapp.setVisibility(View.GONE);
             chatting.setVisibility(View.GONE);
 //            name.setVisibility(View.INVISIBLE);
             yourReport.setVisibility(View.VISIBLE);
-        }else{
+        } else {
 //            name.setText(reportUser);
         }
 
-        if(reportWhatsApp.equals("0")){
+        if (reportWhatsApp.equals("0")) {
             whatsapp.setVisibility(View.GONE);
         }
-        Log.d(TAG, "phone: "+reportWhatsApp);
-
+        Log.d(TAG, "phone: " + reportWhatsApp);
 
 
         // set values
@@ -149,9 +153,8 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
             if (UserType.equals("notCurrent")) {
                 Intent intent = new Intent(ViewReport.this, MessageActivity.class);
                 intent.putExtra("userid", userID);
-                startActivity(intent);}
-
-            else if (UserType.equals("guest")) {
+                startActivity(intent);
+            } else if (UserType.equals("guest")) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
                 builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
                 builder1.setCancelable(true);
@@ -173,10 +176,15 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
             }
         });
 
-
+        if(!latitude.equals("") && !longitude.equals("")){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        }else{
+            map.setVisibility(View.GONE);
+            noMap.setVisibility(View.VISIBLE);
+
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
