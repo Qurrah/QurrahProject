@@ -1,173 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.qurrah">
+xmlns:tools="http://schemas.android.com/tools"
+package="com.example.qurrah"
+    >
 
+<!--
+ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+ Google Maps Android API v2, but you must specify either coarse or fine
+ location permissions for the 'MyLocation' functionality.
+-->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+<uses-feature
+    android:name="android.hardware.location.network"
+    android:required="false" />
+<uses-feature
+    android:name="android.hardware.location.gps"
+    android:required="false" /> <!-- we need it for rendering the map -->
+<uses-feature
+    android:glEsVersion="0x00020000"
+    android:required="true" />
+
+<application
+    android:name=".App.App"
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="قُرّة"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:theme="@style/AppTheme"
+    tools:ignore="GoogleAppIndexingWarning"
+    tools:replace="android:label">
+
+
+    <activity
+        android:name=".UI.ReportTypes.HumanReport"
+        android:parentActivityName=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:label="بلاغات الأشخاص"
+        />
+    <activity
+        android:name=".UI.ReportTypes.AnimalReport"
+        android:parentActivityName=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:label="بلاغات الحيوانات"
+        />
+    <activity
+        android:name=".UI.ReportTypes.DeviceReport"
+        android:parentActivityName=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:label="بلاغات الأجهزة"/>
+    <activity
+        android:name=".UI.ReportTypes.OtherReport"
+        android:parentActivityName=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:label="بلاغات أخرى"/>
+    <activity
+        android:name=".UI.EditReportActivity"
+        android:parentActivityName=".UI.MyReport"
+        android:screenOrientation="portrait" />
+    <activity
+        android:name=".Adapters.MyReportAdapter"
+        android:screenOrientation="portrait" />
+    <activity
+        android:name=".UI.MyReport"
+        android:parentActivityName=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:label="بلاغاتي"/>
     <!--
-     The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-     Google Maps Android API v2, but you must specify either coarse or fine
-     location permissions for the 'MyLocation' functionality.
+     The API key for Google Maps-based APIs is defined as a string resource.
+     (See the file "res/values/google_maps_api.xml").
+     Note that the API key is linked to the encryption key used to sign the APK.
+     You need a different API key for each encryption key, including the release key that is used to
+     sign the APK for publishing.
+     You can define the keys for the debug and release targets in src/debug/ and src/release/.
     -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <activity
+        android:name=".UI.ForgotPasswordActivity"
+        android:screenOrientation="portrait"
+        android:label="إستعادة كلمة المرور"/>
+    <activity
+        android:name=".UI.FirstPage"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme1">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-    <uses-feature
-        android:name="android.hardware.location.network"
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:launchMode="singleTask"
+        android:label="الصفحة الرئيسية"/>
+    <activity
+        android:name=".UI.RegistrationActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme1"
+        android:label="حساب جديد"/>
+    <activity
+        android:name=".UI.VerifyPhoneActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme1"
+        android:label="التحقق"/>
+    <activity
+        android:name=".UI.ProfileActivity"
+        android:parentActivityName=".UI.SecondActivity"
+        android:label="الملف الشخصي"/>
+    <activity
+        android:name=".UI.UpdateProfile"
+        android:parentActivityName=".UI.SecondActivity" />
+    <activity
+        android:name=".UI.MainActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme1"
+        android:label="تسجيل الدخول"/>
+    <activity
+        android:name=".UI.ReportActivity"
+        android:parentActivityName=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:label="اضافة بلاغ"/>
+    <activity
+        android:name=".UI.UpdatePassword"
+        android:parentActivityName=".UI.SecondActivity"
+        android:screenOrientation="portrait"
+        android:label="تغيير كلمة المرور"/>
+    <activity
+        android:name=".UI.ViewReport"
+        android:label="البلاغ"/>
+    <activity
+        android:name=".UI.RegisteredUserReportView"
+        android:parentActivityName=".UI.MyReport"
+        android:screenOrientation="portrait"
+        android:label="البلاغ"/>
+    <activity
+        android:name=".UI.SecondPage"
+        android:screenOrientation="portrait" />
+    <activity
+        android:name=".UI.UnregisteredUserSecondActivity"
+        android:screenOrientation="portrait"
+        android:launchMode="singleTask"
+        android:label="الصفحة الرئيسية"/>
+
+    <activity
+        android:name=".UI.ChatActivity"
+        android:parentActivityName=".UI.SecondActivity"
+        android:label="محادثاتي"/>
+    <activity android:name=".UI.MessageActivity" />
+    <activity android:name=".Kotlin.PickLocationActivity" />
+
+    <activity android:name=".UI.MapActivity"
+        android:parentActivityName=".UI.SecondActivity"
+        android:label="خريطة البلاغات"/>
+
+    <activity android:name=".LocationTrackingServices.LocationTracking" />
+    <activity android:name=".UI.terms" />
+
+    <service android:name=".FirebaseNotifications.MyFirebaseIdService"
+        android:enabled="true"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+        </intent-filter>
+    </service>
+
+    <service android:name=".FirebaseNotifications.MyFirebaseMessaging"
+        android:enabled="true"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+        </intent-filter>
+    </service>
+
+    <service
+        android:name=".LocationTrackingServices.LocationJobService"
+        android:exported="true"
+        android:permission="android.permission.BIND_JOB_SERVICE" />
+    <service
+        android:name=".LocationTrackingServices.UploadLocationService"
+        android:exported="true"
+        />
+
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/google_map_api_key" />
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" /> <!-- because we are targeting API 29 and above -->
+    <uses-library
+        android:name="org.apache.http.legacy"
         android:required="false" />
-    <uses-feature
-        android:name="android.hardware.location.gps"
-        android:required="false" /> <!-- we need it for rendering the map -->
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
-
-    <application
-        android:name=".App.App"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="قُرّة"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:label">
-
-
-        <activity
-            android:name=".UI.ReportTypes.HumanReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name=".UI.ReportTypes.AnimalReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.ReportTypes.DeviceReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.ReportTypes.OtherReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.EditReportActivity"
-            android:parentActivityName=".UI.MyReport"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Adapters.MyReportAdapter"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.MyReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
-        <!--
-         The API key for Google Maps-based APIs is defined as a string resource.
-         (See the file "res/values/google_maps_api.xml").
-         Note that the API key is linked to the encryption key used to sign the APK.
-         You need a different API key for each encryption key, including the release key that is used to
-         sign the APK for publishing.
-         You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <activity
-            android:name=".UI.ForgotPasswordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.FirstPage"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".UI.SecondActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-        <activity
-            android:name=".UI.RegistrationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1" />
-        <activity
-            android:name=".UI.VerifyPhoneActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1" />
-        <activity
-            android:name=".UI.ProfileActivity"
-            android:parentActivityName=".UI.SecondActivity" />
-        <activity
-            android:name=".UI.UpdateProfile"
-            android:parentActivityName=".UI.SecondActivity" />
-        <activity
-            android:name=".UI.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1" />
-        <activity
-            android:name=".UI.ReportActivity"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.UpdatePassword"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".UI.ViewReport" />
-        <activity
-            android:name=".UI.RegisteredUserReportView"
-            android:parentActivityName=".UI.MyReport"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.SecondPage"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.UnregisteredUserSecondActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
-        <activity
-            android:name=".UI.ChatActivity"
-            android:parentActivityName=".UI.SecondActivity" />
-        <activity android:name=".UI.MessageActivity" />
-        <activity android:name=".Kotlin.PickLocationActivity" />
-        <activity android:name=".UI.MapActivity"
-            android:parentActivityName=".UI.SecondActivity"/>
-
-        <activity android:name=".LocationTrackingServices.LocationTracking" />
-        <activity android:name=".UI.terms" />
-        <service
-            android:name=".FirebaseNotifications.MyFirebaseMessaging"
-            android:stopWithTask="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".LocationTrackingServices.LocationJobService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
-            android:name=".LocationTrackingServices.UploadLocationService"
-            android:exported="true"
-            />
-
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_map_api_key" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" /> <!-- because we are targeting API 29 and above -->
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-<!--        <meta-data android:name="com.onesignal.BadgeCount" android:value="DISABLE" />-->
-    </application>
+    <!--        <meta-data android:name="com.onesignal.BadgeCount" android:value="DISABLE" />-->
+</application>
 
 </manifest>

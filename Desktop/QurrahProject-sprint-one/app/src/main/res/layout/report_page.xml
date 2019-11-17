@@ -119,28 +119,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="25dp"
+                android:layout_marginRight="10dp"
                 android:hint="العنوان:"
                 android:layoutDirection="rtl"
                 android:textDirection="rtl"
                 android:textFontWeight="5"
-                android:textSize="30dp"
+                android:textSize="24sp"
                 tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/reportDes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_gravity="right"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
                 android:hint="\nالوصف:"
-                android:layout_gravity="right"
                 android:layoutDirection="rtl"
-                android:textDirection="rtl"
                 android:textAlignment="inherit"
-                android:textSize="20dp"
+                android:textDirection="rtl"
+                android:textSize="18sp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/yourReport"
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:gravity="center"
+                android:text="لقد قمت بنشر هذا البلاغ"
+                android:textAlignment="center"
+                android:visibility="gone"
                 tools:ignore="MissingConstraints" />
 
         </LinearLayout>
@@ -179,16 +189,6 @@
                 android:textFontWeight="10"
                 android:textSize="15dp"
                 android:textStyle="bold"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
-                android:id="@+id/yourReport"
-                android:layout_width="match_parent"
-                android:layout_height="29dp"
-                android:gravity="center"
-                android:text="لقد قمت بنشر هذا البلاغ"
-                android:textAlignment="center"
-                android:visibility="gone"
                 tools:ignore="MissingConstraints" />
 
             <fragment
