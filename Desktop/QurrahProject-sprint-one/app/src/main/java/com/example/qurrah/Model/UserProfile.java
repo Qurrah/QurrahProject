@@ -25,6 +25,7 @@ public class UserProfile {
         this.imageURL = "default";
         this.status = "offline";
         this.search = userName.toLowerCase();
+        this.allowPhone="true";
     }
 
     public UserProfile(String userEmail, String userName){
