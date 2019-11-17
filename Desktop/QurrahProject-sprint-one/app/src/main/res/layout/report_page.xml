@@ -159,6 +159,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/mapLayout"
             android:orientation="vertical"
             android:layout_marginTop="45dp"
             android:layout_marginLeft="20dp"
@@ -199,7 +200,39 @@
                 />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/noMapLayout"
+            android:orientation="vertical"
+            android:layout_marginTop="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:layoutDirection="rtl">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="20dp"
+                android:text="الموقع"
+                android:layoutDirection="rtl"
+                android:textColor="@color/lightPurple"
+                android:textDirection="rtl"
+                android:textFontWeight="10"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:gravity="center"
+                android:text="لا يوجد موقع لهذا البلاغ"
+                android:textAlignment="center"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
 
         </LinearLayout>
 
@@ -283,3 +316,4 @@
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
