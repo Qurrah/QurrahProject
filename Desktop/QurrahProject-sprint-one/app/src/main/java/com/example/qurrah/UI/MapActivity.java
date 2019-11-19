@@ -10,10 +10,13 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -199,7 +202,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 //        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        final ActionBar abar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.title_bar, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        TextView textviewTitle = viewActionBar.findViewById(R.id.actionbar_textview);
+        textviewTitle.setText("خريطة البلاغات");
+        abar.setCustomView(viewActionBar, params);
+        abar.setDisplayShowCustomEnabled(true);
+        abar.setDisplayShowTitleEnabled(false);
+        abar.setDisplayHomeAsUpEnabled(true);
+        abar.setIcon(R.color.transparent);
+        abar.setHomeButtonEnabled(true);
+        //----------------------------------------------------------------
     }
 
     private void getDeviceLocation() {
@@ -302,9 +321,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         float distanceInMeters = results[0];
         boolean isWithin5km = distanceInMeters <=5000;
         if (isWithin5km){
-            makeText(getApplicationContext(),"yes", LENGTH_LONG).show();
+         //   makeText(getApplicationContext(),"yes", LENGTH_LONG).show();
         }else {
-            makeText(getApplicationContext(), "no", LENGTH_LONG).show();
+           // makeText(getApplicationContext(), "no", LENGTH_LONG).show();
         }
     }
 
