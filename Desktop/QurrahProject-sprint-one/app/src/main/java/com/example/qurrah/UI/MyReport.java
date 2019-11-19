@@ -1,6 +1,7 @@
 package com.example.qurrah.UI;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -10,8 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qurrah.Adapters.MyReportAdapter;
@@ -62,8 +65,23 @@ public class MyReport extends AppCompatActivity {
         tabLayout.getTabAt(2).select();
 
 //------------------------------------------------
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        final ActionBar abar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.title_bar, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        TextView textviewTitle = viewActionBar.findViewById(R.id.actionbar_textview);
+        textviewTitle.setText("بلاغاتي");
+        abar.setCustomView(viewActionBar, params);
+        abar.setDisplayShowCustomEnabled(true);
+        abar.setDisplayShowTitleEnabled(false);
+        abar.setDisplayHomeAsUpEnabled(true);
+        abar.setIcon(R.color.transparent);
+        abar.setHomeButtonEnabled(true);
+        //----------------------------------------------------------------
         newList = new ArrayList<>();
 //------------------------------------------------
         // inputs
