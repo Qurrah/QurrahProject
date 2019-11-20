@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="135dp"
         android:gravity="right"
         android:orientation="horizontal"
         android:padding="4dp">
@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="right"
                 android:orientation="horizontal">
 
@@ -73,8 +73,8 @@
                 android:id="@+id/pickPlace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:clickable="false"
                 android:layoutDirection="rtl"
                 android:orientation="horizontal">

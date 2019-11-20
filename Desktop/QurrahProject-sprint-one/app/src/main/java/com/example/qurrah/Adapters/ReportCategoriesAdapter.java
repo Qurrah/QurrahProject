@@ -90,6 +90,8 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
         }
 
         holder.lostTitle.setText(reports.get(position).getLostTitle());
+        if (holder.address.getText().equals("") || holder.address.getText().equals("الموقع"))
+            holder.mapMarker.setVisibility(View.GONE);
         holder.address.setText(reports.get(position).getAddress());
         //--------------------------------------handling date ------------------------------
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
@@ -219,7 +221,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img;
+        ImageView img,mapMarker;
         TextView lostTitle, lostDate;
         ProgressBar progressBar;
         LinearLayout linear;
@@ -235,6 +237,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             lostDate = itemView.findViewById(R.id.date);
             linear = itemView.findViewById(R.id.linear);
             address = itemView.findViewById(R.id.address);
+            mapMarker = itemView.findViewById(R.id.mapMarker);
 
 
         }

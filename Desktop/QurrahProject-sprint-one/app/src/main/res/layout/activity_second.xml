@@ -8,15 +8,47 @@
     android:weightSum="10"
     android:layoutDirection="rtl">
 
+
     <LinearLayout
+        android:id="@+id/my_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginTop="-140dp"
+        android:layout_marginRight="-50dp"
+        android:layout_marginBottom="550dp"
+        android:background="@drawable/circle_shape_to_bottom"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/header_icon"
+            android:layout_width="@dimen/image_header_dimen"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="45sp"
+            android:textStyle="bold|italic"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:layout_marginTop="190dp"
+            android:layout_marginLeft="3dp"
+            android:text="\n قُرّة"
+            android:textColor="#FDFCFC" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/CategoryGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="140dp">
+
+
         <GridLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="90dp"
             android:alignmentMode="alignMargins"
             android:columnCount="2"
             android:columnOrderPreserved="false"
@@ -200,6 +232,7 @@
         app:hideOnScroll="true"
         android:padding="15dp"
         app:navigationIcon="@drawable/ic_menu_white_35"
+
         android:layoutDirection="rtl"
         >
 

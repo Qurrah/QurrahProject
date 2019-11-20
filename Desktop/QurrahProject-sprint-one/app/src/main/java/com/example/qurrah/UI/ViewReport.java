@@ -62,6 +62,8 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
             googleMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this,R.drawable.ic_location)));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
             googleMap.setMinZoomPreference(15);
+            googleMap.setMaxZoomPreference(15);
+            googleMap.getUiSettings().setAllGesturesEnabled(false);
         }
 
 
@@ -102,6 +104,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         chatting = findViewById(R.id.chatting);
         map = findViewById(R.id.mapLayout);
         noMap =findViewById(R.id.noMapLayout);
+        //-----------------------------------
 
         // get values from the prev activity
         userID = getIntent().getStringExtra("userid");

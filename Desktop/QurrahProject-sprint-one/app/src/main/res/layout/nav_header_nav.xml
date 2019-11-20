@@ -11,6 +11,7 @@
     android:paddingTop="16dp"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/nav_header_vertical_spacing"
+    android:layout_marginTop="20dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:layoutDirection="rtl">
 

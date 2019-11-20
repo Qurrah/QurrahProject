@@ -1,6 +1,7 @@
 package com.example.qurrah.UI.ReportTypes;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,11 +64,23 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(2).select();
 
-//-----------------------------------------------
-
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//------------------------------------------------
+        final ActionBar abar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.title_bar, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        TextView textviewTitle = viewActionBar.findViewById(R.id.actionbar_textview);
+        textviewTitle.setText("بلاغات الأجهزة");
+        abar.setCustomView(viewActionBar, params);
+        abar.setDisplayShowCustomEnabled(true);
+        abar.setDisplayShowTitleEnabled(false);
+        abar.setDisplayHomeAsUpEnabled(true);
+        abar.setIcon(R.color.transparent);
+        abar.setHomeButtonEnabled(true);
+        //----------------------------------------------------------------
         // inputs
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getUid();
@@ -238,6 +252,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         return true;
     }
