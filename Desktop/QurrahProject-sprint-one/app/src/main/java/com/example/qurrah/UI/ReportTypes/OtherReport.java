@@ -1,6 +1,7 @@
 package com.example.qurrah.UI.ReportTypes;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,10 +65,23 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
         tabLayout.getTabAt(2).select();
 
 
-//------------------------------------------------
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//------------------------------------------------
+        final ActionBar abar = getSupportActionBar();
+        View viewActionBar = getLayoutInflater().inflate(R.layout.title_bar, null);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        TextView textviewTitle = viewActionBar.findViewById(R.id.actionbar_textview);
+        textviewTitle.setText("بلاغات أخرى");
+        abar.setCustomView(viewActionBar, params);
+        abar.setDisplayShowCustomEnabled(true);
+        abar.setDisplayShowTitleEnabled(false);
+        abar.setDisplayHomeAsUpEnabled(true);
+        abar.setIcon(R.color.transparent);
+        abar.setHomeButtonEnabled(true);
+        //----------------------------------------------------------------
 
         // inputs
         mAuth = FirebaseAuth.getInstance();

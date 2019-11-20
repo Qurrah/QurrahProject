@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.qurrah">
+    package="com.example.qurrah"
+    >
 
     <!--
      The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -44,19 +45,24 @@
             android:name=".UI.ReportTypes.HumanReport"
             android:parentActivityName=".UI.SecondActivity"
             android:screenOrientation="portrait"
+            android:label="بلاغات الأشخاص"
             />
         <activity
             android:name=".UI.ReportTypes.AnimalReport"
             android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="بلاغات الحيوانات"
+            />
         <activity
             android:name=".UI.ReportTypes.DeviceReport"
             android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="بلاغات الأجهزة"/>
         <activity
             android:name=".UI.ReportTypes.OtherReport"
             android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="بلاغات أخرى"/>
         <activity
             android:name=".UI.EditReportActivity"
             android:parentActivityName=".UI.MyReport"
@@ -67,7 +73,8 @@
         <activity
             android:name=".UI.MyReport"
             android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="بلاغاتي"/>
         <!--
          The API key for Google Maps-based APIs is defined as a string resource.
          (See the file "res/values/google_maps_api.xml").
@@ -78,7 +85,8 @@
         -->
         <activity
             android:name=".UI.ForgotPasswordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="إستعادة كلمة المرور"/>
         <activity
             android:name=".UI.FirstPage"
             android:screenOrientation="portrait"
@@ -92,62 +100,88 @@
         <activity
             android:name=".UI.SecondActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme1"
+            android:label="الصفحة الرئيسية"/>
         <activity
             android:name=".UI.RegistrationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1"
+            android:label="حساب جديد"/>
         <activity
             android:name=".UI.VerifyPhoneActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1"
+            android:label="التحقق"/>
         <activity
             android:name=".UI.ProfileActivity"
-            android:parentActivityName=".UI.SecondActivity" />
+            android:parentActivityName=".UI.SecondActivity"
+            android:label="الملف الشخصي"/>
         <activity
             android:name=".UI.UpdateProfile"
             android:parentActivityName=".UI.SecondActivity" />
         <activity
             android:name=".UI.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1"
+            android:label="تسجيل الدخول"/>
         <activity
             android:name=".UI.ReportActivity"
             android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="اضافة بلاغ"/>
         <activity
             android:name=".UI.UpdatePassword"
             android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".UI.ViewReport" />
+            android:screenOrientation="portrait"
+            android:label="تغيير كلمة المرور"/>
+        <activity
+            android:name=".UI.ViewReport"
+            android:label="البلاغ"/>
         <activity
             android:name=".UI.RegisteredUserReportView"
             android:parentActivityName=".UI.MyReport"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="البلاغ"/>
         <activity
             android:name=".UI.SecondPage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.UnregisteredUserSecondActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:label="الصفحة الرئيسية"/>
+
         <activity
             android:name=".UI.ChatActivity"
-            android:parentActivityName=".UI.SecondActivity" />
+            android:parentActivityName=".UI.SecondActivity"
+            android:label="محادثاتي"/>
         <activity android:name=".UI.MessageActivity" />
         <activity android:name=".Kotlin.PickLocationActivity" />
+
         <activity android:name=".UI.MapActivity"
-            android:parentActivityName=".UI.SecondActivity"/>
+            android:parentActivityName=".UI.SecondActivity"
+            android:label="خريطة البلاغات"/>
 
         <activity android:name=".LocationTrackingServices.LocationTracking" />
         <activity android:name=".UI.terms" />
-        <service
-            android:name=".FirebaseNotifications.MyFirebaseMessaging"
-            android:stopWithTask="false">
+
+        <service android:name=".FirebaseNotifications.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+        <service android:name=".FirebaseNotifications.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <service
             android:name=".LocationTrackingServices.LocationJobService"
             android:exported="true"
@@ -167,7 +201,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-<!--        <meta-data android:name="com.onesignal.BadgeCount" android:value="DISABLE" />-->
+        <!--        <meta-data android:name="com.onesignal.BadgeCount" android:value="DISABLE" />-->
     </application>
 
 </manifest>

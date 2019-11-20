@@ -49,10 +49,10 @@ public class FirstPage extends AppCompatActivity {
                     Qurrah.clearAnimation();
 
                     if (user == null) {
-                         intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent = new Intent(getApplicationContext(), MainActivity.class);
 
                     }else{
-                         intent = new Intent(getApplicationContext(), SecondActivity.class);
+                        intent = new Intent(getApplicationContext(), SecondActivity.class);
 
                     }
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -98,10 +98,10 @@ public class FirstPage extends AppCompatActivity {
         }else {
             RelativeLayout.LayoutParams params =
                     new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                                                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-            params.topMargin = 800;
-            params.leftMargin = 600;
+            params.topMargin = 700;
+            params.rightMargin = 400;
 
             Qurrah.setLayoutParams(params);
             Qurrah.startAnimation(nothing);

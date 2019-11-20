@@ -13,6 +13,8 @@ import android.util.Log;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Parcelable;
@@ -71,6 +73,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 //    ArrayList<String> LongitudeList;
     ArrayList<Report> reportsList;  // array of reports that contain a location
     ArrayList<String> userList, phones , IdList;
+    Intent intent;
 
 
     @Override
@@ -79,7 +82,12 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_nav);
         // requestLocationPermission();
         showPermissionDialog();
-
+        intent = getIntent();
+        String activity = intent.getStringExtra("from");
+        if (activity != null && activity.equalsIgnoreCase("FirstPage")) {
+            Animation hold = AnimationUtils.loadAnimation(this, R.anim.translate_scale);
+            findViewById(R.id.CategoryGroup).startAnimation(hold);
+        }
 
         final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
 
@@ -106,8 +114,11 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         bottomAppBar.setNavigationOnClickListener(v -> {
             //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
             // If navigation drawer is not open yet, open it else close it.
-            if(!navDrawer.isDrawerOpen(GravityCompat.START)) navDrawer.openDrawer(GravityCompat.START);
-            else navDrawer.closeDrawer(GravityCompat.END);
+            if(!navDrawer.isDrawerOpen(GravityCompat.START))
+                   navDrawer.openDrawer(GravityCompat.START);
+
+            else
+                  navDrawer.closeDrawer(GravityCompat.END);
 
         });
 //---------------------------------------------------
@@ -197,9 +208,8 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
                 case R.id.chats:{
                     Intent intent =new Intent(SecondActivity.this, ChatActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    Toast.makeText(this, "chat clicked", Toast.LENGTH_SHORT).show();
+                    overridePendingTransition(0,0);
 
                     break;
                 }
