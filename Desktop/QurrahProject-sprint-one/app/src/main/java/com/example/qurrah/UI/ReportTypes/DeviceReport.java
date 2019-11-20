@@ -252,6 +252,7 @@ public class DeviceReport extends AppCompatActivity implements SearchView.OnQuer
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(this);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         return true;
     }
