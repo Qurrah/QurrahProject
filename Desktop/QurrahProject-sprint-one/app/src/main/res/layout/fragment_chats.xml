@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/Chats"
-            android:layout_width="384dp"
+            android:layout_width="wrap_content"
             android:layout_height="62dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="24dp"
@@ -47,12 +47,26 @@
 
         </SearchView>
 
+        <TextView
+            android:id="@+id/MessagesNo"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/Chats"
+            android:gravity="center"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            tools:visibility="gone"
+            tools:ignore="RtlCompat" />
+
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/noMatchUsers"
@@ -96,4 +110,4 @@
 
 
     </RelativeLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

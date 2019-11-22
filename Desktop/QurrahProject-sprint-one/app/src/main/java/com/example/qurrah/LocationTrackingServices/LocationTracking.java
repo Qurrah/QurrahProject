@@ -66,8 +66,8 @@ public class LocationTracking extends AppCompatActivity {
     public static int counter =0 ,id = 1;
     public static ArrayList<String> ids = new ArrayList<>();
     String greeting="اهلين ";
-    String lostmsg="فيه احد يحتاج فزعتك ";
-    String foundmsg ="فيه شي ضايع لك ؟ ";
+    String lostmsg=" فيه احد يحتاج فزعتك ";
+    String foundmsg =" فيه شي ضايع لك ؟ ";
     String msg="";
     String userID;
 
