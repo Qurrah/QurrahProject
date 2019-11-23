@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,17 +38,21 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 public class ViewReport extends AppCompatActivity implements OnMapReadyCallback {
 
-    private TextView title , description , name , yourReport;
+    private TextView title , description , name , yourReport, locDesLable, locDes ;
     private ImageView photo;
     private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
     private String reportImg, UserType;
     private LinearLayout chatting , whatsapp ,map ,noMap;
-    private String  userID, latitude, longitude;
+    private String  userID, latitude, longitude, locationDes;
     private static final String TAG = "viewReport";
+    private FloatingActionButton fab_contact, fab_whatsapp, fab_dChat;
+    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
+    Boolean isOpen = true;
 
 
 
@@ -70,7 +76,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
     }
 
 
-    @SuppressLint("WrongConstant")
+    @SuppressLint({"WrongConstant", "RestrictedApi"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,13 +104,83 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         title = findViewById(R.id.reportTitle);
         description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
-//        name = findViewById(R.id.reportUsername);
+
+        locDes = findViewById(R.id.locationDes);
+        locDesLable = findViewById(R.id.locationDesLable);
+        name = findViewById(R.id.reportOwner);
+
         yourReport = findViewById(R.id.yourReport);
-        whatsapp = findViewById(R.id.whatsapp);
-        chatting = findViewById(R.id.chatting);
+//        whatsapp = findViewById(R.id.whatsapp);
+//        chatting = findViewById(R.id.chatting);
         map = findViewById(R.id.mapLayout);
         noMap =findViewById(R.id.noMapLayout);
         //-----------------------------------
+        // Floating buttons
+
+        fab_contact = findViewById(R.id.fab);
+        fab_dChat = findViewById(R.id.fab1);
+        fab_whatsapp = findViewById(R.id.fab2);
+
+
+//        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+//        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+//        fab_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_fab_clock);
+//        fab_anticlock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_fab_anticlock);
+
+
+
+
+        fab_contact.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onClick(View view) {
+
+
+                if(isOpen){
+
+//                    fab_dChat.setVisibility(View.VISIBLE);
+//                    fab_whatsapp.setVisibility(View.VISIBLE);
+//                    fab_dChat.startAnimation(fab_open);
+//                    fab_whatsapp.startAnimation(fab_open);
+//                    fab_contact.startAnimation(fab_clock);
+
+                    fab_contact.setVisibility(View.VISIBLE);
+                    fab_dChat.setVisibility(View.VISIBLE);
+                    fab_whatsapp.setVisibility(View.VISIBLE);
+
+
+                    fab_dChat.setClickable(true);
+                    fab_whatsapp.setClickable(true);
+                    isOpen=false;
+                }
+                else{
+
+//                    fab_dChat.setVisibility(View.INVISIBLE);
+//                    fab_whatsapp.setVisibility(View.INVISIBLE);
+//                    fab_dChat.startAnimation(fab_close);
+//                    fab_whatsapp.startAnimation(fab_close);
+//                    fab_contact.startAnimation(fab_anticlock);
+
+                    fab_contact.setVisibility(View.VISIBLE);
+                    fab_dChat.setVisibility(View.INVISIBLE);
+                    fab_whatsapp.setVisibility(View.INVISIBLE);
+
+                    fab_dChat.setClickable(false);
+                    fab_whatsapp.setClickable(false);
+                    isOpen=true;
+
+                }
+
+
+            }
+        });
+
+
+
+
+        //-----------------------------------
+
+
 
         // get values from the prev activity
         userID = getIntent().getStringExtra("userid");
@@ -115,22 +191,34 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         reportWhatsApp = getIntent().getStringExtra("WhatsApp");
         latitude = getIntent().getStringExtra("lat");
         longitude = getIntent().getStringExtra("lon");
+        locationDes = getIntent().getStringExtra("locationDescription");
         UserType = getIntent().getStringExtra("userType");
         if (UserType == null || UserType.equals("none")) {
             UserType = "guest";
         } else if (UserType.equals("current")) {
-            whatsapp.setVisibility(View.GONE);
-            chatting.setVisibility(View.GONE);
-//            name.setVisibility(View.INVISIBLE);
-            yourReport.setVisibility(View.VISIBLE);
+//            whatsapp.setVisibility(View.GONE);
+//            chatting.setVisibility(View.GONE);
+            fab_whatsapp.setVisibility(View.GONE);
+            fab_dChat.setVisibility(View.GONE);
+            fab_contact.setVisibility(View.GONE);
+
+            name.setText("لقد قمت بنشر هذا البلاغ");
+//            yourReport.setVisibility(View.VISIBLE);
         } else {
-//            name.setText(reportUser);
+            name.setText(reportUser);
         }
 
         if (reportWhatsApp.equals("0")) {
-            whatsapp.setVisibility(View.GONE);
+//            whatsapp.setVisibility(View.GONE);
+            fab_whatsapp.setVisibility(View.GONE);
         }
         Log.d(TAG, "phone: " + reportWhatsApp);
+
+        if(!(locationDes.equals(""))|| !(locationDes.equals(null))) {
+            locDesLable.setVisibility(View.VISIBLE);
+            locDes.setVisibility(View.VISIBLE);
+            locDes.setText(locationDes);
+        }
 
 
         // set values
@@ -140,7 +228,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
 
         // try to divide users
 
-        whatsapp.setOnClickListener(view -> {
+        fab_whatsapp.setOnClickListener(view -> {
 //            if(reportWhatsApp.equals("0")){
 //                AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
 //                builder1.setMessage("صاحب البلاغ لا يفضل التواصل عن طريق الواتساب");
@@ -169,7 +257,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
 
         });
 
-        chatting.setOnClickListener(view -> {
+        fab_dChat.setOnClickListener(view -> {
 
             if (UserType.equals("notCurrent")) {
                 Intent intent = new Intent(ViewReport.this, MessageActivity.class);

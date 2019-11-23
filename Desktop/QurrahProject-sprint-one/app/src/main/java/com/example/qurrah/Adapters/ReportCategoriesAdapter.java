@@ -90,6 +90,16 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
         }
 
         holder.lostTitle.setText(reports.get(position).getLostTitle());
+
+
+        if(reports.get(position).getReportTypeOption().equals("فاقد"))
+            holder.type.setText("فاقد");
+        else if (reports.get(position).getReportTypeOption().equals("معثور عليه"))
+            holder.type.setText("معثور عليه");
+
+
+
+
         if (holder.address.getText().equals("") || holder.address.getText().equals("الموقع"))
             holder.mapMarker.setVisibility(View.GONE);
         holder.address.setText(reports.get(position).getAddress());
@@ -222,10 +232,11 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img,mapMarker;
-        TextView lostTitle, lostDate;
+        TextView lostTitle, lostDate , type;
         ProgressBar progressBar;
         LinearLayout linear;
         TextView address;
+
 
 
 
@@ -238,6 +249,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             linear = itemView.findViewById(R.id.linear);
             address = itemView.findViewById(R.id.address);
             mapMarker = itemView.findViewById(R.id.mapMarker);
+            type = itemView.findViewById(R.id.rType);
 
 
         }

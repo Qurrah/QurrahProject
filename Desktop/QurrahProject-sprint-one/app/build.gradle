@@ -82,6 +82,9 @@ dependencies {
     implementation 'com.github.Mindinventory:VanillaPlacePicker:0.0.9'
     implementation "org.jetbrains.anko:anko-common:0.8.3"
     implementation 'com.kkaka.ui:library:1.0.1'
+
+// circle image view
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

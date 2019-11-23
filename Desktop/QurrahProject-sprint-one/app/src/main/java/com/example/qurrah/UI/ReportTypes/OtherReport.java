@@ -127,51 +127,6 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        // second filter
-//        allbtn=(Button) findViewById(R.id.all);
-//        allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-//        allbtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-//                missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//                findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//                SecondFilter("all");
-//            }
-//        });
-//        missingbtn=(Button) findViewById(R.id.missing);
-//        missingbtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                missingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-//                allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//                findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//                SecondFilter("missing");
-//
-//            }
-//        });
-//        findingbtn=(Button) findViewById(R.id.finding);
-//        findingbtn.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                findingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-//                missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//                allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//                SecondFilter("finding");
-//
-//            }
-//        });
-        //
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(OtherReport.this);
@@ -180,9 +135,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
         recyclerView.setLayoutManager(layoutManager);
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
 
-//        allbtn.setVisibility(View.GONE);
-//        findingbtn.setVisibility(View.GONE);
-//        missingbtn.setVisibility(View.GONE);
+
 
         list = new ArrayList<>();
         userList = new ArrayList<>();
@@ -208,9 +161,6 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
                         if(ds.getChildrenCount() > 0) {
                             findViewById(R.id.progressbar).setVisibility(View.GONE);
 
-//                            allbtn.setVisibility(View.VISIBLE);
-//                            findingbtn.setVisibility(View.VISIBLE);
-//                            missingbtn.setVisibility(View.VISIBLE);
                         }
 
                         Report report = ds.getValue(Report.class);
@@ -218,7 +168,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
                             list.add(report);
                             sortByDate(list);
                             userList.add(userName);
-                            userList.add(userName);
+//                            userList.add(userName);
                             if(allowPhoneAccess.equals("true")){
                                 phones.add(No);
                             }else{
@@ -232,15 +182,9 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
                 adapter = new ReportCategoriesAdapter(OtherReport.this, list , userList, phones,id);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
-//                allbtn.setVisibility(View.VISIBLE);
-//                findingbtn.setVisibility(View.VISIBLE);
-//                missingbtn.setVisibility(View.VISIBLE);
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
 
-//                    allbtn.setVisibility(View.GONE);
-//                    findingbtn.setVisibility(View.GONE);
-//                    missingbtn.setVisibility(View.GONE);
                 }
 
 
@@ -258,9 +202,7 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
     //----------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        SearchView searchView = findViewById(R.id.action_search);
         searchView.setOnQueryTextListener(this);
         searchView.setMaxWidth(Integer.MAX_VALUE);
         return true;
@@ -275,18 +217,15 @@ public class OtherReport extends AppCompatActivity implements SearchView.OnQuery
     public boolean onQueryTextChange(String newText) {
         String userInput = newText.toLowerCase();
         ArrayList<Report> newList = new ArrayList<>();
+        findViewById(R.id.noMatchReports).setVisibility(View.GONE);
 
         for(Report rep: list){
-            if(rep.getLostTitle().toLowerCase().contains(userInput)){
-                newList.add(rep);
-                findViewById(R.id.noMatchReports).setVisibility(View.GONE);
+            if(rep.getLostTitle().toLowerCase().contains(userInput))
+                newList.add(rep);}
 
 
-            }
-            else{
-                findViewById(R.id.noMatchReports).setVisibility(View.VISIBLE);
-            }
-        }
+        if(newList.isEmpty() && !(list.isEmpty()))
+            findViewById(R.id.noMatchReports).setVisibility(View.VISIBLE);
         adapter.updateList(newList,userInput);
 
         return false;

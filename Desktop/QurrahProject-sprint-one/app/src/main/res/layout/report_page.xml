@@ -43,7 +43,6 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="fitXY"
-                android:background="@drawable/gray_buttons"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
                 app:srcCompat="@color/colorPrimaryDark"
@@ -110,22 +109,51 @@
                 android:textColor="@color/lightPurple"
                 android:textDirection="rtl"
                 android:textFontWeight="10"
-                android:textSize="15dp"
-                android:textStyle="bold"
+                android:textSize="18dp"
+                android:textStyle=""
                 tools:ignore="MissingConstraints" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:hint="العنوان"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl"
+                android:textFontWeight="5"
+                android:textSize="12dp"
+                tools:ignore="MissingConstraints" />
+
 
             <TextView
                 android:id="@+id/reportTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:hint="العنوان:"
+                android:hint="العنوان"
                 android:layoutDirection="rtl"
                 android:textDirection="rtl"
                 android:textFontWeight="5"
-                android:textSize="24sp"
+                android:textSize="18dp"
+                tools:ignore="MissingConstraints" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:hint="الوصف"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl"
+                android:textFontWeight="5"
+                android:textSize="12dp"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -133,15 +161,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
-                android:hint="\nالوصف:"
+                android:layout_marginBottom="5dp"
+                android:hint="الوصف"
                 android:layoutDirection="rtl"
                 android:textAlignment="inherit"
                 android:textDirection="rtl"
-                android:textSize="18sp"
+                android:textSize="18dp"
                 tools:ignore="MissingConstraints" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:hint="صاحب البلاغ"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl"
+                android:textFontWeight="5"
+                android:textSize="12dp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/reportOwner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:hint="اسم المسخدم"
+                android:layoutDirection="rtl"
+                android:textAlignment="inherit"
+                android:textDirection="rtl"
+                android:textSize="18dp"
+                tools:ignore="MissingConstraints" />
+
 
             <TextView
                 android:id="@+id/yourReport"
@@ -161,9 +219,27 @@
                 android:layout_height="1dp"
                 android:orientation="vertical"
                 android:elevation="1dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/white">
 
             </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:text="الموقع"
+                android:layoutDirection="rtl"
+                android:textColor="@color/lightPurple"
+                android:textDirection="rtl"
+                android:textFontWeight="10"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints" />
 
 
         <LinearLayout
@@ -171,25 +247,40 @@
             android:layout_height="wrap_content"
             android:id="@+id/mapLayout"
             android:orientation="vertical"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@color/white"
             android:layoutDirection="rtl">
 
             <TextView
+                android:id="@+id/locationDesLable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginBottom="20dp"
-                android:text="الموقع"
+                android:hint="وصف الموقع"
                 android:layoutDirection="rtl"
-                android:textColor="@color/lightPurple"
                 android:textDirection="rtl"
-                android:textFontWeight="10"
-                android:textSize="15dp"
-                android:textStyle="bold"
+                android:textFontWeight="5"
+                android:textSize="12dp"
+                tools:ignore="MissingConstraints"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/locationDes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:hint="..."
+                android:layoutDirection="rtl"
+                android:textDirection="rtl"
+                android:textFontWeight="5"
+                android:textSize="14dp"
+                android:visibility="gone"
                 tools:ignore="MissingConstraints" />
+
 
             <fragment
                 android:id="@+id/map"
@@ -198,6 +289,9 @@
                 android:layout_height="250dp"
                 tools:context=".UI.ViewReport"
                 />
+
+
+
 
         </LinearLayout>
         <LinearLayout
@@ -212,25 +306,14 @@
             android:visibility="gone"
             android:layoutDirection="rtl">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginBottom="20dp"
-                android:text="الموقع"
-                android:layoutDirection="rtl"
-                android:textColor="@color/lightPurple"
-                android:textDirection="rtl"
-                android:textFontWeight="10"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                tools:ignore="MissingConstraints" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="29dp"
                 android:gravity="center"
                 android:text="لا يوجد موقع لهذا البلاغ"
                 android:textAlignment="center"
+                android:textSize="12dp"
                 tools:ignore="MissingConstraints" />
         </LinearLayout>
 
@@ -239,78 +322,173 @@
     </androidx.core.widget.NestedScrollView>
 
 
-
-
     <LinearLayout
-        android:id="@+id/whatsapp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:elevation="10dp"
-        android:paddingRight="220dp"
-        android:paddingTop="15dp"
-        android:background="@drawable/gray_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="5dp"
         android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom">
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom"
+        >
 
 
 
-        <TextView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab1"
             android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:background="@drawable/whatsapp"
-            android:backgroundTint="#DA918291"
-            tools:ignore="MissingConstraints"
-            android:layout_marginRight="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="واتساب"
-            android:layout_gravity="right"
-            android:layout_marginRight="20dp"
-            tools:ignore="MissingConstraints"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="25dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:elevation="16dp"
+            android:focusable="true"
+            android:visibility="invisible"
+            app:backgroundTint="@color/lightGrey"
+            app:pressedTranslationZ="12dp"
+            app:srcCompat="@drawable/conversation"
             />
-
-    </LinearLayout>
 
 
 
     <LinearLayout
-        android:id="@+id/chatting"
-        android:layout_width="220dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:elevation="10dp"
-        android:paddingTop="15dp"
-        android:background="@drawable/purple_buttons"
-        android:backgroundTint="#DA918291"
+        android:layout_marginRight="10dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="bottom">
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right"
-            android:backgroundTint="@color/lightGrey"
-            android:background="@drawable/conversation"
-            android:layout_marginRight="20dp"
-            android:paddingBottom="10dp"
-            android:layout_marginBottom="10dp"
-            tools:ignore="MissingConstraints"/>
 
-        <TextView
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="محادثة فورية"
-            android:layout_gravity="right"
-            android:layout_marginRight="30dp"
-            tools:ignore="MissingConstraints"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="24dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:elevation="16dp"
+            android:focusable="true"
+            android:visibility="visible"
+            app:backgroundTint="#ffffff"
+            app:pressedTranslationZ="12dp"
+            android:autofillHints="contact"
+            android:src="@drawable/message"
             />
 
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="24dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:elevation="16dp"
+            android:focusable="true"
+            android:visibility="invisible"
+            app:backgroundTint="@color/lightGrey"
+            android:padding="0dp"
+            app:pressedTranslationZ="12dp"
+            android:foregroundGravity="center"
+            app:srcCompat="@drawable/whatsapp" />
+
+
+
     </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/whatsapp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:elevation="10dp"-->
+<!--        android:paddingRight="220dp"-->
+<!--        android:paddingTop="15dp"-->
+<!--        android:background="@drawable/gray_buttons"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_gravity="bottom">-->
+
+
+
+<!--        <TextView-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:background="@drawable/whatsapp"-->
+<!--            android:backgroundTint="#DA918291"-->
+<!--            tools:ignore="MissingConstraints"-->
+<!--            android:layout_marginRight="10dp"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="واتساب"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            tools:ignore="MissingConstraints"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/chatting"-->
+<!--        android:layout_width="220dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:elevation="10dp"-->
+<!--        android:paddingTop="15dp"-->
+<!--        android:background="@drawable/purple_buttons"-->
+<!--        android:backgroundTint="#DA918291"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_gravity="bottom">-->
+
+<!--        <Button-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:backgroundTint="@color/lightGrey"-->
+<!--            android:background="@drawable/conversation"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:paddingBottom="10dp"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            tools:ignore="MissingConstraints"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="محادثة فورية"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:layout_marginRight="30dp"-->
+<!--            tools:ignore="MissingConstraints"-->
+<!--            />-->
+
+
+<!--    </LinearLayout>-->
+
+
 
 
 

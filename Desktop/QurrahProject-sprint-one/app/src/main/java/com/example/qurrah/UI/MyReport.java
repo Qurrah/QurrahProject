@@ -12,8 +12,10 @@ import androidx.viewpager.widget.ViewPager;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class MyReport extends AppCompatActivity {
+public class MyReport extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     DatabaseReference reference;
     FirebaseAuth mAuth;
@@ -45,8 +47,8 @@ public class MyReport extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Report> list, newList;
     MyReportAdapter adapter;
-//    Button allbtn,missingbtn, findingbtn;
     Report report;
+    TextView noReports,noMatchReports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,10 @@ public class MyReport extends AppCompatActivity {
         // inputs
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getUid();
+        noReports = findViewById(R.id.noReports);
+        noReports.setText("لا يوجد بلاغات منشورة");
+        noMatchReports = findViewById(R.id.noMatchReports);
+        noMatchReports.setText("لا يوجد نتائج ");
 
 
 
@@ -124,34 +130,6 @@ public class MyReport extends AppCompatActivity {
 
 
 
-
-
-//
-//// second filter
-//        allbtn= findViewById(R.id.all);
-//        allbtn.setOnClickListener(v -> {
-//            allbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-//            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//            SecondFilter("all");
-//
-//        });
-//        missingbtn= findViewById(R.id.missing);
-//        missingbtn.setOnClickListener(v -> {
-//            missingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-//            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//            findingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//            SecondFilter("missing");
-//        });
-//        findingbtn=findViewById(R.id.finding);
-//        findingbtn.setOnClickListener(v -> {
-//            findingbtn.setBackgroundColor(getResources().getColor(R.color.darkGrey));
-//            missingbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//            allbtn.setBackgroundColor(getResources().getColor(R.color.lightGrey1));
-//            SecondFilter("finding");
-//        });
-        //
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(MyReport.this);
@@ -160,9 +138,7 @@ public class MyReport extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
-//        allbtn.setVisibility(View.GONE);
-//        findingbtn.setVisibility(View.GONE);
-//        missingbtn.setVisibility(View.GONE);
+
 
         list = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("Report");
@@ -176,9 +152,6 @@ public class MyReport extends AppCompatActivity {
                     if(ds.getChildrenCount() > 0) {
                         findViewById(R.id.progressbar).setVisibility(View.GONE);
 
-//                        allbtn.setVisibility(View.VISIBLE);
-//                        findingbtn.setVisibility(View.VISIBLE);
-//                        missingbtn.setVisibility(View.VISIBLE);
 
                     }
 
@@ -191,15 +164,11 @@ public class MyReport extends AppCompatActivity {
                 new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
-//                allbtn.setVisibility(View.VISIBLE);
-//                findingbtn.setVisibility(View.VISIBLE);
-//                missingbtn.setVisibility(View.VISIBLE);
+
 
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
-//                    allbtn.setVisibility(View.GONE);
-//                    findingbtn.setVisibility(View.GONE);
-//                    missingbtn.setVisibility(View.GONE);
+
 
                 }
 
@@ -213,8 +182,47 @@ public class MyReport extends AppCompatActivity {
             }
         });
 
-
     }
+
+
+
+
+    //----------------------------------------------------------
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SearchView searchView = findViewById(R.id.action_search);
+        searchView.setOnQueryTextListener(this);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String userInput = newText.toLowerCase();
+        ArrayList<Report> newList = new ArrayList<>();
+        findViewById(R.id.noMatchReports).setVisibility(View.GONE);
+        for(Report rep: list){
+            if(rep.getLostTitle().toLowerCase().contains(userInput))
+                newList.add(rep);}
+
+        if(newList.isEmpty() && !(list.isEmpty()))
+            findViewById(R.id.noMatchReports).setVisibility(View.VISIBLE);
+
+
+        adapter.updateList(newList,userInput);
+
+        return false;
+    }
+
+
+
+
     //-------------------------Second Filter Method---------------------------------
     public void SecondFilter(String flag){
 
