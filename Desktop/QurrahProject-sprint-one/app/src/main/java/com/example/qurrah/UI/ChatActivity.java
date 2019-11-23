@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -52,7 +53,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 public class ChatActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     CircleImageView profile_image;
-    TextView username, noChats, Chats;
+    TextView username, noChats, Chats, MessagesNo;
 
     DatabaseReference reference;
     private RecyclerView recyclerView;
@@ -91,6 +92,8 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
 
         recyclerView = findViewById(R.id.recycler_view);
         noChats = findViewById(R.id.noChats);
+        MessagesNo = findViewById(R.id.MessagesNo);
+
         Chats = findViewById(R.id.Chats);
         Chats.setText("المحادثات");
         findViewById(R.id.noMatchUsers).setVisibility(View.GONE);
@@ -144,7 +147,8 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
             }
 
             if (unread != 0) {
-                Chats.setText("("+unread+") المحادثات");
+                MessagesNo.setTextColor(Color.parseColor("#1683DA"));
+                MessagesNo.setText("("+unread+")");
             }
     }
 
@@ -202,110 +206,6 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
 
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("");
-//
-//        profile_image = findViewById(R.id.profile_image);
-//        username = findViewById(R.id.username2);
-//
-//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
-//
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                UserProfile user = dataSnapshot.getValue(UserProfile.class);
-//                username.setText(user.getUserName());
-//                if (user.getImageURL().equals("default")) {
-//                    profile_image.setImageResource(R.mipmap.ic_launcher);
-//                } else {
-//
-//                    //change this
-//                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profile_image);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        final TabLayout tabLayout = findViewById(R.id.tab_layout);
-//        final ViewPager viewPager = findViewById(R.id.view_pager);
-//
-//    }
-//    reference = FirebaseDatabase.getInstance().getReference("Chats");
-//    reference.addValueEventListener(new ValueEventListener() {
-//        @Override
-//        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-//            int unread = 0;
-//            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                Chat chat = snapshot.getValue(Chat.class);
-//                if (chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()) {
-//                    unread++;
-//                }
-//            }
-//
-//            if (unread == 0) {
-//                viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-//            } else {
-//                viewPagerAdapter.addFragment(new ChatsFragment(), "(" + unread + ") Chats");
-//            }
-//
-//            viewPagerAdapter.addFragment(new UsersFragment(), "Users");
-//            viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
-//
-//            viewPager.setAdapter(viewPagerAdapter);
-//
-//            tabLayout.setupWithViewPager(viewPager);
-//
-//        }
-//
-//        @Override
-//        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//        }
-//    });
-
-
-
-//    class ViewPagerAdapter extends FragmentPagerAdapter {
-//
-//        private ArrayList<Fragment> fragments;
-//        private ArrayList<String> titles;
-//
-//        ViewPagerAdapter(FragmentManager fm){
-//            super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-//            this.fragments = new ArrayList<>();
-//            this.titles = new ArrayList<>();
-//        }
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//            return fragments.get(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return fragments.size();
-//        }
-//
-//        void addFragment(Fragment fragment, String title){
-//            fragments.add(fragment);
-//            titles.add(title);
-//        }
-//
-//        // Ctrl + O
-//
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return titles.get(position);
-//        }
-//    }
-
     private void status(String status){
 
         reference = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
@@ -326,17 +226,17 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        status("online");
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        status("offline");
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
 
 @Override
 public void onBackPressed() {
@@ -435,23 +335,6 @@ public void onBackPressed() {
 
                                 }
                             });
-
-
-
-//                            snackBar.setAction("تراجع", v -> {
-//                                snackBar.dismiss();
-//                                //findViewById(R.id.noReports).setVisibility(View.GONE);
-//                                reference.child(snapshot.getKey()).setValue(fuser.getUid());
-//                                mUsers.add(position, deletedChat);
-//                                userAdapter.notifyItemInserted(position);
-//                                mUsers2.addAll(mUsers);
-//                                userAdapter.updateList(mUsers2);
-//
-//
-//
-//
-//                            }).show();
-
 
                         }
 

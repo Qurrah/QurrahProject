@@ -2,8 +2,12 @@ package com.example.qurrah.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +40,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context mContext;
     private List<UserProfile> mUsers;
     private boolean ischat;
+    String theLastMessageDate,date1,date2;
+
 
     String theLastMessage, theLastMessageType;
 
@@ -65,7 +71,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         if (ischat){
-            lastMessage(user.getId(), holder.last_msg);
+            lastMessage(user.getId(), holder.last_msg, holder.Messdate, holder.unreadNo, holder.img_unread);
         } else {
             holder.last_msg.setVisibility(View.GONE);
         }
@@ -103,8 +109,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView username;
         public ImageView profile_image;
         private ImageView img_on;
-        private ImageView img_off;
-        private TextView last_msg;
+        private ImageView img_off, img_unread;
+        private TextView last_msg,Messdate, unreadNo;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -113,12 +119,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             profile_image = itemView.findViewById(R.id.profile_image);
             img_on = itemView.findViewById(R.id.img_on);
             img_off = itemView.findViewById(R.id.img_off);
+            img_unread = itemView.findViewById(R.id.img_unread);
+            unreadNo = itemView.findViewById(R.id.unreadNo);
+
             last_msg = itemView.findViewById(R.id.last_msg);
+            Messdate = itemView.findViewById(R.id.Messdate);
+
         }
     }
 
     //check for last message
-    private void lastMessage(final String userid, final TextView last_msg){
+    private void lastMessage(final String userid, final TextView last_msg, final TextView Messdate , TextView unreadNo, ImageView img_unread){
         theLastMessage = "default";
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -127,13 +138,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int unread=0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
                    if (firebaseUser != null && chat != null) {
                         if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid) ||
                                 chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())) {
+                            if(chat.getReceiver().equals(firebaseUser.getUid()) && !chat.isIsseen()){
+                                unread++;}
                             theLastMessage = chat.getMessage();
                             theLastMessageType = chat.getMessageType();
+                            theLastMessageDate=chat.getDate();
 
                         }
                     }
@@ -145,33 +160,42 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         break;
 
                     default:
-//                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
-//                        String date = dateFormat.format(new Date());
-//                        if (reports.get(position).getDate().substring(0,10).equals(date.substring(0,10))){
-//                            if (reports.get(position).getDate().substring(reports.get(position).getDate().length()-2).equalsIgnoreCase("pm"))
-//                                date2 ="م";
-//                            else
-//                                date2 = "ص";
-//                            date1 = reports.get(position).getDate().substring(11,16)+" "+date2;
-//
-//                            holder.lostDate.setText(date1);
-//                        }else if (reports.get(position).getDate().substring(0,7).equals(date.substring(0,7))){
-//                            int diff = Integer.parseInt(date.substring(8,10))-Integer.parseInt(reports.get(position).getDate().substring(8,10));
-//                            if (diff>=1 && diff <=7){
-//                                // Toast.makeText(context,String.valueOf(diff),Toast.LENGTH_SHORT).show();
-//                                DateFormat format2=new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
-//                                Calendar cal = Calendar.getInstance();
-//                                cal.setTime(new Date());
-//                                cal.add(Calendar.DATE, -diff);
-//                                holder.lostDate.setText(format2.format(cal.getTime()));
-//                            }
-//                            else {
-//                                holder.lostDate.setText(reports.get(position).getDate().substring(0,10));
-//                            }
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
+                        String date = dateFormat.format(new Date());
+                        if (theLastMessageDate.substring(0,10).equals(date.substring(0,10))){
+                            if (theLastMessageDate.substring(theLastMessageDate.length()-2).equalsIgnoreCase("pm"))
+                                date2 ="م";
+                            else
+                                date2 = "ص";
+                            date1 = theLastMessageDate.substring(11,16)+" "+date2;
+
+                            Messdate.setText(date1);
+                        }else if (theLastMessageDate.substring(0,7).equals(date.substring(0,7))){
+                            int diff = Integer.parseInt(date.substring(8,10))-Integer.parseInt(theLastMessageDate.substring(8,10));
+                            if (diff>=1 && diff <=7){
+                                // Toast.makeText(context,String.valueOf(diff),Toast.LENGTH_SHORT).show();
+                                DateFormat format2=new SimpleDateFormat("EEEE", Locale.forLanguageTag("ar-SA"));
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(new Date());
+                                cal.add(Calendar.DATE, -diff);
+                                Messdate.setText(format2.format(cal.getTime()));
+                            }
+                            else {
+                                Messdate.setText(theLastMessageDate.substring(0,10));
+                            } } else {
+                                Messdate.setText(theLastMessageDate.substring(0,10));
+                        }
                         if(theLastMessageType.equals("text"))
                             last_msg.setText(theLastMessage);
                         else if(theLastMessageType.equals("image"))
                             last_msg.setText("صورة");
+                        if(unread>0){
+                            Messdate.setTextColor(Color.parseColor("#1683DA"));
+                            unreadNo.setVisibility(View.VISIBLE);
+                            img_unread.setVisibility(View.VISIBLE);
+                            unreadNo.setText(""+unread);
+
+                        }
                         break;
                 }
 
