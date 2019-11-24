@@ -5,7 +5,6 @@ package com.example.qurrah.UI;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -139,7 +138,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         // bottom app bar input
         bottomAppBar = findViewById(R.id.bottomAppBar);
         //setSupportActionBar(bottomAppBar);
-        bottomAppBar.replaceMenu(R.menu.map_menu);
+        bottomAppBar.replaceMenu(R.menu.bottom_app_bar_menu);
 
         fab =  findViewById(R.id.addReport);
 
@@ -157,7 +156,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
                 switch(id){
-                    case R.id.map:{
+                    case R.id.Map:{
                         if(isServicesOK()){
                             Intent intent = new Intent(UnregisteredUserSecondActivity.this, MapActivity.class);
                             intent.putStringArrayListExtra("userList" , userList);

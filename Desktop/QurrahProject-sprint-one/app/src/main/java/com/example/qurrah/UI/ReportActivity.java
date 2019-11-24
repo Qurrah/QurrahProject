@@ -6,6 +6,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -17,6 +19,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +37,11 @@ import java.util.Date;
 import java.text.DateFormat;
 
 import com.example.qurrah.Kotlin.PickLocationActivity;
+import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -56,7 +61,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 
-public class ReportActivity extends AppCompatActivity {
+public class ReportActivity extends HomeActivity {
 
 
     protected TextInputLayout lostTitle, lostDescription, location;
@@ -96,7 +101,8 @@ public class ReportActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+        setContentView(R.layout.activity_reportnav);
+        updateItemColor(R.id.addReport);
         //---------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();
@@ -110,10 +116,12 @@ public class ReportActivity extends AppCompatActivity {
         abar.setCustomView(viewActionBar, params);
         abar.setDisplayShowCustomEnabled(true);
         abar.setDisplayShowTitleEnabled(false);
-        abar.setDisplayHomeAsUpEnabled(true);
+        abar.setDisplayHomeAsUpEnabled(false);
         abar.setIcon(R.color.transparent);
-        abar.setHomeButtonEnabled(true);
+        abar.setHomeButtonEnabled(false);
         //---------------------------------------------------
+
+
         mAuth = FirebaseAuth.getInstance();
         setupUI(findViewById(R.id.parent));
         String[] descriptionData = {getString(R.string.classification), getString(R.string.sender_info), getString(R.string.location_photo)};
@@ -170,7 +178,120 @@ public class ReportActivity extends AppCompatActivity {
         });
 
 
+
+        navDrawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view4);
+        View header = navigationView.getHeaderView(0);
+        username = header.findViewById(R.id.Username);
+
+
+//---------------------------------------------------
+
+        NavigationView mNavigationView = findViewById(R.id.nav_view4);
+
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
+//---------------------------------------------------
+        bottomAppBar = findViewById(R.id.bottomAppBar);
+
+        menuBottomAppBar = bottomAppBar.getMenu();
+//---------------------------------------------------
+        bottomAppBar.setNavigationOnClickListener(v -> {
+
+            if (!navDrawer.isDrawerOpen(GravityCompat.START))
+                navDrawer.openDrawer(GravityCompat.START);
+
+            else
+                navDrawer.closeDrawer(GravityCompat.END);
+
+        });
+//---------------------------------------------------
+
+        // firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                username.setText(userProfile.getUserName());
+
+                reportsList.clear();
+                userList.clear();
+                phones.clear();
+                IdList.clear();
+
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String ID = userInfo.getId();
+                    String userName = userInfo.getUserName();
+                    String No = userInfo.getPhone();
+                    String allowPhoneAccess = userInfo.getAllowPhone();
+
+
+                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                        Report report = ds.getValue(Report.class);
+                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+                            reportsList.add(report);
+                            IdList.add(ID);
+                            userList.add(userName);
+                            if (allowPhoneAccess.equals("true")) {
+                                phones.add(No);
+                            } else {
+                                phones.add("0");
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+//---------------------------------------------------
+
     }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        switch (id) {
+            case R.id.nav_profile:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(ReportActivity.this, ProfileActivity.class));
+                break;
+            case R.id.nav_changePassword:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+                break;
+            case R.id.nav_my_report:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(getApplicationContext(), MyReport.class).putExtra("from","AddReportIcon"));
+                break;
+//            case R.id.nav_privacyAndSecurity:
+//                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
+//                break;
+            case R.id.nav_logout:
+                navDrawer.closeDrawers();
+                logout();
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+
+
+
 
 
     public void setupUI(View view) {
@@ -479,7 +600,7 @@ public class ReportActivity extends AppCompatActivity {
         getValues(link);
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم ارسال بلاغك", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(ReportActivity.this, SecondActivity.class);
+        Intent intent = new Intent(ReportActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
