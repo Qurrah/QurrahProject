@@ -4,26 +4,32 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.qurrah.Adapters.MyReportAdapter;
+import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.ReportTypesWithTabs.All_Reports;
 import com.example.qurrah.ReportTypesWithTabs.Found_reports;
 import com.example.qurrah.ReportTypesWithTabs.Missing_reports;
 import com.example.qurrah.ReportTypesWithTabs.main.SectionsPagerAdapter;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +43,7 @@ import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class MyReport extends AppCompatActivity {
+public class MyReport extends HomeActivity {
 
     DatabaseReference reference;
     FirebaseAuth mAuth;
@@ -47,12 +53,25 @@ public class MyReport extends AppCompatActivity {
     MyReportAdapter adapter;
 //    Button allbtn,missingbtn, findingbtn;
     Report report;
+    DrawerLayout navDrawer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.report_layout);
+        setContentView(R.layout.report_layoutnav);
 
+
+        if(getIntent().getStringExtra("from") != null) {
+            if (getIntent().getStringExtra("from").equals("HomeIcon"))
+                updateItemColor(R.id.Home);
+            else if (getIntent().getStringExtra("from").equals("ChatIcon"))
+                updateItemColor(R.id.Chat);
+            else if (getIntent().getStringExtra("from").equals("MapIcon"))
+                updateItemColor(R.id.Map);
+            else if (getIntent().getStringExtra("from").equals("AddReportIcon"))
+                updateItemColor(R.id.addReport);
+        }
 
 //---------------------Tabs---------------------------
 
@@ -64,8 +83,7 @@ public class MyReport extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(2).select();
 
-//------------------------------------------------
-        //----------------------------------------------------------------
+ //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();
         View viewActionBar = getLayoutInflater().inflate(R.layout.title_bar, null);
@@ -81,7 +99,6 @@ public class MyReport extends AppCompatActivity {
         abar.setDisplayHomeAsUpEnabled(true);
         abar.setIcon(R.color.transparent);
         abar.setHomeButtonEnabled(true);
-        //----------------------------------------------------------------
         newList = new ArrayList<>();
 //------------------------------------------------
         // inputs
@@ -214,7 +231,115 @@ public class MyReport extends AppCompatActivity {
         });
 
 
+
+        navDrawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view6);
+        View header = navigationView.getHeaderView(0);
+        username = header.findViewById(R.id.Username);
+
+
+//---------------------------------------------------
+
+        NavigationView mNavigationView = findViewById(R.id.nav_view6);
+
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
+//---------------------------------------------------
+        bottomAppBar = findViewById(R.id.bottomAppBar);
+
+        menuBottomAppBar = bottomAppBar.getMenu();
+//---------------------------------------------------
+        bottomAppBar.setNavigationOnClickListener(v -> {
+
+            if (!navDrawer.isDrawerOpen(GravityCompat.START))
+                navDrawer.openDrawer(GravityCompat.START);
+
+            else
+                navDrawer.closeDrawer(GravityCompat.END);
+
+        });
+//---------------------------------------------------
+
+        // firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                username.setText(userProfile.getUserName());
+
+                reportsList.clear();
+                userList.clear();
+                phones.clear();
+                IdList.clear();
+
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String ID = userInfo.getId();
+                    String userName = userInfo.getUserName();
+                    String No = userInfo.getPhone();
+                    String allowPhoneAccess = userInfo.getAllowPhone();
+
+
+                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                        Report report = ds.getValue(Report.class);
+                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+                            reportsList.add(report);
+                            IdList.add(ID);
+                            userList.add(userName);
+                            if (allowPhoneAccess.equals("true")) {
+                                phones.add(No);
+                            } else {
+                                phones.add("0");
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+//---------------------------------------------------
+
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        switch (id) {
+            case R.id.nav_profile:
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                break;
+            case R.id.nav_changePassword:
+                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+                break;
+            case R.id.nav_my_report:
+                startActivity(new Intent(getApplicationContext(), MyReport.class));
+                break;
+//            case R.id.nav_privacyAndSecurity:
+//                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
+//                break;
+            case R.id.nav_logout:
+                logout();
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+
     //-------------------------Second Filter Method---------------------------------
     public void SecondFilter(String flag){
 

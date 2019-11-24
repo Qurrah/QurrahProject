@@ -179,7 +179,7 @@ public class ReportActivity extends HomeActivity {
 
 
 
-        final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
+        navDrawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view4);
         View header = navigationView.getHeaderView(0);
@@ -265,18 +265,22 @@ public class ReportActivity extends HomeActivity {
         int id = menuItem.getItemId();
         switch (id) {
             case R.id.nav_profile:
+                navDrawer.closeDrawers();
                 startActivity(new Intent(ReportActivity.this, ProfileActivity.class));
                 break;
             case R.id.nav_changePassword:
+                navDrawer.closeDrawers();
                 startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
                 break;
             case R.id.nav_my_report:
-                startActivity(new Intent(getApplicationContext(), MyReport.class));
+                navDrawer.closeDrawers();
+                startActivity(new Intent(getApplicationContext(), MyReport.class).putExtra("from","AddReportIcon"));
                 break;
 //            case R.id.nav_privacyAndSecurity:
 //                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
 //                break;
             case R.id.nav_logout:
+                navDrawer.closeDrawers();
                 logout();
                 break;
             default:

@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,23 +62,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected FirebaseAuth firebaseAuth;
     private FloatingActionButton fab;
     CardView people_card, animal_card, device_card, other_card;
-    BottomAppBar bottomAppBar;
+    protected BottomAppBar bottomAppBar;
     protected TextView username, test;
     protected FirebaseDatabase firebaseDatabase;
     protected DatabaseReference databaseReference;
     private static final String TAG = "HomeActivity";
     //    ArrayList<String> LatitudeList;
     //    ArrayList<String> LongitudeList;
-    ArrayList<Report> reportsList;  // array of reports that contain a location
-    ArrayList<String> userList, phones, IdList;
+    protected ArrayList<Report> reportsList;  // array of reports that contain a location
+    protected ArrayList<String> userList, phones, IdList;
     Intent intent;
-    Menu menuBottomAppBar;
+    protected Menu menuBottomAppBar;
+     DrawerLayout navDrawer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_homenav);
         fab = findViewById(R.id.addReport);
         // requestLocationPermission();
         showPermissionDialog();
@@ -88,8 +90,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             findViewById(R.id.CategoryGroup).startAnimation(hold);
         }
 
-        final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
-
+        navDrawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
@@ -111,6 +112,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         //  bottomAppBar.replaceMenu(R.menu.bottom_app_bar_menu);
         menuBottomAppBar = bottomAppBar.getMenu();
         updateItemColor(R.id.Home);
+
 //---------------------------------------------------
         bottomAppBar.setNavigationOnClickListener(v -> {
             //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
@@ -213,16 +215,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.people_card:
-                startActivity(new Intent(this, HumanReport.class));
+                startActivity(new Intent(HomeActivity.this, HumanReport.class));
                 break;
             case R.id.animal_card:
-                startActivity(new Intent(this, AnimalReport.class));
+                startActivity(new Intent(HomeActivity.this, AnimalReport.class));
                 break;
             case R.id.device_card:
-                startActivity(new Intent(this, DeviceReport.class));
+                startActivity(new Intent(HomeActivity.this, DeviceReport.class));
                 break;
             case R.id.other_card:
-                startActivity(new Intent(this, OtherReport.class));
+                startActivity(new Intent(HomeActivity.this, OtherReport.class));
                 break;
             default:
                 break;
@@ -261,13 +263,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         int id = menuItem.getItemId();
         switch (id) {
             case R.id.nav_profile:
+                navDrawer.closeDrawers();
                 startActivity(new Intent(this, ProfileActivity.class));
                 break;
             case R.id.nav_changePassword:
+                navDrawer.closeDrawers();
                 startActivity(new Intent(this, UpdatePassword.class));
                 break;
             case R.id.nav_my_report:
-                startActivity(new Intent(this, MyReport.class));
+                navDrawer.closeDrawers();
+                startActivity(new Intent(this, MyReport.class).putExtra("from", "HomeIcon"));
                 break;
 //            case R.id.nav_privacyAndSecurity:
 //                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));

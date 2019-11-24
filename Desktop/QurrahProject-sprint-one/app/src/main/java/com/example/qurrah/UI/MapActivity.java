@@ -231,7 +231,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         abar.setHomeButtonEnabled(false);
         //----------------------------------------------------------------
 
-        final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
+        navDrawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view3);
         View header = navigationView.getHeaderView(0);
@@ -260,8 +260,6 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
 
         });
 //---------------------------------------------------
-//---------------------------------------------------
-
         // firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -318,13 +316,16 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         int id = menuItem.getItemId();
         switch (id) {
             case R.id.nav_profile:
+                navDrawer.closeDrawers();
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
             case R.id.nav_changePassword:
+                navDrawer.closeDrawers();
                 startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
                 break;
             case R.id.nav_my_report:
-                startActivity(new Intent(getApplicationContext(), MyReport.class));
+                navDrawer.closeDrawers();
+                startActivity(new Intent(getApplicationContext(), MyReport.class).putExtra("from","MapIcon"));
                 break;
 //            case R.id.nav_privacyAndSecurity:
 //                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
