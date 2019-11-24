@@ -508,9 +508,9 @@ public void onBackPressed() {
             view.setOnTouchListener(new View.OnTouchListener() {
 
                 public boolean onTouch(View v, MotionEvent event) {
-                    findViewById(R.id.bar_layout).setVisibility(View.VISIBLE);
+                    searchView.onActionViewCollapsed();
                     searchView.clearFocus();
-
+                    findViewById(R.id.bar_layout).setVisibility(View.VISIBLE);
                     return false;
                 }
 
