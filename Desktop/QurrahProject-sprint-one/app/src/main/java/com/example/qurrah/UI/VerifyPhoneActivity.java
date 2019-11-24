@@ -111,7 +111,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                             if(task.isSuccessful()){
                                 sendUserData();
-                                Intent intent = new Intent(VerifyPhoneActivity.this, SecondActivity.class);
+                                Intent intent = new Intent(VerifyPhoneActivity.this, HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 Toast.makeText(VerifyPhoneActivity.this, "تم تسجيل الدخول بنجاح", Toast.LENGTH_SHORT).show();

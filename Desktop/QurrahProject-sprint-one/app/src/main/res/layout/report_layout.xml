@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.qurrah.UI.MyReport"
-    android:layout_marginBottom="20dp"
     android:layoutDirection="ltr">
 
 
@@ -36,7 +35,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical">
 
         <!--        <TextView-->

@@ -1,6 +1,5 @@
 package com.example.qurrah.UI;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -10,17 +9,20 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.example.qurrah.Adapters.MessageAdapter;
 import com.example.qurrah.Adapters.UserAdapter;
 import com.example.qurrah.Model.Chat;
 import com.example.qurrah.Model.Chatlist;
@@ -33,6 +35,7 @@ import com.example.qurrah.R;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,7 +53,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class ChatActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class ChatActivity extends HomeActivity implements SearchView.OnQueryTextListener {
 
     CircleImageView profile_image;
     TextView username, noChats, Chats, MessagesNo;
@@ -66,11 +69,13 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private List<Chatlist> usersList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_chats);
+        setContentView(R.layout.activity_chatnav);
+        updateItemColor(R.id.Chat);
 
         //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -85,10 +90,11 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
         abar.setCustomView(viewActionBar, params);
         abar.setDisplayShowCustomEnabled(true);
         abar.setDisplayShowTitleEnabled(false);
-        abar.setDisplayHomeAsUpEnabled(true);
+        abar.setDisplayHomeAsUpEnabled(false);
         abar.setIcon(R.color.transparent);
-        abar.setHomeButtonEnabled(true);
-        //----------------------------------------------------------------
+        abar.setHomeButtonEnabled(false);
+        //----------------------------------------------------------------;
+        setupUI(findViewById(R.id.parent));
 
         recyclerView = findViewById(R.id.recycler_view);
         noChats = findViewById(R.id.noChats);
@@ -99,7 +105,15 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
         findViewById(R.id.noMatchUsers).setVisibility(View.GONE);
 
         searchView = findViewById(R.id.search_view);
+
+        searchView.setOnClickListener(v -> {
+            findViewById(R.id.bar_layout).setVisibility(View.GONE);
+            searchView.setIconified(false);
+        });
+
         searchView.setOnQueryTextListener(this);
+
+
 
 
         recyclerView.setHasFixedSize(true);
@@ -133,36 +147,144 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
         });
 
 
-            reference = FirebaseDatabase.getInstance().getReference("Chats");
-            reference.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            int unread = 0;
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Chat chat = snapshot.getValue(Chat.class);
-                assert chat != null;
-                if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
-                    unread++;
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int unread = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Chat chat = snapshot.getValue(Chat.class);
+                    assert chat != null;
+                    if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
+                        unread++;
+                    }
+                }
+
+                if (unread != 0) {
+                    MessagesNo.setTextColor(Color.parseColor("#1683DA"));
+                    MessagesNo.setText("(" + unread + ")");
                 }
             }
 
-            if (unread != 0) {
-                MessagesNo.setTextColor(Color.parseColor("#1683DA"));
-                MessagesNo.setText("("+unread+")");
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
-    }
+        });
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-        String newToken =FirebaseInstanceId.getInstance().getToken();
+        String newToken = FirebaseInstanceId.getInstance().getToken();
         updateToken(newToken);
 
 
+        final DrawerLayout navDrawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view5);
+        View header = navigationView.getHeaderView(0);
+        username = header.findViewById(R.id.Username);
+
+
+//---------------------------------------------------
+
+        NavigationView mNavigationView = findViewById(R.id.nav_view5);
+
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
+//---------------------------------------------------
+        bottomAppBar = findViewById(R.id.bottomAppBar);
+
+        menuBottomAppBar = bottomAppBar.getMenu();
+//---------------------------------------------------
+        bottomAppBar.setNavigationOnClickListener(v -> {
+
+            if (!navDrawer.isDrawerOpen(GravityCompat.START))
+                navDrawer.openDrawer(GravityCompat.START);
+
+            else
+                navDrawer.closeDrawer(GravityCompat.END);
+
+        });
+//---------------------------------------------------
+
+        // firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                username.setText(userProfile.getUserName());
+
+                reportsList.clear();
+                userList.clear();
+                phones.clear();
+                IdList.clear();
+
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String ID = userInfo.getId();
+                    String userName = userInfo.getUserName();
+                    String No = userInfo.getPhone();
+                    String allowPhoneAccess = userInfo.getAllowPhone();
+
+
+                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                        Report report = ds.getValue(Report.class);
+                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+                            reportsList.add(report);
+                            IdList.add(ID);
+                            userList.add(userName);
+                            if (allowPhoneAccess.equals("true")) {
+                                phones.add(No);
+                            } else {
+                                phones.add("0");
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+//---------------------------------------------------
+
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        switch (id) {
+            case R.id.nav_profile:
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                break;
+            case R.id.nav_changePassword:
+                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+                break;
+            case R.id.nav_my_report:
+                startActivity(new Intent(getApplicationContext(), MyReport.class));
+                break;
+//            case R.id.nav_privacyAndSecurity:
+//                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
+//                break;
+            case R.id.nav_logout:
+                logout();
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+
+
 
     private void updateToken(String token) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
@@ -240,7 +362,7 @@ public class ChatActivity extends AppCompatActivity implements SearchView.OnQuer
 
 @Override
 public void onBackPressed() {
-    Intent intent = new Intent(getApplicationContext(),SecondActivity.class);
+    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
     intent.putExtra("from", "ChatActivity");
     startActivityForResult(intent, 0);
     overridePendingTransition(0,0); //0 for no animation
@@ -249,6 +371,8 @@ public void onBackPressed() {
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        findViewById(R.id.bar_layout).setVisibility(View.VISIBLE);
+        searchView.clearFocus();
         return false;
     }
 
@@ -377,7 +501,33 @@ public void onBackPressed() {
         }
     };
 
+    public void setupUI(View view) {
 
+        if(!(view instanceof SearchView)) {
+
+            view.setOnTouchListener(new View.OnTouchListener() {
+
+                public boolean onTouch(View v, MotionEvent event) {
+                    findViewById(R.id.bar_layout).setVisibility(View.VISIBLE);
+                    searchView.clearFocus();
+
+                    return false;
+                }
+
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+
+                View innerView = ((ViewGroup) view).getChildAt(i);
+
+                setupUI(innerView);
+            }
+        }
+    }
 }
 
 
