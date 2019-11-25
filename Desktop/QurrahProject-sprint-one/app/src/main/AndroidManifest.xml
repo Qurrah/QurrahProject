@@ -45,26 +45,31 @@
             android:name=".UI.ReportTypes.HumanReport"
             android:label="بلاغات الأشخاص"
             android:parentActivityName=".UI.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.ReportTypes.AnimalReport"
             android:label="بلاغات الحيوانات"
             android:parentActivityName=".UI.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.ReportTypes.DeviceReport"
             android:label="بلاغات الأجهزة"
             android:parentActivityName=".UI.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.ReportTypes.OtherReport"
             android:label="بلاغات أخرى"
             android:parentActivityName=".UI.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.EditReportActivity"
             android:parentActivityName=".UI.MyReport"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".Adapters.MyReportAdapter"
             android:screenOrientation="portrait" />
@@ -72,7 +77,8 @@
             android:name=".UI.MyReport"
             android:label="بلاغاتي"
             android:parentActivityName=".UI.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <!--
          The API key for Google Maps-based APIs is defined as a string resource.
          (See the file "res/values/google_maps_api.xml").
@@ -84,7 +90,8 @@
         <activity
             android:name=".UI.ForgotPasswordActivity"
             android:label="إستعادة كلمة المرور"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.FirstPage"
             android:screenOrientation="portrait"
@@ -110,11 +117,13 @@
             android:name=".UI.VerifyPhoneActivity"
             android:label="التحقق"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.ProfileActivity"
             android:label="الملف الشخصي"
-            android:parentActivityName=".UI.HomeActivity" />
+            android:parentActivityName=".UI.HomeActivity"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.UpdateProfile"
             android:parentActivityName=".UI.HomeActivity" />
@@ -127,12 +136,14 @@
             android:name=".UI.ReportActivity"
             android:label="اضافة بلاغ"
             android:parentActivityName=".UI.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.UpdatePassword"
             android:label="تغيير كلمة المرور"
             android:parentActivityName=".UI.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.ViewReport"
             android:label="البلاغ" />
@@ -141,9 +152,9 @@
             android:label="البلاغ"
             android:parentActivityName=".UI.MyReport"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".UI.SecondPage"
-            android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--            android:name=".UI.SecondPage"-->
+<!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".UI.UnregisteredUserSecondActivity"
             android:label="الصفحة الرئيسية"
@@ -152,8 +163,10 @@
         <activity
             android:name=".UI.ChatActivity"
             android:label="محادثاتي"
-            android:parentActivityName=".UI.HomeActivity" />
-        <activity android:name=".UI.MessageActivity" />
+            android:parentActivityName=".UI.HomeActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".UI.MessageActivity"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".Kotlin.PickLocationActivity" />
 
         <activity

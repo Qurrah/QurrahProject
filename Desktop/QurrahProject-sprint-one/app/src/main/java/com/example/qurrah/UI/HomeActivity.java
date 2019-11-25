@@ -396,45 +396,63 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void goToChatFragment(View view) {
-        updateItemColor(R.id.Chat);
-        Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
-        intent.putExtra("fromHomeActivity", "GoingToChatFragment");
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0, 0);
+    public void goToChatActivity(View view) {
+
+             updateDataOnChatClick();
     }
 
     public void goToMapActivity(View view) {
-         if (isServicesOK()) {
-             updateItemColor(R.id.Map);
-             Intent intent = new Intent(HomeActivity.this, MapActivity.class);
-             intent.putStringArrayListExtra("userList", userList);
-             intent.putStringArrayListExtra("IDsList", IdList);
-             intent.putStringArrayListExtra("phoneNumbers", phones);
-             intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
-             finish();
-             startActivity(intent);
-         }
+         updateDataOnMapClick();
 
     }
 
     public void goToHomeActivity(View view) {
-        // in case it is from map
+            updateDataOnHomeClick();
+
+    }
+
+    public void goToReportActivity(View view) {
+        updateDataOnAddReportClick();
+    }
+
+
+
+   protected void updateDataOnChatClick(){
+
+       updateItemColor(R.id.Chat);
+       Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
+       intent.putExtra("fromHomeActivity", "GoingToChatFragment");
+       startActivity(intent);
+       finish();
+       overridePendingTransition(0, 0);
+
+    }
+    protected void updateDataOnAddReportClick(){
+        updateItemColor(R.id.addReport);
+        startActivity(new Intent(getApplicationContext(), ReportActivity.class));
+        finish();
+        overridePendingTransition(0, 0);
+    }
+    protected void updateDataOnHomeClick(){
         updateItemColor(R.id.Home);
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransition(0, 0);
     }
+    protected void updateDataOnMapClick(){
 
-    public void gotToAddReport(View view) {
-        updateItemColor(R.id.addReport);
-        startActivity(new Intent(getApplicationContext(), ReportActivity.class));
-        finish();
-        overridePendingTransition(0, 0);
+        if (isServicesOK()) {
+            updateItemColor(R.id.Map);
+            Intent intent = new Intent(HomeActivity.this, MapActivity.class);
+            intent.putStringArrayListExtra("userList", userList);
+            intent.putStringArrayListExtra("IDsList", IdList);
+            intent.putStringArrayListExtra("phoneNumbers", phones);
+            intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
+            finish();
+            startActivity(intent);
+        }
 
     }
-
 
 }
