@@ -2,9 +2,7 @@
 package com.example.qurrah.UI;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,10 +16,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -80,7 +80,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_page);
-
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();
@@ -275,7 +275,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
 
         if(!latitude.equals("") && !longitude.equals("")){
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.Map);
         mapFragment.getMapAsync(this);
         }else{
             map.setVisibility(View.GONE);

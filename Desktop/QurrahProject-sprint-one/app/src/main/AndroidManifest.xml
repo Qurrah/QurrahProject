@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.qurrah"
-    >
-
+    package="com.example.qurrah">
     <!--
      The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
      Google Maps Android API v2, but you must specify either coarse or fine
@@ -39,30 +37,30 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
+        <activity android:name=".UI.BottomAppBarHandlerActivity"
+            android:theme="@style/AppTheme">
 
-
+        </activity>
         <activity
             android:name=".UI.ReportTypes.HumanReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
             android:label="بلاغات الأشخاص"
-            />
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ReportTypes.AnimalReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
             android:label="بلاغات الحيوانات"
-            />
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ReportTypes.DeviceReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
-            android:label="بلاغات الأجهزة"/>
+            android:label="بلاغات الأجهزة"
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ReportTypes.OtherReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
-            android:label="بلاغات أخرى"/>
+            android:label="بلاغات أخرى"
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.EditReportActivity"
             android:parentActivityName=".UI.MyReport"
@@ -72,9 +70,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.MyReport"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
-            android:label="بلاغاتي"/>
+            android:label="بلاغاتي"
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait" />
         <!--
          The API key for Google Maps-based APIs is defined as a string resource.
          (See the file "res/values/google_maps_api.xml").
@@ -85,8 +83,8 @@
         -->
         <activity
             android:name=".UI.ForgotPasswordActivity"
-            android:screenOrientation="portrait"
-            android:label="إستعادة كلمة المرور"/>
+            android:label="إستعادة كلمة المرور"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.FirstPage"
             android:screenOrientation="portrait"
@@ -98,99 +96,96 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.SecondActivity"
-            android:screenOrientation="portrait"
+            android:name=".UI.HomeActivity"
+            android:label="الصفحة الرئيسية"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme1"
-            android:label="الصفحة الرئيسية"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".UI.RegistrationActivity"
+            android:label="حساب جديد"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1"
-            android:label="حساب جديد"/>
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".UI.VerifyPhoneActivity"
+            android:label="التحقق"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1"
-            android:label="التحقق"/>
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".UI.ProfileActivity"
-            android:parentActivityName=".UI.SecondActivity"
-            android:label="الملف الشخصي"/>
+            android:label="الملف الشخصي"
+            android:parentActivityName=".UI.HomeActivity" />
         <activity
             android:name=".UI.UpdateProfile"
-            android:parentActivityName=".UI.SecondActivity" />
+            android:parentActivityName=".UI.HomeActivity" />
         <activity
             android:name=".UI.MainActivity"
+            android:label="تسجيل الدخول"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme1"
-            android:label="تسجيل الدخول"/>
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".UI.ReportActivity"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
-            android:label="اضافة بلاغ"/>
+            android:label="اضافة بلاغ"
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.UpdatePassword"
-            android:parentActivityName=".UI.SecondActivity"
-            android:screenOrientation="portrait"
-            android:label="تغيير كلمة المرور"/>
+            android:label="تغيير كلمة المرور"
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ViewReport"
-            android:label="البلاغ"/>
+            android:label="البلاغ" />
         <activity
             android:name=".UI.RegisteredUserReportView"
+            android:label="البلاغ"
             android:parentActivityName=".UI.MyReport"
-            android:screenOrientation="portrait"
-            android:label="البلاغ"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.SecondPage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.UnregisteredUserSecondActivity"
-            android:screenOrientation="portrait"
+            android:label="الصفحة الرئيسية"
             android:launchMode="singleTask"
-            android:label="الصفحة الرئيسية"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UI.ChatActivity"
-            android:parentActivityName=".UI.SecondActivity"
-            android:label="محادثاتي"/>
+            android:label="محادثاتي"
+            android:parentActivityName=".UI.HomeActivity" />
         <activity android:name=".UI.MessageActivity" />
         <activity android:name=".Kotlin.PickLocationActivity" />
 
-        <activity android:name=".UI.MapActivity"
-            android:parentActivityName=".UI.SecondActivity"
-            android:label="خريطة البلاغات"/>
+        <activity
+            android:name=".UI.MapActivity"
+            android:label="خريطة البلاغات" />
 
         <activity android:name=".LocationTrackingServices.LocationTracking" />
         <activity android:name=".UI.terms" />
 
-        <service android:name=".FirebaseNotifications.MyFirebaseIdService"
+        <service
+            android:name=".FirebaseNotifications.MyFirebaseIdService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name=".FirebaseNotifications.MyFirebaseMessaging"
+        <service
+            android:name=".FirebaseNotifications.MyFirebaseMessaging"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".LocationTrackingServices.LocationJobService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
             android:name=".LocationTrackingServices.UploadLocationService"
-            android:exported="true"
-            />
-
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -201,7 +196,6 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-        <!--        <meta-data android:name="com.onesignal.BadgeCount" android:value="DISABLE" />-->
     </application>
 
 </manifest>

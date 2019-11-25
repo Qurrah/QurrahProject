@@ -5,13 +5,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 //
         if(user != null){
-            startActivity(new Intent(MainActivity.this, SecondActivity.class).putExtra("from", "MainActivity"));
+            startActivity(new Intent(MainActivity.this, HomeActivity.class).putExtra("from", "MainActivity"));
             finish();
         }
 //--------------------------------------------------------------
@@ -158,24 +153,20 @@ public class MainActivity extends AppCompatActivity {
 
             if(validateEmail() && validatePassword()) {
 
-                firebaseAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                firebaseAuth.signInWithEmailAndPassword(Email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
 
-                            Toast.makeText(MainActivity.this, "تم تسجيل الدخول", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(MainActivity.this, SecondActivity.class));
+                        Toast.makeText(MainActivity.this, "تم تسجيل الدخول", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, HomeActivity.class));
 
-                        } else {
-                            Login.setEnabled(true);
-                            Login.setProgress(0);
-                            Toast.makeText(MainActivity.this, "فشل تسجيل الدخول, الرجاء ادخال بيانات صحيحة", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Login.setEnabled(true);
+                        Login.setProgress(0);
+                        Toast.makeText(MainActivity.this, "فشل تسجيل الدخول, الرجاء ادخال بيانات صحيحة", Toast.LENGTH_SHORT).show();
 
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                        }
                     }
-
                 });
             }else {
                Login.setEnabled(true);

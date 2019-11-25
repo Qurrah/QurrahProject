@@ -1,6 +1,6 @@
 package com.example.qurrah.UI;
 
-
+//TODO: Proxy required to save the state of the map
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,17 +11,21 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.example.qurrah.Model.InfoWindowData;
 import com.example.qurrah.Model.Report;
+import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -36,8 +40,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -49,7 +58,7 @@ import static com.example.qurrah.Constants.FINE_LOCATION;
 import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback ,
+public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         GoogleMap.OnInfoWindowClickListener {
     private static final String TAG = "MapActivity";
 
@@ -89,6 +98,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         }
+
 
 
 //       Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
@@ -194,14 +204,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_mapnav);
+        updateItemColor(R.id.Map);
         reportsList = (ArrayList) getIntent().getParcelableArrayListExtra("reportsLoc");
         userList = getIntent().getStringArrayListExtra("userList");
         phones = getIntent().getStringArrayListExtra("phoneNumbers");
         IDs=getIntent().getStringArrayListExtra("IDsList");
 //        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+      //  Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();
@@ -215,11 +226,121 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         abar.setCustomView(viewActionBar, params);
         abar.setDisplayShowCustomEnabled(true);
         abar.setDisplayShowTitleEnabled(false);
-        abar.setDisplayHomeAsUpEnabled(true);
+        abar.setDisplayHomeAsUpEnabled(false);
         abar.setIcon(R.color.transparent);
-        abar.setHomeButtonEnabled(true);
+        abar.setHomeButtonEnabled(false);
         //----------------------------------------------------------------
+
+        navDrawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view3);
+        View header = navigationView.getHeaderView(0);
+        username = header.findViewById(R.id.Username);
+
+
+//---------------------------------------------------
+
+        NavigationView mNavigationView = findViewById(R.id.nav_view3);
+
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(this);
+        }
+//---------------------------------------------------
+        bottomAppBar = findViewById(R.id.bottomAppBar);
+
+        menuBottomAppBar = bottomAppBar.getMenu();
+//---------------------------------------------------
+        bottomAppBar.setNavigationOnClickListener(v -> {
+
+            if (!navDrawer.isDrawerOpen(GravityCompat.START))
+                navDrawer.openDrawer(GravityCompat.START);
+
+            else
+                navDrawer.closeDrawer(GravityCompat.END);
+
+        });
+//---------------------------------------------------
+        // firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                username.setText(userProfile.getUserName());
+
+                reportsList.clear();
+                userList.clear();
+                phones.clear();
+                IdList.clear();
+
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String ID = userInfo.getId();
+                    String userName = userInfo.getUserName();
+                    String No = userInfo.getPhone();
+                    String allowPhoneAccess = userInfo.getAllowPhone();
+
+
+                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                        Report report = ds.getValue(Report.class);
+                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+                            reportsList.add(report);
+                            IdList.add(ID);
+                            userList.add(userName);
+                            if (allowPhoneAccess.equals("true")) {
+                                phones.add(No);
+                            } else {
+                                phones.add("0");
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+//---------------------------------------------------
+
     }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        switch (id) {
+            case R.id.nav_profile:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                break;
+            case R.id.nav_changePassword:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+                break;
+            case R.id.nav_my_report:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(getApplicationContext(), MyReport.class).putExtra("from","MapIcon"));
+                break;
+//            case R.id.nav_privacyAndSecurity:
+//                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
+//                break;
+            case R.id.nav_logout:
+                logout();
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+
+
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -266,7 +387,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initMap() {
         Log.d(TAG, "initMap: initializing map");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.MapFragment);
 
         mapFragment.getMapAsync(MapActivity.this);
     }
@@ -326,6 +447,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
            // makeText(getApplicationContext(), "no", LENGTH_LONG).show();
         }
     }
+
 
 
 }
