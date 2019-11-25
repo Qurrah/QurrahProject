@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Chat"
+        android:icon="@drawable/conversation"
+        android:title="المحادثات"
+        android:onClick="onClickChats"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/Map"
+        android:icon="@drawable/ic_map_white_35dp"
+        android:title="الخريطة"
+        app:showAsAction="ifRoom" />
+
+
+
+    <item
+        android:id="@+id/Home"
+        android:icon="@drawable/home"
+        android:title="الرئيسية"
+        app:showAsAction="ifRoom" />
+
+</menu>

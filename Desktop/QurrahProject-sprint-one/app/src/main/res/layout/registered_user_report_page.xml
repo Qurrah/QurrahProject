@@ -92,7 +92,7 @@
             android:textAlignment="viewStart"
             android:textSize="12sp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/map"
+            app:layout_constraintBottom_toTopOf="@+id/Map"
             app:layout_constraintEnd_toStartOf="@+id/imageAddress"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,7 @@
             app:layout_constraintTop_toBottomOf="@+id/reportDes" />
 
         <fragment
-            android:id="@+id/map"
+            android:id="@+id/Map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="180dp"
@@ -131,7 +131,7 @@
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/map"
+            app:layout_constraintTop_toBottomOf="@+id/Map"
             tools:ignore="MissingConstraints" />
 
         <Button

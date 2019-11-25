@@ -6,7 +6,6 @@ package com.example.qurrah.UI;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -22,11 +21,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -34,7 +31,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import static android.text.TextUtils.isEmpty;
 import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 import com.example.qurrah.Kotlin.PickLocationActivity;
 import com.example.qurrah.R;
@@ -47,7 +43,6 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,12 +51,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
-
-import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 
 public class RegisteredUserReportView extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -91,19 +83,19 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setScrollGesturesEnabled(false);
-        findViewById(R.id.map).setVisibility(View.VISIBLE);
+        findViewById(R.id.Map).setVisibility(View.VISIBLE);
 
         // Add a marker in a location.
         // and move the map's camera to the same location.
         if (latitude!=null && longitude != null && latitude.length() >0 && longitude.length() >0) {
-            findViewById(R.id.map).setVisibility(View.VISIBLE);
+            findViewById(R.id.Map).setVisibility(View.VISIBLE);
             LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
             mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
             mMap.setMinZoomPreference(15);
             mMap.setMapType(mMap.MAP_TYPE_HYBRID);
         }else {
-            findViewById(R.id.map).setVisibility(View.GONE);
+            findViewById(R.id.Map).setVisibility(View.GONE);
         }
     }
     @Override
@@ -129,7 +121,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         abar.setHomeButtonEnabled(true);
         //----------------------------------------------------------------
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.Map);
         mapFragment.getMapAsync(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -338,7 +330,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
             description.setText(desc);
             mapDescription.setText(locationDescriptionEdit.getText());
             if (!address.equals("")) {
-                findViewById(R.id.map).setVisibility(View.VISIBLE);
+                findViewById(R.id.Map).setVisibility(View.VISIBLE);
             }
             if(mapDescription.getText().toString().equals("")){
                 findViewById(R.id.imageAddress).setVisibility(View.INVISIBLE);

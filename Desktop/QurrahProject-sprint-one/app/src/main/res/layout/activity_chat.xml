@@ -2,10 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.qurrah.UI.MyReport"
     android:layout_marginBottom="20dp"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     android:layoutDirection="ltr">
 
     <RelativeLayout
@@ -42,6 +45,7 @@
             android:paddingRight="40dp"
             android:queryHint="البحث"
             android:textDirection="rtl"
+            android:clickable="true"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintVertical_bias="0.103">
 
@@ -103,11 +107,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="601dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="110dp"
             android:visibility="visible" />
-
-
     </RelativeLayout>
+
+    <include
+        android:id="@+id/bar_layout"
+        layout="@layout/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

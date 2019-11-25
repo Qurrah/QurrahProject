@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.qurrah.UI.MyReport"
-    android:layout_marginBottom="20dp"
     android:layoutDirection="ltr">
 
 
@@ -61,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
+        android:layout_marginBottom="80dp"
         android:orientation="vertical">
 
 
@@ -76,6 +76,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"/>
+
         <TextView
             android:id="@+id/noMatchReports"
             android:layout_width="fill_parent"
@@ -87,6 +88,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"/>
+
 
                 <ProgressBar
                     android:id="@+id/progressbar"
@@ -107,6 +109,11 @@
             android:clipToPadding="false">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
+
+    <include
+        layout="@layout/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

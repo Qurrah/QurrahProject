@@ -2,11 +2,9 @@ package com.example.qurrah.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 //import android.support.v7.app.AppCompatActivity;
@@ -52,7 +50,7 @@ public class FirstPage extends AppCompatActivity {
                         intent = new Intent(getApplicationContext(), MainActivity.class);
 
                     }else{
-                        intent = new Intent(getApplicationContext(), SecondActivity.class);
+                        intent = new Intent(getApplicationContext(), HomeActivity.class);
 
                     }
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
