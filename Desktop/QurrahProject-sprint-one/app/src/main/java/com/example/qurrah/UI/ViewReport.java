@@ -43,16 +43,15 @@ import com.squareup.picasso.Picasso;
 
 public class ViewReport extends AppCompatActivity implements OnMapReadyCallback {
 
-    private TextView title , description , name , yourReport, locDesLable, locDes ;
+    private TextView title , description , name , yourReport, locDesLable, locDes , rType ;
     private ImageView photo;
-    private String reporTitle , reportDescription , reportUser , reportWhatsApp  ;
+    private String reporTitle , reportDescription , reportUser , reportWhatsApp , reportType ;
     private String reportImg, UserType;
     private LinearLayout chatting , whatsapp ,map ,noMap;
     private String  userID, latitude, longitude, locationDes;
     private static final String TAG = "viewReport";
     private FloatingActionButton fab_contact, fab_whatsapp, fab_dChat;
-    private Animation fab_open, fab_close, fab_clock, fab_anticlock;
-    Boolean isOpen = true;
+    Boolean isOpen = false;
 
 
 
@@ -108,74 +107,32 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         locDes = findViewById(R.id.locationDes);
         locDesLable = findViewById(R.id.locationDesLable);
         name = findViewById(R.id.reportOwner);
+        rType = findViewById(R.id.reportType);
 
         yourReport = findViewById(R.id.yourReport);
-//        whatsapp = findViewById(R.id.whatsapp);
-//        chatting = findViewById(R.id.chatting);
         map = findViewById(R.id.mapLayout);
         noMap =findViewById(R.id.noMapLayout);
+
+
         //-----------------------------------
+
+
         // Floating buttons
 
         fab_contact = findViewById(R.id.fab);
         fab_dChat = findViewById(R.id.fab1);
         fab_whatsapp = findViewById(R.id.fab2);
 
-
-//        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-//        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-//        fab_clock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_fab_clock);
-//        fab_anticlock = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_fab_anticlock);
-
-
-
-
         fab_contact.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
-
-
-                if(isOpen){
-
-//                    fab_dChat.setVisibility(View.VISIBLE);
-//                    fab_whatsapp.setVisibility(View.VISIBLE);
-//                    fab_dChat.startAnimation(fab_open);
-//                    fab_whatsapp.startAnimation(fab_open);
-//                    fab_contact.startAnimation(fab_clock);
-
-                    fab_contact.setVisibility(View.VISIBLE);
-                    fab_dChat.setVisibility(View.VISIBLE);
-                    fab_whatsapp.setVisibility(View.VISIBLE);
-
-
-                    fab_dChat.setClickable(true);
-                    fab_whatsapp.setClickable(true);
-                    isOpen=false;
+                if (!isOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
                 }
-                else{
-
-//                    fab_dChat.setVisibility(View.INVISIBLE);
-//                    fab_whatsapp.setVisibility(View.INVISIBLE);
-//                    fab_dChat.startAnimation(fab_close);
-//                    fab_whatsapp.startAnimation(fab_close);
-//                    fab_contact.startAnimation(fab_anticlock);
-
-                    fab_contact.setVisibility(View.VISIBLE);
-                    fab_dChat.setVisibility(View.INVISIBLE);
-                    fab_whatsapp.setVisibility(View.INVISIBLE);
-
-                    fab_dChat.setClickable(false);
-                    fab_whatsapp.setClickable(false);
-                    isOpen=true;
-
-                }
-
-
             }
         });
-
-
 
 
         //-----------------------------------
@@ -193,53 +150,84 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         longitude = getIntent().getStringExtra("lon");
         locationDes = getIntent().getStringExtra("locationDescription");
         UserType = getIntent().getStringExtra("userType");
+        reportType = getIntent().getStringExtra("reportType");
+
+
         if (UserType == null || UserType.equals("none")) {
             UserType = "guest";
         } else if (UserType.equals("current")) {
-//            whatsapp.setVisibility(View.GONE);
-//            chatting.setVisibility(View.GONE);
             fab_whatsapp.setVisibility(View.GONE);
             fab_dChat.setVisibility(View.GONE);
             fab_contact.setVisibility(View.GONE);
 
             name.setText("لقد قمت بنشر هذا البلاغ");
-//            yourReport.setVisibility(View.VISIBLE);
+
         } else {
             name.setText(reportUser);
         }
 
         if (reportWhatsApp.equals("0")) {
-//            whatsapp.setVisibility(View.GONE);
             fab_whatsapp.setVisibility(View.GONE);
+            fab_dChat.setVisibility(View.GONE);
+
+            fab_contact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (UserType.equals("notCurrent")) {
+                        Intent intent = new Intent(ViewReport.this, MessageActivity.class);
+                        intent.putExtra("userid", userID);
+                        startActivity(intent);
+                    } else if (UserType.equals("guest")) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
+                        builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
+                        builder1.setCancelable(true);
+
+                        builder1.setPositiveButton(
+                                "نعم",
+                                (dialog, id) -> {
+                                    finish();
+                                    startActivity(new Intent(ViewReport.this, MainActivity.class));
+                                });
+
+                        builder1.setNegativeButton(
+                                "إلغاء الامر",
+                                (dialog, id) -> dialog.cancel());
+
+                        AlertDialog alert11 = builder1.create();
+
+                        alert11.show();
+                    }
+                }
+            });
         }
+
+
+
         Log.d(TAG, "phone: " + reportWhatsApp);
 
-        if(!(locationDes.equals(""))|| !(locationDes.equals(null))) {
+        if(!(locationDes.equals("")) && !(locationDes.equals(null))) {
             locDesLable.setVisibility(View.VISIBLE);
             locDes.setVisibility(View.VISIBLE);
             locDes.setText(locationDes);
         }
+        else if(locationDes.equals("") || locationDes.equals(null))
+            locDesLable.setVisibility(View.GONE);
+
+
+
 
 
         // set values
         Picasso.get().load(reportImg).into(photo);
         title.setText(reporTitle);
         description.setText(reportDescription);
+        rType.setText(reportType);
 
         // try to divide users
 
         fab_whatsapp.setOnClickListener(view -> {
-//            if(reportWhatsApp.equals("0")){
-//                AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
-//                builder1.setMessage("صاحب البلاغ لا يفضل التواصل عن طريق الواتساب");
-//                builder1.setCancelable(true);
-//                builder1.setPositiveButton(
-//                        "حسناً",
-//                        (dialog, id) -> dialog.cancel());
-//                AlertDialog alert11 = builder1.create();
-//                alert11.show();
-//            }
-//            else {
+
             try {
                 Uri uri = Uri.parse("smsto:" + reportWhatsApp);
                 Intent i = new Intent(Intent.ACTION_SENDTO, uri);
@@ -315,6 +303,26 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
+
+
+    // Floating buttons methods
+
+    private void showFABMenu(){
+        isOpen=true;
+        fab_dChat.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab_whatsapp.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+
+    }
+
+    private void closeFABMenu(){
+        isOpen=false;
+        fab_dChat.animate().translationY(0);
+        fab_whatsapp.animate().translationY(0);
+
+    }
+
+
 
 }
 

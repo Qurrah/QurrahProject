@@ -465,15 +465,36 @@ public class ReportActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
         report.setDate(date);
-        if (link == null) {
-            link = "https://i-love-png.com/images/no-image_7299.png";
+        if (link == null && report.getCategoryOption().equals("حيوان")) {
+            link = getURLForResource(R.drawable.pets);
         }
+
+        if (link == null && report.getCategoryOption().equals("انسان")) {
+            link = getURLForResource(R.drawable.people);
+        }
+        if (link == null && report.getCategoryOption().equals("اخرى")) {
+            link = getURLForResource(R.drawable.other);
+        }
+        if (link == null && report.getCategoryOption().equals("اجهزة")) {
+            link = getURLForResource(R.drawable.devices);
+        }
+
+
+
+
         report.setPhoto(link);
         report.setLocation(location.getEditText().getText().toString().trim());
         report.setAddress(address);
         report.setLatitude(latitude);
         report.setLongitude(longitude);
     }
+
+
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
+    }
+
 
     private void saveToDatabase(String link) {
         getValues(link);

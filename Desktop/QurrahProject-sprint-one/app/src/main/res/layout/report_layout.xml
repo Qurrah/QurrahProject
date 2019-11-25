@@ -22,7 +22,9 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary" />
+            android:background="?attr/colorPrimary"
+            app:tabIndicatorColor="@color/lightGrey"
+            />
 
 
         <SearchView
@@ -30,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tabs"
+            android:layout_marginTop="1dp"
             android:background="#F5F5F5"
             android:layoutDirection="rtl"
             android:paddingRight="40dp"
@@ -38,7 +41,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintVertical_bias="0.103"
-            android:layout_marginTop="5dp"
+
             >
         </SearchView>
 
