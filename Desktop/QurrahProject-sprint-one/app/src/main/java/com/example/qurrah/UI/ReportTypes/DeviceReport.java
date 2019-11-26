@@ -232,20 +232,27 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
                 navDrawer.closeDrawer(GravityCompat.END);
 
         });
-//---------------------------------------------------
+///---------------------------------------------------
 
         // firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        String userId = firebaseAuth.getCurrentUser().getUid();
+        try {
+            userId = firebaseAuth.getCurrentUser().getUid();
+        }catch (Exception e){
+
+        }
         databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
-                username.setText(userProfile.getUserName());
-
+                try {
+                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                    username.setText(userProfile.getUserName());
+                } catch (NullPointerException e) {
+                    System.out.println("Unregistered User, Cannot complete operation");
+                }
                 reportsList.clear();
                 userList.clear();
                 phones.clear();
@@ -283,7 +290,6 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
             }
         });
 //---------------------------------------------------
-
     }
 
     @Override

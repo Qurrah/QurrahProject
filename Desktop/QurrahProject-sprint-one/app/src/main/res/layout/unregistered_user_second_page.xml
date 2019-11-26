@@ -169,32 +169,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"></androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addReport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottomAppBar"
-        android:src="@drawable/ic_add_white_24dp"
-        app:backgroundTint="@color/lightPurple"/>
-
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
+    <include
+        android:id="@+id/bar_layout"
+        layout="@layout/bottom_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        app:backgroundTint="@color/lightGrey1"
-        app:fabAlignmentMode="center"
-        app:fabCradleRoundedCornerRadius="40dp"
-        app:fabCradleMargin="5dp"
-        app:hideOnScroll="true"
-        android:padding="15dp"
-        android:layoutDirection="rtl"
-        >
-
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
+        android:layout_height="match_parent"
+        />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
