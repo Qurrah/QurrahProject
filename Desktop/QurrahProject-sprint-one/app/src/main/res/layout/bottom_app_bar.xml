@@ -13,7 +13,7 @@
         android:src="@drawable/ic_add_white_24dp"
         app:rippleColor="@color/colorPrimaryDark"
         app:backgroundTint="@color/lightGrey"
-        android:onClick="gotToAddReport"/>
+        android:onClick="goToReportActivity"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -46,7 +46,7 @@
                 android:gravity="center"
                 android:contentDescription="المحادثات"
                 android:src="@drawable/conversation"
-                android:onClick="goToChatFragment"/>
+                android:onClick="goToChatActivity"/>
 
             <ImageButton
                 android:id="@+id/Map"

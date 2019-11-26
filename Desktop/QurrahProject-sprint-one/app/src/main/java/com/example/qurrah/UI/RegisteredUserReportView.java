@@ -4,8 +4,10 @@ package com.example.qurrah.UI;
 
 
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -21,9 +23,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -31,6 +35,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import static android.text.TextUtils.isEmpty;
 import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 import com.example.qurrah.Kotlin.PickLocationActivity;
 import com.example.qurrah.R;
@@ -43,6 +48,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,19 +57,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
+import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
+
 public class RegisteredUserReportView extends AppCompatActivity implements OnMapReadyCallback {
 
-    private TextView title, description;
+    private EditText title, description;   // changed this from textview to editable
     private ImageView photo, img;
     private String reporTitle, reportDescription;
     private String reportImg;
-    private Button update, save;
-    AlertDialog dialog;
-    EditText titleEdit, descriptionEdit, locationDescriptionEdit;
+    private Button update;
+    private TextView noLocLable;
+
+//    AlertDialog dialog;
+//    EditText titleEdit, descriptionEdit, locationDescriptionEdit;
     protected boolean flag = false, flag1= false;
     protected Uri filePath, previousImg;
     static boolean sFlag = false, textFlag = true;
@@ -75,7 +86,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     Report report;
     Editable titleText, desc;
     String address ="", address1;
-    TextView tvaddress , mapDescription;
+    TextView tvaddress , mapDescription, locDesLable;
     ImageView imageViewAddress;
     GoogleMap mMap;
 
@@ -83,21 +94,22 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setScrollGesturesEnabled(false);
-        findViewById(R.id.Map).setVisibility(View.VISIBLE);
+        findViewById(R.id.map).setVisibility(View.VISIBLE);
 
         // Add a marker in a location.
         // and move the map's camera to the same location.
         if (latitude!=null && longitude != null && latitude.length() >0 && longitude.length() >0) {
-            findViewById(R.id.Map).setVisibility(View.VISIBLE);
+            findViewById(R.id.map).setVisibility(View.VISIBLE);
             LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
             mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
             mMap.setMinZoomPreference(15);
             mMap.setMapType(mMap.MAP_TYPE_HYBRID);
         }else {
-            findViewById(R.id.Map).setVisibility(View.GONE);
+            findViewById(R.id.map).setVisibility(View.GONE);
         }
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +133,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         abar.setHomeButtonEnabled(true);
         //----------------------------------------------------------------
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.Map);
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -133,10 +145,14 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
         update = findViewById(R.id.update);
-        save = findViewById(R.id.saveChanges);
-        mapDescription = findViewById(R.id.mapdesc);
+//        save = findViewById(R.id.saveChanges);
+        locDesLable = findViewById(R.id.locationDesLable);
+        mapDescription = findViewById(R.id.locationDes);
+        noLocLable =findViewById(R.id.noLoc);
 
-       save.setVisibility(View.INVISIBLE);
+
+
+//       save.setVisibility(View.INVISIBLE);
 
 
         reporTitle = getIntent().getStringExtra("Title");
@@ -148,11 +164,21 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         address1 =  getIntent().getStringExtra("address");
 
 
-        if (getIntent().getStringExtra("locationDescription") != null){
+        if (!(getIntent().getStringExtra("locationDescription").equals(""))){
             mapDescription.setVisibility(View.VISIBLE);
-            findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
+//            findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
+            locDesLable.setVisibility(View.VISIBLE);
             mapDescription.setText(getIntent().getStringExtra("locationDescription"));
+
         }
+        else if(getIntent().getStringExtra("locationDescription").equals("")){
+            mapDescription.setVisibility(View.GONE);
+            locDesLable.setVisibility(View.GONE);
+        }
+
+        if(getIntent().getStringExtra("address") == null )
+            noLocLable.setVisibility(View.VISIBLE);
+
 
         if (report.getReportStatus().equals("مغلق"))
             update.setVisibility(View.INVISIBLE);
@@ -161,81 +187,92 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         Picasso.get().load(reportImg).into(photo);
         title.setText(reporTitle);
         description.setText(reportDescription);
-        mapDescription.setText( getIntent().getStringExtra("locationDescription"));
-
-        update.setOnClickListener(view -> ShowDialog());
+        mapDescription.setText(getIntent().getStringExtra("locationDescription"));
 
 
-        save.setOnClickListener(v -> {
-
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
-            builder1.setMessage("سوف يتم تعديل البلاغ، هل انت متأكد؟");
-            builder1.setCancelable(true);
-
-            builder1.setPositiveButton(
-                    "نعم",
-                    (dialog, id) -> {
-
-                        // dialog.cancel();
-                        date = report.getDate();
-                        des = report.getLostDescription();
 
 
-                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    Report rep = snapshot.getValue(Report.class);
 
-                                    if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
-                                        if (filePath != null) {
-                                            final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
-                                            progressDialog.setTitle("يتم الان تعديل بلاغك...");
-                                            progressDialog.show();
+//        update.setOnClickListener(view -> ShowDialog());
 
 
-                                            storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
 
-                                            storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                                saveToDatabase(uri.toString());
 
-                                                progressDialog.dismiss();
-                                            }));
 
-                                        } else {
-                                            saveToDatabase(null);
-                                        }
-                                        ref.child(snapshot.getKey()).removeValue();
+        // To save report's info
 
-                                    }
-//                                            else
-//                                                Toast.makeText(RegisteredUserReportView.this, "لم يتم حفظ البلاغ بنجاح", Toast.LENGTH_SHORT).show();
-
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-//                                Toast.makeText(RegisteredUserReportView.this, "تم حفظ بلاغك", Toast.LENGTH_SHORT).show();
-                        save.setVisibility(View.INVISIBLE);
-
-                    });
-
-            builder1.setNegativeButton(
-                    "إلغاء الامر",
-                    (dialog, id) -> dialog.cancel());
-
-            AlertDialog alert11 = builder1.create();
-
-            alert11.show();
-
-        });
+//        save.setOnClickListener(v -> {
+//
+//            AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
+//            builder1.setMessage("سوف يتم تعديل البلاغ، هل انت متأكد؟");
+//            builder1.setCancelable(true);
+//
+//            builder1.setPositiveButton(
+//                    "نعم",
+//                    (dialog, id) -> {
+//
+//                        // dialog.cancel();
+//                        date = report.getDate();
+//                        des = report.getLostDescription();
+//
+//
+//                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//
+//                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                    Report rep = snapshot.getValue(Report.class);
+//
+//                                    if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
+//                                        if (filePath != null) {
+//                                            final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
+//                                            progressDialog.setTitle("يتم الان تعديل بلاغك...");
+//                                            progressDialog.show();
+//
+//
+//                                            storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+//
+//                                            storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+//                                                saveToDatabase(uri.toString());
+//
+//                                                progressDialog.dismiss();
+//                                            }));
+//
+//                                        } else {
+//                                            saveToDatabase(null);
+//                                        }
+//                                        ref.child(snapshot.getKey()).removeValue();
+//
+//                                    }
+////                                            else
+////                                                Toast.makeText(RegisteredUserReportView.this, "لم يتم حفظ البلاغ بنجاح", Toast.LENGTH_SHORT).show();
+//
+//                                }
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
+////                                Toast.makeText(RegisteredUserReportView.this, "تم حفظ بلاغك", Toast.LENGTH_SHORT).show();
+//                        save.setVisibility(View.INVISIBLE);
+//
+//                    });
+//
+//            builder1.setNegativeButton(
+//                    "إلغاء الامر",
+//                    (dialog, id) -> dialog.cancel());
+//
+//            AlertDialog alert11 = builder1.create();
+//
+//            alert11.show();
+//
+//        });
 
     }
 
@@ -246,118 +283,118 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
 
 
-    private void ShowDialog() {
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.alert_dialog, null);
-
-        Button confirm = view.findViewById(R.id.confirm_edit);
-        Button cancel = view.findViewById(R.id.cancel_edit);
-        titleEdit = view.findViewById(R.id.title_edit);
-        descriptionEdit = view.findViewById(R.id.description_edit);
-        img = view.findViewById(R.id.img);
-        tvaddress = view.findViewById(R.id.address);
-        locationDescriptionEdit = view.findViewById(R.id.location_description_edit);
-        imageViewAddress = view.findViewById(R.id.imageAddress);
-
-        tvaddress.setText(address1);
-        locationDescriptionEdit.setText(getIntent().getStringExtra("locationDescription"));
-
-
-        if (filePath == null) {
-            Picasso.get().load(reportImg).into(img);
-        } else if (filePath != null) {
-            img.setImageURI(filePath);
-            previousImg = filePath;
-        }
-
-        if (textFlag) {
-            titleEdit.setText(reporTitle);
-            descriptionEdit.setText(reportDescription);
-
-
-        } else {
-            titleEdit.setText(title.getText());
-            descriptionEdit.setText(description.getText());
-
-        }
-
-        TextWatcher edittw = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!titleEdit.getText().toString().equals("")  && !descriptionEdit.getText().toString().equals("")) {
-                    confirm.setEnabled(true);
-                    confirm.setAlpha(1);
-
-                } else {
-                    if (titleEdit.getText().toString().equals("")){
-                        titleEdit.setError("لا يمكن ترك هذه الخانة فارغة");
-                    }else {
-                        titleEdit.setError(null);
-                    }
-                    if (descriptionEdit.getText().toString().equals("")){
-                        descriptionEdit.setError("لا يمكن ترك هذه الخانة فارغة");
-                    }else {
-                        descriptionEdit.setError(null);
-                    }
-                    confirm.setEnabled(false);
-                    confirm.setAlpha(0.6f);
-
-                }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-
-        titleEdit.addTextChangedListener(edittw);
-        descriptionEdit.addTextChangedListener(edittw);
-
-
-        confirm.setOnClickListener(view12 -> {
-            titleText = titleEdit.getText();
-            desc = descriptionEdit.getText();
-
-            title.setText(titleText);
-            description.setText(desc);
-            mapDescription.setText(locationDescriptionEdit.getText());
-            if (!address.equals("")) {
-                findViewById(R.id.Map).setVisibility(View.VISIBLE);
-            }
-            if(mapDescription.getText().toString().equals("")){
-                findViewById(R.id.imageAddress).setVisibility(View.INVISIBLE);
-            }else {
-                findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
-
-            }
-            sFlag = true;
-            photo.setImageURI(filePath);
-            previousImg = filePath;
-            dialog.cancel();
-            save.setVisibility(View.VISIBLE);
-            update.setVisibility(View.GONE);
-            textFlag = false;
-
-        });
-
-
-        cancel.setOnClickListener(view1 -> dialog.cancel());
-
-
-        dialog = new AlertDialog.Builder(this).setView(view).create();
-        dialog.show();
-    }
-    public void pickPlace(View view) {
-        startActivityForResult(new Intent(getApplicationContext(), PickLocationActivity.class), REQUEST_PLACE_PICKER_CODE);
-    }
+//    private void ShowDialog() {
+//
+//        LayoutInflater inflater = LayoutInflater.from(this);
+//        View view = inflater.inflate(R.layout.alert_dialog, null);
+//
+//        Button confirm = view.findViewById(R.id.confirm_edit);
+//        Button cancel = view.findViewById(R.id.cancel_edit);
+//        titleEdit = view.findViewById(R.id.title_edit);
+//        descriptionEdit = view.findViewById(R.id.description_edit);
+//        img = view.findViewById(R.id.img);
+//        tvaddress = view.findViewById(R.id.address);
+//        locationDescriptionEdit = view.findViewById(R.id.location_description_edit);
+//        imageViewAddress = view.findViewById(R.id.imageAddress);
+//
+//        tvaddress.setText(address1);
+//        locationDescriptionEdit.setText(getIntent().getStringExtra("locationDescription"));
+//
+//
+//        if (filePath == null) {
+//            Picasso.get().load(reportImg).into(img);
+//        } else if (filePath != null) {
+//            img.setImageURI(filePath);
+//            previousImg = filePath;
+//        }
+//
+//        if (textFlag) {
+//            titleEdit.setText(reporTitle);
+//            descriptionEdit.setText(reportDescription);
+//
+//
+//        } else {
+//            titleEdit.setText(title.getText());
+//            descriptionEdit.setText(description.getText());
+//
+//        }
+//
+//        TextWatcher edittw = new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (!titleEdit.getText().toString().equals("")  && !descriptionEdit.getText().toString().equals("")) {
+//                    confirm.setEnabled(true);
+//                    confirm.setAlpha(1);
+//
+//                } else {
+//                    if (titleEdit.getText().toString().equals("")){
+//                        titleEdit.setError("لا يمكن ترك هذه الخانة فارغة");
+//                    }else {
+//                        titleEdit.setError(null);
+//                    }
+//                    if (descriptionEdit.getText().toString().equals("")){
+//                        descriptionEdit.setError("لا يمكن ترك هذه الخانة فارغة");
+//                    }else {
+//                        descriptionEdit.setError(null);
+//                    }
+//                    confirm.setEnabled(false);
+//                    confirm.setAlpha(0.6f);
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        };
+//
+//        titleEdit.addTextChangedListener(edittw);
+//        descriptionEdit.addTextChangedListener(edittw);
+//
+//
+//        confirm.setOnClickListener(view12 -> {
+////            titleText = titleEdit.getText();
+////            desc = descriptionEdit.getText();
+////
+////            title.setText(titleText);
+////            description.setText(desc);
+//            mapDescription.setText(locationDescriptionEdit.getText());
+//            if (!address.equals("")) {
+//                findViewById(R.id.map).setVisibility(View.VISIBLE);
+//            }
+//            if(mapDescription.getText().toString().equals("")){
+//                findViewById(R.id.imageAddress).setVisibility(View.INVISIBLE);
+//            }else {
+//                findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
+//
+//            }
+//            sFlag = true;
+//            photo.setImageURI(filePath);
+//            previousImg = filePath;
+//            dialog.cancel();
+////            save.setVisibility(View.VISIBLE);
+//            update.setVisibility(View.GONE);
+//            textFlag = false;
+//
+//        });
+//
+//
+//        cancel.setOnClickListener(view1 -> dialog.cancel());
+//
+//
+//        dialog = new AlertDialog.Builder(this).setView(view).create();
+//        dialog.show();
+//    }
+//    public void pickPlace(View view) {
+//        startActivityForResult(new Intent(getApplicationContext(), PickLocationActivity.class), REQUEST_PLACE_PICKER_CODE);
+//    }
 
 
 
@@ -433,8 +470,8 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         }else
             report.setPhoto(link);
 
-        report.setLostTitle(titleText.toString());
-        report.setLostDescription(desc.toString());
+        report.setLostTitle(title.getText().toString());
+        report.setLostDescription(description.getText().toString());
         report.setAddress(address);
         report.setLatitude(latitude);
         report.setLongitude(longitude);

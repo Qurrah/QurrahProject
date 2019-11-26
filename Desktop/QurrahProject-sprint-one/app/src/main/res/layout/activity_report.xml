@@ -45,6 +45,7 @@
             android:padding="0dp"
             app:errorEnabled="true"
             android:layout_marginRight="5dp"
+            android:onClick="onClicklostTitle"
             app:errorTextAppearance="@style/error_appearance"
             android:visibility="gone"
             >
@@ -346,10 +347,11 @@
 
     </LinearLayout>
     <!--    </ScrollView>-->
-
     <include
+        android:id="@+id/bar_layout"
         layout="@layout/bottom_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

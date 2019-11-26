@@ -13,5 +13,11 @@
         <dimen name="login_layout_padding">8dp</dimen>
         <dimen name="login_layout_padding_top">36dp</dimen>
         <dimen name="login_button_margin">16dp</dimen>
+
+
+    <dimen name="standard_55">65dp</dimen>
+    <dimen name="standard_105">120dp</dimen>
+    <dimen name="standard_155">155dp</dimen>
+
     </resources>
 
