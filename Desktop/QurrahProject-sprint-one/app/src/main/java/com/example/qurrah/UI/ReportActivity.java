@@ -636,7 +636,7 @@ public class ReportActivity extends HomeActivity {
     }
 
     public void goToChatActivity(View view) {
-        if(!whereAmIRightNow.equalsIgnoreCase("First step")) {
+        if(!whereAmIRightNow.equalsIgnoreCase("First step") || (!lostTitle.getEditText().getText().toString().isEmpty() | !lostDescription.getEditText().getText().toString().isEmpty())) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
             builder1.setMessage("لن يتم حفظ التغييرات في اضافتك لبلاغ جديد، هل انت متأكد؟");
             builder1.setCancelable(true);
@@ -661,7 +661,7 @@ public class ReportActivity extends HomeActivity {
     }
 
     public void goToMapActivity(View view) {
-        if(!whereAmIRightNow.equalsIgnoreCase("First step")) {
+        if(!whereAmIRightNow.equalsIgnoreCase("First step") || (!lostTitle.getEditText().getText().toString().isEmpty() | !lostDescription.getEditText().getText().toString().isEmpty())) {
 
             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
             builder1.setMessage("لن يتم حفظ التغييرات في اضافتك لبلاغ جديد، هل انت متأكد؟");
@@ -690,7 +690,7 @@ public class ReportActivity extends HomeActivity {
 
     public void goToHomeActivity(View view) {
 
-        if(!whereAmIRightNow.equalsIgnoreCase("First step")) {
+        if(!whereAmIRightNow.equalsIgnoreCase("First step") || (!lostTitle.getEditText().getText().toString().isEmpty() | !lostDescription.getEditText().getText().toString().isEmpty())) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
             builder1.setMessage("لن يتم حفظ التغييرات في اضافتك لبلاغ جديد، هل انت متأكد؟");
             builder1.setCancelable(true);
@@ -711,7 +711,8 @@ public class ReportActivity extends HomeActivity {
 
             AlertDialog alert11 = builder1.create();
             alert11.show();
-        }else {
+        }
+        else {
             updateDataOnHomeClick();
         }
     }
