@@ -6,7 +6,8 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:id="@+id/parent"
 android:background="@mipmap/qurrah_background"
-tools:context="com.example.qurrah.UI.MainActivity">
+tools:context="com.example.qurrah.UI.ProfileActivity">
+
     <LinearLayout
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
@@ -14,138 +15,112 @@ tools:context="com.example.qurrah.UI.MainActivity">
         tools:ignore="MissingConstraints"
         android:orientation="vertical"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="90dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="60dp"
-        android:paddingTop="120dp"
-        android:paddingStart="50dp"
-        android:background="@drawable/default_frame"
-        >
+        android:layout_marginBottom="360dp"
+        android:paddingTop="100dp"
+        android:paddingLeft="30dp"
+        android:background="@drawable/default_frame">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="right"
-            android:gravity="right">
 
-            <TextView
+
+
+            <EditText
                 android:id="@+id/tvProfileName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="50dp"
-                android:text="اسم المستخدم :"
-                android:textSize="18dp" />
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:alpha="0.7"
+                android:background="@null"
+                android:enabled="false"
+                android:hint="اسم المستخدم :"
+                android:inputType="textPersonName"
+                android:textStyle="bold"
+                android:layoutDirection="rtl"
+                android:textColor="@color/black"
+                android:textDirection="rtl"
+                android:textFontWeight="3"
+                android:textSize="22dp"
+                tools:ignore="MissingConstraints" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvProfilePhone"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="50dp"
-                android:text="رقم الهاتف :"
-                android:textSize="18dp" />
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:alpha="0.7"
+                android:background="@null"
+                android:enabled="false"
+                android:hint="رقم الهاتف :"
+                android:layoutDirection="rtl"
+                android:inputType="phone"
+                android:textColor="@color/black"
+                android:textDirection="rtl"
+                android:textFontWeight="3"
+                app:layout_constraintTop_toBottomOf="@+id/tvProfileName"
+                android:textSize="18dp"
+                tools:ignore="MissingConstraints" />
 
-            <TextView
+
+            <EditText
                 android:id="@+id/tvProfileEmail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="50dp"
-                android:text="البريد الالكتروني :"
-                android:textSize="18dp" />
-        </LinearLayout>
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:alpha="0.7"
+                android:background="@null"
+                android:enabled="false"
+                android:hint="البريد الالكتروني :"
+                android:inputType="textEmailAddress"
+                app:layout_constraintTop_toBottomOf="@+id/tvProfilePhone"
+                android:layoutDirection="rtl"
+                android:textColor="@color/black"
+                android:textDirection="rtl"
+                android:textFontWeight="3"
+                android:textSize="18dp"
+                tools:ignore="MissingConstraints" />
+
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/edit_profile"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="62dp"-->
+<!--                    android:layout_gravity="start|right|top"-->
+<!--                    app:srcCompat="@drawable/edit1" />-->
+
     </LinearLayout>
-<!--    <TextView-->
-    <!--        android:id="@+id/tvProfileAge"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginBottom="8dp"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:text="Age: "-->
-    <!--        android:textSize="18dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.498"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/tvProfileName"-->
-    <!--        app:layout_constraintVertical_bias="0.095" />-->
 
-<!--    <ImageView-->
-<!--        android:id="@+id/ivProfilePic"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="200dp"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:layout_marginBottom="8dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.497"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.089"-->
-<!--        app:srcCompat="@drawable/ic_account_circle_black_24dp"-->
-<!--        tools:ignore="VectorDrawableCompat" />-->
-
-
-    <!--    <Button-->
-    <!--        android:id="@+id/btnProfileUpdate"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:layout_marginBottom="8dp"-->
-    <!--        android:text="Edit"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.498"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/tvProfileEmail"-->
-    <!--        app:layout_constraintVertical_bias="0.474" />-->
-
-    <!--    <Button-->
-    <!--        android:id="@+id/btnChangePassword"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginBottom="8dp"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:text="ChangePassword"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/btnProfileUpdate" />-->
     <LinearLayout
-
         android:id="@+id/imgLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/circle"
-        android:orientation="vertical"
         android:elevation="5dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        android:layout_marginTop="30dp"
+
         >
 
         <ImageView
             android:id="@+id/ivProfilePic"
-            android:layout_width="150dp"
-            android:layout_height="76dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="25dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toTopOf="@+id/contentLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -154,6 +129,176 @@ tools:context="com.example.qurrah.UI.MainActivity">
             app:layout_constraintVertical_bias="0.126"
             app:srcCompat="@drawable/userprofile" />
     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:paddingRight="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/contentLayout"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="43dp"
+            android:text="الإعــدادات"
+            android:textColor="@color/white"
+            android:textFontWeight="4"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"/>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="26dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/editPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+
+            android:text="تغيير كلمة المرور  "
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textFontWeight="6"
+            android:textSize="19dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toBottomOf="@+id/line1"
+            tools:layout_editor_absoluteY="638dp" />
+
+        <TextView
+            android:id="@+id/accepssibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="إمكانـية الوصـول"
+            android:textColor="@color/white"
+            android:textFontWeight="4"
+            app:layout_constraintTop_toBottomOf="@+id/editPassword"
+            android:textSize="20dp"
+            tools:ignore="MissingConstraints"/>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="wrap_content"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="26dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/accepssibility"
+            tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/phoneNumberAccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:text="السماح بالوصول للواتساب"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textFontWeight="6"
+            android:textSize="19dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/line2"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_marginRight="300dp">
+
+        <Switch
+        android:id="@+id/accessPhoneNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:checked="true"
+        android:theme="@style/CustomAppTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="585dp"
+        app:layout_constraintHorizontal_bias="0.167"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.537"
+            />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="230dp">
+
+
+
+        <ImageView
+            android:id="@+id/edit_profile"
+            android:layout_gravity="center"
+            android:src="@drawable/edit1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="20dp"/>
+
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="240dp">
+
+
+
+        <Button
+            android:id="@+id/update"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#776A77"
+            android:text="@string/edit"
+            android:textColor="#ffffff"
+            android:background="@drawable/purple_buttons"
+            tools:ignore="MissingConstraints" />
+
+
+
+
+    </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

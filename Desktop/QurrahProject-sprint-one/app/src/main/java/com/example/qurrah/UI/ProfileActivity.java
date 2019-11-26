@@ -1,12 +1,17 @@
 package com.example.qurrah.UI;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +30,14 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageView profilePic;
-    private TextView profileName, profileAge, profileEmail,profilePhone;
-    private Button profileUpdate, changePassword;
+    private EditText profileName, profileEmail,profilePhone;
+    private ImageView editProfile;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
+    private Switch allowPhoneaccess ;
+    private TextView changePassword;
+    private Button update;
+
 //    private FirebaseStorage firebaseStorage;
 
     @Override
@@ -38,11 +47,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         profilePic = findViewById(R.id.ivProfilePic);
         profileName = findViewById(R.id.tvProfileName);
-//        profileAge = findViewById(R.id.tvProfileAge);
         profileEmail = findViewById(R.id.tvProfileEmail);
         profilePhone = findViewById(R.id.tvProfilePhone);
-//        profileUpdate = findViewById(R.id.btnProfileUpdate);
-//        changePassword = findViewById(R.id.btnChangePassword);
+        allowPhoneaccess=findViewById(R.id.accessPhoneNo);
+        changePassword=findViewById(R.id.editPassword);
+        editProfile= findViewById(R.id.edit_profile);
+        update= findViewById(R.id.update);
 
     //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -81,9 +91,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
-                profilePhone.setText("رقم الجوال: " + userProfile.getPhone());
-                profileName.setText("اسم المستخدم: " + userProfile.getUserName());
-                profileEmail.setText("البريد الالكتروني: " + userProfile.getUserEmail());
+                profilePhone.setText("" + userProfile.getPhone());
+                profileName.setText("" + userProfile.getUserName());
+                profileEmail.setText("" + userProfile.getUserEmail());
+                String isChecked =userProfile.getAllowPhone();
+                allowPhoneaccess.setChecked(isChecked.equals("true"));
+
+
             }
 
             @Override
@@ -91,6 +105,46 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, databaseError.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
+        allowPhoneaccess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!allowPhoneaccess.isChecked()){
+                    databaseReference.child("allowPhone").setValue("false");
+
+                }
+                else{
+                    databaseReference.child("allowPhone").setValue("true");
+
+                }
+            }
+        });
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                editProfile.setVisibility(View.GONE);
+                update.setVisibility(View.VISIBLE);
+                profileName.setEnabled(true);
+                profileEmail.setEnabled(true);
+                profilePhone.setEnabled(true);
+
+            }
+        });
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfileActivity.this, UpdatePassword.class));
+            }
+        });
+        update.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                update.setVisibility(View.GONE);
+                editProfile.setVisibility(View.VISIBLE);
+                profileName.setEnabled(false);
+                profileEmail.setEnabled(false);
+                profilePhone.setEnabled(false);
+
+            }
+        });
+
 
 //        profileUpdate.setOnClickListener(new View.OnClickListener() {
 //            @Override

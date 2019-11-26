@@ -40,6 +40,11 @@
         <item name="colorSwitchThumbNormal">@color/darkPurple</item>
 <!--        <item name="android:colorForeground">@color/lightGrey</item>-->
     </style>
+//switch style
+    <style name="CustomAppTheme" parent="Theme.AppCompat">
+        <item name="android:textColorPrimaryDisableOnly">#57ECE9E9</item>
+        <item name="colorAccent">#fff</item>
+    </style>
 
 
 
