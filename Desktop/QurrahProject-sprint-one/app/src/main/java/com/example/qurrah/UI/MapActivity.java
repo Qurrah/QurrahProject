@@ -263,47 +263,54 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         // firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        String userId = firebaseAuth.getCurrentUser().getUid();
+        try {
+            userId = firebaseAuth.getCurrentUser().getUid();
+        }catch (Exception e){
+
+        }
         databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
-                username.setText(userProfile.getUserName());
+                try {
+                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                    username.setText(userProfile.getUserName());
 
-                reportsList.clear();
-                userList.clear();
-                phones.clear();
-                IdList.clear();
-
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
-                    String ID = userInfo.getId();
-                    String userName = userInfo.getUserName();
-                    String No = userInfo.getPhone();
-                    String allowPhoneAccess = userInfo.getAllowPhone();
+                    reportsList.clear();
+                    userList.clear();
+                    phones.clear();
+                    IdList.clear();
 
 
-                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
-                        Report report = ds.getValue(Report.class);
-                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
-                            reportsList.add(report);
-                            IdList.add(ID);
-                            userList.add(userName);
-                            if (allowPhoneAccess.equals("true")) {
-                                phones.add(No);
-                            } else {
-                                phones.add("0");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                        String ID = userInfo.getId();
+                        String userName = userInfo.getUserName();
+                        String No = userInfo.getPhone();
+                        String allowPhoneAccess = userInfo.getAllowPhone();
+
+
+                        for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                            Report report = ds.getValue(Report.class);
+                            if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+                                reportsList.add(report);
+                                IdList.add(ID);
+                                userList.add(userName);
+                                if (allowPhoneAccess.equals("true")) {
+                                    phones.add(No);
+                                } else {
+                                    phones.add("0");
+                                }
                             }
                         }
                     }
+
+
+                } catch (NullPointerException e) {
+                    System.out.println("Unregistered User, Cannot complete operation");
                 }
-
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -448,6 +455,36 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         }
     }
 
+    @Override
+    public void goToChatActivity(View view) {
+        if (userId == null) {
+            SignUpRequest(getString(R.string.ChatRequest));
+        } else {
+            updateDataOnChatClick();
+        }
+    }
 
+    @Override
+    public void goToReportActivity(View view) {
+        if (userId == null) {
+            SignUpRequest(getString(R.string.AddReportRequest));
+        } else {
+            updateDataOnAddReportClick();
+        }
+    }
 
+    @Override
+    public void goToHomeActivity(View view) {
+        super.goToHomeActivity(view);
+        updateItemColor(R.id.Home);
+        startActivity(new Intent(getApplicationContext(), UnregisteredUserSecondActivity.class));
+        finish();
+        overridePendingTransition(0, 0);
+
+    }
+
+    @Override
+    public void goToMapActivity(View view) {
+        // You are already here, do nothing.
+    }
 }

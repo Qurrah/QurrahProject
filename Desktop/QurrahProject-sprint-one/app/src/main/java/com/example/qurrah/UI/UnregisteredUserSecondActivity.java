@@ -47,11 +47,11 @@ import java.util.ArrayList;
 import static com.example.qurrah.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 
-public class UnregisteredUserSecondActivity extends AppCompatActivity implements View.OnClickListener{
+public class UnregisteredUserSecondActivity extends HomeActivity {
 
     private FirebaseAuth firebaseAuth;
     private FloatingActionButton fab;
-    CardView people_card,animal_card,device_card,other_card;
+    CardView people_card, animal_card, device_card, other_card;
     ArrayList<Report> reportsList;  // array of reports that contain a location
     ArrayList<String> userList, phones, IdList;
     DatabaseReference databaseReference;
@@ -64,11 +64,12 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unregistered_user_second_page);
         firebaseAuth = FirebaseAuth.getInstance();
+        updateItemColor(R.id.Home);
 
         reportsList = new ArrayList<>();
         userList = new ArrayList<>();
         phones = new ArrayList<>();
-        IdList=new ArrayList<>();
+        IdList = new ArrayList<>();
         showPermissionDialog();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Users");   //.child(userId);
@@ -86,10 +87,10 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                     UserProfile userInfo = snapshot.getValue(UserProfile.class);
                     String userName = userInfo.getUserName();
                     String ID = userInfo.getId();
-                    String phoneIsAllowed =userInfo.getAllowPhone();
-                    String No="0";
+                    String phoneIsAllowed = userInfo.getAllowPhone();
+                    String No = "0";
 
-                    if(phoneIsAllowed.equals("true")) {
+                    if (phoneIsAllowed.equals("true")) {
                         No = userInfo.getPhone();
                     }
 
@@ -101,9 +102,9 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                             reportsList.add(report);
                             userList.add(userName);
                             userList.add(userName);
-                            if(phoneIsAllowed.equals("true")){
+                            if (phoneIsAllowed.equals("true")) {
                                 phones.add(No);
-                            }else{
+                            } else {
                                 phones.add("0");
                             }
                             IdList.add(ID);
@@ -122,7 +123,6 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         });
 
 
-
         // cardView inputs
         people_card = findViewById(R.id.people_card);
         animal_card = findViewById(R.id.animal_card);
@@ -138,9 +138,9 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         // bottom app bar input
         bottomAppBar = findViewById(R.id.bottomAppBar);
         //setSupportActionBar(bottomAppBar);
-        bottomAppBar.replaceMenu(R.menu.bottom_app_bar_menu);
+        //     bottomAppBar.replaceMenu(R.menu.bottom_app_bar_menu);
 
-        fab =  findViewById(R.id.addReport);
+        fab = findViewById(R.id.addReport);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,18 +150,17 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         });
 
 
-
         bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int id = item.getItemId();
-                switch(id){
-                    case R.id.Map:{
-                        if(isServicesOK()){
+                switch (id) {
+                    case R.id.Map: {
+                        if (isServicesOK()) {
                             Intent intent = new Intent(UnregisteredUserSecondActivity.this, MapActivity.class);
-                            intent.putStringArrayListExtra("userList" , userList);
-                            intent.putStringArrayListExtra("IDsList" , IdList);
-                            intent.putStringArrayListExtra("phoneNumbers" , phones);
+                            intent.putStringArrayListExtra("userList", userList);
+                            intent.putStringArrayListExtra("IDsList", IdList);
+                            intent.putStringArrayListExtra("phoneNumbers", phones);
                             intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
                             startActivity(intent);
                             //             intent.putStringArrayListExtra("Lat", LatitudeList);
@@ -172,30 +171,29 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                     }
 
 
-
                 }
                 return false;
             }
         });
     }
+
     //------------------------------------------------------------------------------------------------------
     @SuppressLint("LongLogTag")
-    public boolean isServicesOK(){
+    public boolean isServicesOK() {
         Log.d(TAG, "isServicesOK: checking google services version");
 
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(UnregisteredUserSecondActivity.this);
 
-        if(available == ConnectionResult.SUCCESS){
+        if (available == ConnectionResult.SUCCESS) {
             //everything is fine and the user can make map requests
             Log.d(TAG, "isServicesOK: Google Play Services is working");
             return true;
-        }
-        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             //an error occurred but we can resolve it
             Log.d(TAG, "isServicesOK: an error occurred but we can fix it");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(UnregisteredUserSecondActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
-        }else{
+        } else {
             Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
         }
         return false;
@@ -206,7 +204,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
 
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.people_card:
                 startActivity(new Intent(this, HumanReport.class));
                 break;
@@ -219,14 +217,15 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
             case R.id.other_card:
                 startActivity(new Intent(this, OtherReport.class));
                 break;
-            default: break;
+            default:
+                break;
 
         }
 
     }
 
 
-    private void SignUpRequest(String request) {
+    protected void SignUpRequest(String request) {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(UnregisteredUserSecondActivity.this);
         builder1.setMessage(request);
@@ -266,20 +265,23 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                 finish();
                 startActivity(new Intent(UnregisteredUserSecondActivity.this, MainActivity.class));
                 break;
-            }}
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)  {
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //  Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, LocationTracking.class).putExtra("FROM_ACTIVITY", "UnregisteredUserSecondActivity" ));
+                startActivity(new Intent(this, LocationTracking.class).putExtra("FROM_ACTIVITY", "UnregisteredUserSecondActivity"));
             } else {
                 //   Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
     private void showPermissionDialog() {
         if (!LocationJobService.checkPermission(this)) {
             ActivityCompat.requestPermissions(
@@ -288,8 +290,18 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
-    public void onClickChats(MenuItem item) {
+
+    @Override
+    public void goToChatActivity(View view) {
         SignUpRequest(getString(R.string.ChatRequest));
     }
-}
 
+    @Override
+    protected void updateDataOnHomeClick() {
+        super.updateDataOnHomeClick();
+        updateItemColor(R.id.Home);
+        startActivity(getIntent());
+        finish();
+        overridePendingTransition(0, 0);
+    }
+}

@@ -74,6 +74,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     Intent intent;
     protected Menu menuBottomAppBar;
      DrawerLayout navDrawer;
+    public static String userId;
 
 
     @Override
@@ -129,51 +130,61 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        String userId = firebaseAuth.getCurrentUser().getUid();
+        try {
+             userId = firebaseAuth.getCurrentUser().getUid();
+        }catch (Exception e){
+
+        }
         databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
-                username.setText(userProfile.getUserName());
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    try {
+                        UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                        username.setText(userProfile.getUserName());
 
-                reportsList.clear();
-                userList.clear();
-                phones.clear();
-                IdList.clear();
-
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
-                    String ID = userInfo.getId();
-                    String userName = userInfo.getUserName();
-                    String No = userInfo.getPhone();
-                    String allowPhoneAccess = userInfo.getAllowPhone();
+                        reportsList.clear();
+                        userList.clear();
+                        phones.clear();
+                        IdList.clear();
 
 
-                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
-                        Report report = ds.getValue(Report.class);
-                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
-                            reportsList.add(report);
-                            IdList.add(ID);
-                            userList.add(userName);
-                            if (allowPhoneAccess.equals("true")) {
-                                phones.add(No);
-                            } else {
-                                phones.add("0");
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                            String ID = userInfo.getId();
+                            String userName = userInfo.getUserName();
+                            String No = userInfo.getPhone();
+                            String allowPhoneAccess = userInfo.getAllowPhone();
+
+
+                            for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                                Report report = ds.getValue(Report.class);
+                                if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+                                    reportsList.add(report);
+                                    IdList.add(ID);
+                                    userList.add(userName);
+                                    if (allowPhoneAccess.equals("true")) {
+                                        phones.add(No);
+                                    } else {
+                                        phones.add("0");
+                                    }
+                                }
                             }
                         }
+
+
+                    } catch (NullPointerException e) {
+                        System.out.println("Unregistered User, Cannot complete operation");
                     }
                 }
 
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
 //---------------------------------------------------
         // cardView inputs
         people_card = findViewById(R.id.people_card);
@@ -313,7 +324,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void SignUpRequest(String request) {
+    protected void SignUpRequest(String request) {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(HomeActivity.this);
         builder1.setMessage(request);
