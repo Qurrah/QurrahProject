@@ -75,12 +75,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected Menu menuBottomAppBar;
      DrawerLayout navDrawer;
     public static String userId;
+    NavigationView mNavigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homenav);
+        findViewById(R.id.Home).setEnabled(false);
+        findViewById(R.id.Home).setClickable(false);
         fab = findViewById(R.id.addReport);
         // requestLocationPermission();
         showPermissionDialog();
@@ -102,7 +105,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         IdList = new ArrayList<>();
 //---------------------------------------------------
 
-        NavigationView mNavigationView = findViewById(R.id.nav_view);
+         mNavigationView = findViewById(R.id.nav_view);
 
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);

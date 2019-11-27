@@ -82,7 +82,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         mMap = googleMap;
 
         mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setMapType(mMap.MAP_TYPE_HYBRID);
 
@@ -206,6 +206,8 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapnav);
         updateItemColor(R.id.Map);
+        findViewById(R.id.Map).setEnabled(false);
+        findViewById(R.id.Map).setClickable(false);
         reportsList = (ArrayList) getIntent().getParcelableArrayListExtra("reportsLoc");
         userList = getIntent().getStringArrayListExtra("userList");
         phones = getIntent().getStringArrayListExtra("phoneNumbers");
@@ -475,16 +477,12 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
 
     @Override
     public void goToHomeActivity(View view) {
-        super.goToHomeActivity(view);
-        updateItemColor(R.id.Home);
-        startActivity(new Intent(getApplicationContext(), UnregisteredUserSecondActivity.class));
-        finish();
-        overridePendingTransition(0, 0);
-
-    }
-
-    @Override
-    public void goToMapActivity(View view) {
-        // You are already here, do nothing.
+        if (userId == null) {
+            startActivity(new Intent(getApplicationContext(), UnregisteredUserSecondActivity.class));
+            finish();
+            overridePendingTransition(0, 0);
+        } else {
+            updateDataOnHomeClick();
+        }
     }
 }

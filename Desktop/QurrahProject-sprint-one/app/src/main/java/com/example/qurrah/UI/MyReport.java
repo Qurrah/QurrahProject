@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -58,27 +60,26 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
     MyReportAdapter adapter;
     Report report;
     TextView noReports,noMatchReports;
-
     DrawerLayout navDrawer;
-
-
+    NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_layoutnav);
 
+//
+//        if(getIntent().getStringExtra("from") != null) {
+//            if (getIntent().getStringExtra("from").equals("HomeIcon"))
+//                updateItemColor(R.id.Home);
+//            else if (getIntent().getStringExtra("from").equals("ChatIcon"))
+//                updateItemColor(R.id.Chat);
+//            else if (getIntent().getStringExtra("from").equals("MapIcon"))
+//                updateItemColor(R.id.Map);
+//            else if (getIntent().getStringExtra("from").equals("AddReportIcon"))
+//                updateItemColor(R.id.addReport);
+//        }
 
-        if(getIntent().getStringExtra("from") != null) {
-            if (getIntent().getStringExtra("from").equals("HomeIcon"))
-                updateItemColor(R.id.Home);
-            else if (getIntent().getStringExtra("from").equals("ChatIcon"))
-                updateItemColor(R.id.Chat);
-            else if (getIntent().getStringExtra("from").equals("MapIcon"))
-                updateItemColor(R.id.Map);
-            else if (getIntent().getStringExtra("from").equals("AddReportIcon"))
-                updateItemColor(R.id.addReport);
-        }
 
 //---------------------Tabs---------------------------
 
@@ -220,8 +221,8 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
 
 //---------------------------------------------------
 
-        NavigationView mNavigationView = findViewById(R.id.nav_view6);
-
+         mNavigationView = findViewById(R.id.nav_view6);
+        mNavigationView.setCheckedItem(R.id.nav_my_report);
         if (mNavigationView != null) {
             mNavigationView.setNavigationItemSelectedListener(this);
         }
@@ -339,6 +340,7 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
                 startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
                 break;
             case R.id.nav_my_report:
+
                 startActivity(new Intent(getApplicationContext(), MyReport.class));
                 break;
 //            case R.id.nav_privacyAndSecurity:

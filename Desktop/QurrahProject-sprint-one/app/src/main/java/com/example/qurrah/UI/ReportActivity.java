@@ -104,6 +104,8 @@ public class ReportActivity extends HomeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportnav);
         updateItemColor(R.id.addReport);
+        findViewById(R.id.addReport).setEnabled(false);
+        findViewById(R.id.addReport).setClickable(false);
         //---------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();
@@ -268,6 +270,7 @@ public class ReportActivity extends HomeActivity {
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
+        mNavigationView.getMenu().findItem(id).setChecked(true);
         switch (id) {
             case R.id.nav_profile:
                 navDrawer.closeDrawers();
@@ -715,11 +718,6 @@ public class ReportActivity extends HomeActivity {
         else {
             updateDataOnHomeClick();
         }
-    }
-
-    public void goToReportActivity(View view) {
-        // You are already here do nothing :)
-
     }
 
 }

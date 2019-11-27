@@ -114,7 +114,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registered_user_report_page);
-
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
         //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();

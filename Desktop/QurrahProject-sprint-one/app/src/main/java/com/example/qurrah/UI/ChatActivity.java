@@ -76,7 +76,8 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatnav);
         updateItemColor(R.id.Chat);
-
+        findViewById(R.id.Chat).setEnabled(false);
+        findViewById(R.id.Chat).setClickable(false);
         //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();
