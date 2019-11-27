@@ -17,6 +17,8 @@ public class Report implements Serializable {
     private String latitude;
     private String longitude;
     private String address;
+    private String username;
+    private String userReportID;
 
     public Report() {
         this.ReportStatus = "نشط";
@@ -35,6 +37,22 @@ public class Report implements Serializable {
         this.address = address;
         this.ReportStatus = "نشط";
 
+    }
+
+    public void setUserReportID(String id) {
+        this.userReportID = id;
+    }
+
+    public String getuserReportID() {
+        return userReportID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getLostTitle() {

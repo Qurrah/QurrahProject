@@ -47,13 +47,13 @@ import java.util.Collections;
 public class DeviceReport extends HomeActivity implements SearchView.OnQueryTextListener {
 
     DatabaseReference reference;
+    TextView noReports,noMatchReports;
     FirebaseAuth mAuth;
     String userID;
     RecyclerView recyclerView;
     ArrayList<Report> list;
     ArrayList<String> userList, phones , id;
     ReportCategoriesAdapter adapter;
-    TextView noReports,noMatchReports;
 
 
 
@@ -62,7 +62,6 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_layoutnav);
         updateItemColor(R.id.Home);
-
 
 //---------------------Tabs---------------------------
 
@@ -133,6 +132,7 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
         });
 
 
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(DeviceReport.this);
@@ -143,9 +143,10 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
         findViewById(R.id.progressbar).setVisibility(View.VISIBLE);
 
 
+
         list = new ArrayList<>();
         userList = new ArrayList<>();
-        phones= new ArrayList<>();
+        phones = new ArrayList<>();
         id= new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -168,31 +169,46 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
                         if(ds.getChildrenCount() > 0) {
                             findViewById(R.id.progressbar).setVisibility(View.GONE);
 
+
                         }
 
                         Report report = ds.getValue(Report.class);
                         if (report.getCategoryOption().equals(getString(R.string.devices)) && report.getReportStatus().equals("نشط")) {
+                            report.setUsername(userName);
                             list.add(report);
-                            sortByDate(list);
-                            userList.add(userName);
-//                            userList.add(userName);
+
                             if(allowPhoneAccess.equals("true")){
                                 phones.add(No);
                             }else{
                                 phones.add("0");
                             }
-                            id.add(Id);
+                            report.setUserReportID(Id);
 
                         }
+
                     }
+
                 }
+
+                sortByDate(list);
+
+                for (Report rep: list){
+                    System.out.println("here   " +
+                            rep.getUsername());
+                    userList.add(rep.getUsername());
+                    id.add(rep.getuserReportID());
+                }
+
                 adapter = new ReportCategoriesAdapter(DeviceReport.this, list, userList, phones,id);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
 
+
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
                 }
+
+
             }
 
             @Override
@@ -232,64 +248,65 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
                 navDrawer.closeDrawer(GravityCompat.END);
 
         });
-///---------------------------------------------------
+////---------------------------------------------------
+//
+//        // firebase
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//        try {
+//            userId = firebaseAuth.getCurrentUser().getUid();
+//        }catch (Exception e){
+//
+//        }
+//        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+//
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                try {
+//                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+//                    username.setText(userProfile.getUserName());
+//                } catch (NullPointerException e) {
+//                    System.out.println("Unregistered User, Cannot complete operation");
+//                }
+//                reportsList.clear();
+//                userList.clear();
+//                phones.clear();
+//                IdList.clear();
+//
+//
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+//                    String ID = userInfo.getId();
+//                    String userName = userInfo.getUserName();
+//                    String No = userInfo.getPhone();
+//                    String allowPhoneAccess = userInfo.getAllowPhone();
+//
+//
+//                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+//                        Report report = ds.getValue(Report.class);
+//                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+//                            reportsList.add(report);
+//                            IdList.add(ID);
+//                            userList.add(userName);
+//                            if (allowPhoneAccess.equals("true")) {
+//                                phones.add(No);
+//                            } else {
+//                                phones.add("0");
+//                            }
+//                        }
+//                    }
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+////---------------------------------------------------
 
-        // firebase
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        try {
-            userId = firebaseAuth.getCurrentUser().getUid();
-        }catch (Exception e){
-
-        }
-        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
-                    username.setText(userProfile.getUserName());
-                } catch (NullPointerException e) {
-                    System.out.println("Unregistered User, Cannot complete operation");
-                }
-                reportsList.clear();
-                userList.clear();
-                phones.clear();
-                IdList.clear();
-
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
-                    String ID = userInfo.getId();
-                    String userName = userInfo.getUserName();
-                    String No = userInfo.getPhone();
-                    String allowPhoneAccess = userInfo.getAllowPhone();
-
-
-                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
-                        Report report = ds.getValue(Report.class);
-                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
-                            reportsList.add(report);
-                            IdList.add(ID);
-                            userList.add(userName);
-                            if (allowPhoneAccess.equals("true")) {
-                                phones.add(No);
-                            } else {
-                                phones.add("0");
-                            }
-                        }
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-//---------------------------------------------------
     }
 
     @Override
@@ -324,7 +341,6 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
         SearchView searchView = findViewById(R.id.action_search);
         searchView.setOnQueryTextListener(this);
         searchView.setMaxWidth(Integer.MAX_VALUE);
-
         return true;
     }
 
@@ -338,6 +354,7 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
         String userInput = newText.toLowerCase();
         ArrayList<Report> newList = new ArrayList<>();
         findViewById(R.id.noMatchReports).setVisibility(View.GONE);
+
         for(Report rep: list){
             if(rep.getLostTitle().toLowerCase().contains(userInput))
                 newList.add(rep);}
@@ -349,45 +366,47 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
 
         return false;
     }
-//----------------------------------------------------------
-public void SecondFilter(String flag){
-    ArrayList<Report> newList = new ArrayList<>();
+    //----------------------------------------------------------
+    public void SecondFilter(String flag){
+        ArrayList<Report> newList = new ArrayList<>();
 
-    switch(flag){
-        case "all":
-            for(Report rep: list)
-                newList.add(rep);
-            break;
-        case"missing":
-            for(Report rep: list){
-                if(rep.getReportTypeOption().equals("فاقد")){
+        switch(flag){
+            case "all":
+                for(Report rep: list)
                     newList.add(rep);
+                break;
+            case"missing":
+                for(Report rep: list){
+                    if(rep.getReportTypeOption().equals("فاقد")){
+                        newList.add(rep);
 
+                    }
                 }
-            }
-            break;
-        case"finding":
-            for(Report rep: list){
-                if(rep.getReportTypeOption().equals("معثور عليه")){
-                    newList.add(rep);
+                break;
+            case"finding":
+                for(Report rep: list){
+                    if(rep.getReportTypeOption().equals("معثور عليه")){
+                        newList.add(rep);
 
+                    }
                 }
-            }
-            break;
-    }
-    if(newList.isEmpty()){
-        findViewById(R.id.noReports).setVisibility(View.VISIBLE);
+                break;
+        }
 
-    }else{
-        findViewById(R.id.noReports).setVisibility(View.GONE);
-    }
-    adapter.updateList(newList);
-    recyclerView.scrollToPosition(adapter.getItemCount()-1);
+        if(newList.isEmpty()){
+            findViewById(R.id.noReports).setVisibility(View.VISIBLE);
 
-}
+        }else{
+            findViewById(R.id.noReports).setVisibility(View.GONE);
+        }
+
+        adapter.updateList(newList);
+        recyclerView.scrollToPosition(adapter.getItemCount()-1);
+
+    }
 //----------------------------------------------------------
 
-// ------------------Tabs------------------------
+    // ------------------Tabs------------------------
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Found_reports(), "المعثورات");
@@ -395,6 +414,8 @@ public void SecondFilter(String flag){
         adapter.addFragment(new All_Reports(), "الكل");
         viewPager.setAdapter(adapter);
     }
+
+
     public void sortByDate(ArrayList<Report> list){
         Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
     }

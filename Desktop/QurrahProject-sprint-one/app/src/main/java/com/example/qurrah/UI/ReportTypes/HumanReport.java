@@ -174,24 +174,30 @@ public class HumanReport extends HomeActivity implements SearchView.OnQueryTextL
 
                         Report report = ds.getValue(Report.class);
                         if (report.getCategoryOption().equals(getString(R.string.human)) && report.getReportStatus().equals("نشط")) {
+                            report.setUsername(userName);
                             list.add(report);
-                            sortByDate(list);
-                            userList.add(userName);
-//                            userList.add(userName);
+
                             if(allowPhoneAccess.equals("true")){
                                 phones.add(No);
                             }else{
                                 phones.add("0");
                             }
-                            id.add(Id);
+                        report.setUserReportID(Id);
 
                         }
+
                     }
+
                 }
 
+                sortByDate(list);
 
-
-
+                for (Report rep: list){
+                    System.out.println("here   " +
+                            rep.getUsername());
+                    userList.add(rep.getUsername());
+                    id.add(rep.getuserReportID());
+                }
 
                 adapter = new ReportCategoriesAdapter(HumanReport.this, list, userList, phones,id);
                 recyclerView.setAdapter(adapter);
@@ -200,7 +206,6 @@ public class HumanReport extends HomeActivity implements SearchView.OnQueryTextL
 
                 if(list.isEmpty()){
                     findViewById(R.id.noReports).setVisibility(View.VISIBLE);
-
                 }
 
 
@@ -243,64 +248,64 @@ public class HumanReport extends HomeActivity implements SearchView.OnQueryTextL
                 navDrawer.closeDrawer(GravityCompat.END);
 
         });
-//---------------------------------------------------
-
-        // firebase
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        try {
-            userId = firebaseAuth.getCurrentUser().getUid();
-        }catch (Exception e){
-
-        }
-        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
-                    username.setText(userProfile.getUserName());
-                } catch (NullPointerException e) {
-                    System.out.println("Unregistered User, Cannot complete operation");
-                }
-                reportsList.clear();
-                userList.clear();
-                phones.clear();
-                IdList.clear();
-
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
-                    String ID = userInfo.getId();
-                    String userName = userInfo.getUserName();
-                    String No = userInfo.getPhone();
-                    String allowPhoneAccess = userInfo.getAllowPhone();
-
-
-                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
-                        Report report = ds.getValue(Report.class);
-                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
-                            reportsList.add(report);
-                            IdList.add(ID);
-                            userList.add(userName);
-                            if (allowPhoneAccess.equals("true")) {
-                                phones.add(No);
-                            } else {
-                                phones.add("0");
-                            }
-                        }
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-//---------------------------------------------------
+////---------------------------------------------------
+//
+//        // firebase
+//        firebaseAuth = FirebaseAuth.getInstance();
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//        try {
+//            userId = firebaseAuth.getCurrentUser().getUid();
+//        }catch (Exception e){
+//
+//        }
+//        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+//
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                try {
+//                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+//                    username.setText(userProfile.getUserName());
+//                } catch (NullPointerException e) {
+//                    System.out.println("Unregistered User, Cannot complete operation");
+//                }
+//                reportsList.clear();
+//                userList.clear();
+//                phones.clear();
+//                IdList.clear();
+//
+//
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+//                    String ID = userInfo.getId();
+//                    String userName = userInfo.getUserName();
+//                    String No = userInfo.getPhone();
+//                    String allowPhoneAccess = userInfo.getAllowPhone();
+//
+//
+//                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+//                        Report report = ds.getValue(Report.class);
+//                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+//                            reportsList.add(report);
+//                            IdList.add(ID);
+//                            userList.add(userName);
+//                            if (allowPhoneAccess.equals("true")) {
+//                                phones.add(No);
+//                            } else {
+//                                phones.add("0");
+//                            }
+//                        }
+//                    }
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+////---------------------------------------------------
 
     }
 
@@ -412,7 +417,7 @@ public void SecondFilter(String flag){
 
 
     public void sortByDate(ArrayList<Report> list){
-        Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+       Collections.sort(list, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
     }
 
 }
