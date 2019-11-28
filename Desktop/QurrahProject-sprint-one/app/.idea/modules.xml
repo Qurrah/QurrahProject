@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../Qurrah.iml" filepath="$PROJECT_DIR$/../Qurrah.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../QurrahProject-sprint-one-QurrahTest.iml" filepath="$PROJECT_DIR$/../QurrahProject-sprint-one-QurrahTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/../QurrahTest.iml" filepath="$PROJECT_DIR$/../QurrahTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
     </modules>

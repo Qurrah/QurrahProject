@@ -294,6 +294,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 navDrawer.closeDrawers();
                 startActivity(new Intent(this, MyReport.class).putExtra("from", "HomeIcon"));
                 break;
+            case R.id.nav_help:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(this, helpActivity.class));
+                break;
 //            case R.id.nav_privacyAndSecurity:
 //                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
 //                break;

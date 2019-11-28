@@ -47,10 +47,6 @@ public class customWindowInfo implements GoogleMap.InfoWindowAdapter {
             else if (infoWindowData.getCatogery().equals( "اخرى")){
                 img.setImageResource(R.drawable.other);}}
         else{
-          //  img.setImageResource(R.drawable.logo);
-//            int imageId = context.getResources().getIdentifier(infoWindowData.getImg(),
-//           "drawable", context.getPackageName());
-//        img.setImageResource(imageId);
             Picasso.get().load(infoWindowData.getImg()).into(img);
         }
         title.setText(infoWindowData.getTitle());

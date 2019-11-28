@@ -178,11 +178,12 @@
 
         <Button
             android:id="@+id/classificationNext"
-            android:layout_width="217dp"
+            android:layout_width="180dp"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/roundedbutton"
+            android:background="@drawable/purple_buttons"
             android:onClick="classificationNext"
             android:textColor="@color/white"
             android:text="@string/next"
@@ -295,11 +296,13 @@
 
             <Button
                 android:id="@+id/BackToLostInfo"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="150dp"
                 android:layout_gravity="right"
+                android:background="@drawable/gray_buttons"
                 android:backgroundTint="#CCC4C4"
                 android:textColor="#ffffff"
                 android:visibility="gone"
@@ -308,9 +311,11 @@
                 android:text="@string/back"/>
             <Button
                 android:id="@+id/BackToClassification"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/gray_buttons"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="#CCC4C4"
                 android:textColor="#ffffff"
@@ -320,10 +325,11 @@
                 android:text="@string/back"/>
             <Button
                 android:id="@+id/LostInfoNext"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/roundedbutton"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/purple_buttons"
                 android:visibility="gone"
                 tools:ignore="ButtonStyle"
                 android:onClick="LostInfoNextValidate"
@@ -332,10 +338,11 @@
 
             <Button
                 android:id="@+id/LocationPhotoSubmit"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/roundedbutton"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/purple_buttons"
                 android:visibility="gone"
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle"

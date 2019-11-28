@@ -84,7 +84,6 @@ public class ReportActivity extends HomeActivity {
     String address;
     TextView tvaddress;
     ImageView imageViewAddress;
-    String whereAmIRightNow = "First step";
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
@@ -104,8 +103,6 @@ public class ReportActivity extends HomeActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportnav);
         updateItemColor(R.id.addReport);
-        findViewById(R.id.addReport).setEnabled(false);
-        findViewById(R.id.addReport).setClickable(false);
         //---------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         final ActionBar abar = getSupportActionBar();
@@ -146,7 +143,6 @@ public class ReportActivity extends HomeActivity {
         report = new Report();
 
         lostTitle.getEditText().addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -159,7 +155,6 @@ public class ReportActivity extends HomeActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                findViewById(R.id.bar_layout).setVisibility(View.VISIBLE);
                 lostTitleInput = lostTitle.getEditText().getText().toString().trim();
                 validateLostTitle();
             }
@@ -167,7 +162,6 @@ public class ReportActivity extends HomeActivity {
         lostDescription.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                findViewById(R.id.bar_layout).setVisibility(View.GONE);
 
             }
 
@@ -178,7 +172,6 @@ public class ReportActivity extends HomeActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                findViewById(R.id.bar_layout).setVisibility(View.VISIBLE);
                 lostDescriptionInput = lostDescription.getEditText().getText().toString().trim();
                 validateLostDescription();
             }
@@ -270,11 +263,14 @@ public class ReportActivity extends HomeActivity {
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-        mNavigationView.getMenu().findItem(id).setChecked(true);
         switch (id) {
             case R.id.nav_profile:
                 navDrawer.closeDrawers();
                 startActivity(new Intent(ReportActivity.this, ProfileActivity.class));
+                break;
+            case R.id.nav_help:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(ReportActivity.this, helpActivity.class));
                 break;
 //            case R.id.nav_changePassword:
 //                navDrawer.closeDrawers();
@@ -329,10 +325,37 @@ public class ReportActivity extends HomeActivity {
 
     public void upload_img(View view) {
 
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 100);
+        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(ReportActivity.this);
+        myAlertDialog.setTitle("اختار صورة");
+        myAlertDialog.setMessage("اختار صورة من الاستديو الخاص بك او الكاميرا");
+
+        myAlertDialog.setPositiveButton("الاستديو",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto , 100);
+                    }
+                });
+
+        myAlertDialog.setNegativeButton ("الكاميرا",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(takePicture, 100);//zero can be replaced with any action code
+
+                    }
+                });
+        myAlertDialog.setNeutralButton ("الغاء", null);
+
+        myAlertDialog.show();
+
+
     }
+
+
 
 
     @Override
@@ -464,7 +487,6 @@ public class ReportActivity extends HomeActivity {
 
 
     public void LostInfoNextValidate(View view) {
-        whereAmIRightNow = "Third step";
         if (!validateLostTitle() | !validateLostDescription()) {
             return;
         }
@@ -475,7 +497,6 @@ public class ReportActivity extends HomeActivity {
 
     }
     public void  classificationNext(View view){
-        whereAmIRightNow = "Second step";
         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
         showLostInfo();
         hideClassificationInfo();
@@ -484,7 +505,6 @@ public class ReportActivity extends HomeActivity {
 
 
     public void backToLostInfo(View view) {
-        whereAmIRightNow = "Second step";
         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
         hidePhotoAndLocationInfo();
         hideClassificationInfo();
@@ -492,7 +512,6 @@ public class ReportActivity extends HomeActivity {
 
     }
     public void backToClassification(View view) {
-        whereAmIRightNow = "First step";
         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
         hidePhotoAndLocationInfo();
         hideLostInfo();
@@ -598,23 +617,9 @@ public class ReportActivity extends HomeActivity {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
         report.setDate(date);
-        if (link == null && report.getCategoryOption().equals("حيوان")) {
-            link = getURLForResource(R.drawable.pets);
+        if (link == null) {
+            link = "https://i-love-png.com/images/no-image_7299.png";
         }
-
-        if (link == null && report.getCategoryOption().equals("انسان")) {
-            link = getURLForResource(R.drawable.people);
-        }
-        if (link == null && report.getCategoryOption().equals("اخرى")) {
-            link = getURLForResource(R.drawable.other);
-        }
-        if (link == null && report.getCategoryOption().equals("اجهزة")) {
-            link = getURLForResource(R.drawable.devices);
-        }
-
-
-
-
         report.setPhoto(link);
         report.setLocation(location.getEditText().getText().toString().trim());
         report.setAddress(address);
@@ -622,102 +627,13 @@ public class ReportActivity extends HomeActivity {
         report.setLongitude(longitude);
     }
 
-
-    public String getURLForResource (int resourceId) {
-        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
-        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
-    }
-
-
     private void saveToDatabase(String link) {
         getValues(link);
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم ارسال بلاغك", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ReportActivity.this, HomeActivity.class);
         startActivity(intent);
-        finish();
     }
 
-    public void goToChatActivity(View view) {
-        if(!whereAmIRightNow.equalsIgnoreCase("First step") || (!lostTitle.getEditText().getText().toString().isEmpty() | !lostDescription.getEditText().getText().toString().isEmpty())) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
-            builder1.setMessage("لن يتم حفظ التغييرات في اضافتك لبلاغ جديد، هل انت متأكد؟");
-            builder1.setCancelable(true);
-
-            builder1.setPositiveButton(
-
-                    "نعم",
-                    (dialog, id) -> updateDataOnChatClick());
-
-            builder1.setNegativeButton(
-                    "إلغاء الامر",
-                    (dialog, id) -> {
-                        dialog.cancel();
-                    }
-            );
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-        }else{
-            updateDataOnChatClick();
-        }
-    }
-
-    public void goToMapActivity(View view) {
-        if(!whereAmIRightNow.equalsIgnoreCase("First step") || (!lostTitle.getEditText().getText().toString().isEmpty() | !lostDescription.getEditText().getText().toString().isEmpty())) {
-
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
-            builder1.setMessage("لن يتم حفظ التغييرات في اضافتك لبلاغ جديد، هل انت متأكد؟");
-            builder1.setCancelable(true);
-
-            builder1.setPositiveButton(
-
-                    "نعم",
-                    (dialog, id) -> {
-                        updateDataOnMapClick();
-                    });
-
-            builder1.setNegativeButton(
-                    "إلغاء الامر",
-                    (dialog, id) -> {
-                        dialog.cancel();
-                    }
-            );
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-        }else {
-            updateDataOnMapClick();
-        }
-    }
-
-    public void goToHomeActivity(View view) {
-
-        if(!whereAmIRightNow.equalsIgnoreCase("First step") || (!lostTitle.getEditText().getText().toString().isEmpty() | !lostDescription.getEditText().getText().toString().isEmpty())) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(ReportActivity.this);
-            builder1.setMessage("لن يتم حفظ التغييرات في اضافتك لبلاغ جديد، هل انت متأكد؟");
-            builder1.setCancelable(true);
-
-            builder1.setPositiveButton(
-
-                    "نعم",
-                    (dialog, id) -> {
-                        updateDataOnHomeClick();
-                    });
-
-            builder1.setNegativeButton(
-                    "إلغاء الامر",
-                    (dialog, id) -> {
-                        dialog.cancel();
-                    }
-            );
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-        }
-        else {
-            updateDataOnHomeClick();
-        }
-    }
 
 }

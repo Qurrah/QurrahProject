@@ -4,7 +4,7 @@
     <string name="classification">التصنيف</string>
     <string name="sender_info">معلومات البلاغ</string>
     <string name="location_photo">الموقع والصورة</string>
-    <string name="lost_title">العنوان</string>
+    <string name="lost_title">عنوان البلاغ</string>
     <string name="lost_description">الوصف</string>
     <string name="human">انسان</string>
     <string name="animal">حيوان</string>

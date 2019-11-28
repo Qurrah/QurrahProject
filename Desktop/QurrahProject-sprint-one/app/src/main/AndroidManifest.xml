@@ -37,6 +37,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
+
         <activity android:name=".UI.BottomAppBarHandlerActivity"
             android:theme="@style/AppTheme">
 
@@ -175,8 +176,17 @@
             android:label="خريطة البلاغات"
             android:launchMode="singleTask"/>
 
+        <activity
+            android:name=".UI.helpActivity"
+            android:label="الدعم"
+            android:parentActivityName=".UI.HomeActivity" />
+
         <activity android:name=".LocationTrackingServices.LocationTracking" />
-        <activity android:name=".UI.terms" />
+
+        <activity android:name=".UI.terms"
+            android:parentActivityName=".UI.RegistrationActivity"
+            android:screenOrientation="portrait"
+            android:label="الشروط والأحكام"/>
 
         <service
             android:name=".FirebaseNotifications.MyFirebaseIdService"
