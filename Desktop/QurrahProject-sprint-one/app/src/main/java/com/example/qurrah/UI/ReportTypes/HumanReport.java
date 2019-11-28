@@ -316,9 +316,9 @@ public class HumanReport extends HomeActivity implements SearchView.OnQueryTextL
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-            case R.id.nav_changePassword:
-                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
-                break;
+//            case R.id.nav_changePassword:
+//                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+//                break;
             case R.id.nav_my_report:
                 startActivity(new Intent(this, MyReport.class).putExtra("from", "HomeIcon"));
                 break;

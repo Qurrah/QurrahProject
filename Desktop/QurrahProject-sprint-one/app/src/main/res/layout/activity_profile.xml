@@ -35,7 +35,7 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
                 android:alpha="0.7"
                 android:background="@null"
                 android:enabled="false"
-                android:hint="اسم المستخدم :"
+                android:hint="اسم المستخدم"
                 android:inputType="textPersonName"
                 android:textStyle="bold"
                 android:layoutDirection="rtl"
@@ -55,7 +55,7 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
                 android:alpha="0.7"
                 android:background="@null"
                 android:enabled="false"
-                android:hint="رقم الهاتف :"
+                android:hint="رقم الهاتف"
                 android:layoutDirection="rtl"
                 android:inputType="phone"
                 android:textColor="@color/black"
@@ -76,7 +76,7 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
                 android:alpha="0.7"
                 android:background="@null"
                 android:enabled="false"
-                android:hint="البريد الالكتروني :"
+                android:hint="البريد الالكتروني"
                 android:inputType="textEmailAddress"
                 app:layout_constraintTop_toBottomOf="@+id/tvProfilePhone"
                 android:layoutDirection="rtl"
@@ -112,7 +112,23 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
 
         >
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/ivProfilePic"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:layout_marginStart="25dp"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="25dp"-->
+<!--            android:layout_marginEnd="25dp"-->
+<!--            android:layout_marginBottom="25dp"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/contentLayout"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.497"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.126"-->
+<!--            app:srcCompat="@drawable/userprofile" />-->
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProfilePic"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -127,8 +143,12 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.126"
-            app:srcCompat="@drawable/userprofile" />
-    </LinearLayout>
+            app:srcCompat="@drawable/userprofile">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+
+</LinearLayout>
 
 
     <LinearLayout
@@ -277,17 +297,17 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
         tools:ignore="MissingConstraints"
         android:orientation="vertical"
         android:layout_marginTop="100dp"
-        android:layout_marginLeft="240dp">
+        android:layout_marginLeft="280dp">
 
 
 
         <Button
             android:id="@+id/update"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:visibility="gone"
             android:layout_marginTop="5dp"
+            android:visibility="gone"
             android:backgroundTint="#776A77"
             android:text="@string/edit"
             android:textColor="#ffffff"
@@ -298,7 +318,69 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
 
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="240dp">
 
+
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cancel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/cancel">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        android:elevation="6dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="130dp">
+
+
+
+<!--        <Button-->
+<!--            android:id="@+id/plus"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:visibility="visible"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:backgroundTint="#776A77"-->
+<!--            android:text="+"-->
+<!--            android:textColor="#ffffff"-->
+<!--            android:background="@drawable/purple_buttons"-->
+<!--            tools:ignore="MissingConstraints" />-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_plus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_plus">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -121,7 +121,7 @@
             android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.ProfileActivity"
-            android:label="الملف الشخصي"
+            android:label="حسابي"
             android:parentActivityName=".UI.HomeActivity"
             android:windowSoftInputMode="adjustNothing"/>
         <activity
@@ -142,7 +142,7 @@
         <activity
             android:name=".UI.UpdatePassword"
             android:label="تغيير كلمة المرور"
-            android:parentActivityName=".UI.HomeActivity"
+            android:parentActivityName=".UI.ProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"/>
         <activity

@@ -267,10 +267,10 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
                 navDrawer.closeDrawers();
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-            case R.id.nav_changePassword:
-                navDrawer.closeDrawers();
-                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
-                break;
+//            case R.id.nav_changePassword:
+//                navDrawer.closeDrawers();
+//                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+//                break;
             case R.id.nav_my_report:
                 navDrawer.closeDrawers();
                 startActivity(new Intent(getApplicationContext(), MyReport.class).putExtra("from", "ChatIcon"));

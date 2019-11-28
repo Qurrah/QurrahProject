@@ -1,9 +1,15 @@
 package com.example.qurrah.UI;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
+import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,44 +21,67 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ImageView profilePic;
+    private CircleImageView  profilePic;
     private EditText profileName, profileEmail,profilePhone;
-    private ImageView editProfile;
+    private ImageView editProfile ,addImg ,cancel;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
+    private FirebaseUser firebaseUser;
     private Switch allowPhoneaccess ;
     private TextView changePassword;
     private Button update;
-
-//    private FirebaseStorage firebaseStorage;
+    FirebaseStorage storage;
+    static boolean sFlag = false;
+    protected boolean flag = false;
+    protected Uri filePath;
+    private String email, name, phoneNumber;
+    private String Lemail, Lname, LphoneNumber;
+    StorageReference storageReference, storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        profilePic = findViewById(R.id.ivProfilePic);
+        profilePic =  (CircleImageView) findViewById(R.id.ivProfilePic);
+        addImg =  (CircleImageView) findViewById(R.id.img_plus);
         profileName = findViewById(R.id.tvProfileName);
         profileEmail = findViewById(R.id.tvProfileEmail);
         profilePhone = findViewById(R.id.tvProfilePhone);
         allowPhoneaccess=findViewById(R.id.accessPhoneNo);
         changePassword=findViewById(R.id.editPassword);
         editProfile= findViewById(R.id.edit_profile);
-        update= findViewById(R.id.update);
+        update=  findViewById(R.id.update);
+        cancel = (CircleImageView) findViewById(R.id.cancel);
+
 
     //----------------------------------------------------------------
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -63,7 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER);
         TextView textviewTitle = viewActionBar.findViewById(R.id.actionbar_textview);
-        textviewTitle.setText("الملف الشخصي");
+        textviewTitle.setText("حسابي");
         abar.setCustomView(viewActionBar, params);
         abar.setDisplayShowCustomEnabled(true);
         abar.setDisplayShowTitleEnabled(false);
@@ -74,8 +103,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-//        firebaseStorage = FirebaseStorage.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
         String userId=firebaseAuth.getCurrentUser().getUid();
+
+        firebaseUser = firebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
 
@@ -91,9 +123,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
-                profilePhone.setText("" + userProfile.getPhone());
-                profileName.setText("" + userProfile.getUserName());
-                profileEmail.setText("" + userProfile.getUserEmail());
+                profilePhone.setText(userProfile.getPhone());
+                LphoneNumber=userProfile.getPhone();
+                profileName.setText(userProfile.getUserName());
+                Lname=userProfile.getUserName();
+                profileEmail.setText(userProfile.getUserEmail());
+                Lemail=userProfile.getUserEmail();
+                if(!userProfile.getImageURL().equals("default"))
+                    Picasso.get().load(userProfile.getImageURL()).into(profilePic);
                 String isChecked =userProfile.getAllowPhone();
                 allowPhoneaccess.setChecked(isChecked.equals("true"));
 
@@ -121,10 +158,108 @@ public class ProfileActivity extends AppCompatActivity {
         editProfile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 editProfile.setVisibility(View.GONE);
+                addImg.setVisibility(View.VISIBLE);
                 update.setVisibility(View.VISIBLE);
+                cancel.setVisibility(View.VISIBLE);
                 profileName.setEnabled(true);
                 profileEmail.setEnabled(true);
                 profilePhone.setEnabled(true);
+                name = profileName.getText().toString();
+                profileName.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        name = profileName.getText().toString().trim();
+                        if(name.length()>=3)
+                            validateName();
+                        validateName();
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        name = profileName.getText().toString().trim();
+                        if (validateN()){
+
+                            update.setEnabled(true);
+                            update.setAlpha(1f);
+                        }else {
+                            update.setEnabled(false);
+                            update.setAlpha(0.6f);
+                        }
+
+                        if(name.length()>=3)
+                            validateName();
+                        validateName();
+
+                    }
+                });
+                email = profileEmail.getText().toString().trim();
+                profileEmail.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        email = profileEmail.getText().toString().trim();
+                        if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                            validateEmail();}
+                        validateEmail();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        email = profileEmail.getText().toString().trim();
+                        if (validateN()){
+                            update.setEnabled(true);
+                            update.setAlpha(1f);
+                        }else {
+                            update.setEnabled(false);
+                            update.setAlpha(0.6f);
+                        }
+                        if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                            validateEmail();}
+                        validateEmail();
+                    }
+                });
+                phoneNumber = profilePhone.getText().toString().trim();
+                profilePhone.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        phoneNumber = profilePhone.getText().toString().trim();
+                        if (phoneNumber.length() == 13 && phoneNumber.indexOf(0)== '+')
+                            validatePhone();
+                        validatePhone();
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        phoneNumber = profilePhone.getText().toString().trim();
+                        if (validateN()){
+                            update.setEnabled(true);
+                            update.setAlpha(1f);
+                        }else {
+                            update.setEnabled(false);
+                            update.setAlpha(0.6f);
+                        }
+
+                        if (phoneNumber.length() != 13 || phoneNumber.charAt(0)!= '+' || phoneNumber.charAt(1)!='9'|| phoneNumber.charAt(2)!='6'|| phoneNumber.charAt(3)!='6'|| phoneNumber.charAt(4)!='5')
+                            validatePhone();
+                        validatePhone();
+
+                    }
+                });
 
             }
         });
@@ -136,31 +271,126 @@ public class ProfileActivity extends AppCompatActivity {
         });
         update.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
+
+                validateName();
+                validateEmail();
+                validatePhone();
+
+                // will remove recalling methods
+                if(validateName()&& validateEmail()&& validatePhone()) {
+                    if(!Lemail.equals(email)){
+                        firebaseUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(ProfileActivity.this, "تم تغيير البريد الالكتروني بنجاح ", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }else{
+                                    Toast.makeText(ProfileActivity.this, "فشلت عملية تغيير البريد الالكتروني", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        databaseReference.child("userEmail").setValue(email);
+
+                    }
+                    if(!Lname.equals(name))
+                        databaseReference.child("userName").setValue(name);
+
+                    if(!LphoneNumber.equals(phoneNumber))
+                        databaseReference.child("phone").setValue(phoneNumber);
+
+                    if (filePath != null) {
+                        storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+                        storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        databaseReference.child("imageURL").setValue(uri.toString());
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
+
+                }
                 update.setVisibility(View.GONE);
+                cancel.setVisibility(View.GONE);
                 editProfile.setVisibility(View.VISIBLE);
+                addImg.setVisibility(View.GONE);
                 profileName.setEnabled(false);
                 profileEmail.setEnabled(false);
                 profilePhone.setEnabled(false);
 
             }
         });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(ProfileActivity.this);
+                builder1.setMessage("لن يتم حفظ التغييرات ، هل انت متأكد؟");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+
+                        "نعم",
+                        (dialog, id) -> {
+                            update.setVisibility(View.GONE);
+                            cancel.setVisibility(View.GONE);
+                            addImg.setVisibility(View.GONE);
+                            editProfile.setVisibility(View.VISIBLE);
+                            profileName.setEnabled(false);
+                            profileEmail.setEnabled(false);
+                            profilePhone.setEnabled(false);
+                        }
+                        );
+
+                builder1.setNegativeButton(
+                        "إلغاء الامر",
+                        (dialog, id) -> {
+                            dialog.cancel();
+                        }
+                );
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+
+            }
+        });
+
+        addImg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 100);
+
+            }
+        });
 
 
-//        profileUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(ProfileActivity.this, UpdateProfile.class));
-//            }
-//        });
-//
-//        changePassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(ProfileActivity.this, UpdatePassword.class));
-//            }
-//        });
+
+
     }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            profilePic.setImageURI(filePath);
+            flag = true;
 
+        } else {
+            if (filePath != null || sFlag) {
+                profilePic.setImageURI(filePath);
+            } else {
+                findViewById(R.id.TextViewImage).setVisibility(View.VISIBLE);
+                findViewById(R.id.img).setVisibility(View.GONE);
+                findViewById(R.id.TextViewImageChange).setVisibility(View.GONE);
+            }
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -169,5 +399,59 @@ public class ProfileActivity extends AppCompatActivity {
                 onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+    private Boolean validateName(){
+
+        if (name.isEmpty()) {
+            profileName.setError("الرجاء ادخال اسم المستخدم");
+            return false;
+        }
+        if (name.length() >= 3 ) {
+            profileName.setError(null);
+            return true;
+
+        }else {
+            profileName.setError("أدخل اسم مستخدم مكون من 3 خانات أو اكثر");
+            return false;
+        }
+    }
+
+
+    private Boolean validateEmail() {
+
+        if (email.isEmpty()) {
+            profileEmail.setError("الرجاء ادخال البريد الالكتروني");
+            return false;
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            profileEmail.setError("صيغة البريد الالكتروني غير صحيحة");
+            return false;
+        }
+        return true;
+    }
+
+
+
+
+
+
+    private Boolean validatePhone() {
+
+        if (phoneNumber.isEmpty()) {
+            profilePhone.setError("الرجاء ادخال رقم الجوال");
+            return false;
+        }
+        else if (phoneNumber.length() != 13 || phoneNumber.charAt(0)!= '+' || phoneNumber.charAt(1)!='9'|| phoneNumber.charAt(2)!='6'|| phoneNumber.charAt(3)!='6'|| phoneNumber.charAt(4)!='5') {
+            profilePhone.setError("صيغة الرقم غير صحيحة");
+            return false;
+        }
+        return true;
+
+    }
+    private boolean validateN(){
+        if (name.isEmpty() || email.isEmpty() ||  phoneNumber.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

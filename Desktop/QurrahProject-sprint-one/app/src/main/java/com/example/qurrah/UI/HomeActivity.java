@@ -28,6 +28,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.example.qurrah.LocationTrackingServices.LocationJobService;
 import com.example.qurrah.LocationTrackingServices.LocationTracking;
@@ -49,6 +50,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -64,6 +66,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     CardView people_card, animal_card, device_card, other_card;
     protected BottomAppBar bottomAppBar;
     protected TextView username, test;
+    private CircleImageView profilePic;
     protected FirebaseDatabase firebaseDatabase;
     protected DatabaseReference databaseReference;
     private static final String TAG = "HomeActivity";
@@ -98,6 +101,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
+
 
         reportsList = new ArrayList<>();
         userList = new ArrayList<>();
@@ -146,7 +151,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                         username.setText(userProfile.getUserName());
-
+                        if(!userProfile.getImageURL().equals("default"))
+                            Picasso.get().load(userProfile.getImageURL()).into(profilePic);
                         reportsList.clear();
                         userList.clear();
                         phones.clear();
@@ -280,10 +286,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 navDrawer.closeDrawers();
                 startActivity(new Intent(this, ProfileActivity.class));
                 break;
-            case R.id.nav_changePassword:
-                navDrawer.closeDrawers();
-                startActivity(new Intent(this, UpdatePassword.class));
-                break;
+//            case R.id.nav_changePassword:
+//                navDrawer.closeDrawers();
+//                startActivity(new Intent(this, UpdatePassword.class));
+//                break;
             case R.id.nav_my_report:
                 navDrawer.closeDrawers();
                 startActivity(new Intent(this, MyReport.class).putExtra("from", "HomeIcon"));

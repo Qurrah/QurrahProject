@@ -7,12 +7,12 @@
             android:id="@+id/nav_profile"
             android:checkable="true"
             android:icon="@drawable/ic_account_box_black_24dp"
-            android:title="الملف الشخصي" />
-        <item
-            android:id="@+id/nav_changePassword"
-            android:icon="@drawable/ic_lock_black_24dp"
-            android:checkable="true"
-            android:title="تغيير كلمة المرور" />
+            android:title="حسابي" />
+<!--        <item-->
+<!--            android:id="@+id/nav_changePassword"-->
+<!--            android:icon="@drawable/ic_lock_black_24dp"-->
+<!--            android:checkable="true"-->
+<!--            android:title="تغيير كلمة المرور" />-->
         <item
             android:id="@+id/nav_my_report"
             android:icon="@drawable/ic_report_black_24dp"

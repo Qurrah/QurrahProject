@@ -8,6 +8,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import com.example.qurrah.Model.Report;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
@@ -38,6 +40,7 @@ public class BottomAppBarHandlerActivity extends HomeActivity  {
         NavigationView navigationView = findViewById(R.id.nav_view2);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
+
 
 
 //---------------------------------------------------
@@ -121,9 +124,9 @@ public class BottomAppBarHandlerActivity extends HomeActivity  {
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-            case R.id.nav_changePassword:
-                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
-                break;
+//            case R.id.nav_changePassword:
+//                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+//                break;
             case R.id.nav_my_report:
                 startActivity(new Intent(getApplicationContext(), MyReport.class));
                 break;

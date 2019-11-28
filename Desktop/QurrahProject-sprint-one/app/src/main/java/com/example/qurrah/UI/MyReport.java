@@ -336,9 +336,9 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-            case R.id.nav_changePassword:
-                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
-                break;
+//            case R.id.nav_changePassword:
+//                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
+//                break;
             case R.id.nav_my_report:
 
                 startActivity(new Intent(getApplicationContext(), MyReport.class));
