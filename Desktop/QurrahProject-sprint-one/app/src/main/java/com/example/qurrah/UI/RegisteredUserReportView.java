@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.text.TextUtils.isEmpty;
 import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
@@ -66,12 +68,15 @@ import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 
 public class RegisteredUserReportView extends AppCompatActivity implements OnMapReadyCallback {
 
-    private EditText title, description;   // changed this from textview to editable
+    private EditText title, description , mapDescription;   // changed this from textview to editable
     private ImageView photo, img;
     private String reporTitle, reportDescription;
     private String reportImg;
-    private Button update;
+    private Button update ,save;
     private TextView noLocLable;
+    private ImageView addImg;
+    private TextView LocationText;
+    private LinearLayout location;
 
 //    AlertDialog dialog;
 //    EditText titleEdit, descriptionEdit, locationDescriptionEdit;
@@ -85,10 +90,11 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     String userID, date, des ,latitude, longitude;
     Report report;
     Editable titleText, desc;
-    String address ="", address1;
-    TextView tvaddress , mapDescription, locDesLable;
+    String addressDesc , address1;
+    TextView tvaddress ,locDesLable ;
     ImageView imageViewAddress;
     GoogleMap mMap;
+    String editedTitle="", editedDesc="", editedAddress="",editedLocation="", editedLongitude="", editedLatitude="";
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -145,11 +151,15 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
         update = findViewById(R.id.update);
-//        save = findViewById(R.id.saveChanges);
+        save = findViewById(R.id.saveChanges);
+        //هذا
         locDesLable = findViewById(R.id.locationDesLable);
         mapDescription = findViewById(R.id.locationDes);
-        noLocLable =findViewById(R.id.noLoc);
-
+        noLocLable = findViewById(R.id.noLoc);
+        addImg = findViewById(R.id.img_plus);
+        LocationText = findViewById(R.id.locText);
+        location = findViewById(R.id.pickPlace);
+        tvaddress = findViewById(R.id.address);
 
 
 //       save.setVisibility(View.INVISIBLE);
@@ -159,26 +169,30 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         reportDescription = getIntent().getStringExtra("Description");
         reportImg = getIntent().getStringExtra("Image");
         report = (Report) getIntent().getSerializableExtra("report");
-        latitude =  getIntent().getStringExtra("lat");
-        longitude =  getIntent().getStringExtra("lon");
-        address1 =  getIntent().getStringExtra("address");
+        latitude = getIntent().getStringExtra("lat");
+        longitude = getIntent().getStringExtra("lon");
+        address1 = getIntent().getStringExtra("address");
+        addressDesc = getIntent().getStringExtra("locationDescription");
 
 
-        if (!(getIntent().getStringExtra("locationDescription").equals(""))){
+        if (!(getIntent().getStringExtra("locationDescription").equals(""))) {
             mapDescription.setVisibility(View.VISIBLE);
 //            findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
             locDesLable.setVisibility(View.VISIBLE);
-            mapDescription.setText(getIntent().getStringExtra("locationDescription"));
+            mapDescription.setText(addressDesc);
 
-        }
-        else if(getIntent().getStringExtra("locationDescription").equals("")){
+        } else if (getIntent().getStringExtra("locationDescription").equals("")) {
             mapDescription.setVisibility(View.GONE);
             locDesLable.setVisibility(View.GONE);
         }
 
-        if(getIntent().getStringExtra("address") == null )
+        if (getIntent().getStringExtra("address") == null)
             noLocLable.setVisibility(View.VISIBLE);
-
+//        if(!addressDesc.equals("")){
+//            locDesLable.setVisibility(View.VISIBLE);
+//            mapDescription.setText(addressDesc);
+//
+//        }
 
         if (report.getReportStatus().equals("مغلق"))
             update.setVisibility(View.INVISIBLE);
@@ -187,221 +201,155 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         Picasso.get().load(reportImg).into(photo);
         title.setText(reporTitle);
         description.setText(reportDescription);
-        mapDescription.setText(getIntent().getStringExtra("locationDescription"));
+        mapDescription.setText(addressDesc);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                update.setVisibility(View.VISIBLE);
+                save.setVisibility(View.GONE);
+                addImg.setVisibility(View.GONE);
+                location.setVisibility(View.GONE);
+                LocationText.setVisibility(View.VISIBLE);
+                title.setEnabled(false);
+                description.setEnabled(false);
+                mapDescription.setEnabled(false);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        date = report.getDate();
+                        des = report.getLostDescription();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Report rep = snapshot.getValue(Report.class);
+
+                            if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
+                                if (filePath != null) {
+                                    final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
+                                    progressDialog.setTitle("يتم الان تعديل بلاغك...");
+                                    progressDialog.show();
 
 
+                                    storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+
+                                    storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                        editInDatabase(uri.toString());
+
+                                        progressDialog.dismiss();
+                                    }));
+
+                                } else {
+                                    editInDatabase(null);
+                                }
+                                ref.child(snapshot.getKey()).removeValue();
+
+                            }
+//                                            else
+//                                                Toast.makeText(RegisteredUserReportView.this, "لم يتم حفظ البلاغ بنجاح", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
+            }
+        });
 
 
+        update.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                update.setVisibility(View.GONE);
+                save.setVisibility(View.VISIBLE);
+                addImg.setVisibility(View.VISIBLE);
+                location.setVisibility(View.VISIBLE);
+                LocationText.setVisibility(View.GONE);
+                mapDescription.setVisibility(View.VISIBLE);
+                locDesLable.setVisibility(View.VISIBLE);
 
-//        update.setOnClickListener(view -> ShowDialog());
+//                cancel.setVisibility(View.VISIBLE);
+                title.setEnabled(true);
+                description.setEnabled(true);
+                mapDescription.setEnabled(true);
+                editedTitle = title.getText().toString();
+                editedDesc = description.getText().toString();
+                editedLocation = mapDescription.getText().toString();
+                title.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        editedTitle = title.getText().toString();
+                        if (validateN()) {
+                            save.setEnabled(true);
+                            save.setAlpha(1f);
+                        } else {
+                            save.setEnabled(false);
+                            save.setAlpha(0.6f);
+                        }
 
 
+                    }
+                });
+                mapDescription.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        editedLocation = mapDescription.getText().toString();
+
+                    }
+                });
 
 
+                description.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        // To save report's info
+                    }
 
-//        save.setOnClickListener(v -> {
-//
-//            AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
-//            builder1.setMessage("سوف يتم تعديل البلاغ، هل انت متأكد؟");
-//            builder1.setCancelable(true);
-//
-//            builder1.setPositiveButton(
-//                    "نعم",
-//                    (dialog, id) -> {
-//
-//                        // dialog.cancel();
-//                        date = report.getDate();
-//                        des = report.getLostDescription();
-//
-//
-//                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//
-//                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                                    Report rep = snapshot.getValue(Report.class);
-//
-//                                    if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
-//                                        if (filePath != null) {
-//                                            final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
-//                                            progressDialog.setTitle("يتم الان تعديل بلاغك...");
-//                                            progressDialog.show();
-//
-//
-//                                            storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
-//
-//                                            storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-//                                                saveToDatabase(uri.toString());
-//
-//                                                progressDialog.dismiss();
-//                                            }));
-//
-//                                        } else {
-//                                            saveToDatabase(null);
-//                                        }
-//                                        ref.child(snapshot.getKey()).removeValue();
-//
-//                                    }
-////                                            else
-////                                                Toast.makeText(RegisteredUserReportView.this, "لم يتم حفظ البلاغ بنجاح", Toast.LENGTH_SHORT).show();
-//
-//                                }
-//
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-////                                Toast.makeText(RegisteredUserReportView.this, "تم حفظ بلاغك", Toast.LENGTH_SHORT).show();
-//                        save.setVisibility(View.INVISIBLE);
-//
-//                    });
-//
-//            builder1.setNegativeButton(
-//                    "إلغاء الامر",
-//                    (dialog, id) -> dialog.cancel());
-//
-//            AlertDialog alert11 = builder1.create();
-//
-//            alert11.show();
-//
-//        });
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        editedDesc = description.getText().toString();
+                        if (validateN()) {
+                            save.setEnabled(true);
+                            save.setAlpha(1f);
+                        } else {
+                            save.setEnabled(false);
+                            save.setAlpha(0.6f);
+                        }
+
+
+                    }
+                });
+
+            }
+        });
 
     }
-
-
-
-
-
-
-
-
-//    private void ShowDialog() {
-//
-//        LayoutInflater inflater = LayoutInflater.from(this);
-//        View view = inflater.inflate(R.layout.alert_dialog, null);
-//
-//        Button confirm = view.findViewById(R.id.confirm_edit);
-//        Button cancel = view.findViewById(R.id.cancel_edit);
-//        titleEdit = view.findViewById(R.id.title_edit);
-//        descriptionEdit = view.findViewById(R.id.description_edit);
-//        img = view.findViewById(R.id.img);
-//        tvaddress = view.findViewById(R.id.address);
-//        locationDescriptionEdit = view.findViewById(R.id.location_description_edit);
-//        imageViewAddress = view.findViewById(R.id.imageAddress);
-//
-//        tvaddress.setText(address1);
-//        locationDescriptionEdit.setText(getIntent().getStringExtra("locationDescription"));
-//
-//
-//        if (filePath == null) {
-//            Picasso.get().load(reportImg).into(img);
-//        } else if (filePath != null) {
-//            img.setImageURI(filePath);
-//            previousImg = filePath;
-//        }
-//
-//        if (textFlag) {
-//            titleEdit.setText(reporTitle);
-//            descriptionEdit.setText(reportDescription);
-//
-//
-//        } else {
-//            titleEdit.setText(title.getText());
-//            descriptionEdit.setText(description.getText());
-//
-//        }
-//
-//        TextWatcher edittw = new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (!titleEdit.getText().toString().equals("")  && !descriptionEdit.getText().toString().equals("")) {
-//                    confirm.setEnabled(true);
-//                    confirm.setAlpha(1);
-//
-//                } else {
-//                    if (titleEdit.getText().toString().equals("")){
-//                        titleEdit.setError("لا يمكن ترك هذه الخانة فارغة");
-//                    }else {
-//                        titleEdit.setError(null);
-//                    }
-//                    if (descriptionEdit.getText().toString().equals("")){
-//                        descriptionEdit.setError("لا يمكن ترك هذه الخانة فارغة");
-//                    }else {
-//                        descriptionEdit.setError(null);
-//                    }
-//                    confirm.setEnabled(false);
-//                    confirm.setAlpha(0.6f);
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        };
-//
-//        titleEdit.addTextChangedListener(edittw);
-//        descriptionEdit.addTextChangedListener(edittw);
-//
-//
-//        confirm.setOnClickListener(view12 -> {
-////            titleText = titleEdit.getText();
-////            desc = descriptionEdit.getText();
-////
-////            title.setText(titleText);
-////            description.setText(desc);
-//            mapDescription.setText(locationDescriptionEdit.getText());
-//            if (!address.equals("")) {
-//                findViewById(R.id.map).setVisibility(View.VISIBLE);
-//            }
-//            if(mapDescription.getText().toString().equals("")){
-//                findViewById(R.id.imageAddress).setVisibility(View.INVISIBLE);
-//            }else {
-//                findViewById(R.id.imageAddress).setVisibility(View.VISIBLE);
-//
-//            }
-//            sFlag = true;
-//            photo.setImageURI(filePath);
-//            previousImg = filePath;
-//            dialog.cancel();
-////            save.setVisibility(View.VISIBLE);
-//            update.setVisibility(View.GONE);
-//            textFlag = false;
-//
-//        });
-//
-//
-//        cancel.setOnClickListener(view1 -> dialog.cancel());
-//
-//
-//        dialog = new AlertDialog.Builder(this).setView(view).create();
-//        dialog.show();
-//    }
-//    public void pickPlace(View view) {
-//        startActivityForResult(new Intent(getApplicationContext(), PickLocationActivity.class), REQUEST_PLACE_PICKER_CODE);
-//    }
-
-
-
-
-
-
-
     public void upload_img(View view) {
 
         Intent intent = new Intent(Intent.ACTION_PICK,
@@ -418,33 +366,30 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        findViewById(R.id.TextViewImageChange).setVisibility(View.VISIBLE);
-//        findViewById(R.id.TextViewImage).setVisibility(View.GONE);
-//        findViewById(R.id.img).setVisibility(View.VISIBLE);
         if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
-            img.setImageURI(filePath);
+            photo.setImageURI(filePath);
             flag = true;
 
         } else {
             if (filePath != null || sFlag) {
-                img.setImageURI(filePath);
-            } else {
-//                findViewById(R.id.TextViewImage).setVisibility(View.VISIBLE);
-//                findViewById(R.id.img).setVisibility(View.GONE);
-//                findViewById(R.id.TextViewImageChange).setVisibility(View.GONE);
+                photo.setImageURI(filePath);
             }
         }
         if (requestCode == REQUEST_PLACE_PICKER_CODE) {
             if (resultCode == RESULT_OK) {
+                mapDescription.setVisibility(View.VISIBLE);
+                noLocLable.setVisibility(View.GONE);
+
+
 
                 // Get String data from Intent
                 latitude = data.getStringExtra("Latitude");
                 longitude = data.getStringExtra("Longitude");
-                address = data.getStringExtra("Address");
-                tvaddress.setText(address.trim().replaceAll(" +", " "));
-                imageViewAddress.setBackground(getResources().getDrawable(R.drawable.ic_location));
+                address1 = data.getStringExtra("Address");
+                tvaddress.setText(editedAddress.trim().replaceAll(" +", " "));
                 mMap.clear();
+
                 LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
@@ -456,6 +401,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
 
+
             }
         }
     }
@@ -463,26 +409,26 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
 
 
-    private void saveToDatabase(String link) {
+    private void editInDatabase(String link) {
         if (link == null) {
             report.setPhoto(reportImg);
 //            link = "https://i-love-png.com/images/no-image_7299.png";
-        }else
+        } else{
             report.setPhoto(link);
+        }
 
-        report.setLostTitle(title.getText().toString());
-        report.setLostDescription(description.getText().toString());
-        report.setAddress(address);
+        report.setLostTitle(editedTitle);
+        report.setLostDescription(editedDesc);
         report.setLatitude(latitude);
         report.setLongitude(longitude);
-        report.setLocation(mapDescription.getText().toString());
-        if (!address.equals(""))
-            imageViewAddress.setVisibility(View.VISIBLE);
+        report.setAddress(address1);
+        report.setLocation(editedLocation);
+
 
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم تعديل بلاغك", Toast.LENGTH_SHORT).show();
-
     }
+
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
@@ -491,6 +437,15 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+    public void pickPlace(View view) {
+        startActivityForResult(new Intent(getApplicationContext(), PickLocationActivity.class), REQUEST_PLACE_PICKER_CODE);
+    }
+    private boolean validateN(){
+        if (editedTitle.isEmpty() || editedDesc.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
 

@@ -52,8 +52,9 @@ public class OtherReport extends HomeActivity implements SearchView.OnQueryTextL
     String userID;
     RecyclerView recyclerView;
     ArrayList<Report> list;
-    ArrayList<String> userList, phones , id;
+    ArrayList<String> userList, phones , id, allowWhats;
     ReportCategoriesAdapter adapter;
+    String allowPhoneAccess;
 
 
 
@@ -148,6 +149,7 @@ public class OtherReport extends HomeActivity implements SearchView.OnQueryTextL
         userList = new ArrayList<>();
         phones = new ArrayList<>();
         id= new ArrayList<>();
+        allowWhats = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -157,6 +159,7 @@ public class OtherReport extends HomeActivity implements SearchView.OnQueryTextL
                 userList.clear();
                 phones.clear();
                 id.clear();
+                allowWhats.clear();
 
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     UserProfile userProfile = snapshot.getValue(UserProfile.class);
@@ -175,13 +178,16 @@ public class OtherReport extends HomeActivity implements SearchView.OnQueryTextL
                         Report report = ds.getValue(Report.class);
                         if (report.getCategoryOption().equals(getString(R.string.other)) && report.getReportStatus().equals("نشط")) {
                             report.setUsername(userName);
+                            report.setUserAllowWhats(allowPhoneAccess);
+                            report.setUserPhone(No);
                             list.add(report);
 
-                            if(allowPhoneAccess.equals("true")){
-                                phones.add(No);
-                            }else{
-                                phones.add("0");
-                            }
+
+//                            if(allowPhoneAccess.equals("true")){
+//                                phones.add(No);
+//                            }else{
+//                                phones.add("0");
+//                            }
                             report.setUserReportID(Id);
 
                         }
@@ -197,9 +203,11 @@ public class OtherReport extends HomeActivity implements SearchView.OnQueryTextL
                             rep.getUsername());
                     userList.add(rep.getUsername());
                     id.add(rep.getuserReportID());
+                    allowWhats.add(rep.getUserAllowWhats());
+                    phones.add(rep.getUserPhone());
                 }
 
-                adapter = new ReportCategoriesAdapter(OtherReport.this, list, userList, phones,id);
+                adapter = new ReportCategoriesAdapter(OtherReport.this, list, userList, phones,id, allowWhats);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
 

@@ -6,9 +6,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.Spanned;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.qurrah.R;
 
 public class helpActivity extends AppCompatActivity {
