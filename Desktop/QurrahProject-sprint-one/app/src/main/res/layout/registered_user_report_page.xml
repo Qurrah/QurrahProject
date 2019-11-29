@@ -53,6 +53,18 @@
                 app:layout_collapseParallaxMultiplier="0.9"
                 />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_plus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom|center"
+                android:onClick="upload_img"
+                android:src="@drawable/ic_plus"
+                android:visibility="gone">
+
+            </de.hdodenhof.circleimageview.CircleImageView>
+
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -183,6 +195,39 @@
                     android:background="@null"
                     android:enabled="false"
                     tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/locationDesLable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:hint=" وصف الموقع"
+                    android:layoutDirection="rtl"
+                    android:textDirection="rtl"
+                    android:textFontWeight="5"
+                    android:textSize="12dp"
+                    tools:ignore="MissingConstraints"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/locationDes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:hint="وصف الموقع"
+                    android:layoutDirection="rtl"
+                    android:textAlignment="inherit"
+                    android:textDirection="rtl"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:alpha="0.7"
+                    android:background="@null"
+                    android:enabled="false"
+                    tools:ignore="MissingConstraints" /> />
 
                 <Button
                     android:id="@+id/update"
@@ -195,10 +240,53 @@
                     android:textColor="#ffffff"
                     android:background="@drawable/purple_buttons"
                     tools:ignore="MissingConstraints" />
+                <Button
+                    android:id="@+id/saveChanges"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="#776A77"
+                    android:text="حفظ التعديلات"
+                    android:visibility="gone"
+                    android:textColor="#ffffff"
+                    android:background="@drawable/purple_buttons"
+                    tools:ignore="MissingConstraints" />
+
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/pickPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:onClick="pickPlace"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                android:layoutDirection="rtl">
 
+                <ImageView
+                    android:id="@+id/imageAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/ic_add_location_black_24dp" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="اختر الموقع"
+                    android:textAllCaps="false"
+                    android:textColor="@color/lightPurple"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -207,10 +295,12 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/white">
 
+
             </LinearLayout>
 
 
             <TextView
+                android:id="@+id/locText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -238,36 +328,37 @@
                 android:background="@color/white"
                 android:layoutDirection="rtl">
 
-                <TextView
-                    android:id="@+id/locationDesLable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:hint="وصف الموقع"
-                    android:layoutDirection="rtl"
-                    android:textDirection="rtl"
-                    android:textFontWeight="5"
-                    android:textSize="12dp"
-                    tools:ignore="MissingConstraints"
-                    android:visibility="gone"/>
+<!--                <EditText-->
+<!--                    android:id="@+id/locationDesLable"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="right"-->
+<!--                    android:hint="وصف الموقع"-->
+<!--                    android:layoutDirection="rtl"-->
+<!--                    android:textDirection="rtl"-->
+<!--                    android:textFontWeight="5"-->
+<!--                    android:textSize="12dp"-->
+<!--                    tools:ignore="MissingConstraints"-->
+<!--                    android:visibility="gone"/>-->
 
-                <EditText
-                    android:id="@+id/locationDes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:layoutDirection="rtl"
-                    android:textDirection="rtl"
-                    android:textFontWeight="5"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
-                    android:alpha="0.7"
-                    android:visibility="gone"
-                    android:background="@null"
-                    android:enabled="false"
-                    tools:ignore="MissingConstraints" />
+<!--                <EditText-->
+<!--                    android:id="@+id/locationDes"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="right"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:layoutDirection="rtl"-->
+<!--                    android:textDirection="rtl"-->
+<!--                    android:textFontWeight="5"-->
+<!--                    android:textSize="14dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:alpha="0.7"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:background="@null"-->
+<!--                    android:enabled="false"-->
+<!--                    tools:ignore="MissingConstraints" />-->
+
 
 
                 <fragment
