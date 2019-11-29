@@ -87,12 +87,6 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
                 tools:ignore="MissingConstraints" />
 
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/edit_profile"-->
-<!--                    android:layout_width="60dp"-->
-<!--                    android:layout_height="62dp"-->
-<!--                    android:layout_gravity="start|right|top"-->
-<!--                    app:srcCompat="@drawable/edit1" />-->
 
     </LinearLayout>
 
@@ -261,7 +255,7 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
         android:theme="@style/CustomAppTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="585dp"
+        android:layout_marginTop="590dp"
         app:layout_constraintHorizontal_bias="0.167"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -355,18 +349,7 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
 
 
 
-<!--        <Button-->
-<!--            android:id="@+id/plus"-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:visibility="visible"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:backgroundTint="#776A77"-->
-<!--            android:text="+"-->
-<!--            android:textColor="#ffffff"-->
-<!--            android:background="@drawable/purple_buttons"-->
-<!--            tools:ignore="MissingConstraints" />-->
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_plus"
             android:layout_width="40dp"

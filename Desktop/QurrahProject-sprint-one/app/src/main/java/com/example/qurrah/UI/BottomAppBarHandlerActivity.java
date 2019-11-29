@@ -124,15 +124,13 @@ public class BottomAppBarHandlerActivity extends HomeActivity  {
             case R.id.nav_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 break;
-//            case R.id.nav_changePassword:
-//                startActivity(new Intent(getApplicationContext(), UpdatePassword.class));
-//                break;
             case R.id.nav_my_report:
                 startActivity(new Intent(getApplicationContext(), MyReport.class));
                 break;
-//            case R.id.nav_privacyAndSecurity:
-//                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
-//                break;
+            case R.id.nav_help:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(this, helpActivity.class));
+                break;
             case R.id.nav_logout:
                 logout();
                 break;

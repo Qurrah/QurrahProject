@@ -179,7 +179,9 @@
         <activity
             android:name=".UI.helpActivity"
             android:label="الدعم"
-            android:parentActivityName=".UI.HomeActivity" />
+            android:parentActivityName=".UI.HomeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
 
         <activity android:name=".LocationTrackingServices.LocationTracking" />
 

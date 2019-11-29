@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qurrah.R;
 
-class helpActivity extends AppCompatActivity {
+public class helpActivity extends AppCompatActivity {
     TextView twitter,email;
     Spanned twitterURL,emailURL;
     @Override

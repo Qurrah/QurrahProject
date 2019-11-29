@@ -336,9 +336,11 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
                 navDrawer.closeDrawers();
                 startActivity(new Intent(getApplicationContext(), MyReport.class).putExtra("from","MapIcon"));
                 break;
-//            case R.id.nav_privacyAndSecurity:
-//                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
-//                break;
+            case R.id.nav_help:
+                navDrawer.closeDrawers();
+                startActivity(new Intent(this, helpActivity.class));
+                break;
+
             case R.id.nav_logout:
                 logout();
                 break;

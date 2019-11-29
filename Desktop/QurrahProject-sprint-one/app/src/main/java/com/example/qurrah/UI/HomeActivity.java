@@ -286,10 +286,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 navDrawer.closeDrawers();
                 startActivity(new Intent(this, ProfileActivity.class));
                 break;
-//            case R.id.nav_changePassword:
-//                navDrawer.closeDrawers();
-//                startActivity(new Intent(this, UpdatePassword.class));
-//                break;
             case R.id.nav_my_report:
                 navDrawer.closeDrawers();
                 startActivity(new Intent(this, MyReport.class).putExtra("from", "HomeIcon"));
@@ -298,9 +294,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 navDrawer.closeDrawers();
                 startActivity(new Intent(this, helpActivity.class));
                 break;
-//            case R.id.nav_privacyAndSecurity:
-//                startActivity(new Intent(HomeActivity.this, privacyAndSecurity.class));
-//                break;
+
             case R.id.nav_logout:
                 logout();
                 break;
