@@ -142,15 +142,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:checked="true"
-                android:text="نشط"
-                android:textSize="12dp"
-                android:textAlignment="center"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
+                android:text="نشط"
+                android:textAlignment="center"
 
-                android:layout_gravity="center_horizontal"
-                android:theme="@style/SwitchStyle"
-                />
+                android:textSize="12dp"
+                android:theme="@style/SwitchStyle" />
 
 <!--            android:thumbTint="@color/darkPurple"-->
 
