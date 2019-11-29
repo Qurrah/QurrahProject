@@ -24,59 +24,46 @@
         >
 
 
-
         <TextView
             android:id="@+id/textView5"
-            android:textColor="#B19FB1"
             android:layout_width="222dp"
             android:layout_height="44dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="70dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="0dp"
+            android:text="سيتم إرسال رمز التحقق على رقم جوالك"
+            android:textColor="#B19FB1"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.815"
-            android:text="سيتم إرسال رمز التحقق على رقم جوالك"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editTextCode"
+            app:layout_constraintVertical_bias="0.815" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/pinView"
+            style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            app:hintEnabled="false"
-            app:errorTextAppearance="@style/error_appearance"
-            android:paddingBottom="5dp"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-
-                android:layout_width="222dp"
-                android:layout_height="44dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="0dp"
-                android:ems="10"
-                android:fontFamily="sans-serif-medium"
-                android:hint="أدخل رمز التحقق"
-                android:inputType="number"
-                android:digits="0123456789"
-                android:textColor="@color/darkPurple"
-                android:textSize="16sp"
-                android:maxLength="6"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintVertical_bias="0.016" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
+            android:layout_marginTop="40dp"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="#222222"
+            android:textSize="18sp"
+            app:cursorColor="@color/colorAccent"
+            app:cursorWidth="2dp"
+            app:itemCount="6"
+            app:itemHeight="48dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="5dp"
+            app:itemWidth="36dp"
+            app:lineColor="#2f64ba"
+            app:lineWidth="2dp"
+            app:viewType="rectangle" />
 
         <com.laizexin.sdj.library.ProgressButton
             android:id="@+id/buttonSignUp"

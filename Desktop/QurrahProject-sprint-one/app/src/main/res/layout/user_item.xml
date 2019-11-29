@@ -25,9 +25,9 @@
 
         <TextView
             android:id="@+id/username"
-            android:layout_width="257dp"
+            android:layout_width="222dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-343dp"
+            android:layout_marginLeft="-305dp"
             android:layout_toRightOf="@id/profile_image"
             android:textAlignment="inherit"
             android:textColor="#000000"
@@ -82,10 +82,10 @@
 
         <TextView
             android:id="@+id/last_msg"
-            android:layout_width="240dp"
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
-            android:layout_marginLeft="-328dp"
+            android:layout_marginLeft="-303dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="8dp"
             android:layout_toStartOf="@+id/profile_image"
@@ -93,7 +93,9 @@
             android:maxLines="1"
             android:paddingTop="5dp"
             android:singleLine="true"
+            android:textAlignment="textStart"
             android:textColor="@color/darkPurple"
+            android:textDirection="rtl"
             android:visibility="visible" />
 
         <View

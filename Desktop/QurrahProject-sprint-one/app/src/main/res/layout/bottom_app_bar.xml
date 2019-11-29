@@ -32,7 +32,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="25dp">
 
             <ImageButton
                 android:id="@+id/Chat"
@@ -41,12 +41,12 @@
                 android:layout_height="35dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
+                android:layout_marginRight="20dp"
                 android:background="@null"
-                android:layout_marginRight="30dp"
-                android:gravity="center"
                 android:contentDescription="المحادثات"
-                android:src="@drawable/conversation"
-                android:onClick="goToChatActivity"/>
+                android:gravity="center"
+                android:onClick="goToChatActivity"
+                android:src="@drawable/conversation" />
 
             <ImageButton
                 android:id="@+id/Map"
@@ -54,12 +54,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="35dp"
+                android:layout_marginEnd="25dp"
                 android:layout_toStartOf="@id/Home"
-                android:contentDescription="الخريطة"
                 android:background="@null"
-                android:src="@drawable/ic_map_white_35dp"
-                android:onClick="goToMapActivity"/>
+                android:contentDescription="الخريطة"
+                android:onClick="goToMapActivity"
+                android:src="@drawable/map" />
 
             <ImageButton
                 android:id="@+id/Home"
@@ -69,13 +69,12 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:contentDescription="الرئيسية"
                 android:background="@null"
-                android:src="@drawable/home"
-                android:onClick="goToHomeActivity"/>
+                android:contentDescription="الرئيسية"
+                android:onClick="goToHomeActivity"
+                android:src="@drawable/home" />
 
         </RelativeLayout>
-
 
 
     </com.google.android.material.bottomappbar.BottomAppBar>

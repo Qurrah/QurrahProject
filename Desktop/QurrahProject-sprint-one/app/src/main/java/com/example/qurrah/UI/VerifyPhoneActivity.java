@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import com.chaos.view.PinView;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,9 +36,10 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private String verificationId;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
-    private TextInputLayout editText;
+    //private TextInputLayout editText;
     String email, name, phonenumber,password, phoneNumberWithCode;
     ProgressButton check;
+    PinView pinView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,11 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        final PinView pinView = findViewById(R.id.pinView);
+
+
         progressBar = findViewById(R.id.progressbar);
-        editText = findViewById(R.id.editTextCode);
+        //editText = findViewById(R.id.editTextCode);
         Bundle extras = getIntent().getExtras();
 
         phoneNumberWithCode = "+966" + extras.getString("phonenumber");
@@ -63,7 +69,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String code = editText.getEditText().getText().toString().trim();
+                String code = pinView.getText().toString().trim();
 
                 if (check.getProgress() == 0) {
                     check.setProgress(50);
@@ -73,9 +79,8 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                     check.setProgress(100);
                 }
                 if (code.isEmpty() || code.length() < 6 ) {
-
-                    editText.setError("أدخل رمز تحقق صحيح");
-                    editText.requestFocus();
+                    Toast.makeText(VerifyPhoneActivity.this,"أدخل رمز تحقق صحيح",Toast.LENGTH_SHORT).show();
+                    pinView.requestFocus();
                     return;
                 }
 
@@ -160,7 +165,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
             String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
-                editText.getEditText().setText(code);
+                pinView.setText(code);
                 verifyCode(code);
             }
         }
