@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context = ".UI.ProfileActivity"
+    android:padding="50dp"
+    android:layoutDirection="ltr">
+
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="222dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="8dp"
+            android:text="سيتم إرسال رمز التحقق على رقم جوالك"
+            android:textColor="#B19FB1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.815" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/pinView"
+            style="@style/PinWidget.PinView"
+            app:cursorColor="@color/colorAccent"
+            app:cursorWidth="2dp"
+            app:itemCount="6"
+            app:itemHeight="48dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="5dp"
+            app:itemWidth="36dp"
+            app:lineColor="#2f64ba"
+            app:lineWidth="2dp"
+            app:viewType="rectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="#222222"
+            android:textSize="18sp" />
+
+        <com.laizexin.sdj.library.ProgressButton
+            android:id="@+id/buttonVerify"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:textAllCaps="false"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.815"
+            app:pb_normalText="تحقق"
+            app:pb_completeText="تحقق"
+            app:pb_normalTextColor="@color/white"
+            app:pb_completelTextColor="@color/white"
+            app:pb_normalBackgroundColor="@color/darkPurple"
+            app:pb_completeBackgroundColor="@color/darkPurple"
+            app:pb_progress_indicator_color="@color/white"
+            app:pb_progress_indicator_background_color="@color/pb_progress_indicator_background"
+            app:pb_corner_radius="50dp"
+            android:textSize="18dp" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_below="@id/buttonVerify"
+            android:layout_centerHorizontal="true"
+            android:layout_width="222dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="0dp"
+            android:visibility="gone" />
+
+
+    </LinearLayout>

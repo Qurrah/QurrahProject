@@ -5,6 +5,7 @@ import android.os.Bundle;
 //import android.support.annotation.NonNull;
 //import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.laizexin.sdj.library.ProgressButton;
 import java.util.concurrent.TimeUnit;
 
 public class VerifyPhoneActivity extends AppCompatActivity {
+    private ImageView back;
 
 
     private String verificationId;
@@ -54,6 +56,13 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbar);
         //editText = findViewById(R.id.editTextCode);
         Bundle extras = getIntent().getExtras();
+        back = findViewById(R.id.back2);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(VerifyPhoneActivity.this, RegistrationActivity.class));
+            }});
 
         phoneNumberWithCode = "+966" + extras.getString("phonenumber");
         phonenumber = extras.getString("phonenumber");

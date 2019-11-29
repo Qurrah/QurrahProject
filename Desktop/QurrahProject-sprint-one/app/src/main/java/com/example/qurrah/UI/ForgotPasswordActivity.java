@@ -2,8 +2,6 @@ package com.example.qurrah.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-//import android.support.annotation.NonNull;
-//import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -12,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -21,15 +20,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
+//import android.support.annotation.NonNull;
+//import android.support.v7.app.AppCompatActivity;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 //-------------------------------------------------------
     private Button update;
-    private EditText email;
+    private ImageView back;
+    private TextInputLayout email;
     private FirebaseAuth firebaseAuth;
     private ProgressBar progressBar;
     String emailString;
@@ -42,13 +45,18 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         update = findViewById(R.id.Update);
         email = findViewById(R.id.Email);
         progressBar = findViewById(R.id.progressBar);
+        back = findViewById(R.id.back);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+       // Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        //getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ForgotPasswordActivity.this, MainActivity.class));
+            }});
 
-
-        email.addTextChangedListener(new TextWatcher() {
+        email.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -56,7 +64,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                emailString = email.getText().toString().trim();
+                emailString = email.getEditText().getText().toString().trim();
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (Patterns.EMAIL_ADDRESS.matcher(s).matches()){
                 if (validateEmail(emailString)){
                     update.setEnabled(true);
                     update.setAlpha(1f);
@@ -64,21 +80,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     update.setEnabled(false);
                     update.setAlpha(0.6f);
                 }
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            }}
         });
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String userEmail = email.getText().toString().trim();
+                String userEmail = email.getEditText().getText().toString().trim();
                 update.setEnabled(false);
                 update.setText("");
                 progressBar.setVisibility(View.VISIBLE);
@@ -96,7 +105,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 update.setEnabled(true);
                                 update.setText("إعادة تعيين كلمة المرور");
                                 progressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(ForgotPasswordActivity.this, "حدث خطأ اثناء محاولة الارسال ، الرجاء ادخال البريد الالكتروني الصحيح الخاص بحسابك", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ForgotPasswordActivity.this, "الرجاء ادخال البريد الالكتروني الصحيح الخاص بحسابك", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -106,15 +115,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        switch (item.getItemId()){
+//            case android.R.id.home:
+//                onBackPressed();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
     private boolean validateEmail (String emailString){
         if (emailString.isEmpty()) {
             email.setError("الرجاء ادخال البريد الالكتروني");
