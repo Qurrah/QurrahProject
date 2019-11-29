@@ -5,16 +5,16 @@ package com.example.qurrah.UI;
 
 
 //  double click on register button
-//  password eye icon position
 // validate all fields at the same time
-// colors
-// policy error message style
 
 
 
 
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,11 +30,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -47,8 +49,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -70,9 +74,19 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        setupUIViews();
 
+        //Setup views
+        userName = findViewById(R.id.etUserName);
+        userPassword = findViewById(R.id.etUserPassword);
+        userEmail = findViewById(R.id.etUserEmail);
+        regButton = findViewById(R.id.btnRegister);
+        userLogin = findViewById(R.id.tvUserLogin);
+        //term=findViewById(R.id.terms);
+        phone = findViewById(R.id.phone);
+        policyCheck = findViewById(R.id.policy);
+        progressBar = findViewById(R.id.progressBar);
 
+        //Get text data
         name = userName.getEditText().getText().toString().trim();
         password = userPassword.getEditText().getText().toString().trim();
         email = userEmail.getEditText().getText().toString().trim();
@@ -81,17 +95,14 @@ public class RegistrationActivity extends AppCompatActivity {
         phoneNumbers = new ArrayList<>();
 
 
-
-
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        regButton.setEnabled(false);
+        //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        //regButton.setEnabled(false);
         regButton.setAlpha(0.6f);
-
-
 
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
 
+        //Get Users phones
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -247,7 +258,37 @@ public class RegistrationActivity extends AppCompatActivity {
         policyCheck.setOnClickListener(new View.OnClickListener() {
            @Override
               public void onClick(View view) {
-                    validatePolicy();
+               AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
+               builder1.setMessage("١. يجب ألا يقل عمرك عن 13 عاما" +"\n\n"+
+                       "٢. يجب ان تقدم معلومات صحيحة ودقيقة لـ قرة كما يجب عليك الالتزام لأي اشعارات تقوم بها فيما يخص الخدمات التي يقدمها التطبيق لضمان عدم تعرقل أي عمليات تشغيليه."
+                       +"\n\n"+"٣. باستخدام تطبيق قرة فأنت توافق على الالتزام بهذه الشروط والأحكام، وفي حال عدم موافقتك على الشروط والأحكام يتعين عليك عدم استخدام التطبيق." +
+                       "\n\n"+"٤. نحتفظ بحقنا بتغيير الشروط والأحكام من وقت لآخر وعليه يتعين عليك الاطلاع على هذه الشروط والأحكام بشكلٍ دوري، ولا يتوجب علينا الاتصال بك أو إعلامك بأي تغييرات تم إجراؤها على الشروط والأحكام، ويعتبر استمرار استخدامك للتطبيق بمثابة موافقة على الشروط والأحكام المطبقة في وقت استخدامك التطبيق كجزء من التزامنا بجعل تطبيق  مكانا ترغب في زيارته باستمرار فإننا نرحب بكافة تعليقاتك على أي من السياسات أو القواعد.");
+               builder1.setCancelable(true);
+
+               builder1.setPositiveButton(
+                       "أوافق",
+                       new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int id) {}
+
+
+                       });
+
+               builder1.setNegativeButton(
+                       "لا أوافق",
+                       new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int id) {
+                               dialog.cancel();
+                               policyCheck.setChecked(false);
+                           }
+                       });
+
+               AlertDialog alert11 = builder1.create();
+
+               alert11.show();
+               alert11.setCanceledOnTouchOutside(false);
+
+
+               validatePolicy();
                 }
             });
 
@@ -260,15 +301,15 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                validateName();
-                validateEmail();
-                validatePass();
-                validatePhone();
-                validatePolicy();
+//                validateName();
+//                validateEmail();
+//                validatePass();
+//                validatePhone();
+//                validatePolicy();
 
                 // will remove recalling methods
                 if(validateName()&& validateEmail()&& validatePass()&&validatePhone()&&validatePolicy()) {
-                    if(duplicateEmail()&&duplicatePhone())  // find something to make the method wait , it returns true before it search the whole database
+                    //if(duplicateEmail()&&duplicatePhone())  // find something to make the method wait , it returns true before it search the whole database
 //                        if(duplicatePhone())
                             step1();
                 }
@@ -283,25 +324,17 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        term.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegistrationActivity.this, terms.class));
-            }
-        });
+//        term.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(RegistrationActivity.this, terms.class));
+//            }
+//        });
 
     }
 
     private void setupUIViews(){
-        userName = findViewById(R.id.etUserName);
-        userPassword = findViewById(R.id.etUserPassword);
-        userEmail = findViewById(R.id.etUserEmail);
-        regButton = findViewById(R.id.btnRegister);
-        userLogin = findViewById(R.id.tvUserLogin);
-        term=findViewById(R.id.terms);
-        phone = findViewById(R.id.phone);
-        policyCheck = findViewById(R.id.policy);
-        progressBar = findViewById(R.id.progressBar);
+
     }
 
 

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
+    android:background="@mipmap/original"
     android:layoutDirection="rtl">
 
 
@@ -40,8 +41,8 @@
         android:id="@+id/CategoryGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="200dp">
+        android:layout_marginTop="160dp"
+        android:orientation="vertical">
 
 
         <GridLayout

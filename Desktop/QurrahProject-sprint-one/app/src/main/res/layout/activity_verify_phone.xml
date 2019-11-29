@@ -4,9 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/qurrah_background"
+    android:background="@mipmap/original"
     tools:context="com.example.qurrah.UI.VerifyPhoneActivity"
     android:layoutDirection="ltr">
+
+    <ImageView
+        android:id="@+id/back2"
+        android:layout_width="59dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="48dp"
+        android:alpha="0.6"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backarrow"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="307dp" />
 
     <LinearLayout
         android:id="@+id/relativeLayout"
@@ -26,15 +37,15 @@
 
         <TextView
             android:id="@+id/textView5"
-            android:layout_width="222dp"
+            android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="0dp"
             android:text="سيتم إرسال رمز التحقق على رقم جوالك"
-            android:textColor="#B19FB1"
-            android:textSize="14sp"
+            android:textColor="@color/darkPurple"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +59,8 @@
             style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
             android:cursorVisible="true"
             android:inputType="number"
             android:padding="10dp"
@@ -61,33 +73,34 @@
             app:itemRadius="4dp"
             app:itemSpacing="5dp"
             app:itemWidth="36dp"
-            app:lineColor="#2f64ba"
+            app:lineColor="#BEB2BE"
             app:lineWidth="2dp"
             app:viewType="rectangle" />
 
         <com.laizexin.sdj.library.ProgressButton
             android:id="@+id/buttonSignUp"
             android:layout_width="220dp"
-            android:layout_height="40dp"
-            android:textAllCaps="false"
-            android:layout_marginTop="20dp"
+            android:layout_height="45dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.815"
-            app:pb_normalText="تحقق"
-            app:pb_completeText="تحقق"
-            app:pb_normalTextColor="@color/white"
-            app:pb_completelTextColor="@color/white"
-            app:pb_normalBackgroundColor="@color/darkPurple"
             app:pb_completeBackgroundColor="@color/darkPurple"
-            app:pb_progress_indicator_color="@color/white"
-            app:pb_progress_indicator_background_color="@color/pb_progress_indicator_background"
+            app:pb_completeText="تحقق"
+            app:pb_completelTextColor="@color/white"
             app:pb_corner_radius="50dp"
-            android:textSize="18dp" />
+            app:pb_normalBackgroundColor="@color/darkPurple"
+            app:pb_normalText="تحقق"
+            app:pb_normalTextColor="@color/white"
+            app:pb_progress_indicator_background_color="@color/pb_progress_indicator_background"
+            app:pb_progress_indicator_color="@color/white" />
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -121,10 +134,10 @@
         <ImageView
             android:id="@+id/ivProfile"
             android:layout_width="150dp"
-            android:layout_height="85dp"
+            android:layout_height="120dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/contentLayout"
@@ -133,7 +146,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.126"
-            app:srcCompat="@drawable/verification" />
+            app:srcCompat="@drawable/checked" />
 
 
     </LinearLayout>

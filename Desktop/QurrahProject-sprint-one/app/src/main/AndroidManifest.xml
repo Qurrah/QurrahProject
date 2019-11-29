@@ -92,7 +92,8 @@
             android:name=".UI.ForgotPasswordActivity"
             android:label="إستعادة كلمة المرور"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:theme="@style/AppTheme1"
+        android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".UI.FirstPage"
             android:screenOrientation="portrait"
