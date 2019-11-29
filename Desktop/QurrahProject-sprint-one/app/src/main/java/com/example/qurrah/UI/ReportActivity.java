@@ -13,11 +13,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,6 +34,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.DateFormat;
@@ -68,7 +71,8 @@ public class ReportActivity extends HomeActivity {
     protected String lostTitleInput, lostDescriptionInput, radioValue, userID, ReportType;
     protected StateProgressBar stateProgressBar;
     protected boolean flag = false;
-    protected Uri filePath;
+    protected Uri filePath , cameraImg;
+            String cameraString;
     static ImageView img;
     static boolean sFlag = false;
     DatabaseReference ref;
@@ -84,6 +88,8 @@ public class ReportActivity extends HomeActivity {
     String address;
     TextView tvaddress;
     ImageView imageViewAddress;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    Bitmap imageBitmap;
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
@@ -344,7 +350,7 @@ public class ReportActivity extends HomeActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
 
                         Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePicture, 100);//zero can be replaced with any action code
+                        startActivityForResult(takePicture, REQUEST_IMAGE_CAPTURE);//zero can be replaced with any action code
 
                     }
                 });
@@ -358,10 +364,20 @@ public class ReportActivity extends HomeActivity {
 
 
 
+
+
+
+
+
+
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        findViewById(R.id.TextViewImageChange).setVisibility(View.VISIBLE);
+//        findViewById(R.id.TextViewImageChange).setVisibility(View.VISIBLE);
         findViewById(R.id.TextViewImage).setVisibility(View.GONE);
         findViewById(R.id.img).setVisibility(View.VISIBLE);
         if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -369,7 +385,31 @@ public class ReportActivity extends HomeActivity {
             img.setImageURI(filePath);
             flag = true;
 
-        } else {
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            imageBitmap = (Bitmap) extras.get("data");
+            img.setImageBitmap(imageBitmap);
+
+            cameraString = imageBitmap.toString();
+            cameraImg = Uri.parse(cameraString);
+
+
+            
+
+//            img.setImageURI(cameraImg);
+
+//            imageBitmap = (Bitmap) extras.get("data");
+//            img.setImageBitmap(cameraImg);
+//            cameraString = BitmapToString(imageBitmap);
+//            cameraImg = Uri.parse(cameraString);
+            Toast.makeText(getApplicationContext(), "onSuccess: uri= "+ imageBitmap.toString(),Toast.LENGTH_SHORT).show();
+//            filePath = data.getData();
+//            img.setImageURI(filePath);
+//            flag = true;
+
+        }
+
+        else {
             if (filePath != null || sFlag) {
                 img.setImageURI(filePath);
             } else {
@@ -467,7 +507,7 @@ public class ReportActivity extends HomeActivity {
 
         if (flag) {
             findViewById(R.id.img).setVisibility(View.VISIBLE);
-            findViewById(R.id.TextViewImageChange).setVisibility(View.VISIBLE);
+//            findViewById(R.id.TextViewImageChange).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.TextViewImage).setVisibility(View.VISIBLE);
         }
@@ -575,7 +615,36 @@ public class ReportActivity extends HomeActivity {
                                         }
                                     });
 //
-                                } else{
+                                } else if(cameraImg != null){
+                                    final ProgressDialog progressDialog = new ProgressDialog(ReportActivity.this);
+                                    progressDialog.setTitle("يتم الان ارسال بلاغك...");
+                                    progressDialog.show();
+
+                                    storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+//                                    Toast.makeText(getApplicationContext(), "onSuccess: uri= "+ cameraImg.toString(),Toast.LENGTH_SHORT).show();
+                                    storageRef.putFile(cameraImg).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+
+                                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    saveToDatabase(uri.toString());
+                                                    // Toast.makeText(getApplicationContext(), "onSuccess: uri= "+ uri.toString(),Toast.LENGTH_SHORT).show();
+
+                                                    progressDialog.dismiss();
+
+
+
+                                                }
+                                            });
+                                        }
+                                    });
+
+
+                                }
+
+                                else{
                                     saveToDatabase(null);
                                 }
 
@@ -617,15 +686,43 @@ public class ReportActivity extends HomeActivity {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.ENGLISH);
         String date = dateFormat.format(new Date());
         report.setDate(date);
-        if (link == null) {
-            link = "https://i-love-png.com/images/no-image_7299.png";
+        if (link == null && report.getCategoryOption().equals("حيوان")) {
+            link = getURLForResource(R.drawable.pets);
         }
+
+        if (link == null && report.getCategoryOption().equals("انسان")) {
+            link = getURLForResource(R.drawable.people);
+        }
+        if (link == null && report.getCategoryOption().equals("اخرى")) {
+            link = getURLForResource(R.drawable.other);
+        }
+        if (link == null && report.getCategoryOption().equals("اجهزة")) {
+            link = getURLForResource(R.drawable.devices);
+        }
+
+
         report.setPhoto(link);
         report.setLocation(location.getEditText().getText().toString().trim());
         report.setAddress(address);
         report.setLatitude(latitude);
         report.setLongitude(longitude);
     }
+
+
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
+    }
+
+
+    public String BitmapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
 
     private void saveToDatabase(String link) {
         getValues(link);

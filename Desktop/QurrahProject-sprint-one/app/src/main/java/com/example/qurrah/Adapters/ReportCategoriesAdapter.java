@@ -45,18 +45,21 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
     ArrayList<String> users;
     ArrayList<String> phones;
     ArrayList<String> Id;
+    ArrayList<String> allowPhones;
     String searchString = "";
     String date1, date2, type="none", CU="none";
 
 
 
-    public ReportCategoriesAdapter(Context context, ArrayList<Report> reports , ArrayList<String> users , ArrayList<String> phones, ArrayList<String> Id) {
+    public ReportCategoriesAdapter(Context context, ArrayList<Report> reports , ArrayList<String> users , ArrayList<String> phones, ArrayList<String> Id , ArrayList<String> allowPhones) {
 
         this.Id=Id;
         this.users = users;
         this.context = context;
         this.reports = reports;
         this.phones = phones;
+        this.allowPhones = allowPhones;
+
 
     }
 
@@ -81,6 +84,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
         }
         final Report report = reports.get(position);
         final String userName = users.get(position);
+        final String allowPhone = allowPhones.get(position);
         final String id = Id.get(position);
         if(CU.equals(id)) {
             type = "current";
@@ -147,6 +151,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             intent.putExtra("Title", report.getLostTitle());
             intent.putExtra("Description", report.getLostDescription());
             intent.putExtra("UserName", userName);
+            intent.putExtra("allowPhone", allowPhone);
             intent.putExtra("WhatsApp" , No);
             intent.putExtra("userid" , id);
             intent.putExtra("userType" , finalType);

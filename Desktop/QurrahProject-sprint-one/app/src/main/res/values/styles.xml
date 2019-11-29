@@ -21,6 +21,9 @@
     <style name="error_appearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/darkPurple</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_gravity">right</item>
+
     </style>
 
     <style name="MenuStyle">red</style>

@@ -52,8 +52,9 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
     String userID;
     RecyclerView recyclerView;
     ArrayList<Report> list;
-    ArrayList<String> userList, phones , id;
+    ArrayList<String> userList, phones , id , allowWhats;
     ReportCategoriesAdapter adapter;
+
 
 
 
@@ -148,6 +149,8 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
         userList = new ArrayList<>();
         phones = new ArrayList<>();
         id= new ArrayList<>();
+        allowWhats = new ArrayList<>();
+
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -157,13 +160,14 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
                 userList.clear();
                 phones.clear();
                 id.clear();
+                allowWhats.clear();
 
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     UserProfile userProfile = snapshot.getValue(UserProfile.class);
                     String userName = userProfile.getUserName();
                     String No = userProfile.getPhone();
                     String Id = userProfile.getId();
-                    String allowPhoneAccess=userProfile.getAllowPhone();
+                    String  allowPhoneAccess =userProfile.getAllowPhone();
 
                     for (DataSnapshot ds: snapshot.child("Report").getChildren()) {
                         if(ds.getChildrenCount() > 0) {
@@ -175,13 +179,16 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
                         Report report = ds.getValue(Report.class);
                         if (report.getCategoryOption().equals(getString(R.string.devices)) && report.getReportStatus().equals("نشط")) {
                             report.setUsername(userName);
+                            report.setUserAllowWhats(allowPhoneAccess);
+                            report.setUserPhone(No);
                             list.add(report);
 
-                            if(allowPhoneAccess.equals("true")){
-                                phones.add(No);
-                            }else{
-                                phones.add("0");
-                            }
+
+//                            if(allowPhoneAccess.equals("true")){
+//                                phones.add(No);
+//                            }else{
+//                                phones.add("0");
+//                            }
                             report.setUserReportID(Id);
 
                         }
@@ -197,9 +204,11 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
                             rep.getUsername());
                     userList.add(rep.getUsername());
                     id.add(rep.getuserReportID());
+                    allowWhats.add(rep.getUserAllowWhats());
+                    phones.add(rep.getUserPhone());
                 }
 
-                adapter = new ReportCategoriesAdapter(DeviceReport.this, list, userList, phones,id);
+                adapter = new ReportCategoriesAdapter(DeviceReport.this, list, userList, phones,id , allowWhats);
                 recyclerView.setAdapter(adapter);
                 findViewById(R.id.progressbar).setVisibility(View.GONE);
 

@@ -19,6 +19,8 @@ public class Report implements Serializable {
     private String address;
     private String username;
     private String userReportID;
+    private String userPhone;
+    private String userAllowWhats;
 
     public Report() {
         this.ReportStatus = "نشط";
@@ -54,6 +56,24 @@ public class Report implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getUserAllowWhats() {
+        return userAllowWhats;
+    }
+
+    public void setUserAllowWhats(String userAllowWhats) {
+        this.userAllowWhats = userAllowWhats;
+    }
+
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
 
     public String getLostTitle() {
         return lostTitle;

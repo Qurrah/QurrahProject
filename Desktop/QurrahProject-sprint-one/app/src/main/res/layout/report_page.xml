@@ -353,37 +353,83 @@
 
 
 
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <FrameLayout
             android:id="@+id/fab2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginRight="23dp"
             android:layout_marginBottom="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:paddingRight="20dp"
-            app:srcCompat="@drawable/whatsapp3"
-
-            android:scaleType="fitCenter"
-
-            android:backgroundTint="@color/lightGrey"
-            android:tint="@color/darkPurple"/>
+            android:elevation="0dp"
+            android:backgroundTint="@color/transparent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab1"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:layout_marginRight="23dp"
-            android:layout_marginBottom="20dp"
-            app:srcCompat="@drawable/conversation"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="right"
+            android:scaleType="fitXY"
+            app:borderWidth="0dp"
+            android:elevation="0dp"
+            app:elevation="0dp"
+            app:fabSize="normal"
             android:backgroundTint="@color/lightGrey"
             android:tint="@color/darkPurple"/>
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/whatsapp3"
+                android:elevation="6dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="@color/darkPurple"
+                >
+
+            </TextView>
+
+        </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/fab1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/lightGrey"
+            android:tint="@color/darkPurple"
+            app:borderWidth="0dp"
+            android:elevation="0dp"
+            app:elevation="0dp"
+            app:fabSize="normal"/>
+
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/conversation"
+            android:elevation="7dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/darkPurple"
+            >
+
+        </TextView>
+
+
+
+    </FrameLayout>
+
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -396,160 +442,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:backgroundTint="@color/darkPurple"/>
-
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab1"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_gravity="bottom"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            android:layout_marginLeft="100dp"-->
-<!--            android:layout_marginRight="25dp"-->
-<!--            android:background="?android:attr/selectableItemBackground"-->
-<!--            android:clickable="true"-->
-<!--            android:elevation="16dp"-->
-<!--            android:focusable="true"-->
-<!--            android:visibility="invisible"-->
-<!--            app:backgroundTint="@color/lightGrey"-->
-<!--            app:pressedTranslationZ="12dp"-->
-<!--            app:srcCompat="@drawable/conversation"-->
-<!--            />-->
-
-
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:layout_marginRight="10dp"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_alignParentEnd="true"-->
-<!--        android:layout_gravity="bottom">-->
-
-
-
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_gravity="bottom"-->
-<!--            android:layout_marginBottom="32dp"-->
-<!--            android:layout_marginEnd="24dp"-->
-<!--            android:background="?android:attr/selectableItemBackground"-->
-<!--            android:clickable="true"-->
-<!--            android:elevation="16dp"-->
-<!--            android:focusable="true"-->
-<!--            android:visibility="visible"-->
-<!--            app:backgroundTint="#ffffff"-->
-<!--            app:pressedTranslationZ="12dp"-->
-<!--            android:autofillHints="contact"-->
-<!--            android:src="@drawable/message"-->
-<!--            />-->
-
-
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/fab2"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:layout_marginBottom="30dp"-->
-<!--            android:layout_marginEnd="24dp"-->
-<!--            android:background="?android:attr/selectableItemBackground"-->
-<!--            android:clickable="true"-->
-<!--            android:elevation="16dp"-->
-<!--            android:focusable="true"-->
-<!--            android:visibility="invisible"-->
-<!--            app:backgroundTint="@color/lightGrey"-->
-<!--            android:padding="0dp"-->
-<!--            app:pressedTranslationZ="12dp"-->
-<!--            android:foregroundGravity="center"-->
-<!--            app:srcCompat="@drawable/whatsapp" />-->
-
-
-
-<!--    </LinearLayout>-->
-
-
-
-
-
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/whatsapp"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_marginTop="50dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:elevation="10dp"-->
-<!--        android:paddingRight="220dp"-->
-<!--        android:paddingTop="15dp"-->
-<!--        android:background="@drawable/gray_buttons"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_gravity="bottom">-->
-
-
-
-<!--        <TextView-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:background="@drawable/whatsapp"-->
-<!--            android:backgroundTint="#DA918291"-->
-<!--            tools:ignore="MissingConstraints"-->
-<!--            android:layout_marginRight="10dp"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="واتساب"-->
-<!--            android:layout_gravity="right"-->
-<!--            android:layout_marginRight="20dp"-->
-<!--            tools:ignore="MissingConstraints"-->
-<!--            />-->
-
-<!--    </LinearLayout>-->
-
-
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/chatting"-->
-<!--        android:layout_width="220dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:elevation="10dp"-->
-<!--        android:paddingTop="15dp"-->
-<!--        android:background="@drawable/purple_buttons"-->
-<!--        android:backgroundTint="#DA918291"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_gravity="bottom">-->
-
-<!--        <Button-->
-<!--            android:layout_width="30dp"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:layout_gravity="right"-->
-<!--            android:backgroundTint="@color/lightGrey"-->
-<!--            android:background="@drawable/conversation"-->
-<!--            android:layout_marginRight="20dp"-->
-<!--            android:paddingBottom="10dp"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            tools:ignore="MissingConstraints"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="محادثة فورية"-->
-<!--            android:layout_gravity="right"-->
-<!--            android:layout_marginRight="30dp"-->
-<!--            tools:ignore="MissingConstraints"-->
-<!--            />-->
-
-
-<!--    </LinearLayout>-->
 
 
 

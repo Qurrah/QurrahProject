@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,12 +47,15 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
     private TextView title , description , name , yourReport, locDesLable, locDes , rType ;
     private ImageView photo;
     private String reporTitle , reportDescription , reportUser , reportWhatsApp , reportType ;
-    private String reportImg, UserType;
+    private String reportImg, UserType, allowPhone;
     private LinearLayout chatting , whatsapp ,map ,noMap;
     private String  userID, latitude, longitude, locationDes;
     private static final String TAG = "viewReport";
-    private FloatingActionButton fab_contact, fab_whatsapp, fab_dChat;
+    private FloatingActionButton fab_contact;    // , fab_whatsapp, fab_dChat;
+    private FrameLayout fab_whatsapp, fab_dChat;
+
     Boolean isOpen = false;
+
 
 
 
@@ -122,17 +126,17 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         fab_contact = findViewById(R.id.fab);
         fab_dChat = findViewById(R.id.fab1);
         fab_whatsapp = findViewById(R.id.fab2);
-
-        fab_contact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isOpen) {
-                    showFABMenu();
-                } else {
-                    closeFABMenu();
-                }
-            }
-        });
+//
+//        fab_contact.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (!isOpen) {
+//                    showFABMenu();
+//                } else {
+//                    closeFABMenu();
+//                }
+//            }
+//        });
 
 
         //-----------------------------------
@@ -151,6 +155,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         locationDes = getIntent().getStringExtra("locationDescription");
         UserType = getIntent().getStringExtra("userType");
         reportType = getIntent().getStringExtra("reportType");
+        allowPhone = getIntent().getStringExtra("allowPhone");
 
 
         if (UserType == null || UserType.equals("none")) {
@@ -166,7 +171,12 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
             name.setText(reportUser);
         }
 
-        if (reportWhatsApp.equals("0")) {
+//        || allowPhone.equals("false")
+// reportWhatsApp.equals("0") ||
+
+//        Toast.makeText(getApplicationContext(), "allow: "+ allowPhone,Toast.LENGTH_SHORT).show();
+
+        if (allowPhone.equals("false")) {
             fab_whatsapp.setVisibility(View.GONE);
             fab_dChat.setVisibility(View.GONE);
 
@@ -200,6 +210,21 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
                     }
                 }
             });
+        }
+        else{
+
+
+            fab_contact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isOpen) {
+                        showFABMenu();
+                    } else {
+                        closeFABMenu();
+                    }
+                }
+            });
+
         }
 
 

@@ -40,15 +40,16 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="73dp"
+            android:layout_marginBottom="25dp"
             android:padding="0dp"
             app:errorEnabled="true"
-            android:layout_marginRight="5dp"
             android:onClick="onClicklostTitle"
             app:errorTextAppearance="@style/error_appearance"
             android:visibility="gone"
-            >
+            tools:ignore="OnClick">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -68,12 +69,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_marginBottom="16dp"
             app:counterEnabled="true"
             app:counterMaxLength="150"
             app:errorTextAppearance="@style/error_appearance"
-            android:layout_marginRight="5dp"
             app:errorEnabled="true"
             android:visibility="gone">
 
@@ -98,10 +99,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginBottom="16dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="58dp"
             android:layoutDirection="rtl"
             android:orientation="vertical"
-            android:layout_marginRight="5dp">
+            >
             <!--            android:checkedButton="@+id/first"-->
 
             <TextView
@@ -109,33 +112,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="12dp"
                 android:text="@string/Category" />
 
             <RadioButton
                 android:id="@+id/HumanRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/human" />
+                android:layout_marginBottom="5dp"
+                android:text="@string/human"
+                android:buttonTint="@color/darkPurple"/>
 
             <RadioButton
                 android:id="@+id/AnimalRadio"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/animal" />
+                android:layout_marginBottom="5dp"
+                android:text="@string/animal"
+                android:buttonTint="@color/darkPurple"/>
 
             <RadioButton
                 android:id="@+id/DevicesRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/devices" />
+                android:layout_marginBottom="5dp"
+                android:text="@string/devices"
+                android:buttonTint="@color/darkPurple"/>
 
             <RadioButton
                 android:id="@+id/OtherRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:checked="true"
-                android:text="@string/other" />
+                android:text="@string/other"
+                android:buttonTint="@color/darkPurple"/>
         </RadioGroup>
 
         <RadioGroup
@@ -145,9 +157,10 @@
             android:layout_gravity="right"
             android:checkedButton="@+id/first"
             android:layout_marginBottom="16dp"
+            android:layout_marginRight="20dp"
             android:layoutDirection="rtl"
             android:orientation="vertical"
-            android:layout_marginRight="5dp">
+            >
             <!--            android:checkedButton="@+id/second"-->
 
 
@@ -156,20 +169,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/ReportType" />
 
             <RadioButton
                 android:id="@+id/FoundRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:checked="true"
-                android:text="فاقد" />
+                android:text="فاقد"
+                android:buttonTint="@color/darkPurple"/>
 
             <RadioButton
                 android:id="@+id/LostRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="معثور عليه" />
+                android:text="معثور عليه"
+                android:buttonTint="@color/darkPurple"/>
 
 
         </RadioGroup>
@@ -178,10 +195,10 @@
 
         <Button
             android:id="@+id/classificationNext"
-            android:layout_width="180dp"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="35dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/purple_buttons"
             android:onClick="classificationNext"
@@ -189,14 +206,22 @@
             android:text="@string/next"
             tools:ignore="ButtonStyle"/>
 
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
         <TextView
             android:id="@+id/TextViewImage"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="0dp"
             android:layout_marginBottom="16dp"
+            android:gravity="center"
             android:background="@drawable/dotted"
             android:onClick="upload_img"
             android:padding="15dp"
@@ -206,11 +231,17 @@
 
         <ImageView
             android:id="@+id/img"
-            android:layout_width="fill_parent"
-            android:layout_margin="5dp"
-            android:layout_height="220dp"
+            android:layout_height="200dp"
+            android:layout_width="200dp"
+            android:maxHeight="200dp"
+            android:maxWidth="200dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="16dp"
             android:layout_gravity="center"
             android:visibility="gone"
+            android:onClick="upload_img"
 
             />
 
@@ -219,20 +250,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_alignLeft="@+id/img"
+            android:layout_alignRight="@+id/img"
             android:layout_marginTop="20dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="16dp"
             android:onClick="upload_img"
             android:text="@string/changeImg"
-            android:textColor="#0000FF"
+            android:textColor="@color/darkPurple"
             android:textSize="14dp"
             android:visibility="gone" />
+
+
+        </LinearLayout>
+
 
 
         <LinearLayout
             android:id="@+id/pickPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal"
             android:clickable="true"
             android:onClick="pickPlace"
@@ -243,9 +282,9 @@
 
             <ImageView
                 android:id="@+id/imageAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/ic_add_location_black_24dp" />
 
             <TextView
@@ -253,10 +292,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="اختر الموقع"
+                android:text="اضافة موقع (اختياري)"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="17sp"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -266,9 +305,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="10dp"
             android:layoutDirection="rtl"
             android:visibility="gone"
             app:errorEnabled="true">
@@ -278,11 +318,15 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/pick_location"
                 android:inputType="text"
+                android:textSize="14dp"
                 android:importantForAutofill="noExcludeDescendants"
                 />
 
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
 
         <LinearLayout
@@ -294,39 +338,27 @@
             android:orientation="horizontal"
             >
 
-            <Button
-                android:id="@+id/BackToLostInfo"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="150dp"
-                android:layout_gravity="right"
-                android:background="@drawable/gray_buttons"
-                android:backgroundTint="#CCC4C4"
-                android:textColor="#ffffff"
-                android:visibility="gone"
-                tools:ignore="ButtonStyle"
-                android:onClick="backToLostInfo"
-                android:text="@string/back"/>
+
             <Button
                 android:id="@+id/BackToClassification"
                 android:layout_width="180dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:background="@drawable/gray_buttons"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="100dp"
-                android:layout_marginBottom="16dp"
+
                 android:backgroundTint="#CCC4C4"
                 android:textColor="#ffffff"
                 android:visibility="gone"
                 tools:ignore="ButtonStyle"
                 android:onClick="backToClassification"
                 android:text="@string/back"/>
+
             <Button
                 android:id="@+id/LostInfoNext"
                 android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_height="40dp"
+
                 android:layout_marginTop="100dp"
                 android:background="@drawable/purple_buttons"
                 android:visibility="gone"
@@ -335,17 +367,38 @@
                 android:textColor="@color/white"
                 android:text="@string/next" />
 
+
+            <Button
+                android:id="@+id/BackToLostInfo"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="right"
+                android:background="@drawable/gray_buttons"
+                android:backgroundTint="#CCC4C4"
+                android:textColor="#ffffff"
+                android:visibility="gone"
+                tools:ignore="ButtonStyle"
+                android:onClick="backToLostInfo"
+                android:text="@string/back"/>
+
+
+
             <Button
                 android:id="@+id/LocationPhotoSubmit"
                 android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="0dp"
                 android:background="@drawable/purple_buttons"
                 android:visibility="gone"
                 android:textColor="@color/white"
                 tools:ignore="ButtonStyle"
                 android:onClick="sendAllInfo"
                 android:text="@string/send"/>
+
+
+
 
         </LinearLayout>
 
