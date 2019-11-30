@@ -98,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
         changePassword=findViewById(R.id.editPassword);
         editProfile= findViewById(R.id.edit_profile);
         update=  findViewById(R.id.update);
+
         cancel = (CircleImageView) findViewById(R.id.cancel);
 
 
@@ -386,7 +387,13 @@ public class ProfileActivity extends AppCompatActivity {
                     }
 
                 }
-
+                update.setVisibility(View.GONE);
+                cancel.setVisibility(View.GONE);
+                editProfile.setVisibility(View.VISIBLE);
+                addImg.setVisibility(View.GONE);
+                profileName.setEnabled(false);
+                profileEmail.setEnabled(false);
+                profilePhone.setEnabled(false);
 
             }
         });
@@ -450,7 +457,7 @@ public class ProfileActivity extends AppCompatActivity {
             flag = true;
 
         } else {
-            if (filePath != null || sFlag) {
+            if (filePath != null ) {
                 profilePic.setImageURI(filePath);
             } else {
                 findViewById(R.id.TextViewImage).setVisibility(View.VISIBLE);

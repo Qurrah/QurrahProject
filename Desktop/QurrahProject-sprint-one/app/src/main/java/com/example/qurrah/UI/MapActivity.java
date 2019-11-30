@@ -264,6 +264,10 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         NavigationView mNavigationView = findViewById(R.id.nav_view3);
 
         if (mNavigationView != null) {
+            if (userId == null){
+                navigationView.getMenu().clear();
+                navigationView.inflateMenu(R.menu.activity_unregistered_user_nav_drawer);
+            }
             mNavigationView.setNavigationItemSelectedListener(this);
         }
 //---------------------------------------------------
@@ -278,7 +282,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
             type="guest";
         }
 
-        if(!(type.equals("guest"))){
+
         bottomAppBar.setNavigationOnClickListener(v -> {
 
             if (!navDrawer.isDrawerOpen(GravityCompat.START))
@@ -287,7 +291,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
             else
                 navDrawer.closeDrawer(GravityCompat.END);
 
-        });}
+        });
 //---------------------------------------------------
         // firebase
         firebaseAuth = FirebaseAuth.getInstance();
@@ -302,6 +306,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
 
 
         databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+
         profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -316,6 +321,8 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
                             profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
                         else
                             Picasso.get().load(userProfile.getImageURL()).into(profilePic);
+                    }else {
+                        profilePic.setVisibility(View.GONE);
                     }
                     reportsList.clear();
                     userList.clear();
@@ -387,6 +394,9 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
 
             case R.id.nav_logout:
                 logout();
+                break;
+            case R.id.nav_login:
+                startActivity(new Intent(this, MainActivity.class));
                 break;
             default:
                 break;

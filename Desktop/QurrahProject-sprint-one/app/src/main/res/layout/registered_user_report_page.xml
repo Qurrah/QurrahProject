@@ -118,55 +118,69 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/default_frame">
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
+    <ImageView
         android:id="@+id/update"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_gravity="right"
-        android:layout_marginLeft="180dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/cancel"
-        android:background="@drawable/purple_buttons"
-        android:backgroundTint="#776A77"
+        android:src="@drawable/edit1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="50dp"
         android:layout_alignParentRight="true"
-        android:text="@string/edit"
-        android:textColor="#ffffff"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_gravity="left|top"
+        android:layout_marginLeft="200dp"
+        android:layout_gravity="right"
         android:layout_marginTop="5dp"
-        android:background="@drawable/purple_buttons"
-        android:backgroundTint="#776A77"
-        android:text="الغاء"
+        android:layout_marginRight="3dp"
+        android:layout_toRightOf="@+id/cancel"
+        tools:ignore="MissingConstraints" />
+    <ImageView
+        android:id="@+id/saveChanges"
+        android:src="@drawable/checked_1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="290dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="3dp"
+        android:layout_toRightOf="@+id/cancel"
+        tools:ignore="MissingConstraints" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/cancel"
+        android:layout_width="40dp"
+        android:layout_gravity="left|top"
+        android:layout_height="40dp"
         android:visibility="gone"
         android:layout_alignParentLeft="true"
-        android:textColor="#ffffff"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/saveChanges"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_gravity="right"
-        android:layout_marginLeft="180dp"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/cancel"
-        android:background="@drawable/purple_buttons"
-        android:backgroundTint="#776A77"
-        android:layout_alignParentRight="true"
-        android:text="حفظ التعديلات"
-        android:visibility="gone"
-        android:textColor="#ffffff"
-        tools:ignore="MissingConstraints"/>
+
+        android:src="@drawable/cancel">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+
+<!--    <Button-->
+
+<!--        android:id="@+id/saveChanges"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_gravity="right"-->
+<!--        android:layout_marginLeft="200dp"-->
+<!--        android:layout_marginTop="7dp"-->
+<!--        android:layout_toRightOf="@+id/cancel"-->
+<!--        android:background="@drawable/purple_buttons"-->
+<!--        android:backgroundTint="#776A77"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:text="حفظ التعديلات"-->
+<!--        android:visibility="gone"-->
+<!--        android:textColor="#ffffff"-->
+<!--        tools:ignore="MissingConstraints"/>-->
 </RelativeLayout>
 <!--            <LinearLayout-->
 <!--                android:layout_width="85dp"-->

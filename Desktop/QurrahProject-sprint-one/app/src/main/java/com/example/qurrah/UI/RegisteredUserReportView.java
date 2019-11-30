@@ -71,10 +71,9 @@ import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 public class RegisteredUserReportView extends AppCompatActivity implements OnMapReadyCallback {
 
     private EditText title, description , mapDescription;
-    private ImageView photo;
+    private ImageView photo, update , cancel, save;
     private String reporTitle, reportDescription;
     private String reportImg;
-    private Button update ,save, cancel;
     private TextView noLocLable;
     private LinearLayout addImg;
     private TextView LocationText;
@@ -149,7 +148,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
         update = findViewById(R.id.update);
-        cancel=findViewById(R.id.cancel);
+        cancel=(CircleImageView)findViewById(R.id.cancel);
         save = findViewById(R.id.saveChanges);
         //هذا
         locDesLable = findViewById(R.id.locationDesLable);
@@ -248,6 +247,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                 title.setEnabled(false);
                 description.setEnabled(false);
                 mapDescription.setEnabled(false);
+                if(editedLocation.equals("")){
+                    mapDescription.setVisibility(View.GONE);
+                locDesLable.setVisibility(View.GONE);}
                 //start
                 if(!editedTitle.equals(reporTitle)||!editedDesc.equals(reportDescription)||!editedAddress.equals(addressDesc)||!editedLatitude.equals(latitude)||!editedLongitude.equals(longitude)||filePath!=null){
 

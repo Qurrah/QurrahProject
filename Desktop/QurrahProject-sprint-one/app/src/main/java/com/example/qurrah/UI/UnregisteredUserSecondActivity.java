@@ -106,7 +106,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
         profilePic = (CircleImageView) header.findViewById(R.id.imageView);
-
+        profilePic.setVisibility(View.GONE);
 
         reportsList = new ArrayList<>();
         userList = new ArrayList<>();
