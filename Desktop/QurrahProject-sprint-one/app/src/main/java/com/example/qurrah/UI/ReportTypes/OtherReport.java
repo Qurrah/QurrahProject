@@ -184,7 +184,6 @@ public class OtherReport extends HomeActivity implements SearchView.OnQueryTextL
                             report.setUsername(userName);
                             report.setUserAllowWhats(allowPhoneAccess);
                             report.setUserPhone(No);
-                            list.add(report);
 
 
 //                            if(allowPhoneAccess.equals("true")){
@@ -193,6 +192,7 @@ public class OtherReport extends HomeActivity implements SearchView.OnQueryTextL
 //                                phones.add("0");
 //                            }
                             report.setUserReportID(Id);
+                            list.add(report);
 
                         }
 

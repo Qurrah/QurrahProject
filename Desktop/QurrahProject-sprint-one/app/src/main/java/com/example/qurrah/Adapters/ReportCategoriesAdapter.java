@@ -83,7 +83,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             type="guest";
         }
         final Report report = reports.get(position);
-        final String userName = users.get(position);
+        final String userName = report.getUsername();
         final String allowPhone = allowPhones.get(position);
         final String id = Id.get(position);
         if(CU.equals(id)) {
