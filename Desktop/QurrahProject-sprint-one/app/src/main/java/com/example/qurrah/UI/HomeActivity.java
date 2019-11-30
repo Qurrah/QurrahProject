@@ -151,8 +151,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                         username.setText(userProfile.getUserName());
-                        if(!userProfile.getImageURL().equals("default"))
+                        if(userProfile.getImageURL().equals("default"))
+                            profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                        else
                             Picasso.get().load(userProfile.getImageURL()).into(profilePic);
+
                         reportsList.clear();
                         userList.clear();
                         phones.clear();

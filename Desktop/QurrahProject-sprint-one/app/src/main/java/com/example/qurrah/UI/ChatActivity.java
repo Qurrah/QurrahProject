@@ -45,6 +45,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
 
     CircleImageView profile_image;
     TextView username, noChats, Chats, MessagesNo;
+    private CircleImageView profilePic;
 
     DatabaseReference reference;
     private RecyclerView recyclerView;
@@ -182,6 +184,7 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
         NavigationView navigationView = findViewById(R.id.nav_view5);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
 
 //---------------------------------------------------
@@ -218,6 +221,10 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                 username.setText(userProfile.getUserName());
+                if(userProfile.getImageURL().equals("default"))
+                    profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                else
+                    Picasso.get().load(userProfile.getImageURL()).into(profilePic);
 
                 reportsList.clear();
                 userList.clear();
