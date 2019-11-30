@@ -21,7 +21,6 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:contentDescription="@string/nav_header_desc"
-
         android:background="@drawable/circle_drawer"
         app:srcCompat="@drawable/ic_account_circle_white_60dp"
         tools:ignore="VectorDrawableCompat">
