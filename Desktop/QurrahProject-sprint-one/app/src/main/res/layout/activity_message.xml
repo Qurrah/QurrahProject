@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6e6"
-    tools:context=".UI.MessageActivity"
-    android:layoutDirection="ltr">
+    android:background="#F1F1F1"
+    android:layoutDirection="ltr"
+    tools:context=".UI.MessageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar_layout"
@@ -66,19 +66,19 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"
-        android:layout_below="@id/bar_layout"
-        android:layout_above="@id/bottom"/>
+        android:layout_above="@id/bottom"
+        android:layout_below="@id/bar_layout" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:padding="5dp"
         android:id="@+id/bottom"
-        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content">
+        android:background="#fff"
+        android:padding="5dp">
 
         <EditText
             android:id="@+id/text_send"
