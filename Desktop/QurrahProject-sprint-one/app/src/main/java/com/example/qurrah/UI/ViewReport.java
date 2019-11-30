@@ -157,7 +157,11 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         reportType = getIntent().getStringExtra("reportType");
         allowPhone = getIntent().getStringExtra("allowPhone");
 
-        Toast.makeText(getApplicationContext(), "allow: "+ reportUser,Toast.LENGTH_SHORT).show();
+
+//        Toast.makeText(getApplicationContext(), "allow: "+ reportUser, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "allow: "+ reportWhatsApp, Toast.LENGTH_SHORT).show();
+
+//        Toast.makeText(getApplicationContext(), "allow: "+ reportUser,Toast.LENGTH_SHORT).show();
 
         if (UserType == null || UserType.equals("none")) {
             UserType = "guest";
@@ -176,6 +180,80 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
 // reportWhatsApp.equals("0") ||
 
 //        Toast.makeText(getApplicationContext(), "allow: "+ allowPhone,Toast.LENGTH_SHORT).show();
+
+        if (UserType.equals("guest")) {
+            fab_whatsapp.setVisibility(View.VISIBLE);
+            fab_dChat.setVisibility(View.GONE);
+            fab_contact.setVisibility(View.GONE);
+
+
+            if (allowPhone.equals("false")) {
+                fab_whatsapp.setVisibility(View.GONE);
+                fab_dChat.setVisibility(View.GONE);
+            }
+        }
+
+
+//            fab_contact.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                        try {
+//                            Uri uri = Uri.parse("smsto:" + reportWhatsApp);
+//                            Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+//                            i.setPackage("com.whatsapp");
+//                            startActivity(Intent.createChooser(i, ""));
+//                            Intent waIntent = new Intent(Intent.ACTION_SEND);
+//                            waIntent.setType("text/plain");
+//                            String text = "YOUR TEXT HERE";
+//
+//                        } catch (Exception e) {
+//                            Toast.makeText(ViewReport.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+//                                    .show();
+//                        }
+
+
+//                    else if (UserType.equals("guest")) {
+//                        AlertDialog.Builder builder1 = new AlertDialog.Builder(ViewReport.this);
+//                        builder1.setMessage("يلزمك التسجيل لإجراء هذه المحادثة، هل تود التسجيل الآن؟");
+//                        builder1.setCancelable(true);
+//
+//                        builder1.setPositiveButton(
+//                                "نعم",
+//                                (dialog, id) -> {
+//                                    finish();
+//                                    startActivity(new Intent(ViewReport.this, MainActivity.class));
+//                                });
+//
+//                        builder1.setNegativeButton(
+//                                "إلغاء الامر",
+//                                (dialog, id) -> dialog.cancel());
+//
+//                        AlertDialog alert11 = builder1.create();
+//
+//                        alert11.show();
+//                    }
+//                }
+//            });
+//        }
+//        else{
+//
+//
+//            fab_contact.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (!isOpen) {
+//                        showFABMenu();
+//                    } else {
+//                        closeFABMenu();
+//                    }
+//                }
+//            });
+//
+//        }
+
+
+
 
         if (allowPhone.equals("false")) {
             fab_whatsapp.setVisibility(View.GONE);

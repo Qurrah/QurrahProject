@@ -305,18 +305,37 @@ public class DeviceReport extends HomeActivity implements SearchView.OnQueryText
                     for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
                         Report report = ds.getValue(Report.class);
                         if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+
+                            report.setUsername(userName);
+                            report.setUserAllowWhats(allowPhoneAccess);
+                            report.setUserPhone(No);
                             reportsList.add(report);
-                            IdList.add(ID);
-                            userList.add(userName);
-                            if (allowPhoneAccess.equals("true")) {
-                                phones.add(No);
-                            } else {
-                                phones.add("0");
-                            }
+                            report.setUserReportID(ID);
+
+
+//                            reportsList.add(report);
+//                            IdList.add(ID);
+//                            userList.add(userName);
+//                            if (allowPhoneAccess.equals("true")) {
+//                                phones.add(No);
+//                            } else {
+//                                phones.add("0");
+//                            }
                         }
                     }
                 }
 
+
+                sortByDate(list);
+
+                for (Report rep: list){
+                    System.out.println("here   " +
+                            rep.getUsername());
+                    userList.add(rep.getUsername());
+                    IdList.add(rep.getuserReportID());
+                    allowWhats.add(rep.getUserAllowWhats());   // to be checked
+                    phones.add(rep.getUserPhone());
+                }
 
             }
 

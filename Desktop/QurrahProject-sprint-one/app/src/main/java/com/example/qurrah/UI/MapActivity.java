@@ -183,7 +183,8 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
             LatLng latLng = new LatLng(Double.parseDouble(reportsList.get(i).getLatitude()) , Double.parseDouble(reportsList.get(i).getLongitude()));
            if(latLng.equals(marker.getPosition())){
 
-               Toast.makeText(getApplicationContext(), "allow: "+ userList.get(i), Toast.LENGTH_SHORT).show();
+//               Toast.makeText(getApplicationContext(), "allow: "+ userList.get(i), Toast.LENGTH_SHORT).show();
+//               Toast.makeText(getApplicationContext(), "allow: "+ phones.get(i), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MapActivity.this, ViewReport.class);
 //                    intent.putExtra("Report", (Parcelable) reports.get(position));
                 intent.putExtra("Image", reportsList.get(i).getPhoto());
