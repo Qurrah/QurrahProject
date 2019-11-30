@@ -1,15 +1,14 @@
 package com.example.qurrah.UI;
 
-import android.content.Intent;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 //import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +20,12 @@ import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class UpdatePassword extends AppCompatActivity {
 
@@ -57,7 +60,12 @@ public class UpdatePassword extends AppCompatActivity {
         currentPassword = findViewById(R.id.CurrentPassword);
         newPassword = findViewById(R.id.NewPassword);
         repeatPassword = findViewById(R.id.RepeatPassword);
+        update.setEnabled(false);
+        update.setAlpha(0.6f);
 
+        currentPassword2 = currentPassword.getEditText().getText().toString().trim();
+        userPasswordNew = newPassword.getEditText().getText().toString().trim();
+        repeatPassword2 = repeatPassword.getEditText().getText().toString().trim();
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,11 +74,103 @@ public class UpdatePassword extends AppCompatActivity {
         FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getInstance().getCurrentUser();
 
+        currentPassword.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                currentPassword2 = currentPassword.getEditText().getText().toString().trim();
+                if(currentPassword2.length()>=7)
+                    validateCurrent();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                currentPassword2 = currentPassword.getEditText().getText().toString().trim();
+                if (validateN()){
+                    update.setEnabled(true);
+                    update.setAlpha(1f);
+                }else {
+                    update.setEnabled(false);
+                    update.setAlpha(0.6f);
+                }
+                if(currentPassword2.length()>=7)
+                    validateCurrent();
+            }
+        });
+
+
+
+        newPassword.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                userPasswordNew = newPassword.getEditText().getText().toString().trim();
+                if(userPasswordNew.length()>=7)
+                    validateNew();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                userPasswordNew = newPassword.getEditText().getText().toString().trim();
+                if (validateN()){
+                    update.setEnabled(true);
+                    update.setAlpha(1f);
+                }else {
+                    update.setEnabled(false);
+                    update.setAlpha(0.6f);
+                }
+
+                if(userPasswordNew.length()>=7)
+                    validateNew();
+            }
+        });
+
+        repeatPassword.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                repeatPassword2 = repeatPassword.getEditText().getText().toString().trim();
+                if(repeatPassword2.length()>=7)
+                    validateRepeat();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                repeatPassword2 = repeatPassword.getEditText().getText().toString().trim();
+                if (validateN()){
+                    update.setEnabled(true);
+                    update.setAlpha(1f);
+                }else {
+                    update.setEnabled(false);
+                    update.setAlpha(0.6f);
+                }
+
+                if(repeatPassword2.length()>=7)
+                    validateRepeat();
+            }
+        });
+
+
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-            if(validate()){
+            if(validateCurrent()&&validateNew()&&validateRepeat()){
                 firebaseUser.updatePassword(userPasswordNew).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -98,22 +198,25 @@ public class UpdatePassword extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private Boolean validate(){
 
-        currentPassword2 = currentPassword.getEditText().getText().toString();
-        userPasswordNew = newPassword.getEditText().getText().toString();
-        repeatPassword2 = repeatPassword.getEditText().getText().toString();
 
-        result = false;
+    private boolean validateN(){
+        if (currentPassword2.isEmpty() || userPasswordNew.isEmpty() || repeatPassword2.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    private Boolean validateCurrent() {
+        result= true;
         if (currentPassword2.isEmpty()) {
             currentPassword.setError("الرجاء ادخال كلمة المرور الحالية");
             currentPassword.requestFocus();
-            return result;
-
+            return false;
         }
 
-        else if(true) {
-            firebaseAuth.signInWithEmailAndPassword(firebaseUser.getEmail(), currentPassword2).addOnCompleteListener(task -> {
+            AuthCredential credential= EmailAuthProvider.getCredential(firebaseUser.getEmail(), currentPassword2);
+            firebaseUser.reauthenticate(credential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
 
                     currentPassword.setError(null);
@@ -123,35 +226,54 @@ public class UpdatePassword extends AppCompatActivity {
 
                     currentPassword.setError("كلمة المرور المدخلة غير صحيحة");
                     currentPassword.requestFocus();
-
+                    result=false;
                 }
             });
-        }
 
-        else if (userPasswordNew.isEmpty()) {
+
+        return result;
+    }
+
+    private Boolean validateNew() {
+        result= true;
+
+        if (userPasswordNew.isEmpty()) {
             newPassword.setError("الرجاء ادخال كلمة مرور");
             newPassword.requestFocus();
+            return false;
+
         }
 
-        else if (userPasswordNew.length() < 6) {
-            newPassword.setError("أدخل كلمة مرور من 6 خانات أو اكثر");
+        else if (userPasswordNew.length() < 7) {
+            newPassword.setError("أدخل كلمة مرور من 7 خانات أو اكثر");
             newPassword.requestFocus();
+            return false;
+
         }
 
-        else if (repeatPassword2.isEmpty()) {
-            repeatPassword.setError("الرجاء إعادة ادخال كلمة المرور");
+            newPassword.setError(null);
+
+        return true;
+    }
+
+    private Boolean validateRepeat() {
+
+        if (repeatPassword2.isEmpty()) {
+            repeatPassword.setError("الرجاء إعادة ادخال كلمة مرور");
             repeatPassword.requestFocus();
+            return false;
+
         }
 
         else if (!repeatPassword2.equals(userPasswordNew)) {
             repeatPassword.setError("كلمة المرور غير متطابقة");
             repeatPassword.requestFocus();
+            return false;
         }
 
+        repeatPassword.setError(null);
 
-        else{
-            result=true;
-        }
-        return result;
+        return true;
     }
+
 }
