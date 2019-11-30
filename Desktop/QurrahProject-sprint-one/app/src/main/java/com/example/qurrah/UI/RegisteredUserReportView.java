@@ -16,7 +16,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -68,31 +70,27 @@ import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 
 public class RegisteredUserReportView extends AppCompatActivity implements OnMapReadyCallback {
 
-    private EditText title, description , mapDescription;   // changed this from textview to editable
-    private ImageView photo, img;
+    private EditText title, description , mapDescription;
+    private ImageView photo;
     private String reporTitle, reportDescription;
     private String reportImg;
-    private Button update ,save;
+    private Button update ,save, cancel;
     private TextView noLocLable;
-    private ImageView addImg;
+    private LinearLayout addImg;
     private TextView LocationText;
     private LinearLayout location;
 
-//    AlertDialog dialog;
-//    EditText titleEdit, descriptionEdit, locationDescriptionEdit;
-    protected boolean flag = false, flag1= false;
-    protected Uri filePath, previousImg;
-    static boolean sFlag = false, textFlag = true;
+    protected boolean flag = false;
+    protected Uri filePath;
+    static boolean sFlag = false;
     FirebaseAuth firebaseAuth;
     DatabaseReference ref;
     FirebaseStorage storage;
     StorageReference storageReference, storageRef;
     String userID, date, des ,latitude, longitude;
     Report report;
-    Editable titleText, desc;
     String addressDesc , address1;
     TextView tvaddress ,locDesLable ;
-    ImageView imageViewAddress;
     GoogleMap mMap;
     String editedTitle="", editedDesc="", editedAddress="",editedLocation="", editedLongitude="", editedLatitude="";
 
@@ -151,18 +149,18 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         description = findViewById(R.id.reportDes);
         photo = findViewById(R.id.reportImg);
         update = findViewById(R.id.update);
+        cancel=findViewById(R.id.cancel);
         save = findViewById(R.id.saveChanges);
         //هذا
         locDesLable = findViewById(R.id.locationDesLable);
         mapDescription = findViewById(R.id.locationDes);
         noLocLable = findViewById(R.id.noLoc);
-        addImg = findViewById(R.id.img_plus);
+        addImg = findViewById(R.id.img_plus_layout);
         LocationText = findViewById(R.id.locText);
         location = findViewById(R.id.pickPlace);
         tvaddress = findViewById(R.id.address);
 
 
-//       save.setVisibility(View.INVISIBLE);
 
 
         reporTitle = getIntent().getStringExtra("Title");
@@ -188,11 +186,7 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
         if (getIntent().getStringExtra("address") == null)
             noLocLable.setVisibility(View.VISIBLE);
-//        if(!addressDesc.equals("")){
-//            locDesLable.setVisibility(View.VISIBLE);
-//            mapDescription.setText(addressDesc);
-//
-//        }
+
 
         if (report.getReportStatus().equals("مغلق"))
             update.setVisibility(View.INVISIBLE);
@@ -203,10 +197,50 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         description.setText(reportDescription);
         mapDescription.setText(addressDesc);
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(RegisteredUserReportView.this);
+                builder1.setMessage("لن يتم حفظ التغييرات ، هل انت متأكد؟");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+
+                        "نعم",
+                        (dialog, id) -> {
+                            update.setVisibility(View.VISIBLE);
+                            save.setVisibility(View.GONE);
+                            cancel.setVisibility(View.GONE);
+                            addImg.setVisibility(View.GONE);
+                            location.setVisibility(View.GONE);
+                            LocationText.setVisibility(View.VISIBLE);
+                            locDesLable.setVisibility(View.GONE);
+                            title.setEnabled(false);
+                            description.setEnabled(false);
+                            mapDescription.setEnabled(false);
+                            title.setText(reporTitle);
+                            description.setText(reportDescription);
+                            mapDescription.setText(addressDesc);
+                            Picasso.get().load(reportImg).into(photo);
+
+                        }
+                );
+
+                builder1.setNegativeButton(
+                        "إلغاء الامر",
+                        (dialog, id) -> {
+                            dialog.cancel();
+                        }
+                );
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        });
         save.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
+                Log.d("","fle path");
                 update.setVisibility(View.VISIBLE);
+                cancel.setVisibility(View.GONE);
                 save.setVisibility(View.GONE);
                 addImg.setVisibility(View.GONE);
                 location.setVisibility(View.GONE);
@@ -214,51 +248,54 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                 title.setEnabled(false);
                 description.setEnabled(false);
                 mapDescription.setEnabled(false);
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //start
+                if(!editedTitle.equals(reporTitle)||!editedDesc.equals(reportDescription)||!editedAddress.equals(addressDesc)||!editedLatitude.equals(latitude)||!editedLongitude.equals(longitude)||filePath!=null){
 
-                        date = report.getDate();
-                        des = report.getLostDescription();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Report rep = snapshot.getValue(Report.class);
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
-                                if (filePath != null) {
-                                    final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
-                                    progressDialog.setTitle("يتم الان تعديل بلاغك...");
-                                    progressDialog.show();
+                            date = report.getDate();
+                            des = report.getLostDescription();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Report rep = snapshot.getValue(Report.class);
 
+                                if (date.equals(rep.getDate()) && rep.getLostDescription().equals(des)) {
+                                    if (filePath != null) {
+                                        final ProgressDialog progressDialog = new ProgressDialog(RegisteredUserReportView.this);
+//                                        progressDialog.setTitle("يتم الان تعديل بلاغك...");
+//                                        progressDialog.show();
+//
 
-                                    storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+                                        storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
 
-                                    storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                                        editInDatabase(uri.toString());
+                                        storageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                            editInDatabase(uri.toString());
 
-                                        progressDialog.dismiss();
-                                    }));
+//                                            progressDialog.dismiss();
+                                        }));
 
-                                } else {
-                                    editInDatabase(null);
+                                    } else {
+                                        editInDatabase(null);
+                                    }
+                                    ref.child(snapshot.getKey()).removeValue();
+
                                 }
-                                ref.child(snapshot.getKey()).removeValue();
-
+//
                             }
-//                                            else
-//                                                Toast.makeText(RegisteredUserReportView.this, "لم يتم حفظ البلاغ بنجاح", Toast.LENGTH_SHORT).show();
 
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                    ///end
 
-                    }
-                });
-
-
+                }
             }
+
         });
 
 
@@ -266,13 +303,12 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
             public void onClick(View view) {
                 update.setVisibility(View.GONE);
                 save.setVisibility(View.VISIBLE);
+                cancel.setVisibility(View.VISIBLE);
                 addImg.setVisibility(View.VISIBLE);
                 location.setVisibility(View.VISIBLE);
                 LocationText.setVisibility(View.GONE);
                 mapDescription.setVisibility(View.VISIBLE);
                 locDesLable.setVisibility(View.VISIBLE);
-
-//                cancel.setVisibility(View.VISIBLE);
                 title.setEnabled(true);
                 description.setEnabled(true);
                 mapDescription.setEnabled(true);
