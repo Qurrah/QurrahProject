@@ -2,6 +2,7 @@ package com.example.qurrah.UI;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
@@ -406,6 +408,15 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
 
         @Override
         public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(MyReport.this);
+            builder1.setMessage("هل أنت متأكد من حذف هذا البلاغ ؟");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "نعم",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
             final int position = viewHolder.getAdapterPosition();
             deletedReport = newList.get(position);
             System.out.println("Here"+position);
@@ -426,18 +437,18 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
 
                             final Snackbar snackBar = Snackbar.make(recyclerView, "تم الحذف", Snackbar.LENGTH_LONG);
                             snackBar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
-                            snackBar.setAction("تراجع", v -> {
-                                snackBar.dismiss();
-                                findViewById(R.id.noReports).setVisibility(View.GONE);
-                                reference.child(snapshot.getKey()).setValue(deletedReport);
-                                newList.add(position, deletedReport);
-                                adapter.notifyItemInserted(position);
-                                adapter.updateList(newList);
+//                            snackBar.setAction("تراجع", v -> {
+//                                snackBar.dismiss();
+//                                findViewById(R.id.noReports).setVisibility(View.GONE);
+//                                reference.child(snapshot.getKey()).setValue(deletedReport);
+//                                newList.add(position, deletedReport);
+//                                adapter.notifyItemInserted(position);
+//                                adapter.updateList(newList);
 
 
 
 
-                            }).show();
+                           // }).show();
 
 
                         }
@@ -454,6 +465,21 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
 
             });
         }
+
+        });
+        builder1.setNegativeButton(
+        "إلغاء الامر",
+        (dialog, id) -> {
+            adapter.updateList(newList);
+        dialog.cancel();
+        });
+
+        AlertDialog alert11 = builder1.create();
+
+        alert11.show();
+        alert11.setCanceledOnTouchOutside(false);}
+
+
 
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
