@@ -47,9 +47,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.widget.Toast.*;
 import static com.example.qurrah.Constants.COARSE_LOCATION;
@@ -61,6 +64,7 @@ import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCAT
 public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         GoogleMap.OnInfoWindowClickListener {
     private static final String TAG = "MapActivity";
+    private CircleImageView profilePic;
 
     //vars
     private Boolean mLocationPermissionsGranted = false;
@@ -292,6 +296,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
 
 
         databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -301,8 +306,11 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
                     if(!(type.equals("guest"))) {
                         UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                         username.setText(userProfile.getUserName());
+                        if(userProfile.getImageURL().equals("default"))
+                            profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                        else
+                            Picasso.get().load(userProfile.getImageURL()).into(profilePic);
                     }
-
                     reportsList.clear();
                     userList.clear();
                     phones.clear();
