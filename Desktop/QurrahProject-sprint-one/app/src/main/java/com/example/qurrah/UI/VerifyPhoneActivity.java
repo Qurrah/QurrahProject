@@ -90,14 +90,16 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
 
         photo=extras.getString("photo");
+
+//        String mDrawableName = "ic_launcher" ;
+//        int resID = getResources().getIdentifier(mDrawableName , "mipmap" ,
+//                getPackageName()) ;
+
+        if(photo.equals("default"))
+          photo= getURLForResource(R.drawable.userprofile);
+
         filePath = Uri.parse(photo);
 
-        String mDrawableName = "ic_launcher" ;
-        int resID = getResources().getIdentifier(mDrawableName , "mipmap" ,
-                getPackageName()) ;
-
-        if (photo.equals("default"))
-          photo= String.valueOf (resID);
 
 
 
@@ -215,6 +217,20 @@ public class VerifyPhoneActivity extends AppCompatActivity {
             Toast.makeText(VerifyPhoneActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
+
+
+
+
+
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
+    }
+
+
+
+
+
     private void sendUserData(){
 
         try{

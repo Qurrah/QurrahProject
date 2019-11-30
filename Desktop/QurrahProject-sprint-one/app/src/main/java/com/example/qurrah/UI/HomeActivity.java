@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -156,7 +157,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                         username.setText(userProfile.getUserName());
-                        if(userProfile.getImageURL().equals("default"))
+                        if(userProfile.getImageURL().equals(getURLForResource(R.drawable.userprofile)))
                             profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
                         else
                             Picasso.get().load(userProfile.getImageURL()).into(profilePic);
@@ -448,7 +449,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-   protected void updateDataOnChatClick(){
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
+    }
+
+
+    protected void updateDataOnChatClick(){
 
        updateItemColor(R.id.Chat);
        Intent intent = new Intent(HomeActivity.this, ChatActivity.class);

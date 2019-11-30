@@ -254,6 +254,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                phone.setError(null);
                 phoneN = phone.getEditText().getText().toString().trim();
                 if (validateN()){
                     regButton.setEnabled(true);
@@ -266,6 +267,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (phoneN.length() == 9 && phoneN.charAt(0)=='5')
                     validatePhone();
 
+
             }
         });
 
@@ -274,6 +276,7 @@ public class RegistrationActivity extends AppCompatActivity {
         policyCheck.setOnClickListener(new View.OnClickListener() {
            @Override
               public void onClick(View view) {
+               policyCheck.setError(null);
                AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
                builder1.setMessage("١. يجب ألا يقل عمرك عن 13 عاما" +"\n\n"+
                        "٢. يجب ان تقدم معلومات صحيحة ودقيقة لـ قرة كما يجب عليك الالتزام لأي اشعارات تقوم بها فيما يخص الخدمات التي يقدمها التطبيق لضمان عدم تعرقل أي عمليات تشغيليه."
@@ -284,9 +287,10 @@ public class RegistrationActivity extends AppCompatActivity {
                builder1.setPositiveButton(
                        "أوافق",
                        new DialogInterface.OnClickListener() {
-                           public void onClick(DialogInterface dialog, int id) {}
-
-
+                           public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                               policyCheck.setChecked(true);
+                           }
                        });
 
                builder1.setNegativeButton(
@@ -304,7 +308,7 @@ public class RegistrationActivity extends AppCompatActivity {
                alert11.setCanceledOnTouchOutside(false);
 
 
-               validatePolicy();
+//               validatePolicy();
                 }
             });
 
@@ -317,16 +321,16 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-//                validateName();
-//                validateEmail();
-//                validatePass();
-//                validatePhone();
-//                validatePolicy();
+                validateName();
+                validateEmail();
+                validatePass();
+                validatePhone();
+                validatePolicy();
 
                 // will remove recalling methods
                 if(validateName()&& validateEmail()&& validatePass()&&validatePhone()&&validatePolicy()) {
-                    //if(duplicateEmail()&&duplicatePhone())  // find something to make the method wait , it returns true before it search the whole database
-//                        if(duplicatePhone())
+                    if(duplicateEmail()&&duplicatePhone())  // find something to make the method wait , it returns true before it search the whole database
+                        if(duplicatePhone())
                             step1();
                 }
 //                }
@@ -460,7 +464,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     valid = task.getResult().getSignInMethods().isEmpty();
 
                     if (valid) {
-
+                        userEmail.setError(null);
                     } else {
                         userEmail.setError("البريد الالكتروني مستخدم مسبقا");
                     }
@@ -538,9 +542,9 @@ public class RegistrationActivity extends AppCompatActivity {
             photo.setImageURI(filePath);
             flag = true;
 
-            Toast.makeText(getApplicationContext(), "filepath: "+ filePath.toString(),Toast.LENGTH_SHORT).show();
-            if(filePath == null)
-                imgFlag =false;
+//            Toast.makeText(getApplicationContext(), "filepath: "+ filePath.toString(),Toast.LENGTH_SHORT).show();
+//            if(filePath == null)
+//                imgFlag =false;
 
 
         }

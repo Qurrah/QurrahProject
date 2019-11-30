@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfile user = dataSnapshot.getValue(UserProfile.class);
                 username.setText(user.getUserName());
-                if (user.getImageURL().equals("default")){
+                if (user.getImageURL().equals(getURLForResource(R.drawable.userprofile))){
                     image_profile.setImageResource(R.mipmap.ic_launcher);
                 } else {
                     Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
@@ -156,6 +156,12 @@ public class ProfileFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "No image selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
     }
 
     @Override

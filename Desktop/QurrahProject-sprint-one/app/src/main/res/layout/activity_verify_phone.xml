@@ -12,12 +12,13 @@
         android:id="@+id/back2"
         android:layout_width="59dp"
         android:layout_height="31dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="48dp"
         android:alpha="0.6"
+        app:layout_constraintStart_toEndOf="@+id/imgLayout"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/backarrow"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="307dp" />
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/relativeLayout"
@@ -121,15 +122,14 @@
         android:id="@+id/imgLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:background="@drawable/circle"
-        android:orientation="vertical"
         android:elevation="5dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        android:layout_marginTop="30dp"
-        >
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/ivProfile"

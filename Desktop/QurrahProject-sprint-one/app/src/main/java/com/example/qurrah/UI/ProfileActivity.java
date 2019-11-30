@@ -141,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Lname=userProfile.getUserName();
                 profileEmail.setText(userProfile.getUserEmail());
                 Lemail=userProfile.getUserEmail();
-                if(!userProfile.getImageURL().equals("default"))
+//                if(!userProfile.getImageURL().equals("default"))
                     Picasso.get().load(userProfile.getImageURL()).into(profilePic);
                 String isChecked =userProfile.getAllowPhone();
                 allowPhoneaccess.setChecked(isChecked.equals("true"));
