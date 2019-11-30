@@ -101,8 +101,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 update.setEnabled(false);
                 update.setText("");
 //                progressBar.setVisibility(View.VISIBLE);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+//                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     firebaseAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
