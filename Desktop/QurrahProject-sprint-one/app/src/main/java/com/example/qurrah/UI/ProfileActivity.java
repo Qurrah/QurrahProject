@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -77,6 +78,9 @@ public class ProfileActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
     PinView pinView;
+    private AlertDialog.Builder mBuilder;
+    private View mView;
+    private AlertDialog dialog;
 
 
 
@@ -292,7 +296,7 @@ public class ProfileActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(ProfileActivity.this, "تم تغيير البريد الالكتروني بنجاح ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }else{
                                     Toast.makeText(ProfileActivity.this, "فشلت عملية تغيير البريد الالكتروني", Toast.LENGTH_SHORT).show();
@@ -303,12 +307,14 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
 
-                    if(!Lname.equals(name))
+                    if(!Lname.equals(name)) {
                         databaseReference.child("userName").setValue(name);
+                        Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
+                    }
 
-                    if(!LphoneNumber.equals(phoneNumber)) {
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(ProfileActivity.this);
-                        View mView = getLayoutInflater().inflate(R.layout.dialog_verify_phone,null);
+                        if(!LphoneNumber.equals(phoneNumber)) {
+                         mBuilder = new AlertDialog.Builder(ProfileActivity.this);
+                         mView = getLayoutInflater().inflate(R.layout.dialog_verify_phone,null);
                         final PinView pinView = mView.findViewById(R.id.pinView);
 
                         sendVerificationCode(phoneNumber);
@@ -338,7 +344,7 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         });
                         mBuilder.setView(mView);
-                        AlertDialog dialog =mBuilder.create();
+                         dialog =mBuilder.create();
                         dialog.show();
                     }
 
@@ -356,7 +362,6 @@ public class ProfileActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
 
                 }
                 update.setVisibility(View.GONE);
@@ -499,7 +504,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void sendVerificationCode(String number) {
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+9660" + number,
+                 number,
                 60,
                 TimeUnit.SECONDS,
                 TaskExecutors.MAIN_THREAD,
@@ -531,24 +536,31 @@ public class ProfileActivity extends AppCompatActivity {
         }
     };
     private void verifyCode(String code) {
+
+
+
         try{
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-            signInWithCredential(credential);}
-        catch (Exception e){}
+            UpdatePhoneNumberWithCredintal(credential);}
+        catch (Exception e){
+
+        }
     }
-    private void signInWithCredential(PhoneAuthCredential credential) {
-        firebaseUser.updatePhoneNumber(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void UpdatePhoneNumberWithCredintal(PhoneAuthCredential credential) {
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser.updatePhoneNumber(credential).addOnCompleteListener( new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-
-                            databaseReference.child("phone").setValue(phoneNumber);
-
-                        }  else{
-                            check.setProgress(0);
-                            Toast.makeText(ProfileActivity.this, "رمز التحقق غير صحيح", Toast.LENGTH_SHORT).show();
-                        }
+            public void onComplete(Task<Void> task) {
+                if (task.isSuccessful()) {
+                    databaseReference.child("phone").setValue(phoneNumber);
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
+                }
+                    else{
+                        check.setProgress(0);
+                        Toast.makeText(ProfileActivity.this, "رمز التحقق غير صحيح", Toast.LENGTH_SHORT).show();
                     }
-                });
+            }
+        });
     }
 }
