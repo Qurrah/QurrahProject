@@ -6,6 +6,7 @@ import android.os.Build;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,7 +191,7 @@ public class ReportCategoriesAdapter extends RecyclerView.Adapter<ReportCategori
             Pattern pattern = Pattern.compile(searchString, Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(report.getLostTitle());
             while (matcher.find()) {
-                spannableStringSearch.setSpan(new BackgroundColorSpan(
+                spannableStringSearch.setSpan(new ForegroundColorSpan(
                                 ContextCompat.getColor(context, R.color.yellow)),
                         matcher.start(), matcher.end(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
