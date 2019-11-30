@@ -47,9 +47,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.widget.Toast.*;
 import static com.example.qurrah.Constants.COARSE_LOCATION;
@@ -61,6 +64,7 @@ import static com.example.qurrah.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCAT
 public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         GoogleMap.OnInfoWindowClickListener {
     private static final String TAG = "MapActivity";
+    private CircleImageView profilePic;
 
     //vars
     private Boolean mLocationPermissionsGranted = false;
@@ -69,7 +73,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
     private DatabaseReference reference;
     ArrayList<Report> reportsList;
     Double Dlatitude, Dlongitude;
-    ArrayList<String> userList, phones, IDs;
+    ArrayList<String> userList, phones, IDs, allowWhats;
     static double currentLat, currentLon;
     String type="none", CU="none";
 
@@ -127,6 +131,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
                         .icon(bitmapDescriptorFromVector(this, R.drawable.other_marker));
 
             }
+
             InfoWindowData info = new InfoWindowData();
             info.setImg(reportsList.get(i).getPhoto());
             info.setTitle(reportsList.get(i).getLostTitle());
@@ -157,20 +162,20 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
     public void onInfoWindowClick(Marker marker) {
 
         for (int i=0; i< reportsList.size(); i++) {
-            try {
-                CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-            }catch (Exception e){
-                type="guest";
-            }
-
-            final String id =IDs.get(i);
-            if(CU.equals(id)) {
-                type = "current";}
-
-            else if(!CU.equals(id) && type.equals("none")){
-//           if(type.equals("none")){
-            type = "notCurrent";
-            }
+//            try {
+//                CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+//            }catch (Exception e){
+//                type="guest";
+//            }
+//
+//            final String id =IDs.get(i);
+//            if(CU.equals(id)) {
+//                type = "current";}
+//
+//            else if(!CU.equals(id) && type.equals("none")){
+////           if(type.equals("none")){
+//            type = "notCurrent";
+//            }
             LatLng latLng = new LatLng(Double.parseDouble(reportsList.get(i).getLatitude()) , Double.parseDouble(reportsList.get(i).getLongitude()));
            if(latLng.equals(marker.getPosition())){
                 Intent intent = new Intent(MapActivity.this, ViewReport.class);
@@ -179,15 +184,19 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
                 intent.putExtra("Title", reportsList.get(i).getLostTitle());
                 intent.putExtra("Description", reportsList.get(i).getLostDescription());
                 intent.putExtra("UserName", userList.get(i));
-               intent.putExtra("userid", IDs.get(i));
-               intent.putExtra("userType",type);
-               intent.putExtra("WhatsApp", phones.get(i));
+                intent.putExtra("userid", IDs.get(i));
+                intent.putExtra("userType",type);
+                intent.putExtra("WhatsApp", phones.get(i));
                 intent.putExtra("lat",reportsList.get(i).getLatitude());
                 intent.putExtra("lon",reportsList.get(i).getLongitude());
+                intent.putExtra("locationDescription", reportsList.get(i).getLocation());
+                intent.putExtra("address", reportsList.get(i).getAddress());
+                intent.putExtra("reportType", reportsList.get(i).getReportTypeOption());
+                intent.putExtra("allowPhone", allowWhats.get(i));
                 startActivity(intent);
             }
 //                intent.putExtra("userid" , id);
-            type="none";
+//            type="none";
 
 
             }
@@ -212,6 +221,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         userList = getIntent().getStringArrayListExtra("userList");
         phones = getIntent().getStringArrayListExtra("phoneNumbers");
         IDs=getIntent().getStringArrayListExtra("IDsList");
+        allowWhats = getIntent().getStringArrayListExtra("allowWhats");
 //        Toast.makeText(this, reportsList.get(0).getLatitude() , Toast.LENGTH_SHORT).show();
         getLocationPermission();
       //  Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -237,7 +247,10 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
 
         NavigationView navigationView = findViewById(R.id.nav_view3);
         View header = navigationView.getHeaderView(0);
+
+        if(!(type.equals("guest")))
         username = header.findViewById(R.id.Username);
+
 
 
 //---------------------------------------------------
@@ -252,6 +265,14 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
 
         menuBottomAppBar = bottomAppBar.getMenu();
 //---------------------------------------------------
+
+        try {
+            CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        }catch (Exception e){
+            type="guest";
+        }
+
+        if(!(type.equals("guest"))){
         bottomAppBar.setNavigationOnClickListener(v -> {
 
             if (!navDrawer.isDrawerOpen(GravityCompat.START))
@@ -260,29 +281,41 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
             else
                 navDrawer.closeDrawer(GravityCompat.END);
 
-        });
+        });}
 //---------------------------------------------------
         // firebase
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
+
+        if(!(type.equals("guest"))){
         try {
             userId = firebaseAuth.getCurrentUser().getUid();
-        }catch (Exception e){
-
+        }catch (Exception e) {
         }
+        }
+
+
         databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
-                    username.setText(userProfile.getUserName());
 
+                    if(!(type.equals("guest"))) {
+                        UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                        username.setText(userProfile.getUserName());
+                        if(userProfile.getImageURL().equals("default"))
+                            profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                        else
+                            Picasso.get().load(userProfile.getImageURL()).into(profilePic);
+                    }
                     reportsList.clear();
                     userList.clear();
                     phones.clear();
                     IdList.clear();
+                    allowWhats.clear();
 
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -299,11 +332,16 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
                                 reportsList.add(report);
                                 IdList.add(ID);
                                 userList.add(userName);
-                                if (allowPhoneAccess.equals("true")) {
-                                    phones.add(No);
-                                } else {
-                                    phones.add("0");
-                                }
+                                phones.add(No);
+                                allowWhats.add(allowPhoneAccess);
+
+
+
+//                                if (allowPhoneAccess.equals("true")) {
+//                                    phones.add(No);
+//                                } else {
+//                                    phones.add("0");
+//                                }
                             }
                         }
                     }

@@ -137,7 +137,7 @@
             android:layout_width="220dp"
             android:layout_height="45dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="60dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:textStyle="bold"
@@ -198,7 +198,7 @@
 
 
     <LinearLayout
-        android:layout_width="104dp"
+        android:layout_width="match_parent"
         android:layout_height="632dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/contentLayout"
@@ -211,9 +211,9 @@
             android:id="@+id/imageView3"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="210dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="185dp"
             android:layout_marginBottom="50dp"
             android:src="@drawable/message" />
 
@@ -222,8 +222,8 @@
             android:id="@+id/imageView4"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="35dp"
             android:src="@drawable/pswd"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -274,6 +274,7 @@
         android:layout_height="wrap_content"
         android:text=" أكمل كضيف "
         android:textDirection="ltr"
+        android:layout_marginTop="280dp"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/contentLayout"

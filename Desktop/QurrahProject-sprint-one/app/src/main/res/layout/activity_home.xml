@@ -32,9 +32,11 @@
             android:fontFamily="serif"
             android:gravity="center"
             android:layout_marginTop="190dp"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="0dp"
             android:text="\n قُرّة"
             android:textColor="#FDFCFC" />
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -44,12 +46,22 @@
         android:layout_marginTop="150dp"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="فئات البلاغات "
+            android:layout_gravity="center"
+            android:layout_marginTop="120dp"
+            android:textColor="@color/darkPurple"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+
 
         <GridLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="20dp"
             android:alignmentMode="alignMargins"
             android:columnCount="2"
             android:columnOrderPreserved="false"
@@ -64,7 +76,7 @@
                 android:layout_margin="12dp"
                 app:cardBackgroundColor="#00FFFFFF"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -99,19 +111,19 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="12dp"
-                android:background="#D5C5C5"
                 app:cardBackgroundColor="#00FFFFFF"
-
                 app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
+                app:cardElevation="0dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:elevation="6dp"
+                    >
 
                     <ImageView
                         android:layout_width="70dp"
@@ -140,7 +152,7 @@
                 app:cardBackgroundColor="#00FFFFFF"
                 app:cardCornerRadius="12dp"
 
-                app:cardElevation="6dp">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -177,7 +189,7 @@
                 app:cardBackgroundColor="#23FFFFFF"
                 app:cardCornerRadius="12dp"
 
-                app:cardElevation="6dp">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

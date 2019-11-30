@@ -45,6 +45,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
 
     CircleImageView profile_image;
     TextView username, noChats, Chats, MessagesNo;
+    private CircleImageView profilePic;
 
     DatabaseReference reference;
     private RecyclerView recyclerView;
@@ -99,10 +101,10 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
 
         recyclerView = findViewById(R.id.recycler_view);
         noChats = findViewById(R.id.noChats);
-        MessagesNo = findViewById(R.id.MessagesNo);
+        //MessagesNo = findViewById(R.id.MessagesNo);
 
-        Chats = findViewById(R.id.Chats);
-        Chats.setText("المحادثات");
+        //Chats = findViewById(R.id.Chats);
+        //Chats.setText("المحادثات");
         findViewById(R.id.noMatchUsers).setVisibility(View.GONE);
 
         searchView = findViewById(R.id.search_view);
@@ -149,29 +151,29 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
 
 
         reference = FirebaseDatabase.getInstance().getReference("Chats");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int unread = 0;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Chat chat = snapshot.getValue(Chat.class);
-                    assert chat != null;
-                    if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
-                        unread++;
-                    }
-                }
-
-                if (unread != 0) {
-                    MessagesNo.setTextColor(Color.parseColor("#1683DA"));
-                    MessagesNo.setText("(" + unread + ")");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                int unread = 0;
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    Chat chat = snapshot.getValue(Chat.class);
+//                    assert chat != null;
+//                    if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
+//                        unread++;
+//                    }
+//                }
+//
+//                if (unread != 0) {
+//                    MessagesNo.setTextColor(Color.parseColor("#1683DA"));
+//                    MessagesNo.setText("(" + unread + ")");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         String newToken = FirebaseInstanceId.getInstance().getToken();
         updateToken(newToken);
@@ -182,6 +184,7 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
         NavigationView navigationView = findViewById(R.id.nav_view5);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
 
 //---------------------------------------------------
@@ -218,6 +221,10 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                 username.setText(userProfile.getUserName());
+                if(userProfile.getImageURL().equals("default"))
+                    profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                else
+                    Picasso.get().load(userProfile.getImageURL()).into(profilePic);
 
                 reportsList.clear();
                 userList.clear();

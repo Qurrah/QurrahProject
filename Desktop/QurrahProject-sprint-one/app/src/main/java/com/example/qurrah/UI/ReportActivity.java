@@ -60,12 +60,17 @@ import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
+
 import java.util.Locale;
 import java.util.UUID;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ReportActivity extends HomeActivity {
 
+    private CircleImageView profilePic;
 
     protected TextInputLayout lostTitle, lostDescription, location;
     protected String lostTitleInput, lostDescriptionInput, radioValue, userID, ReportType;
@@ -190,6 +195,7 @@ public class ReportActivity extends HomeActivity {
         NavigationView navigationView = findViewById(R.id.nav_view4);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
 
 //---------------------------------------------------
@@ -226,7 +232,10 @@ public class ReportActivity extends HomeActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                 username.setText(userProfile.getUserName());
-
+                if(userProfile.getImageURL().equals("default"))
+                    profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                else
+                    Picasso.get().load(userProfile.getImageURL()).into(profilePic);
                 reportsList.clear();
                 userList.clear();
                 phones.clear();

@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     //    ArrayList<String> LatitudeList;
     //    ArrayList<String> LongitudeList;
     protected ArrayList<Report> reportsList;  // array of reports that contain a location
-    protected ArrayList<String> userList, phones, IdList;
+    protected ArrayList<String> userList, phones, IdList, allowWhats;
     Intent intent;
     protected Menu menuBottomAppBar;
      DrawerLayout navDrawer;
@@ -108,6 +108,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         userList = new ArrayList<>();
         phones = new ArrayList<>();
         IdList = new ArrayList<>();
+        allowWhats = new ArrayList<>();
 //---------------------------------------------------
 
          mNavigationView = findViewById(R.id.nav_view);
@@ -123,6 +124,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         updateItemColor(R.id.Home);
 
 //---------------------------------------------------
+
+
+        if(username != null && !(username.equals(""))){
         bottomAppBar.setNavigationOnClickListener(v -> {
             //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
             // If navigation drawer is not open yet, open it else close it.
@@ -131,8 +135,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             else
                 navDrawer.closeDrawer(GravityCompat.END);
-
         });
+
+        }
 //---------------------------------------------------
 
         // firebase
@@ -151,12 +156,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     try {
                         UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                         username.setText(userProfile.getUserName());
-                        if(!userProfile.getImageURL().equals("default"))
+                        if(userProfile.getImageURL().equals("default"))
+                            profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                        else
                             Picasso.get().load(userProfile.getImageURL()).into(profilePic);
+
                         reportsList.clear();
                         userList.clear();
                         phones.clear();
                         IdList.clear();
+                        allowWhats.clear();
 
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -173,11 +182,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                     reportsList.add(report);
                                     IdList.add(ID);
                                     userList.add(userName);
-                                    if (allowPhoneAccess.equals("true")) {
-                                        phones.add(No);
-                                    } else {
-                                        phones.add("0");
-                                    }
+                                    phones.add(No);
+                                    allowWhats.add(allowPhoneAccess);
+
+
+//                                    if (allowPhoneAccess.equals("true")) {
+//                                        phones.add(No);
+//                                    } else {
+//                                        phones.add("0");
+//                                    }
                                 }
                             }
                         }
@@ -451,6 +464,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         finish();
         overridePendingTransition(0, 0);
     }
+
     protected void updateDataOnHomeClick(){
         updateItemColor(R.id.Home);
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -458,6 +472,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         finish();
         overridePendingTransition(0, 0);
     }
+
     protected void updateDataOnMapClick(){
 
         if (isServicesOK()) {
@@ -466,6 +481,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             intent.putStringArrayListExtra("userList", userList);
             intent.putStringArrayListExtra("IDsList", IdList);
             intent.putStringArrayListExtra("phoneNumbers", phones);
+            intent.putStringArrayListExtra("allowWhats", allowWhats);
             intent.putParcelableArrayListExtra("reportsLoc", (ArrayList) reportsList);
             finish();
             startActivity(intent);

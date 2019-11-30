@@ -162,7 +162,8 @@
             android:name=".UI.UnregisteredUserSecondActivity"
             android:label="الصفحة الرئيسية"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".UI.ChatActivity"
             android:label="محادثاتي"
