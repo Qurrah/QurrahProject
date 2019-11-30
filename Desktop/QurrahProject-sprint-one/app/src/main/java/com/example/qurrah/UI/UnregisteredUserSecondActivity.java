@@ -80,13 +80,13 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     DrawerLayout navDrawer;
     public static String userId;
     NavigationView mNavigationView;
-    String type="none", CU="none";
+    String type = "none", CU = "none";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homenav);
+        setContentView(R.layout.activity_home_unregestered_usernav);
         findViewById(R.id.Home).setEnabled(false);
         findViewById(R.id.Home).setClickable(false);
         fab = findViewById(R.id.addReport);
@@ -105,7 +105,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
-        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
+        profilePic = (CircleImageView) header.findViewById(R.id.imageView);
 
 
         reportsList = new ArrayList<>();
@@ -126,16 +126,24 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         //  bottomAppBar.replaceMenu(R.menu.bottom_app_bar_menu);
         menuBottomAppBar = bottomAppBar.getMenu();
         updateItemColor(R.id.Home);
+        bottomAppBar.setNavigationOnClickListener(v -> {
+            //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
+            // If navigation drawer is not open yet, open it else close it.
+            if (!navDrawer.isDrawerOpen(GravityCompat.START))
+                navDrawer.openDrawer(GravityCompat.START);
 
+            else
+                navDrawer.closeDrawer(GravityCompat.END);
+        });
 //---------------------------------------------------
 
         try {
             CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        }catch (Exception e){
-            type="guest";
+        } catch (Exception e) {
+            type = "guest";
         }
 
-        if(!(type.equals("guest"))){
+        if (!(type.equals("guest"))) {
             bottomAppBar.setNavigationOnClickListener(v -> {
                 //   Toast.makeText(getApplicationContext(),"nav clicked",Toast.LENGTH_SHORT).show();
                 // If navigation drawer is not open yet, open it else close it.
@@ -227,6 +235,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         other_card.setOnClickListener(this);
 
     }
+
 
     public boolean isServicesOK() {
         Log.d(TAG, "isServicesOK: checking google services version");
@@ -351,7 +360,6 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     }
 
 
-
     protected void SignUpRequest(String request) {
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(UnregisteredUserSecondActivity.this);
@@ -389,45 +397,44 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     }
 
 
-
     public void updateItemColor(int id) {
         ImageButton button;
-        if (id == R.id.addReport){
+        if (id == R.id.addReport) {
             findViewById(id).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-            button =findViewById(R.id.Home);
+            button = findViewById(R.id.Home);
             button.setColorFilter(getColor(R.color.white));
-            button =findViewById(R.id.Chat);
+            button = findViewById(R.id.Chat);
             button.setColorFilter(getColor(R.color.white));
-            button =findViewById(R.id.Map);
+            button = findViewById(R.id.Map);
             button.setColorFilter(getColor(R.color.white));
 
-        }else {
+        } else {
             findViewById(R.id.addReport).setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lightGrey)));
-            switch (id){
-                case R.id.Chat:{
-                    button =findViewById(R.id.Chat);
+            switch (id) {
+                case R.id.Chat: {
+                    button = findViewById(R.id.Chat);
                     button.setColorFilter(getColor(R.color.colorPrimary));
-                    button =findViewById(R.id.Home);
+                    button = findViewById(R.id.Home);
                     button.setColorFilter(getColor(R.color.white));
-                    button =findViewById(R.id.Map);
+                    button = findViewById(R.id.Map);
                     button.setColorFilter(getColor(R.color.white));
                     break;
                 }
-                case R.id.Map:{
-                    button =findViewById(R.id.Map);
+                case R.id.Map: {
+                    button = findViewById(R.id.Map);
                     button.setColorFilter(getColor(R.color.colorPrimary));
-                    button =findViewById(R.id.Chat);
+                    button = findViewById(R.id.Chat);
                     button.setColorFilter(getColor(R.color.white));
-                    button =findViewById(R.id.Home);
+                    button = findViewById(R.id.Home);
                     button.setColorFilter(getColor(R.color.white));
                     break;
                 }
-                case R.id.Home:{
-                    button =findViewById(R.id.Home);
+                case R.id.Home: {
+                    button = findViewById(R.id.Home);
                     button.setColorFilter(getColor(R.color.colorPrimary));
-                    button =findViewById(R.id.Chat);
+                    button = findViewById(R.id.Chat);
                     button.setColorFilter(getColor(R.color.white));
-                    button =findViewById(R.id.Map);
+                    button = findViewById(R.id.Map);
                     button.setColorFilter(getColor(R.color.white));
                     break;
                 }
@@ -456,8 +463,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     }
 
 
-
-    protected void updateDataOnHomeClick(){
+    protected void updateDataOnHomeClick() {
         updateItemColor(R.id.Home);
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
@@ -465,7 +471,7 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
         overridePendingTransition(0, 0);
     }
 
-    protected void updateDataOnMapClick(){
+    protected void updateDataOnMapClick() {
 
         if (isServicesOK()) {
             updateItemColor(R.id.Map);
@@ -485,13 +491,22 @@ public class UnregisteredUserSecondActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
         switch (id) {
-            case R.id.nav_profile:
+
+            case R.id.nav_help:
                 navDrawer.closeDrawers();
+                startActivity(new Intent(this, helpActivity.class));
+                break;
+
+            case R.id.nav_login:
                 startActivity(new Intent(this, MainActivity.class));
-                break;}
-                return false;
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 }
+
 
 
 

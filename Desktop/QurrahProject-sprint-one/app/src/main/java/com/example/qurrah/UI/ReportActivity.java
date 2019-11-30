@@ -738,6 +738,7 @@ public class ReportActivity extends HomeActivity {
         ref.push().setValue(report);
         Toast.makeText(getApplicationContext(), " تم ارسال بلاغك", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ReportActivity.this, HomeActivity.class);
+        finish();
         startActivity(intent);
     }
 
