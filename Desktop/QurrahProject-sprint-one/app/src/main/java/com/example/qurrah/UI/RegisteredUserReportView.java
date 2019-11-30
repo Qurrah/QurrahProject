@@ -86,9 +86,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
     DatabaseReference ref;
     FirebaseStorage storage;
     StorageReference storageReference, storageRef;
-    String userID, date, des ,latitude, longitude;
+    String userID, date, des ,latitude, longitude ,latitude1, longitude1;
     Report report;
-    String addressDesc , address1;
+    String addressDesc ,address1, address2 ;
     TextView tvaddress ,locDesLable ;
     GoogleMap mMap;
     String editedTitle="", editedDesc="", editedAddress="",editedLocation="", editedLongitude="", editedLatitude="";
@@ -218,7 +218,23 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
                             mapDescription.setEnabled(false);
                             title.setText(reporTitle);
                             description.setText(reportDescription);
+                            if(editedLocation.equals("")){
+                                mapDescription.setVisibility(View.GONE);
+                                locDesLable.setVisibility(View.GONE);}
+                            else
                             mapDescription.setText(addressDesc);
+                            if (latitude!=null && longitude != null && latitude.length() >0 && longitude.length() >0) {
+//                                mMap.clear();
+//                                findViewById(R.id.map).setVisibility(View.VISIBLE);
+//                                LatLng location = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+//                                mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
+//                                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+//                                mMap.setMinZoomPreference(15);
+//                                mMap.setMapType(mMap.MAP_TYPE_HYBRID);
+                            }else{
+                                findViewById(R.id.map).setVisibility(View.GONE);
+
+                            }
                             Picasso.get().load(reportImg).into(photo);
 
                         }
@@ -422,21 +438,22 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
 
 
                 // Get String data from Intent
-                latitude = data.getStringExtra("Latitude");
-                longitude = data.getStringExtra("Longitude");
-                address1 = data.getStringExtra("Address");
-                tvaddress.setText(editedAddress.trim().replaceAll(" +", " "));
+                latitude1 = data.getStringExtra("Latitude");
+                longitude1 = data.getStringExtra("Longitude");
+                address2 = data.getStringExtra("Address");
+                tvaddress.setText(address2.trim().replaceAll(" +", " "));
                 mMap.clear();
 
-                LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                mMap.setMapType(mMap.MAP_TYPE_HYBRID);
-                markerOptions.icon(bitmapDescriptorFromVector(this, R.drawable.ic_location));
-                markerOptions.getPosition();
-                mMap.addMarker(markerOptions);
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+                if (latitude1!=null && longitude1 != null && latitude1.length() >0 && longitude1.length() >0) {
+                    findViewById(R.id.map).setVisibility(View.VISIBLE);
+                    LatLng location = new LatLng(Double.parseDouble(latitude1), Double.parseDouble(longitude1));
+                    mMap.addMarker(new MarkerOptions().position(location).icon(bitmapDescriptorFromVector(this, R.drawable.ic_location)));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                    mMap.setMinZoomPreference(15);
+                    mMap.setMapType(mMap.MAP_TYPE_HYBRID);
+                }else {
+                    findViewById(R.id.map).setVisibility(View.GONE);
+                }
 
 
 
