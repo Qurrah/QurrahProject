@@ -157,6 +157,7 @@ public class ViewReport extends AppCompatActivity implements OnMapReadyCallback 
         reportType = getIntent().getStringExtra("reportType");
         allowPhone = getIntent().getStringExtra("allowPhone");
 
+        Toast.makeText(getApplicationContext(), "allow: "+ reportUser,Toast.LENGTH_SHORT).show();
 
         if (UserType == null || UserType.equals("none")) {
             UserType = "guest";

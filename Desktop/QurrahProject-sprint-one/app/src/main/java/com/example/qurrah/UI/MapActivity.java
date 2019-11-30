@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -161,23 +162,28 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
     @Override
     public void onInfoWindowClick(Marker marker) {
 
+
+
+
         for (int i=0; i< reportsList.size(); i++) {
-//            try {
-//                CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-//            }catch (Exception e){
-//                type="guest";
-//            }
-//
-//            final String id =IDs.get(i);
-//            if(CU.equals(id)) {
-//                type = "current";}
-//
-//            else if(!CU.equals(id) && type.equals("none")){
-////           if(type.equals("none")){
-//            type = "notCurrent";
-//            }
+            try {
+                CU = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+            }catch (Exception e){
+                type="guest";
+            }
+
+            final String id =IDs.get(i);
+            if(CU.equals(id)) {
+                type = "current";}
+
+            else if(!CU.equals(id) && type.equals("none")){
+//           if(type.equals("none")){
+            type = "notCurrent";
+            }
             LatLng latLng = new LatLng(Double.parseDouble(reportsList.get(i).getLatitude()) , Double.parseDouble(reportsList.get(i).getLongitude()));
            if(latLng.equals(marker.getPosition())){
+
+               Toast.makeText(getApplicationContext(), "allow: "+ userList.get(i), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MapActivity.this, ViewReport.class);
 //                    intent.putExtra("Report", (Parcelable) reports.get(position));
                 intent.putExtra("Image", reportsList.get(i).getPhoto());
@@ -196,7 +202,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
                 startActivity(intent);
             }
 //                intent.putExtra("userid" , id);
-//            type="none";
+            type="none";
 
 
             }
@@ -248,7 +254,7 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         NavigationView navigationView = findViewById(R.id.nav_view3);
         View header = navigationView.getHeaderView(0);
 
-        if(!(type.equals("guest")))
+//        if(!(type.equals("guest")))
         username = header.findViewById(R.id.Username);
 
 
@@ -287,11 +293,11 @@ public class MapActivity extends HomeActivity implements OnMapReadyCallback ,
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        if(!(type.equals("guest"))){
+//        if(!(type.equals("guest"))){
         try {
             userId = firebaseAuth.getCurrentUser().getUid();
         }catch (Exception e) {
-        }
+//        }
         }
 
 
