@@ -171,17 +171,32 @@ public class UpdatePassword extends AppCompatActivity {
             public void onClick(View view) {
 
             if(validateCurrent()&&validateNew()&&validateRepeat()){
-                firebaseUser.updatePassword(userPasswordNew).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(UpdatePassword.this, "تم تغيير كلمة المرور بنجاح", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }else{
-                            Toast.makeText(UpdatePassword.this, "فشلت عملية تغيير كلمة المرور", Toast.LENGTH_SHORT).show();
-                        }
+                AuthCredential credential= EmailAuthProvider.getCredential(firebaseUser.getEmail(), currentPassword2);
+                firebaseUser.reauthenticate(credential).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+
+                        currentPassword.setError(null);
+                        //result=true;
+                        firebaseUser.updatePassword(userPasswordNew).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(UpdatePassword.this, "تم تغيير كلمة المرور بنجاح", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(UpdatePassword.this, "فشلت عملية تغيير كلمة المرور", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
+//                    } else {
+//
+//                        currentPassword.setError("كلمة المرور المدخلة غير صحيحة");
+//                        currentPassword.requestFocus();
+//                        result=false;
+//                    }
                 });
+
             }}
 
         });
@@ -208,7 +223,8 @@ public class UpdatePassword extends AppCompatActivity {
     }
 
     private Boolean validateCurrent() {
-        result= true;
+        result=true;
+        currentPassword.setError(null);
         if (currentPassword2.isEmpty()) {
             currentPassword.setError("الرجاء ادخال كلمة المرور الحالية");
             currentPassword.requestFocus();
@@ -220,6 +236,7 @@ public class UpdatePassword extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                     currentPassword.setError(null);
+                    //result=true;
 
 
                 } else {
@@ -235,7 +252,6 @@ public class UpdatePassword extends AppCompatActivity {
     }
 
     private Boolean validateNew() {
-        result= true;
 
         if (userPasswordNew.isEmpty()) {
             newPassword.setError("الرجاء ادخال كلمة مرور");
