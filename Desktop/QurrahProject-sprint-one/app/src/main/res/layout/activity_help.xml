@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="#F5F4F5"-->
-<!--    tools:context="com.example.qurrah.UI.UpdatePassword">-->
-
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/relativeLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="200dp"-->
-<!--        android:background="#776A77"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/NewPassword"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0"-->
-<!--        tools:layout_editor_absoluteX="0dp">-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,7 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/parent"
     android:background="@mipmap/original"
-    tools:context="com.example.qurrah.UI.helpActivity">
+    tools:context="com.example.qurrah.UI.helpActivity"
+    >
 
     <LinearLayout
         android:id="@+id/contentLayout"
@@ -45,6 +29,13 @@
         <!--            android:layout_centerHorizontal="true"-->
         <!--            android:layout_centerVertical="true"-->
         <!--            android:background="@drawable/ic_logo" />-->
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
 
         <TextView
             android:id="@+id/aboutUs"
@@ -69,15 +60,13 @@
 
 
         <TextView
-            android:layout_width="278dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="20dp"
             android:layout_marginBottom="8dp"
-
-            android:ems="10"
-            android:paddingLeft="40dp"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:ems="12"
             android:text="نحن طالبات من جامعة الملك سعود قسم هندسة البرمجيات. بسبب كثرة الاشخاص الذين يبحثون عن مفقوداتهم في اماكن كثيرة، وانتشار طلبات المساعدة بالبحث عنها في كل مكان، اردنا ان نضع منصة موحدة لتسهيل عملية البحث .. من هنا ظهرت وتطورت 'قرة' لتقُرّ أعينكم ."
             android:textAlignment="center"
             android:textColor="@color/darkPurple"
@@ -89,12 +78,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.377" />
 
+
+
+
         <TextView
             android:id="@+id/communicate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
@@ -113,9 +105,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="3dp"
             android:clickable="false"
             android:gravity="center"
@@ -124,52 +114,55 @@
             android:textAlignment="center">
 
             <ImageView
-                android:id="@+id/twitter2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:id="@+id/twitter"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 app:srcCompat="@drawable/twitter" />
 
 
             <ImageView
-                android:id="@+id/email2"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:id="@+id/email"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginRight="40dp"
                 app:srcCompat="@drawable/email" />
 
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="3dp"
-            android:clickable="false"
-            android:gravity="center"
-            android:layoutDirection="rtl"
-            android:orientation="horizontal"
-            android:textAlignment="center">
-
-            <TextView
-                android:id="@+id/twitter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:text="حسابنا بتويتر"
-                android:textDirection="ltr" />
-
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:text="التواصل بالبريد"
-                android:textDirection="ltr" />
-
         </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_marginBottom="3dp"-->
+<!--            android:clickable="false"-->
+<!--            android:gravity="center"-->
+<!--            android:layoutDirection="rtl"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:textAlignment="center">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/twitter1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="30dp"-->
+<!--                android:text="حسابنا بتويتر"-->
+<!--                android:textDirection="ltr" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/email1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="25dp"-->
+<!--                android:text="التواصل بالبريد"-->
+<!--                android:textDirection="ltr" />-->
+
+<!--        </LinearLayout>-->
+
     </LinearLayout>
 
 
@@ -193,11 +186,12 @@
             android:id="@+id/ivProfile"
             android:layout_width="130dp"
             android:layout_height="110dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="6dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="6dp"
             android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/contentLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"

@@ -1,5 +1,7 @@
 package com.example.qurrah.UI;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -7,6 +9,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.Spanned;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -14,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.qurrah.R;
 
 public class helpActivity extends AppCompatActivity {
-    TextView twitter,email;
+    ImageView twi , mail;
     Spanned twitterURL,emailURL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +32,34 @@ public class helpActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 Gravity.CENTER);
 
-        twitter = (TextView)findViewById(R.id.twitter);
-        email = (TextView)findViewById(R.id.email);
+        twi = findViewById(R.id.twitter);
+        mail =findViewById(R.id.email);
 
-        twitterURL = Html.fromHtml("<a href='https://www.twitter.com/QurrahApp/'>تويتر</a>");
-        twitter.setMovementMethod(LinkMovementMethod.getInstance());
-        twitter.setText(twitterURL);
 
-        emailURL = Html.fromHtml("<a href='mailto:qurrah.app@gmail.com\'>البريد الالكتروني</a>");
-        email.setMovementMethod(LinkMovementMethod.getInstance());
-        email.setText(emailURL);
+
+        twi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse("https://www.twitter.com/QurrahApp/"));
+                startActivity(i);
+
+            }
+        });
+
+       mail.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+
+               Intent i = new Intent(Intent.ACTION_VIEW);
+               i.setData(Uri.parse("mailto:qurrah.app@gmail.com"));
+               startActivity(i);
+
+           }
+       });
+
+
 
 }
     @Override
