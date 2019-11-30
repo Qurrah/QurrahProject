@@ -127,9 +127,6 @@
             android:parentActivityName=".UI.HomeActivity"
             android:windowSoftInputMode="adjustNothing"/>
         <activity
-            android:name=".UI.UpdateProfile"
-            android:parentActivityName=".UI.HomeActivity" />
-        <activity
             android:name=".UI.MainActivity"
             android:label="تسجيل الدخول"
             android:screenOrientation="portrait"
@@ -186,11 +183,6 @@
             android:windowSoftInputMode="adjustNothing"/>
 
         <activity android:name=".LocationTrackingServices.LocationTracking" />
-
-        <activity android:name=".UI.terms"
-            android:parentActivityName=".UI.RegistrationActivity"
-            android:screenOrientation="portrait"
-            android:label="الشروط والأحكام"/>
 
         <service
             android:name=".FirebaseNotifications.MyFirebaseIdService"

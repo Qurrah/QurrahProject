@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:id="@+id/parent"
-android:background="@mipmap/qurrah_background"
+android:background="@mipmap/original"
 tools:context="com.example.qurrah.UI.ProfileActivity">
 
     <LinearLayout
@@ -161,12 +161,13 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
             android:layout_marginTop="50dp"
             android:layout_marginEnd="43dp"
             android:text="الإعــدادات"
-            android:textColor="@color/white"
+            android:textColor="#3D343D"
             android:textFontWeight="4"
-            android:textSize="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"/>
+            tools:ignore="MissingConstraints" />
 
         <View
             android:id="@+id/line1"
@@ -175,7 +176,7 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
             android:layout_marginTop="15dp"
             android:layout_marginEnd="48dp"
             android:layout_marginBottom="26dp"
-            android:background="@color/white"
+            android:background="@color/darkPurple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setting"
@@ -189,12 +190,12 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
 
             android:text="تغيير كلمة المرور  "
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/darkPurple"
             android:textFontWeight="6"
-            android:textSize="19dp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints"
             app:layout_constraintTop_toBottomOf="@+id/line1"
+            tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="638dp" />
 
         <TextView
@@ -203,11 +204,11 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
             android:text="إمكانـية الوصـول"
-            android:textColor="@color/white"
+            android:textColor="#3C333C"
             android:textFontWeight="4"
-            app:layout_constraintTop_toBottomOf="@+id/editPassword"
             android:textSize="20dp"
-            tools:ignore="MissingConstraints"/>
+            app:layout_constraintTop_toBottomOf="@+id/editPassword"
+            tools:ignore="MissingConstraints" />
 
         <View
             android:id="@+id/line2"
@@ -216,11 +217,12 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
             android:layout_marginTop="15dp"
             android:layout_marginEnd="48dp"
             android:layout_marginBottom="26dp"
-            android:background="@color/white"
+            android:background="@color/darkPurple"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/accepssibility"
             tools:ignore="MissingConstraints" />
+
         <TextView
             android:id="@+id/phoneNumberAccess"
             android:layout_width="wrap_content"
@@ -228,9 +230,9 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
             android:layout_marginEnd="1dp"
             android:text="السماح بالوصول للواتساب"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/darkPurple"
             android:textFontWeight="6"
-            android:textSize="19dp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/line2"
@@ -253,7 +255,7 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
             android:checked="true"
             android:scaleX="1"
             android:scaleY="1"
-            android:theme="@style/CustomAppTheme"
+            android:theme="@style/SCBSwitch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.167"
