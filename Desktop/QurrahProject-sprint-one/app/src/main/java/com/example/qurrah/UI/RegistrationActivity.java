@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -24,17 +25,22 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +60,10 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.example.qurrah.Constants.REQUEST_PLACE_PICKER_CODE;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private TextInputLayout userName , phone, userPassword, userEmail;
@@ -68,6 +78,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private ArrayList<String> phoneNumbers;
     DatabaseReference reference;
+    private CircleImageView photo;
+    protected boolean flag = false;
+    protected Uri filePath=null;
+//    static boolean sFlag = false;
+    boolean imgFlag= true;
 
 
     @Override
@@ -93,6 +108,7 @@ public class RegistrationActivity extends AppCompatActivity {
         phoneNumber = phone.getEditText().getText().toString().trim();
         phoneN = phone.getEditText().getText().toString().trim();
         phoneNumbers = new ArrayList<>();
+        photo = findViewById(R.id.ivProfile);
 
 
         //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -505,6 +521,35 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
+    public void upload_img(View view) {
+
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 100);
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            photo.setImageURI(filePath);
+            flag = true;
+
+            Toast.makeText(getApplicationContext(), "filepath: "+ filePath.toString(),Toast.LENGTH_SHORT).show();
+            if(filePath == null)
+                imgFlag =false;
+
+
+        }
+
+    }
+
+
+
+
 
     protected void step1() {
         try{
@@ -515,6 +560,12 @@ public class RegistrationActivity extends AppCompatActivity {
             extras.putString("email",email);
             extras.putString("name",name);
             extras.putString("password",password);
+
+
+            if(!(filePath== null))
+            extras.putString("photo",filePath.toString());
+            else
+            extras.putString("photo","default");
 
             intent.putExtras(extras);
             startActivity(intent);}

@@ -17,12 +17,12 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(String id, String userEmail, String userName, String phone) {
+    public UserProfile(String id, String userEmail, String userName, String phone , String imageURL) {
         this.id = id;
         this.userEmail = userEmail;
         this.userName = userName;
         this.phone = phone;
-        this.imageURL = "default";
+        this.imageURL = imageURL;
         this.status = "offline";
         this.search = userName.toLowerCase();
         this.allowPhone="true";

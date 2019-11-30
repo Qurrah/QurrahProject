@@ -1,6 +1,7 @@
 package com.example.qurrah.UI;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 //import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.chaos.view.PinView;
 import com.example.qurrah.Model.UserProfile;
 import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.android.material.textfield.TextInputLayout;
@@ -27,8 +29,12 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.laizexin.sdj.library.ProgressButton;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class VerifyPhoneActivity extends AppCompatActivity {
@@ -39,16 +45,27 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     //private TextInputLayout editText;
-    String email, name, phonenumber,password, phoneNumberWithCode;
+    String email, name, phonenumber,password, phoneNumberWithCode, photo;
     ProgressButton check;
     PinView pinView;
+    Uri filePath;
+    StorageReference storageReference, storageRef;
+    FirebaseStorage storage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_phone);
 
+
         mAuth = FirebaseAuth.getInstance();
+
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//        storage = FirebaseStorage.getInstance();
+//        storageReference = storage.getReference();
+//        String userId=mAuth.getCurrentUser().getUid();
+//        databaseReference = firebaseDatabase.getReference().child("Users").child(userId);
 
         final PinView pinView = findViewById(R.id.pinView);
 
@@ -69,8 +86,22 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
         email = extras.getString("email");
         name = extras.getString("name");
-//        age = extras.getString("age");
         password=extras.getString("password");
+
+
+        photo=extras.getString("photo");
+        filePath = Uri.parse(photo);
+
+        String mDrawableName = "ic_launcher" ;
+        int resID = getResources().getIdentifier(mDrawableName , "mipmap" ,
+                getPackageName()) ;
+
+        if (photo.equals("default"))
+          photo= String.valueOf (resID);
+
+
+
+
 
         sendVerificationCode(phonenumber);
        check =  findViewById(R.id.buttonSignUp);
@@ -185,12 +216,31 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         }
     };
     private void sendUserData(){
+
         try{
         String userID = mAuth.getCurrentUser().getUid();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 //        DatabaseReference myRef = firebaseDatabase.getReference(mAuth.getUid());
         DatabaseReference myRef = firebaseDatabase.getReference().child("Users").child(userID);
-        UserProfile userProfile = new UserProfile( userID, email, name, phoneNumberWithCode);
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
+
+            if (filePath != null) {
+                storageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+                storageRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                myRef.child("imageURL").setValue(uri.toString());
+                            }
+                        });
+                    }
+                });
+            }
+
+        UserProfile userProfile = new UserProfile( userID, email, name, phoneNumberWithCode, photo);
         myRef.setValue(userProfile);}
         catch (Exception e){}
     }

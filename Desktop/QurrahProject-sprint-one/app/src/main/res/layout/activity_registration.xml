@@ -343,7 +343,11 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
-        <ImageView
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProfile"
             android:layout_width="150dp"
             android:layout_height="120dp"
@@ -358,8 +362,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.126"
-            app:srcCompat="@drawable/userprofile" />
+            android:src="@drawable/userprofile"
+            android:onClick="upload_img">
+        </de.hdodenhof.circleimageview.CircleImageView>
 
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_plus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="10dp"
+            android:onClick="upload_img"
+            android:src="@drawable/ic_plus"
+            android:visibility="visible">
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+        </FrameLayout>
 
     </LinearLayout>
 

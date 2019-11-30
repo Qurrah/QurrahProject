@@ -277,6 +277,8 @@
             android:onClick="pickPlace"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:visibility="gone"
             android:layoutDirection="rtl">
 
@@ -292,6 +294,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:gravity="center"
                 android:text="اضافة موقع (اختياري)"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
