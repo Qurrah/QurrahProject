@@ -246,21 +246,20 @@ tools:context="com.example.qurrah.UI.ProfileActivity">
         android:layout_marginRight="300dp">
 
         <Switch
-        android:id="@+id/accessPhoneNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleX="1"
-        android:scaleY="1"
-        android:checked="true"
-        android:theme="@style/CustomAppTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="590dp"
-        app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.537"
-            />
+            android:id="@+id/accessPhoneNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="620dp"
+            android:checked="true"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:theme="@style/CustomAppTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.167"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.537" />
 </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
