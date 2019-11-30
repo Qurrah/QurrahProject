@@ -147,7 +147,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         try {
              userId = firebaseAuth.getCurrentUser().getUid();
         }catch (Exception e){
-
         }
         databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
 
