@@ -72,7 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected boolean flag = false;
     protected Uri filePath;
     private String email, name, phoneNumber;
-    private String Lemail, Lname, LphoneNumber;
+    private String Lemail, Lname, LphoneNumber, Limg;
     private String verificationId;
     StorageReference storageReference, storageRef;
     DatabaseReference databaseReference;
@@ -137,6 +137,7 @@ public class ProfileActivity extends AppCompatActivity {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
                 profilePhone.setText(userProfile.getPhone());
                 LphoneNumber=userProfile.getPhone();
+                Limg=userProfile.getImageURL();
                 profileName.setText(userProfile.getUserName());
                 Lname=userProfile.getUserName();
                 profileEmail.setText(userProfile.getUserEmail());
@@ -296,6 +297,13 @@ public class ProfileActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
+                                    update.setVisibility(View.GONE);
+                                    cancel.setVisibility(View.GONE);
+                                    editProfile.setVisibility(View.VISIBLE);
+                                    addImg.setVisibility(View.GONE);
+                                    profileName.setEnabled(false);
+                                    profileEmail.setEnabled(false);
+                                    profilePhone.setEnabled(false);
                                     Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }else{
@@ -309,6 +317,13 @@ public class ProfileActivity extends AppCompatActivity {
 
                     if(!Lname.equals(name)) {
                         databaseReference.child("userName").setValue(name);
+                        update.setVisibility(View.GONE);
+                        cancel.setVisibility(View.GONE);
+                        editProfile.setVisibility(View.VISIBLE);
+                        addImg.setVisibility(View.GONE);
+                        profileName.setEnabled(false);
+                        profileEmail.setEnabled(false);
+                        profilePhone.setEnabled(false);
                         Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
                     }
 
@@ -356,6 +371,13 @@ public class ProfileActivity extends AppCompatActivity {
                                 storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
+                                        update.setVisibility(View.GONE);
+                                        cancel.setVisibility(View.GONE);
+                                        editProfile.setVisibility(View.VISIBLE);
+                                        addImg.setVisibility(View.GONE);
+                                        profileName.setEnabled(false);
+                                        profileEmail.setEnabled(false);
+                                        profilePhone.setEnabled(false);
                                         databaseReference.child("imageURL").setValue(uri.toString());
                                     }
                                 });
@@ -364,13 +386,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
 
                 }
-                update.setVisibility(View.GONE);
-                cancel.setVisibility(View.GONE);
-                editProfile.setVisibility(View.VISIBLE);
-                addImg.setVisibility(View.GONE);
-                profileName.setEnabled(false);
-                profileEmail.setEnabled(false);
-                profilePhone.setEnabled(false);
+
 
             }
         });
@@ -384,6 +400,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                         "نعم",
                         (dialog, id) -> {
+                            profileName.setText(Lname);
+                            profileEmail.setText(Lemail);
+                            profilePhone.setText(LphoneNumber);
+                            if(!Limg.equals("default"))
+                                Picasso.get().load(Limg).into(profilePic);
                             update.setVisibility(View.GONE);
                             cancel.setVisibility(View.GONE);
                             addImg.setVisibility(View.GONE);
@@ -554,6 +575,13 @@ public class ProfileActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     databaseReference.child("phone").setValue(phoneNumber);
                     dialog.dismiss();
+                    update.setVisibility(View.GONE);
+                    cancel.setVisibility(View.GONE);
+                    editProfile.setVisibility(View.VISIBLE);
+                    addImg.setVisibility(View.GONE);
+                    profileName.setEnabled(false);
+                    profileEmail.setEnabled(false);
+                    profilePhone.setEnabled(false);
                     Toast.makeText(getApplicationContext(), " تم تعديل معلوماتك", Toast.LENGTH_SHORT).show();
                 }
                     else{
