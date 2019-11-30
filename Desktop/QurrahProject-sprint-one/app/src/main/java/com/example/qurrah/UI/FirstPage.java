@@ -99,7 +99,7 @@ public class FirstPage extends AppCompatActivity {
                             RelativeLayout.LayoutParams.WRAP_CONTENT);
 
             params.topMargin = 700;
-            params.rightMargin = 400;
+            params.leftMargin = 450;
 
             Qurrah.setLayoutParams(params);
             Qurrah.startAnimation(nothing);

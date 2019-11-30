@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.laizexin.sdj.library.ProgressButton;
 
 import java.util.Objects;
 
@@ -30,11 +31,11 @@ import java.util.Objects;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 //-------------------------------------------------------
-    private Button update;
+    private ProgressButton update;
     private ImageView back;
     private TextInputLayout email;
     private FirebaseAuth firebaseAuth;
-    private ProgressBar progressBar;
+//    private ProgressBar progressBar;
     String emailString;
 //-------------------------------------------------------
     @Override
@@ -44,9 +45,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         update = findViewById(R.id.Update);
         email = findViewById(R.id.Email);
-        progressBar = findViewById(R.id.progressBar);
+//        progressBar = findViewById(R.id.progressBar);
         back = findViewById(R.id.back);
         firebaseAuth = FirebaseAuth.getInstance();
+
+
+        update.setProgress(0);
 
        // Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         //getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -86,11 +90,17 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (update.getProgress() == 0) {
+                    update.setProgress(50);
+                } else if (update.getProgress() == 100) {
+                    update.setProgress(0);
+                } else {
+                    update.setProgress(100);
+                }
                 String userEmail = email.getEditText().getText().toString().trim();
                 update.setEnabled(false);
                 update.setText("");
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -102,9 +112,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 finish();
                                 startActivity(new Intent(ForgotPasswordActivity.this, MainActivity.class));
                             }else{
-                                update.setEnabled(true);
+//                                update.setEnabled(true);
+                                update.setProgress(0);
                                 update.setText("إعادة تعيين كلمة المرور");
-                                progressBar.setVisibility(View.INVISIBLE);
+//                                progressBar.setVisibility(View.INVISIBLE);
                                 Toast.makeText(ForgotPasswordActivity.this, "الرجاء ادخال البريد الالكتروني الصحيح الخاص بحسابك", Toast.LENGTH_SHORT).show();
                             }
                         }
