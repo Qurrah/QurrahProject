@@ -1,11 +1,13 @@
 package com.example.qurrah.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 //import android.support.annotation.NonNull;
 //import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,15 +20,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.qurrah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class UpdatePassword extends AppCompatActivity {
 
-    private EditText newPassword;
+    private TextInputLayout newPassword , currentPassword, repeatPassword;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
-    String userPasswordNew;
+    String userPasswordNew,currentPassword2,repeatPassword2;
     Boolean result;
 
     @Override
@@ -51,7 +54,10 @@ public class UpdatePassword extends AppCompatActivity {
         abar.setHomeButtonEnabled(true);
         //----------------------------------------------------------------
         Button update = findViewById(R.id.UpdatePassword);
-        newPassword = (EditText)findViewById(R.id.NewPassword);
+        currentPassword = findViewById(R.id.CurrentPassword);
+        newPassword = findViewById(R.id.NewPassword);
+        repeatPassword = findViewById(R.id.RepeatPassword);
+
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,10 +100,36 @@ public class UpdatePassword extends AppCompatActivity {
     }
     private Boolean validate(){
 
-        userPasswordNew = newPassword.getText().toString();
+        currentPassword2 = currentPassword.getEditText().getText().toString();
+        userPasswordNew = newPassword.getEditText().getText().toString();
+        repeatPassword2 = repeatPassword.getEditText().getText().toString();
+
         result = false;
-        if (userPasswordNew.isEmpty()) {
-            newPassword.setError("الرجاء ادخال كلمة المرور");
+        if (currentPassword2.isEmpty()) {
+            currentPassword.setError("الرجاء ادخال كلمة المرور الحالية");
+            currentPassword.requestFocus();
+            return result;
+
+        }
+
+        else if(true) {
+            firebaseAuth.signInWithEmailAndPassword(firebaseUser.getEmail(), currentPassword2).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+
+                    currentPassword.setError(null);
+
+
+                } else {
+
+                    currentPassword.setError("كلمة المرور المدخلة غير صحيحة");
+                    currentPassword.requestFocus();
+
+                }
+            });
+        }
+
+        else if (userPasswordNew.isEmpty()) {
+            newPassword.setError("الرجاء ادخال كلمة مرور");
             newPassword.requestFocus();
         }
 
@@ -105,6 +137,18 @@ public class UpdatePassword extends AppCompatActivity {
             newPassword.setError("أدخل كلمة مرور من 6 خانات أو اكثر");
             newPassword.requestFocus();
         }
+
+        else if (repeatPassword2.isEmpty()) {
+            repeatPassword.setError("الرجاء إعادة ادخال كلمة المرور");
+            repeatPassword.requestFocus();
+        }
+
+        else if (!repeatPassword2.equals(userPasswordNew)) {
+            repeatPassword.setError("كلمة المرور غير متطابقة");
+            repeatPassword.requestFocus();
+        }
+
+
         else{
             result=true;
         }

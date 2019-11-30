@@ -22,7 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parent"
-    android:background="@mipmap/qurrah_background"
+    android:background="@mipmap/original"
     tools:context="com.example.qurrah.UI.helpActivity">
 
     <LinearLayout
@@ -51,15 +51,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
             android:hint="من نحن ؟"
             android:inputType="textPassword"
             android:textAlignment="center"
+            android:textColor="#352E35"
             android:textSize="20dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
@@ -69,20 +69,19 @@
 
 
         <TextView
-            android:layout_width="248dp"
+            android:layout_width="278dp"
             android:layout_height="150dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:text="نحن طالبات من جامعة الملك سعود قسم هندسة البرمجيات.
-                    واجهنا ولمسنا مشكلة حولنا نعاني منها بفقدان اشياء من حولنا
-                    وطلب المساعدة من غيرنا
-                    ورأينا تأثيرها فصنعنا 'قرة' لحلها ."
 
+            android:ems="10"
+            android:paddingLeft="40dp"
+            android:text="نحن طالبات من جامعة الملك سعود قسم هندسة البرمجيات. بسبب كثرة الاشخاص الذين يبحثون عن مفقوداتهم في اماكن كثيرة، وانتشار طلبات المساعدة بالبحث عنها في كل مكان، اردنا ان نضع منصة موحدة لتسهيل عملية البحث .. من هنا ظهرت وتطورت 'قرة' لتقُرّ أعينكم ."
+            android:textAlignment="center"
             android:textColor="@color/darkPurple"
-            android:textSize="18dp"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
@@ -103,6 +102,7 @@
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.489"
@@ -110,43 +110,66 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.377" />
 
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="198dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/purple_buttons"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.815" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginBottom="3dp"
+            android:clickable="false"
+            android:gravity="center"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            android:textAlignment="center">
 
-        <TextView
-            android:id="@+id/twitter"
-            android:layout_width="198dp"
-            android:layout_height="36dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="30dp"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:background="@drawable/purple_buttons"
-            android:textAllCaps="false"
-            android:textColor="#ffffff"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.815" />
+            <ImageView
+                android:id="@+id/twitter2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:srcCompat="@drawable/twitter" />
 
 
+            <ImageView
+                android:id="@+id/email2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="40dp"
+                app:srcCompat="@drawable/email" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="3dp"
+            android:clickable="false"
+            android:gravity="center"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal"
+            android:textAlignment="center">
+
+            <TextView
+                android:id="@+id/twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="حسابنا بتويتر"
+                android:textDirection="ltr" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="التواصل بالبريد"
+                android:textDirection="ltr" />
+
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -169,10 +192,10 @@
         <ImageView
             android:id="@+id/ivProfile"
             android:layout_width="130dp"
-            android:layout_height="78dp"
+            android:layout_height="110dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/contentLayout"
@@ -181,7 +204,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.126"
-            app:srcCompat="@drawable/ic_help_purple_24dp" />
+            app:srcCompat="@drawable/question" />
 
 
 
