@@ -101,10 +101,10 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
 
         recyclerView = findViewById(R.id.recycler_view);
         noChats = findViewById(R.id.noChats);
-        MessagesNo = findViewById(R.id.MessagesNo);
+        //MessagesNo = findViewById(R.id.MessagesNo);
 
-        Chats = findViewById(R.id.Chats);
-        Chats.setText("المحادثات");
+        //Chats = findViewById(R.id.Chats);
+        //Chats.setText("المحادثات");
         findViewById(R.id.noMatchUsers).setVisibility(View.GONE);
 
         searchView = findViewById(R.id.search_view);
@@ -151,29 +151,29 @@ public class ChatActivity extends HomeActivity implements SearchView.OnQueryText
 
 
         reference = FirebaseDatabase.getInstance().getReference("Chats");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int unread = 0;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Chat chat = snapshot.getValue(Chat.class);
-                    assert chat != null;
-                    if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
-                        unread++;
-                    }
-                }
-
-                if (unread != 0) {
-                    MessagesNo.setTextColor(Color.parseColor("#1683DA"));
-                    MessagesNo.setText("(" + unread + ")");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                int unread = 0;
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    Chat chat = snapshot.getValue(Chat.class);
+//                    assert chat != null;
+//                    if (chat.getReceiver().equals(fuser.getUid()) && !chat.isIsseen()) {
+//                        unread++;
+//                    }
+//                }
+//
+//                if (unread != 0) {
+//                    MessagesNo.setTextColor(Color.parseColor("#1683DA"));
+//                    MessagesNo.setText("(" + unread + ")");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         String newToken = FirebaseInstanceId.getInstance().getToken();
         updateToken(newToken);

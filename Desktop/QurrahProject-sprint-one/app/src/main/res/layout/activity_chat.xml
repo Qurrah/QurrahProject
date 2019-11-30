@@ -17,51 +17,20 @@
         android:layout_height="110dp"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/Chats"
-            android:layout_width="wrap_content"
-            android:layout_height="62dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="24dp"
-            android:gravity="center"
-            android:text="المحادثات "
-            android:textAlignment="textEnd"
-            android:textColor="@color/colorPrimaryDark"
-            android:textDirection="ltr"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            tools:ignore="RtlCompat"
-            tools:layout_editor_absoluteX="185dp"
-            tools:layout_editor_absoluteY="6dp" />
-
         <SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Chats"
             android:background="#F5F5F5"
+            android:clickable="true"
             android:layoutDirection="rtl"
             android:paddingRight="40dp"
             android:queryHint="البحث"
             android:textDirection="rtl"
-            android:clickable="true"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintVertical_bias="0.103">
 
         </SearchView>
-
-        <TextView
-            android:id="@+id/MessagesNo"
-            android:layout_width="wrap_content"
-            android:layout_height="61dp"
-            android:layout_marginEnd="5dp"
-            android:layout_toStartOf="@+id/Chats"
-            android:gravity="center"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            tools:visibility="gone"
-            tools:ignore="RtlCompat" />
 
     </RelativeLayout>
 
@@ -109,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="601dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="70dp"
             android:visibility="visible" />
     </RelativeLayout>
 

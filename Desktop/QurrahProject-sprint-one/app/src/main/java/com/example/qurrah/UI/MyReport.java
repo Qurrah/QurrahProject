@@ -43,9 +43,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
@@ -62,6 +64,7 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
     TextView noReports,noMatchReports;
     DrawerLayout navDrawer;
     NavigationView mNavigationView;
+    private CircleImageView profilePic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +220,7 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
         NavigationView navigationView = findViewById(R.id.nav_view6);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
 
 //---------------------------------------------------
@@ -253,6 +257,10 @@ public class MyReport extends HomeActivity implements SearchView.OnQueryTextList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
                 username.setText(userProfile.getUserName());
+                if(userProfile.getImageURL().equals("default"))
+                    profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                else
+                    Picasso.get().load(userProfile.getImageURL()).into(profilePic);
 
                 reportsList.clear();
                 userList.clear();

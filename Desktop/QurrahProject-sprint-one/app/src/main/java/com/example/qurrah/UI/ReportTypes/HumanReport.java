@@ -40,9 +40,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HumanReport extends HomeActivity implements SearchView.OnQueryTextListener {
 
@@ -54,6 +57,7 @@ public class HumanReport extends HomeActivity implements SearchView.OnQueryTextL
     ArrayList<Report> list;
     ArrayList<String> userList, phones , id, allowWhats;
     ReportCategoriesAdapter adapter;
+    private CircleImageView profilePic;
 
 
 
@@ -233,6 +237,7 @@ public class HumanReport extends HomeActivity implements SearchView.OnQueryTextL
         NavigationView navigationView = findViewById(R.id.nav_view6);
         View header = navigationView.getHeaderView(0);
         username = header.findViewById(R.id.Username);
+        profilePic = (CircleImageView)header.findViewById(R.id.imageView);
 
 
 //---------------------------------------------------
@@ -259,60 +264,65 @@ public class HumanReport extends HomeActivity implements SearchView.OnQueryTextL
 ////---------------------------------------------------
 //
 //        // firebase
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        firebaseDatabase = FirebaseDatabase.getInstance();
-//        try {
-//            userId = firebaseAuth.getCurrentUser().getUid();
-//        }catch (Exception e){
-//
-//        }
-//        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
-//
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                try {
-//                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
-//                    username.setText(userProfile.getUserName());
-//                } catch (NullPointerException e) {
-//                    System.out.println("Unregistered User, Cannot complete operation");
-//                }
-//                reportsList.clear();
-//                userList.clear();
-//                phones.clear();
-//                IdList.clear();
-//
-//
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
-//                    String ID = userInfo.getId();
-//                    String userName = userInfo.getUserName();
-//                    String No = userInfo.getPhone();
-//                    String allowPhoneAccess = userInfo.getAllowPhone();
-//
-//
-//                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
-//                        Report report = ds.getValue(Report.class);
-//                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
-//                            reportsList.add(report);
-//                            IdList.add(ID);
-//                            userList.add(userName);
-//                            if (allowPhoneAccess.equals("true")) {
-//                                phones.add(No);
-//                            } else {
-//                                phones.add("0");
-//                            }
-//                        }
-//                    }
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        });
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        try {
+            userId = firebaseAuth.getCurrentUser().getUid();
+        }catch (Exception e){
+
+        }
+        databaseReference = firebaseDatabase.getReference().child("Users"); //.child(userId);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    UserProfile userProfile = dataSnapshot.child(userId).getValue(UserProfile.class);
+                    username.setText(userProfile.getUserName());
+                    if(userProfile.getImageURL().equals("default"))
+                        profilePic.setImageResource(R.drawable.ic_account_circle_white_60dp);
+                    else
+                        Picasso.get().load(userProfile.getImageURL()).into(profilePic);
+
+                } catch (NullPointerException e) {
+                    System.out.println("Unregistered User, Cannot complete operation");
+                }
+                reportsList.clear();
+                userList.clear();
+                phones.clear();
+                IdList.clear();
+
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    UserProfile userInfo = snapshot.getValue(UserProfile.class);
+                    String ID = userInfo.getId();
+                    String userName = userInfo.getUserName();
+                    String No = userInfo.getPhone();
+                    String allowPhoneAccess = userInfo.getAllowPhone();
+
+
+                    for (DataSnapshot ds : snapshot.child("Report").getChildren()) {
+                        Report report = ds.getValue(Report.class);
+                        if (!(report.getLatitude().equals("")) && report.getReportStatus().equals("نشط")) {
+                            reportsList.add(report);
+                            IdList.add(ID);
+                            userList.add(userName);
+                            if (allowPhoneAccess.equals("true")) {
+                                phones.add(No);
+                            } else {
+                                phones.add("0");
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 ////---------------------------------------------------
 
     }
