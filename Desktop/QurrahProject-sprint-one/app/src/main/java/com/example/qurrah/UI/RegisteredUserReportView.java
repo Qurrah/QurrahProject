@@ -476,7 +476,9 @@ public class RegisteredUserReportView extends AppCompatActivity implements OnMap
         report.setLostDescription(editedDesc);
         report.setLatitude(latitude);
         report.setLongitude(longitude);
-        report.setAddress(address1);
+        report.setAddress(address2);
+        if (!address2.isEmpty())
+        location.setVisibility(View.VISIBLE);
         report.setLocation(editedLocation);
 
 
