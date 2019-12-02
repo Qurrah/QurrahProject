@@ -77,7 +77,7 @@ public class ReportActivity extends HomeActivity {
     protected StateProgressBar stateProgressBar;
     protected boolean flag = false;
     protected Uri filePath , cameraImg;
-            String cameraString;
+    String cameraString;
     static ImageView img;
     static boolean sFlag = false;
     DatabaseReference ref;
@@ -339,49 +339,11 @@ public class ReportActivity extends HomeActivity {
     }
 
     public void upload_img(View view) {
-
-        AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(ReportActivity.this);
-        myAlertDialog.setTitle("اختار صورة");
-        myAlertDialog.setMessage("اختار صورة من الاستديو الخاص بك او الكاميرا");
-
-        myAlertDialog.setPositiveButton("الاستديو",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-
                         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                                 MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                         startActivityForResult(pickPhoto , 100);
-                    }
-                });
-
-        myAlertDialog.setNegativeButton ("الكاميرا",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePicture, REQUEST_IMAGE_CAPTURE);//zero can be replaced with any action code
-
-                    }
-                });
-        myAlertDialog.setNeutralButton ("الغاء", null);
-
-        myAlertDialog.show();
-
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -403,7 +365,7 @@ public class ReportActivity extends HomeActivity {
             cameraImg = Uri.parse(cameraString);
 
 
-            
+
 
 //            img.setImageURI(cameraImg);
 
